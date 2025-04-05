@@ -1,0 +1,6 @@
+interface AnInterface {
+
+}
+class AClass {
+    
+}
