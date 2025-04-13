@@ -2,7 +2,7 @@
 #include <iostream>
 #include <string>
 
-#include "dbnf.hpp"
+#include "S84.CTCode.dbnf.hpp"
 #include "generator.hpp"
 
 char* ReadFileIntoBuffer(std::string file)

@@ -14,6 +14,7 @@ namespace dbnf
 class Node;
 class String;
 class CTCodeFile;
+class ExternalDefinition;
 class Definition;
 class InterfaceDef;
 class ClassDef;
@@ -30,9 +31,12 @@ class ParameterList;
 class CodeBlock;
 class Declaration;
 class Assignment;
+class Return;
 class Call;
 class Instruction;
 class RValue;
+class QualfiedName;
+class NameTail;
 class Name;
 class NameCharacter;
 class Number;
@@ -45,7 +49,7 @@ class Whitespace;
 struct LengthString
 {
     const char* data;
-    int length;
+    size_t length;
 };
 
 class Node
@@ -103,10 +107,27 @@ public:
     static s84::ctcode::dbnf::CTCodeFile* Parse(const char*& index);
     static s84::ctcode::dbnf::CTCodeFile* Parse(s84::ctcode::dbnf::LengthString& index);
 
+    List<s84::ctcode::dbnf::ExternalDefinition>* GetDeclarations();
     List<s84::ctcode::dbnf::Definition>* GetDefinitions();
 
 private:
+    List<s84::ctcode::dbnf::ExternalDefinition>* declarations_;
     List<s84::ctcode::dbnf::Definition>* definitions_;
+};
+
+class ExternalDefinition : public s84::ctcode::dbnf::Node
+{
+public:
+    ExternalDefinition();
+    ~ExternalDefinition();
+
+    static s84::ctcode::dbnf::ExternalDefinition* Parse(const char*& index);
+    static s84::ctcode::dbnf::ExternalDefinition* Parse(s84::ctcode::dbnf::LengthString& index);
+
+    s84::ctcode::dbnf::QualfiedName* GetExdef();
+
+private:
+    s84::ctcode::dbnf::QualfiedName* exdef_;
 };
 
 class Definition : public s84::ctcode::dbnf::Node
@@ -218,6 +239,11 @@ public:
 
     static s84::ctcode::dbnf::DefinedType* Parse(const char*& index);
     static s84::ctcode::dbnf::DefinedType* Parse(s84::ctcode::dbnf::LengthString& index);
+
+    s84::ctcode::dbnf::QualfiedName* GetName();
+
+private:
+    s84::ctcode::dbnf::QualfiedName* name_;
 };
 
 class SingletonType : public s84::ctcode::dbnf::Node
@@ -317,10 +343,10 @@ public:
     static s84::ctcode::dbnf::CodeBlock* Parse(const char*& index);
     static s84::ctcode::dbnf::CodeBlock* Parse(s84::ctcode::dbnf::LengthString& index);
 
-    s84::ctcode::dbnf::Instruction* GetInstructions();
+    List<s84::ctcode::dbnf::Instruction>* GetInstructions();
 
 private:
-    s84::ctcode::dbnf::Instruction* instructions_;
+    List<s84::ctcode::dbnf::Instruction>* instructions_;
 };
 
 class Declaration : public s84::ctcode::dbnf::Node
@@ -357,6 +383,23 @@ private:
     s84::ctcode::dbnf::RValue* rvalue_;
 };
 
+class Return : public s84::ctcode::dbnf::Node
+{
+public:
+    Return();
+    ~Return();
+
+    static s84::ctcode::dbnf::Return* Parse(const char*& index);
+    static s84::ctcode::dbnf::Return* Parse(s84::ctcode::dbnf::LengthString& index);
+
+    s84::ctcode::dbnf::String* GetRtn();
+    s84::ctcode::dbnf::RValue* GetRvalue();
+
+private:
+    s84::ctcode::dbnf::String* rtn_;
+    s84::ctcode::dbnf::RValue* rvalue_;
+};
+
 class Call : public s84::ctcode::dbnf::Node
 {
 public:
@@ -390,6 +433,40 @@ public:
 
     static s84::ctcode::dbnf::RValue* Parse(const char*& index);
     static s84::ctcode::dbnf::RValue* Parse(s84::ctcode::dbnf::LengthString& index);
+};
+
+class QualfiedName : public s84::ctcode::dbnf::Node
+{
+public:
+    QualfiedName();
+    ~QualfiedName();
+
+    static s84::ctcode::dbnf::QualfiedName* Parse(const char*& index);
+    static s84::ctcode::dbnf::QualfiedName* Parse(s84::ctcode::dbnf::LengthString& index);
+
+    s84::ctcode::dbnf::Name* GetName();
+    s84::ctcode::dbnf::NameTail* GetTail();
+
+private:
+    s84::ctcode::dbnf::Name* name_;
+    s84::ctcode::dbnf::NameTail* tail_;
+};
+
+class NameTail : public s84::ctcode::dbnf::Node
+{
+public:
+    NameTail();
+    ~NameTail();
+
+    static s84::ctcode::dbnf::NameTail* Parse(const char*& index);
+    static s84::ctcode::dbnf::NameTail* Parse(s84::ctcode::dbnf::LengthString& index);
+
+    s84::ctcode::dbnf::Name* GetName();
+    s84::ctcode::dbnf::NameTail* GetTail();
+
+private:
+    s84::ctcode::dbnf::Name* name_;
+    s84::ctcode::dbnf::NameTail* tail_;
 };
 
 class Name : public s84::ctcode::dbnf::Node

@@ -8,7 +8,7 @@
 #include <sstream>
 #include <string>
 
-#include "dbnf.hpp"
+#include "S84.CTCode.dbnf.hpp"
 #include "generator.hpp"
 
 namespace s84
@@ -78,7 +78,7 @@ public:
 			header << "{" << std::endl;
 		}
 
-		header << "namespace dbnf" << std::endl;
+		header << "namespace ctcode" << std::endl;
 		header << "{" << std::endl;
 		WriteForwardDeclaration(ctcodeFile, header);
 		WriteClassDeclarations(ctcodeFile, header, GenerateFullNamespace(base_name_tokens));
@@ -132,30 +132,22 @@ public:
 	void WriteInterfaceDeclaration(s84::ctcode::dbnf::InterfaceDef* interfaceDefinition, std::ostream& header, std::string full_namespace)
 	{
 		std::string class_name = GenerateClassName(interfaceDefinition->GetName());
-		std::map<std::string, std::string> members;
 		header << std::endl;
 		header << "class " << class_name << std::endl;
 		header << "{" << std::endl;
 		header << "public:" << std::endl;
-		header << "    " << class_name << "();" << std::endl;
-		header << "    ~" << class_name << "();" << std::endl;
-		header << std::endl;
+		header << "    inline " << class_name << "() {};" << std::endl;
+		header << "    inline ~" << class_name << "() {};" << std::endl;
 
-		if(members.size() > 0)
+		std::list<s84::ctcode::dbnf::ContentDeclaration*> declarations = interfaceDefinition->GetDeclarations()->GetList();
+
+		if(declarations.size() > 0)
 		{
 			header << std::endl;
 
-			for (std::map<std::string, std::string>::iterator index = members.begin(); index != members.end();++index)
+			for (std::list<s84::ctcode::dbnf::ContentDeclaration*>::iterator index = declarations.begin(); index != declarations.end();++index)
 			{
-				header << "    " << index->second << " " << GenerateAccessorName(index->first) << "();" << std::endl;
-			}
-
-			header << std::endl;
-			header << "private:" << std::endl;
-
-			for (std::map<std::string, std::string>::iterator index = members.begin(); index != members.end();++index)
-			{
-				header << "    " << index->second << " " << index->first << ";" << std::endl;
+				header << "    virtual " << GetType((*index)->GetType()) << " " << GenerateCallName((*index)->GetName()) << "(" <<  GenerateParameterList((*index)->GetParameters()) << ") = 0;" << std::endl;
 			}
 		}
 
@@ -165,30 +157,48 @@ public:
 	void WriteClassDeclaration(s84::ctcode::dbnf::ClassDef* classDefinition, std::ostream& header, std::string full_namespace)
 	{
 		std::string class_name = GenerateClassName(classDefinition->GetName());
-		std::map<std::string, std::string> members;
 		header << std::endl;
 		header << "class " << class_name << std::endl;
 		header << "{" << std::endl;
 		header << "public:" << std::endl;
-		header << "    " << class_name << "();" << std::endl;
-		header << "    ~" << class_name << "();" << std::endl;
-		header << std::endl;
+		header << "    inline " << class_name << "() {};" << std::endl;
+		header << "    inline ~" << class_name << "() {};" << std::endl;
 
-		if(members.size() > 0)
+		std::list<s84::ctcode::dbnf::ContentDefinition*> definitions = classDefinition->GetDefinitions()->GetList();
+		std::list<s84::ctcode::dbnf::ContentDefinition*> functionDefinitions;
+		std::list<s84::ctcode::dbnf::ContentDefinition*> memberDefinitions;
+
+		for (std::list<s84::ctcode::dbnf::ContentDefinition*>::iterator index = definitions.begin(); index != definitions.end();++index)
+		{
+			if ((*index)->GetFunctionBody() == NULL) {
+				memberDefinitions.push_back((*index));
+			} else {
+				functionDefinitions.push_back((*index));
+			}
+		}
+
+		if(functionDefinitions.size() > 0)
 		{
 			header << std::endl;
 
-			for (std::map<std::string, std::string>::iterator index = members.begin(); index != members.end();++index)
+			for (std::list<s84::ctcode::dbnf::ContentDefinition*>::iterator index = functionDefinitions.begin(); index != functionDefinitions.end();++index)
 			{
-				header << "    " << index->second << " " << GenerateAccessorName(index->first) << "();" << std::endl;
+				if ((*index)->GetFunctionBody() != NULL) {
+					header << "    " << GetType((*index)->GetType()) << " " << GenerateCallName((*index)->GetName()) << "(" <<  GenerateParameterList((*index)->GetParameters()) << ");" << std::endl;
+				}
 			}
+		}
 
+		if(memberDefinitions.size() > 0)
+		{
 			header << std::endl;
 			header << "private:" << std::endl;
 
-			for (std::map<std::string, std::string>::iterator index = members.begin(); index != members.end();++index)
+			for (std::list<s84::ctcode::dbnf::ContentDefinition*>::iterator index = memberDefinitions.begin(); index != memberDefinitions.end();++index)
 			{
-				header << "    " << index->second << " " << index->first << ";" << std::endl;
+				if ((*index)->GetFunctionBody() == NULL) {
+					header << "    " << GetType((*index)->GetType()) << " " << GenerateVariableName((*index)->GetName()) << ";" << std::endl;
+				}
 			}
 		}
 
@@ -208,8 +218,7 @@ public:
 
 		implementation << "namespace ctcode" << std::endl;
 		implementation << "{" << std::endl;
-		//WriteFunctionDefinitions(grammar, implementation, GenerateFullNamespace(base_name_tokens));
-		implementation << std::endl;
+		WriteFunctionDefinitions(ctcodeFile, implementation, GenerateFullNamespace(base_name_tokens));
 
 		for(std::list<std::string>::iterator base_name_token = base_name_tokens.begin();base_name_token != base_name_tokens.end();++base_name_token)
 		{
@@ -219,7 +228,105 @@ public:
 		implementation << "};" << std::endl;
 	}
 
+	void WriteFunctionDefinitions(s84::ctcode::dbnf::CTCodeFile* ctcodeFile, std::ostream& implementation, std::string full_namespace)
+	{
+		std::list<s84::ctcode::dbnf::Definition*> definitions = ctcodeFile->GetDefinitions()->GetList();
+		std::list<s84::ctcode::dbnf::ClassDef*> classDefinitions;
+
+		for (std::list<s84::ctcode::dbnf::Definition*>::iterator definitionIndex = definitions.begin();definitionIndex != definitions.end();definitionIndex++){
+			s84::ctcode::dbnf::ClassDef* classDefinition = (*definitionIndex)->GetClassDef();
+
+			if (classDefinition) {
+				classDefinitions.push_back(classDefinition);
+			}
+		}
+
+		for (std::list<s84::ctcode::dbnf::ClassDef*>::iterator definitionIndex = classDefinitions.begin();definitionIndex != classDefinitions.end();definitionIndex++){
+			WriteClassDefinition(*definitionIndex, implementation, full_namespace, definitionIndex == classDefinitions.begin());
+		}
+	}
+
+	void WriteInterfaceDefinition(s84::ctcode::dbnf::InterfaceDef* interfaceDefinition, std::ostream& implementation, std::string full_namespace)
+	{
+		// There is nothing to write to the devinition file for interfaces
+	}
+
+	void WriteClassDefinition(s84::ctcode::dbnf::ClassDef* classDefinition, std::ostream& implementation, std::string full_namespace, bool first_class_definition)
+	{
+		std::string class_name = GenerateClassName(classDefinition->GetName());
+
+		std::list<s84::ctcode::dbnf::ContentDefinition*> definitions = classDefinition->GetDefinitions()->GetList();
+		std::list<s84::ctcode::dbnf::ContentDefinition*> functionDefinitions;
+
+		for (std::list<s84::ctcode::dbnf::ContentDefinition*>::iterator index = definitions.begin(); index != definitions.end();++index)
+		{
+			if ((*index)->GetFunctionBody() != NULL) {
+				functionDefinitions.push_back((*index));
+			}
+		}
+
+		if(functionDefinitions.size() > 0)
+		{
+			for (std::list<s84::ctcode::dbnf::ContentDefinition*>::iterator index = functionDefinitions.begin(); index != functionDefinitions.end();++index)
+			{
+				if ((!first_class_definition) || index != functionDefinitions.begin()) {
+					implementation << std::endl;
+				}
+
+				if ((*index)->GetFunctionBody() != NULL) {
+					implementation << "    " << GetType((*index)->GetType()) << " " << GenerateCallName((*index)->GetName()) << "(" <<  GenerateParameterList((*index)->GetParameters()) << ")" << std::endl;
+					implementation << "    {" << std::endl;
+					implementation << "    }" << std::endl;
+				}
+			}
+		}
+	}
+
+	std::string GetParameterString(s84::ctcode::dbnf::ParameterListDef* parameter) {
+		return GetType(parameter->GetType()) + " " + GenerateVariableName(parameter->GetName());
+	}
+
+	std::string GenerateParameterListTail(s84::ctcode::dbnf::ParameterListDef* parameters) {
+		if (parameters) {
+			return ", " + GetParameterString(parameters) + GenerateParameterListTail(parameters->GetParameterTail());
+		}
+
+		return "";
+	}
+
+	std::string GenerateParameterList(s84::ctcode::dbnf::ParameterListDef* parameters) {
+		return GetParameterString(parameters) + GenerateParameterListTail(parameters->GetParameterTail());
+	}
+
+	std::string GetType(s84::ctcode::dbnf::ValueType* value_type) {
+		return "int";
+	}
+
 	std::string GenerateClassName(s84::ctcode::dbnf::Name* name_node)
+	{
+		if (name_node)
+		{
+			return SnakeCaseToCamelCase(name_node->UnParse());
+		}
+		else
+		{
+			return "";
+		}
+	}
+
+	std::string GenerateVariableName(s84::ctcode::dbnf::Name* name_node)
+	{
+		if(name_node)
+		{
+			return CamelCaseToSnakeCase(name_node->UnParse());
+		}
+		else
+		{
+			return "";
+		}
+	}
+
+	std::string GenerateCallName(s84::ctcode::dbnf::Name* name_node)
 	{
 		if (name_node)
 		{
@@ -260,11 +367,6 @@ public:
 		return guard_name;
 	}
 
-	std::string GenerateAccessorName(std::string member)
-	{
-		return "Get" + SnakeCaseToCamelCase(member);
-	}
-
 	std::string GenerateFullNamespace(std::list<std::string> base_name_tokens)
 	{
 		std::string full_namespace;
@@ -302,6 +404,32 @@ public:
 		}
 
 		return camel_case;
+	}
+
+	std::string CamelCaseToSnakeCase(std::string camel_case)
+	{
+		bool in_abbreviation = true;
+		std::string snake_case = "";
+
+		for(std::string::iterator index = camel_case.begin();index != camel_case.end();++index)
+		{
+			if(isupper(*index))
+			{
+				if (!in_abbreviation || snake_case.empty()) {
+					snake_case += '_';
+				}
+
+				snake_case += static_cast<char>(tolower(*index));
+				in_abbreviation = true;
+			}
+			else
+			{
+				snake_case += *index;
+				in_abbreviation = false;
+			}
+		}
+
+		return snake_case;
 	}
 
 	std::string ToLower(std::string string)

@@ -1,13 +1,13 @@
 ################################
 #Global Structure###############
 ################################
-<CTCodeFile>        ::= attribute(definitions <Definition>*)
+<CTCodeFile>        ::= attribute(declarations <ExternalDefinition>*) attribute(definitions <Definition>*)
+<ExternalDefinition>::= "exdef" <whitespace>* attribute(exdef <qualfied_name>)
 <Definition>        ::= attribute(interfaceDef <InterfaceDef>)
                     ::= attribute(classDef <ClassDef>)
-<InterfaceDef>      ::= <whitespace>* "interface" <whitespace>+ attribute(name <name>) <whitespace>* "{" attribute(declarations <ContentDeclaration>*) "}" <whitespace>*
-<ClassDef>          ::= <whitespace>* "class" <whitespace>+ attribute(name <name>) <whitespace>* "{" attribute(definitions <ContentDefinition>*) "}" <whitespace>*
+<InterfaceDef>      ::= <whitespace>* "interface" <whitespace>+ attribute(name <name>) <whitespace>* "{" <whitespace>* attribute(declarations <ContentDeclaration>*) <whitespace>* "}" <whitespace>*
+<ClassDef>          ::= <whitespace>* "class" <whitespace>+ attribute(name <name>) <whitespace>* "{" <whitespace>* attribute(definitions <ContentDefinition>*) <whitespace>* "}" <whitespace>*
 <ContentDeclaration>::= <whitespace>* "function" <whitespace>+ attribute(type <ValueType>) <whitespace>+ attribute(name <name>) <whitespace>* "(" <whitespace>* attribute(parameters <ParameterListDef>?) <whitespace>* ")" <whitespace>* ";" <whitespace>*
-                    ::= <whitespace>* attribute(type <ValueType>) <whitespace>+ attribute(name <name>) <whitespace>* ";" <whitespace>*
 <ContentDefinition> ::= <whitespace>* "function" <whitespace>+ attribute(type <ValueType>) <whitespace>+ attribute(name <name>) <whitespace>* "(" <whitespace>* attribute(parameters <ParameterListDef>?) <whitespace>* ")" <whitespace>* attribute(functionBody <CodeBlock>) <whitespace>*
                     ::= <whitespace>* attribute(type <ValueType>) <whitespace>+ attribute(name <name>) <whitespace>* ";" <whitespace>*
 ################################
@@ -17,7 +17,7 @@
                     ::= "string"
                     ::= "float"
                     ::= "void"
-<DefinedType>       ::= <name>
+<DefinedType>       ::= attribute(name <qualfied_name>)
 <SingletonType>     ::= <PrimativeType>
                     ::= <DefinedType>
 <DimensionalNote>   ::= <whitespace>* "[" <whitespace>* "]" <whitespace>*
@@ -31,11 +31,13 @@
                     ::= <whitespace>* attribute(type <ValueType>) <whitespace>+ attribute(name <name>) <whitespace>*
 <ParameterList>     ::= <whitespace>* attribute(name <name>) <whitespace>* "," <whitespace>* attribute(parameterTail <ParameterList>)
                     ::= <whitespace>* attribute(name <name>) <whitespace>*
-<CodeBlock>         ::= <whitespace>* "{" <whitespace>* attribute(instructions <Instruction>) <whitespace>* "}" <whitespace>*
+<CodeBlock>         ::= <whitespace>* "{" <whitespace>* attribute(instructions <Instruction>*) <whitespace>* "}" <whitespace>*
 <Declaration>       ::= <whitespace>* attribute(type <ValueType>) <whitespace>+ attribute(name <name>) <whitespace>* ";" <whitespace>*
 <Assignment>        ::= <whitespace>* attribute(lvalue <name>) <whitespace>* "=" <whitespace>* attribute(rvalue <RValue>) <whitespace>* ";" <whitespace>*
+<Return>            ::= <whitespace>* attribute(rtn "return") <whitespace>+ attribute(rvalue <RValue>) <whitespace>* ";" <whitespace>*
 <Call>              ::= <name> "." <name> <whitespace>* "(" <whitespace>* attribute(parameters <ParameterList>?) <whitespace>* ")" <whitespace>*
 <Instruction>       ::= <CodeBlock>
+                    ::= <Return>
                     ::= <Declaration>
                     ::= <Assignment>
                     ::= <Call>
@@ -44,6 +46,8 @@
                     ::= <number>
                     ::= <name>
                     ::= "\\\"" <literal> "\\\""
+<qualfied_name>     ::= attribute(name <name>) attribute(tail <name_tail>?)
+<name_tail>         ::= "." attribute(name <name>) attribute(tail <name_tail>?)
 <name>              ::= <name_character>+
 <name_character>    ::= "0"
                     ::= "1"
