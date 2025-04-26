@@ -1,9 +1,10 @@
 #ifndef S84_CTCODE_DBNF_H
 #define S84_CTCODE_DBNF_H
 
+#include <cstring>
 #include <list>
 #include <string>
-#include <cstring>
+#include <vector>
 
 namespace s84
 {
@@ -29,16 +30,28 @@ class ValueType;
 class ParameterListDef;
 class ParameterList;
 class CodeBlock;
+class DeclarationAssign;
 class Declaration;
 class Assignment;
 class Return;
+class ElseTail;
+class Conditional;
+class Loop;
 class Call;
 class Instruction;
+class RValueSingle;
+class RValueTail;
 class RValue;
+class BinaryOperator;
+class UnaryOperator;
+class Comment;
+class CommentCharacter;
 class QualfiedName;
 class NameTail;
 class Name;
 class NameCharacter;
+class Boolean;
+class Decimal;
 class Number;
 class Digit;
 class Literal;
@@ -87,6 +100,11 @@ public:
         return list_;
     }
 
+    virtual std::vector<T*> GetVector()
+    {
+        return {list_.begin(), list_.end()};
+    }
+
 protected:
     std::list<T*> list_;
 };
@@ -97,6 +115,8 @@ public:
     String(s84::ctcode::dbnf::LengthString data);
     ~String();
 };
+
+typedef List<CTCodeFile> CTCodeFileList;
 
 class CTCodeFile : public s84::ctcode::dbnf::Node
 {
@@ -115,6 +135,8 @@ private:
     List<s84::ctcode::dbnf::Definition>* definitions_;
 };
 
+typedef List<ExternalDefinition> ExternalDefinitionList;
+
 class ExternalDefinition : public s84::ctcode::dbnf::Node
 {
 public:
@@ -129,6 +151,8 @@ public:
 private:
     s84::ctcode::dbnf::QualfiedName* exdef_;
 };
+
+typedef List<Definition> DefinitionList;
 
 class Definition : public s84::ctcode::dbnf::Node
 {
@@ -147,6 +171,8 @@ private:
     s84::ctcode::dbnf::InterfaceDef* interfaceDef_;
 };
 
+typedef List<InterfaceDef> InterfaceDefList;
+
 class InterfaceDef : public s84::ctcode::dbnf::Node
 {
 public:
@@ -156,13 +182,17 @@ public:
     static s84::ctcode::dbnf::InterfaceDef* Parse(const char*& index);
     static s84::ctcode::dbnf::InterfaceDef* Parse(s84::ctcode::dbnf::LengthString& index);
 
+    s84::ctcode::dbnf::Comment* GetComment();
     List<s84::ctcode::dbnf::ContentDeclaration>* GetDeclarations();
     s84::ctcode::dbnf::Name* GetName();
 
 private:
+    s84::ctcode::dbnf::Comment* comment_;
     List<s84::ctcode::dbnf::ContentDeclaration>* declarations_;
     s84::ctcode::dbnf::Name* name_;
 };
+
+typedef List<ClassDef> ClassDefList;
 
 class ClassDef : public s84::ctcode::dbnf::Node
 {
@@ -173,13 +203,17 @@ public:
     static s84::ctcode::dbnf::ClassDef* Parse(const char*& index);
     static s84::ctcode::dbnf::ClassDef* Parse(s84::ctcode::dbnf::LengthString& index);
 
+    s84::ctcode::dbnf::Comment* GetComment();
     List<s84::ctcode::dbnf::ContentDefinition>* GetDefinitions();
     s84::ctcode::dbnf::Name* GetName();
 
 private:
+    s84::ctcode::dbnf::Comment* comment_;
     List<s84::ctcode::dbnf::ContentDefinition>* definitions_;
     s84::ctcode::dbnf::Name* name_;
 };
+
+typedef List<ContentDeclaration> ContentDeclarationList;
 
 class ContentDeclaration : public s84::ctcode::dbnf::Node
 {
@@ -190,15 +224,19 @@ public:
     static s84::ctcode::dbnf::ContentDeclaration* Parse(const char*& index);
     static s84::ctcode::dbnf::ContentDeclaration* Parse(s84::ctcode::dbnf::LengthString& index);
 
+    s84::ctcode::dbnf::Comment* GetComment();
     s84::ctcode::dbnf::Name* GetName();
     s84::ctcode::dbnf::ParameterListDef* GetParameters();
     s84::ctcode::dbnf::ValueType* GetType();
 
 private:
+    s84::ctcode::dbnf::Comment* comment_;
     s84::ctcode::dbnf::Name* name_;
     s84::ctcode::dbnf::ParameterListDef* parameters_;
     s84::ctcode::dbnf::ValueType* type_;
 };
+
+typedef List<ContentDefinition> ContentDefinitionList;
 
 class ContentDefinition : public s84::ctcode::dbnf::Node
 {
@@ -209,17 +247,21 @@ public:
     static s84::ctcode::dbnf::ContentDefinition* Parse(const char*& index);
     static s84::ctcode::dbnf::ContentDefinition* Parse(s84::ctcode::dbnf::LengthString& index);
 
+    s84::ctcode::dbnf::Comment* GetComment();
     s84::ctcode::dbnf::CodeBlock* GetFunctionBody();
     s84::ctcode::dbnf::Name* GetName();
     s84::ctcode::dbnf::ParameterListDef* GetParameters();
     s84::ctcode::dbnf::ValueType* GetType();
 
 private:
+    s84::ctcode::dbnf::Comment* comment_;
     s84::ctcode::dbnf::CodeBlock* functionBody_;
     s84::ctcode::dbnf::Name* name_;
     s84::ctcode::dbnf::ParameterListDef* parameters_;
     s84::ctcode::dbnf::ValueType* type_;
 };
+
+typedef List<PrimativeType> PrimativeTypeList;
 
 class PrimativeType : public s84::ctcode::dbnf::Node
 {
@@ -230,6 +272,8 @@ public:
     static s84::ctcode::dbnf::PrimativeType* Parse(const char*& index);
     static s84::ctcode::dbnf::PrimativeType* Parse(s84::ctcode::dbnf::LengthString& index);
 };
+
+typedef List<DefinedType> DefinedTypeList;
 
 class DefinedType : public s84::ctcode::dbnf::Node
 {
@@ -246,6 +290,8 @@ private:
     s84::ctcode::dbnf::QualfiedName* name_;
 };
 
+typedef List<SingletonType> SingletonTypeList;
+
 class SingletonType : public s84::ctcode::dbnf::Node
 {
 public:
@@ -254,7 +300,16 @@ public:
 
     static s84::ctcode::dbnf::SingletonType* Parse(const char*& index);
     static s84::ctcode::dbnf::SingletonType* Parse(s84::ctcode::dbnf::LengthString& index);
+
+    s84::ctcode::dbnf::DefinedType* GetDefinedType();
+    s84::ctcode::dbnf::PrimativeType* GetPrimativeType();
+
+private:
+    s84::ctcode::dbnf::DefinedType* definedType_;
+    s84::ctcode::dbnf::PrimativeType* primativeType_;
 };
+
+typedef List<DimensionalNote> DimensionalNoteList;
 
 class DimensionalNote : public s84::ctcode::dbnf::Node
 {
@@ -266,6 +321,8 @@ public:
     static s84::ctcode::dbnf::DimensionalNote* Parse(s84::ctcode::dbnf::LengthString& index);
 };
 
+typedef List<DimensionalType> DimensionalTypeList;
+
 class DimensionalType : public s84::ctcode::dbnf::Node
 {
 public:
@@ -275,11 +332,15 @@ public:
     static s84::ctcode::dbnf::DimensionalType* Parse(const char*& index);
     static s84::ctcode::dbnf::DimensionalType* Parse(s84::ctcode::dbnf::LengthString& index);
 
-    List<s84::ctcode::dbnf::DimensionalNote>* GetType();
+    List<s84::ctcode::dbnf::DimensionalNote>* GetDimensionalNote();
+    s84::ctcode::dbnf::SingletonType* GetSingletonType();
 
 private:
-    List<s84::ctcode::dbnf::DimensionalNote>* type_;
+    List<s84::ctcode::dbnf::DimensionalNote>* dimensionalNote_;
+    s84::ctcode::dbnf::SingletonType* singletonType_;
 };
+
+typedef List<ValueType> ValueTypeList;
 
 class ValueType : public s84::ctcode::dbnf::Node
 {
@@ -297,6 +358,8 @@ private:
     s84::ctcode::dbnf::DimensionalType* dimensionalType_;
     s84::ctcode::dbnf::SingletonType* singletonType_;
 };
+
+typedef List<ParameterListDef> ParameterListDefList;
 
 class ParameterListDef : public s84::ctcode::dbnf::Node
 {
@@ -317,6 +380,8 @@ private:
     s84::ctcode::dbnf::ValueType* type_;
 };
 
+typedef List<ParameterList> ParameterListList;
+
 class ParameterList : public s84::ctcode::dbnf::Node
 {
 public:
@@ -326,13 +391,15 @@ public:
     static s84::ctcode::dbnf::ParameterList* Parse(const char*& index);
     static s84::ctcode::dbnf::ParameterList* Parse(s84::ctcode::dbnf::LengthString& index);
 
-    s84::ctcode::dbnf::Name* GetName();
     s84::ctcode::dbnf::ParameterList* GetParameterTail();
+    s84::ctcode::dbnf::RValue* GetRvalue();
 
 private:
-    s84::ctcode::dbnf::Name* name_;
     s84::ctcode::dbnf::ParameterList* parameterTail_;
+    s84::ctcode::dbnf::RValue* rvalue_;
 };
+
+typedef List<CodeBlock> CodeBlockList;
 
 class CodeBlock : public s84::ctcode::dbnf::Node
 {
@@ -349,6 +416,25 @@ private:
     List<s84::ctcode::dbnf::Instruction>* instructions_;
 };
 
+typedef List<DeclarationAssign> DeclarationAssignList;
+
+class DeclarationAssign : public s84::ctcode::dbnf::Node
+{
+public:
+    DeclarationAssign();
+    ~DeclarationAssign();
+
+    static s84::ctcode::dbnf::DeclarationAssign* Parse(const char*& index);
+    static s84::ctcode::dbnf::DeclarationAssign* Parse(s84::ctcode::dbnf::LengthString& index);
+
+    s84::ctcode::dbnf::RValue* GetRvalue();
+
+private:
+    s84::ctcode::dbnf::RValue* rvalue_;
+};
+
+typedef List<Declaration> DeclarationList;
+
 class Declaration : public s84::ctcode::dbnf::Node
 {
 public:
@@ -358,13 +444,17 @@ public:
     static s84::ctcode::dbnf::Declaration* Parse(const char*& index);
     static s84::ctcode::dbnf::Declaration* Parse(s84::ctcode::dbnf::LengthString& index);
 
+    s84::ctcode::dbnf::DeclarationAssign* GetAssignment();
     s84::ctcode::dbnf::Name* GetName();
     s84::ctcode::dbnf::ValueType* GetType();
 
 private:
+    s84::ctcode::dbnf::DeclarationAssign* assignment_;
     s84::ctcode::dbnf::Name* name_;
     s84::ctcode::dbnf::ValueType* type_;
 };
+
+typedef List<Assignment> AssignmentList;
 
 class Assignment : public s84::ctcode::dbnf::Node
 {
@@ -383,6 +473,8 @@ private:
     s84::ctcode::dbnf::RValue* rvalue_;
 };
 
+typedef List<Return> ReturnList;
+
 class Return : public s84::ctcode::dbnf::Node
 {
 public:
@@ -400,6 +492,71 @@ private:
     s84::ctcode::dbnf::RValue* rvalue_;
 };
 
+typedef List<ElseTail> ElseTailList;
+
+class ElseTail : public s84::ctcode::dbnf::Node
+{
+public:
+    ElseTail();
+    ~ElseTail();
+
+    static s84::ctcode::dbnf::ElseTail* Parse(const char*& index);
+    static s84::ctcode::dbnf::ElseTail* Parse(s84::ctcode::dbnf::LengthString& index);
+
+    s84::ctcode::dbnf::CodeBlock* GetCodeBlock();
+    s84::ctcode::dbnf::String* GetElseKey();
+
+private:
+    s84::ctcode::dbnf::CodeBlock* codeBlock_;
+    s84::ctcode::dbnf::String* elseKey_;
+};
+
+typedef List<Conditional> ConditionalList;
+
+class Conditional : public s84::ctcode::dbnf::Node
+{
+public:
+    Conditional();
+    ~Conditional();
+
+    static s84::ctcode::dbnf::Conditional* Parse(const char*& index);
+    static s84::ctcode::dbnf::Conditional* Parse(s84::ctcode::dbnf::LengthString& index);
+
+    s84::ctcode::dbnf::CodeBlock* GetCodeBlock();
+    s84::ctcode::dbnf::String* GetConditionalKey();
+    s84::ctcode::dbnf::ElseTail* GetElseTail();
+    s84::ctcode::dbnf::RValue* GetRvalue();
+
+private:
+    s84::ctcode::dbnf::CodeBlock* codeBlock_;
+    s84::ctcode::dbnf::String* conditionalKey_;
+    s84::ctcode::dbnf::ElseTail* elseTail_;
+    s84::ctcode::dbnf::RValue* rvalue_;
+};
+
+typedef List<Loop> LoopList;
+
+class Loop : public s84::ctcode::dbnf::Node
+{
+public:
+    Loop();
+    ~Loop();
+
+    static s84::ctcode::dbnf::Loop* Parse(const char*& index);
+    static s84::ctcode::dbnf::Loop* Parse(s84::ctcode::dbnf::LengthString& index);
+
+    s84::ctcode::dbnf::CodeBlock* GetCodeBlock();
+    s84::ctcode::dbnf::String* GetLoopKey();
+    s84::ctcode::dbnf::RValue* GetRvalue();
+
+private:
+    s84::ctcode::dbnf::CodeBlock* codeBlock_;
+    s84::ctcode::dbnf::String* loopKey_;
+    s84::ctcode::dbnf::RValue* rvalue_;
+};
+
+typedef List<Call> CallList;
+
 class Call : public s84::ctcode::dbnf::Node
 {
 public:
@@ -409,11 +566,17 @@ public:
     static s84::ctcode::dbnf::Call* Parse(const char*& index);
     static s84::ctcode::dbnf::Call* Parse(s84::ctcode::dbnf::LengthString& index);
 
+    s84::ctcode::dbnf::Name* GetFunction();
     s84::ctcode::dbnf::ParameterList* GetParameters();
+    s84::ctcode::dbnf::Name* GetVariable();
 
 private:
+    s84::ctcode::dbnf::Name* function_;
     s84::ctcode::dbnf::ParameterList* parameters_;
+    s84::ctcode::dbnf::Name* variable_;
 };
+
+typedef List<Instruction> InstructionList;
 
 class Instruction : public s84::ctcode::dbnf::Node
 {
@@ -423,7 +586,78 @@ public:
 
     static s84::ctcode::dbnf::Instruction* Parse(const char*& index);
     static s84::ctcode::dbnf::Instruction* Parse(s84::ctcode::dbnf::LengthString& index);
+
+    s84::ctcode::dbnf::Assignment* GetAssignment();
+    s84::ctcode::dbnf::Call* GetCall();
+    s84::ctcode::dbnf::CodeBlock* GetCodeBlock();
+    s84::ctcode::dbnf::Comment* GetComment();
+    s84::ctcode::dbnf::Conditional* GetConditional();
+    s84::ctcode::dbnf::Declaration* GetDeclaration();
+    s84::ctcode::dbnf::Loop* GetLoop();
+    s84::ctcode::dbnf::Return* GetRtn();
+
+private:
+    s84::ctcode::dbnf::Assignment* assignment_;
+    s84::ctcode::dbnf::Call* call_;
+    s84::ctcode::dbnf::CodeBlock* codeBlock_;
+    s84::ctcode::dbnf::Comment* comment_;
+    s84::ctcode::dbnf::Conditional* conditional_;
+    s84::ctcode::dbnf::Declaration* declaration_;
+    s84::ctcode::dbnf::Loop* loop_;
+    s84::ctcode::dbnf::Return* rtn_;
 };
+
+typedef List<RValueSingle> RValueSingleList;
+
+class RValueSingle : public s84::ctcode::dbnf::Node
+{
+public:
+    RValueSingle();
+    ~RValueSingle();
+
+    static s84::ctcode::dbnf::RValueSingle* Parse(const char*& index);
+    static s84::ctcode::dbnf::RValueSingle* Parse(s84::ctcode::dbnf::LengthString& index);
+
+    s84::ctcode::dbnf::Boolean* GetBooleanLiteral();
+    s84::ctcode::dbnf::Call* GetCall();
+    s84::ctcode::dbnf::Decimal* GetDecimalLiteral();
+    s84::ctcode::dbnf::Number* GetIntegerLiteral();
+    s84::ctcode::dbnf::Literal* GetStringLiteral();
+    s84::ctcode::dbnf::UnaryOperator* GetUnaryOperator();
+    s84::ctcode::dbnf::Name* GetVariable();
+
+private:
+    s84::ctcode::dbnf::Boolean* booleanLiteral_;
+    s84::ctcode::dbnf::Call* call_;
+    s84::ctcode::dbnf::Decimal* decimalLiteral_;
+    s84::ctcode::dbnf::Number* integerLiteral_;
+    s84::ctcode::dbnf::Literal* stringLiteral_;
+    s84::ctcode::dbnf::UnaryOperator* unary_operator_;
+    s84::ctcode::dbnf::Name* variable_;
+};
+
+typedef List<RValueTail> RValueTailList;
+
+class RValueTail : public s84::ctcode::dbnf::Node
+{
+public:
+    RValueTail();
+    ~RValueTail();
+
+    static s84::ctcode::dbnf::RValueTail* Parse(const char*& index);
+    static s84::ctcode::dbnf::RValueTail* Parse(s84::ctcode::dbnf::LengthString& index);
+
+    s84::ctcode::dbnf::BinaryOperator* GetBinaryOperator();
+    s84::ctcode::dbnf::RValueTail* GetTail();
+    s84::ctcode::dbnf::RValueSingle* GetValue();
+
+private:
+    s84::ctcode::dbnf::BinaryOperator* binary_operator_;
+    s84::ctcode::dbnf::RValueTail* tail_;
+    s84::ctcode::dbnf::RValueSingle* value_;
+};
+
+typedef List<RValue> RValueList;
 
 class RValue : public s84::ctcode::dbnf::Node
 {
@@ -433,7 +667,97 @@ public:
 
     static s84::ctcode::dbnf::RValue* Parse(const char*& index);
     static s84::ctcode::dbnf::RValue* Parse(s84::ctcode::dbnf::LengthString& index);
+
+    s84::ctcode::dbnf::RValueTail* GetTail();
+    s84::ctcode::dbnf::RValueSingle* GetValue();
+
+private:
+    s84::ctcode::dbnf::RValueTail* tail_;
+    s84::ctcode::dbnf::RValueSingle* value_;
 };
+
+typedef List<BinaryOperator> BinaryOperatorList;
+
+class BinaryOperator : public s84::ctcode::dbnf::Node
+{
+public:
+    BinaryOperator();
+    ~BinaryOperator();
+
+    static s84::ctcode::dbnf::BinaryOperator* Parse(const char*& index);
+    static s84::ctcode::dbnf::BinaryOperator* Parse(s84::ctcode::dbnf::LengthString& index);
+
+    s84::ctcode::dbnf::String* GetAddition();
+    s84::ctcode::dbnf::String* GetAndOp();
+    s84::ctcode::dbnf::String* GetEquality();
+    s84::ctcode::dbnf::String* GetGreaterThanEq();
+    s84::ctcode::dbnf::String* GetGreaterThan();
+    s84::ctcode::dbnf::String* GetLessThanEq();
+    s84::ctcode::dbnf::String* GetLessThan();
+    s84::ctcode::dbnf::String* GetNotEquality();
+    s84::ctcode::dbnf::String* GetOrOp();
+    s84::ctcode::dbnf::String* GetSubtraction();
+
+private:
+    s84::ctcode::dbnf::String* addition_;
+    s84::ctcode::dbnf::String* andOp_;
+    s84::ctcode::dbnf::String* equality_;
+    s84::ctcode::dbnf::String* greaterThanEq_;
+    s84::ctcode::dbnf::String* greaterThan_;
+    s84::ctcode::dbnf::String* lessThanEq_;
+    s84::ctcode::dbnf::String* lessThan_;
+    s84::ctcode::dbnf::String* notEquality_;
+    s84::ctcode::dbnf::String* orOp_;
+    s84::ctcode::dbnf::String* subtraction_;
+};
+
+typedef List<UnaryOperator> UnaryOperatorList;
+
+class UnaryOperator : public s84::ctcode::dbnf::Node
+{
+public:
+    UnaryOperator();
+    ~UnaryOperator();
+
+    static s84::ctcode::dbnf::UnaryOperator* Parse(const char*& index);
+    static s84::ctcode::dbnf::UnaryOperator* Parse(s84::ctcode::dbnf::LengthString& index);
+
+    s84::ctcode::dbnf::String* GetNegation();
+
+private:
+    s84::ctcode::dbnf::String* negation_;
+};
+
+typedef List<Comment> CommentList;
+
+class Comment : public s84::ctcode::dbnf::Node
+{
+public:
+    Comment();
+    ~Comment();
+
+    static s84::ctcode::dbnf::Comment* Parse(const char*& index);
+    static s84::ctcode::dbnf::Comment* Parse(s84::ctcode::dbnf::LengthString& index);
+
+    List<s84::ctcode::dbnf::CommentCharacter>* GetContent();
+
+private:
+    List<s84::ctcode::dbnf::CommentCharacter>* content_;
+};
+
+typedef List<CommentCharacter> CommentCharacterList;
+
+class CommentCharacter : public s84::ctcode::dbnf::Node
+{
+public:
+    CommentCharacter();
+    ~CommentCharacter();
+
+    static s84::ctcode::dbnf::CommentCharacter* Parse(const char*& index);
+    static s84::ctcode::dbnf::CommentCharacter* Parse(s84::ctcode::dbnf::LengthString& index);
+};
+
+typedef List<QualfiedName> QualfiedNameList;
 
 class QualfiedName : public s84::ctcode::dbnf::Node
 {
@@ -452,6 +776,8 @@ private:
     s84::ctcode::dbnf::NameTail* tail_;
 };
 
+typedef List<NameTail> NameTailList;
+
 class NameTail : public s84::ctcode::dbnf::Node
 {
 public:
@@ -469,6 +795,8 @@ private:
     s84::ctcode::dbnf::NameTail* tail_;
 };
 
+typedef List<Name> NameList;
+
 class Name : public s84::ctcode::dbnf::Node
 {
 public:
@@ -478,6 +806,8 @@ public:
     static s84::ctcode::dbnf::Name* Parse(const char*& index);
     static s84::ctcode::dbnf::Name* Parse(s84::ctcode::dbnf::LengthString& index);
 };
+
+typedef List<NameCharacter> NameCharacterList;
 
 class NameCharacter : public s84::ctcode::dbnf::Node
 {
@@ -489,6 +819,32 @@ public:
     static s84::ctcode::dbnf::NameCharacter* Parse(s84::ctcode::dbnf::LengthString& index);
 };
 
+typedef List<Boolean> BooleanList;
+
+class Boolean : public s84::ctcode::dbnf::Node
+{
+public:
+    Boolean();
+    ~Boolean();
+
+    static s84::ctcode::dbnf::Boolean* Parse(const char*& index);
+    static s84::ctcode::dbnf::Boolean* Parse(s84::ctcode::dbnf::LengthString& index);
+};
+
+typedef List<Decimal> DecimalList;
+
+class Decimal : public s84::ctcode::dbnf::Node
+{
+public:
+    Decimal();
+    ~Decimal();
+
+    static s84::ctcode::dbnf::Decimal* Parse(const char*& index);
+    static s84::ctcode::dbnf::Decimal* Parse(s84::ctcode::dbnf::LengthString& index);
+};
+
+typedef List<Number> NumberList;
+
 class Number : public s84::ctcode::dbnf::Node
 {
 public:
@@ -498,6 +854,8 @@ public:
     static s84::ctcode::dbnf::Number* Parse(const char*& index);
     static s84::ctcode::dbnf::Number* Parse(s84::ctcode::dbnf::LengthString& index);
 };
+
+typedef List<Digit> DigitList;
 
 class Digit : public s84::ctcode::dbnf::Node
 {
@@ -509,6 +867,8 @@ public:
     static s84::ctcode::dbnf::Digit* Parse(s84::ctcode::dbnf::LengthString& index);
 };
 
+typedef List<Literal> LiteralList;
+
 class Literal : public s84::ctcode::dbnf::Node
 {
 public:
@@ -518,6 +878,8 @@ public:
     static s84::ctcode::dbnf::Literal* Parse(const char*& index);
     static s84::ctcode::dbnf::Literal* Parse(s84::ctcode::dbnf::LengthString& index);
 };
+
+typedef List<LiteralCharacter> LiteralCharacterList;
 
 class LiteralCharacter : public s84::ctcode::dbnf::Node
 {
@@ -529,6 +891,8 @@ public:
     static s84::ctcode::dbnf::LiteralCharacter* Parse(s84::ctcode::dbnf::LengthString& index);
 };
 
+typedef List<HexDigit> HexDigitList;
+
 class HexDigit : public s84::ctcode::dbnf::Node
 {
 public:
@@ -538,6 +902,8 @@ public:
     static s84::ctcode::dbnf::HexDigit* Parse(const char*& index);
     static s84::ctcode::dbnf::HexDigit* Parse(s84::ctcode::dbnf::LengthString& index);
 };
+
+typedef List<Whitespace> WhitespaceList;
 
 class Whitespace : public s84::ctcode::dbnf::Node
 {

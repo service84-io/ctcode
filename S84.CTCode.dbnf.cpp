@@ -30,7 +30,7 @@ class LITERAL_ID2
 public:
     static const char* GetLiteral()
     {
-        return "#";
+        return "!=";
     }
 };
 
@@ -39,7 +39,7 @@ class LITERAL_ID3
 public:
     static const char* GetLiteral()
     {
-        return "$";
+        return "#";
     }
 };
 
@@ -48,7 +48,7 @@ class LITERAL_ID4
 public:
     static const char* GetLiteral()
     {
-        return "%";
+        return "$";
     }
 };
 
@@ -57,7 +57,7 @@ class LITERAL_ID5
 public:
     static const char* GetLiteral()
     {
-        return "&";
+        return "%";
     }
 };
 
@@ -66,7 +66,7 @@ class LITERAL_ID6
 public:
     static const char* GetLiteral()
     {
-        return "'";
+        return "&";
     }
 };
 
@@ -75,7 +75,7 @@ class LITERAL_ID7
 public:
     static const char* GetLiteral()
     {
-        return "(";
+        return "&&";
     }
 };
 
@@ -84,7 +84,7 @@ class LITERAL_ID8
 public:
     static const char* GetLiteral()
     {
-        return ")";
+        return "'";
     }
 };
 
@@ -93,7 +93,7 @@ class LITERAL_ID9
 public:
     static const char* GetLiteral()
     {
-        return "*";
+        return "(";
     }
 };
 
@@ -102,7 +102,7 @@ class LITERAL_ID10
 public:
     static const char* GetLiteral()
     {
-        return "+";
+        return ")";
     }
 };
 
@@ -111,7 +111,7 @@ class LITERAL_ID11
 public:
     static const char* GetLiteral()
     {
-        return ",";
+        return "*";
     }
 };
 
@@ -120,7 +120,7 @@ class LITERAL_ID12
 public:
     static const char* GetLiteral()
     {
-        return "-";
+        return "*/";
     }
 };
 
@@ -129,7 +129,7 @@ class LITERAL_ID13
 public:
     static const char* GetLiteral()
     {
-        return ".";
+        return "+";
     }
 };
 
@@ -138,11 +138,47 @@ class LITERAL_ID14
 public:
     static const char* GetLiteral()
     {
+        return ",";
+    }
+};
+
+class LITERAL_ID15
+{
+public:
+    static const char* GetLiteral()
+    {
+        return "-";
+    }
+};
+
+class LITERAL_ID16
+{
+public:
+    static const char* GetLiteral()
+    {
+        return ".";
+    }
+};
+
+class LITERAL_ID17
+{
+public:
+    static const char* GetLiteral()
+    {
         return "/";
     }
 };
 
-class LITERAL_0_ID15
+class LITERAL_ID18
+{
+public:
+    static const char* GetLiteral()
+    {
+        return "/*";
+    }
+};
+
+class LITERAL_0_ID19
 {
 public:
     static const char* GetLiteral()
@@ -151,7 +187,7 @@ public:
     }
 };
 
-class LITERAL_1_ID16
+class LITERAL_1_ID20
 {
 public:
     static const char* GetLiteral()
@@ -160,7 +196,7 @@ public:
     }
 };
 
-class LITERAL_2_ID17
+class LITERAL_2_ID21
 {
 public:
     static const char* GetLiteral()
@@ -169,7 +205,7 @@ public:
     }
 };
 
-class LITERAL_3_ID18
+class LITERAL_3_ID22
 {
 public:
     static const char* GetLiteral()
@@ -178,7 +214,7 @@ public:
     }
 };
 
-class LITERAL_4_ID19
+class LITERAL_4_ID23
 {
 public:
     static const char* GetLiteral()
@@ -187,7 +223,7 @@ public:
     }
 };
 
-class LITERAL_5_ID20
+class LITERAL_5_ID24
 {
 public:
     static const char* GetLiteral()
@@ -196,7 +232,7 @@ public:
     }
 };
 
-class LITERAL_6_ID21
+class LITERAL_6_ID25
 {
 public:
     static const char* GetLiteral()
@@ -205,7 +241,7 @@ public:
     }
 };
 
-class LITERAL_7_ID22
+class LITERAL_7_ID26
 {
 public:
     static const char* GetLiteral()
@@ -214,7 +250,7 @@ public:
     }
 };
 
-class LITERAL_8_ID23
+class LITERAL_8_ID27
 {
 public:
     static const char* GetLiteral()
@@ -223,7 +259,7 @@ public:
     }
 };
 
-class LITERAL_9_ID24
+class LITERAL_9_ID28
 {
 public:
     static const char* GetLiteral()
@@ -232,7 +268,7 @@ public:
     }
 };
 
-class LITERAL_ID25
+class LITERAL_ID29
 {
 public:
     static const char* GetLiteral()
@@ -241,7 +277,7 @@ public:
     }
 };
 
-class LITERAL_ID26
+class LITERAL_ID30
 {
 public:
     static const char* GetLiteral()
@@ -250,7 +286,7 @@ public:
     }
 };
 
-class LITERAL_ID27
+class LITERAL_ID31
 {
 public:
     static const char* GetLiteral()
@@ -259,7 +295,16 @@ public:
     }
 };
 
-class LITERAL_ID28
+class LITERAL_ID32
+{
+public:
+    static const char* GetLiteral()
+    {
+        return "<=";
+    }
+};
+
+class LITERAL_ID33
 {
 public:
     static const char* GetLiteral()
@@ -268,7 +313,16 @@ public:
     }
 };
 
-class LITERAL_ID29
+class LITERAL_ID34
+{
+public:
+    static const char* GetLiteral()
+    {
+        return "==";
+    }
+};
+
+class LITERAL_ID35
 {
 public:
     static const char* GetLiteral()
@@ -277,7 +331,16 @@ public:
     }
 };
 
-class LITERAL_ID30
+class LITERAL_ID36
+{
+public:
+    static const char* GetLiteral()
+    {
+        return ">=";
+    }
+};
+
+class LITERAL_ID37
 {
 public:
     static const char* GetLiteral()
@@ -286,7 +349,7 @@ public:
     }
 };
 
-class LITERAL_ID31
+class LITERAL_ID38
 {
 public:
     static const char* GetLiteral()
@@ -295,7 +358,7 @@ public:
     }
 };
 
-class LITERAL_A_ID32
+class LITERAL_A_ID39
 {
 public:
     static const char* GetLiteral()
@@ -304,7 +367,7 @@ public:
     }
 };
 
-class LITERAL_B_ID33
+class LITERAL_B_ID40
 {
 public:
     static const char* GetLiteral()
@@ -313,7 +376,7 @@ public:
     }
 };
 
-class LITERAL_C_ID34
+class LITERAL_C_ID41
 {
 public:
     static const char* GetLiteral()
@@ -322,7 +385,7 @@ public:
     }
 };
 
-class LITERAL_D_ID35
+class LITERAL_D_ID42
 {
 public:
     static const char* GetLiteral()
@@ -331,7 +394,7 @@ public:
     }
 };
 
-class LITERAL_E_ID36
+class LITERAL_E_ID43
 {
 public:
     static const char* GetLiteral()
@@ -340,7 +403,7 @@ public:
     }
 };
 
-class LITERAL_F_ID37
+class LITERAL_F_ID44
 {
 public:
     static const char* GetLiteral()
@@ -349,7 +412,7 @@ public:
     }
 };
 
-class LITERAL_G_ID38
+class LITERAL_G_ID45
 {
 public:
     static const char* GetLiteral()
@@ -358,7 +421,7 @@ public:
     }
 };
 
-class LITERAL_H_ID39
+class LITERAL_H_ID46
 {
 public:
     static const char* GetLiteral()
@@ -367,7 +430,7 @@ public:
     }
 };
 
-class LITERAL_I_ID40
+class LITERAL_I_ID47
 {
 public:
     static const char* GetLiteral()
@@ -376,7 +439,7 @@ public:
     }
 };
 
-class LITERAL_J_ID41
+class LITERAL_J_ID48
 {
 public:
     static const char* GetLiteral()
@@ -385,7 +448,7 @@ public:
     }
 };
 
-class LITERAL_K_ID42
+class LITERAL_K_ID49
 {
 public:
     static const char* GetLiteral()
@@ -394,7 +457,7 @@ public:
     }
 };
 
-class LITERAL_L_ID43
+class LITERAL_L_ID50
 {
 public:
     static const char* GetLiteral()
@@ -403,7 +466,7 @@ public:
     }
 };
 
-class LITERAL_M_ID44
+class LITERAL_M_ID51
 {
 public:
     static const char* GetLiteral()
@@ -412,7 +475,7 @@ public:
     }
 };
 
-class LITERAL_N_ID45
+class LITERAL_N_ID52
 {
 public:
     static const char* GetLiteral()
@@ -421,7 +484,7 @@ public:
     }
 };
 
-class LITERAL_O_ID46
+class LITERAL_O_ID53
 {
 public:
     static const char* GetLiteral()
@@ -430,7 +493,7 @@ public:
     }
 };
 
-class LITERAL_P_ID47
+class LITERAL_P_ID54
 {
 public:
     static const char* GetLiteral()
@@ -439,7 +502,7 @@ public:
     }
 };
 
-class LITERAL_Q_ID48
+class LITERAL_Q_ID55
 {
 public:
     static const char* GetLiteral()
@@ -448,7 +511,7 @@ public:
     }
 };
 
-class LITERAL_R_ID49
+class LITERAL_R_ID56
 {
 public:
     static const char* GetLiteral()
@@ -457,7 +520,7 @@ public:
     }
 };
 
-class LITERAL_S_ID50
+class LITERAL_S_ID57
 {
 public:
     static const char* GetLiteral()
@@ -466,7 +529,7 @@ public:
     }
 };
 
-class LITERAL_T_ID51
+class LITERAL_T_ID58
 {
 public:
     static const char* GetLiteral()
@@ -475,7 +538,7 @@ public:
     }
 };
 
-class LITERAL_U_ID52
+class LITERAL_U_ID59
 {
 public:
     static const char* GetLiteral()
@@ -484,7 +547,7 @@ public:
     }
 };
 
-class LITERAL_V_ID53
+class LITERAL_V_ID60
 {
 public:
     static const char* GetLiteral()
@@ -493,7 +556,7 @@ public:
     }
 };
 
-class LITERAL_W_ID54
+class LITERAL_W_ID61
 {
 public:
     static const char* GetLiteral()
@@ -502,7 +565,7 @@ public:
     }
 };
 
-class LITERAL_X_ID55
+class LITERAL_X_ID62
 {
 public:
     static const char* GetLiteral()
@@ -511,7 +574,7 @@ public:
     }
 };
 
-class LITERAL_Y_ID56
+class LITERAL_Y_ID63
 {
 public:
     static const char* GetLiteral()
@@ -520,7 +583,7 @@ public:
     }
 };
 
-class LITERAL_Z_ID57
+class LITERAL_Z_ID64
 {
 public:
     static const char* GetLiteral()
@@ -529,7 +592,7 @@ public:
     }
 };
 
-class LITERAL_ID58
+class LITERAL_ID65
 {
 public:
     static const char* GetLiteral()
@@ -538,7 +601,16 @@ public:
     }
 };
 
-class LITERAL_ID59
+class LITERAL_ID66
+{
+public:
+    static const char* GetLiteral()
+    {
+        return "\"";
+    }
+};
+
+class LITERAL_ID67
 {
 public:
     static const char* GetLiteral()
@@ -547,7 +619,7 @@ public:
     }
 };
 
-class LITERAL_ID60
+class LITERAL_ID68
 {
 public:
     static const char* GetLiteral()
@@ -556,7 +628,7 @@ public:
     }
 };
 
-class LITERAL_ID61
+class LITERAL_ID69
 {
 public:
     static const char* GetLiteral()
@@ -565,7 +637,7 @@ public:
     }
 };
 
-class LITERAL_ID62
+class LITERAL_ID70
 {
 public:
     static const char* GetLiteral()
@@ -574,7 +646,7 @@ public:
     }
 };
 
-class LITERAL___ID63
+class LITERAL___ID71
 {
 public:
     static const char* GetLiteral()
@@ -583,7 +655,7 @@ public:
     }
 };
 
-class LITERAL_ID64
+class LITERAL_ID72
 {
 public:
     static const char* GetLiteral()
@@ -592,7 +664,7 @@ public:
     }
 };
 
-class LITERAL_A_ID65
+class LITERAL_A_ID73
 {
 public:
     static const char* GetLiteral()
@@ -601,7 +673,7 @@ public:
     }
 };
 
-class LITERAL_B_ID66
+class LITERAL_B_ID74
 {
 public:
     static const char* GetLiteral()
@@ -610,7 +682,16 @@ public:
     }
 };
 
-class LITERAL_C_ID67
+class LITERAL_BOOL_ID75
+{
+public:
+    static const char* GetLiteral()
+    {
+        return "bool";
+    }
+};
+
+class LITERAL_C_ID76
 {
 public:
     static const char* GetLiteral()
@@ -619,7 +700,7 @@ public:
     }
 };
 
-class LITERAL_CLASS_ID68
+class LITERAL_CLASS_ID77
 {
 public:
     static const char* GetLiteral()
@@ -628,7 +709,7 @@ public:
     }
 };
 
-class LITERAL_D_ID69
+class LITERAL_D_ID78
 {
 public:
     static const char* GetLiteral()
@@ -637,7 +718,7 @@ public:
     }
 };
 
-class LITERAL_E_ID70
+class LITERAL_E_ID79
 {
 public:
     static const char* GetLiteral()
@@ -646,7 +727,16 @@ public:
     }
 };
 
-class LITERAL_EXDEF_ID71
+class LITERAL_ELSE_ID80
+{
+public:
+    static const char* GetLiteral()
+    {
+        return "else";
+    }
+};
+
+class LITERAL_EXDEF_ID81
 {
 public:
     static const char* GetLiteral()
@@ -655,7 +745,7 @@ public:
     }
 };
 
-class LITERAL_F_ID72
+class LITERAL_F_ID82
 {
 public:
     static const char* GetLiteral()
@@ -664,7 +754,16 @@ public:
     }
 };
 
-class LITERAL_FLOAT_ID73
+class LITERAL_FALSE_ID83
+{
+public:
+    static const char* GetLiteral()
+    {
+        return "false";
+    }
+};
+
+class LITERAL_FLOAT_ID84
 {
 public:
     static const char* GetLiteral()
@@ -673,7 +772,7 @@ public:
     }
 };
 
-class LITERAL_FUNCTION_ID74
+class LITERAL_FUNCTION_ID85
 {
 public:
     static const char* GetLiteral()
@@ -682,7 +781,7 @@ public:
     }
 };
 
-class LITERAL_G_ID75
+class LITERAL_G_ID86
 {
 public:
     static const char* GetLiteral()
@@ -691,7 +790,7 @@ public:
     }
 };
 
-class LITERAL_H_ID76
+class LITERAL_H_ID87
 {
 public:
     static const char* GetLiteral()
@@ -700,7 +799,7 @@ public:
     }
 };
 
-class LITERAL_I_ID77
+class LITERAL_I_ID88
 {
 public:
     static const char* GetLiteral()
@@ -709,7 +808,16 @@ public:
     }
 };
 
-class LITERAL_INT_ID78
+class LITERAL_IF_ID89
+{
+public:
+    static const char* GetLiteral()
+    {
+        return "if";
+    }
+};
+
+class LITERAL_INT_ID90
 {
 public:
     static const char* GetLiteral()
@@ -718,7 +826,7 @@ public:
     }
 };
 
-class LITERAL_INTERFACE_ID79
+class LITERAL_INTERFACE_ID91
 {
 public:
     static const char* GetLiteral()
@@ -727,7 +835,7 @@ public:
     }
 };
 
-class LITERAL_J_ID80
+class LITERAL_J_ID92
 {
 public:
     static const char* GetLiteral()
@@ -736,7 +844,7 @@ public:
     }
 };
 
-class LITERAL_K_ID81
+class LITERAL_K_ID93
 {
 public:
     static const char* GetLiteral()
@@ -745,7 +853,7 @@ public:
     }
 };
 
-class LITERAL_L_ID82
+class LITERAL_L_ID94
 {
 public:
     static const char* GetLiteral()
@@ -754,7 +862,7 @@ public:
     }
 };
 
-class LITERAL_M_ID83
+class LITERAL_M_ID95
 {
 public:
     static const char* GetLiteral()
@@ -763,7 +871,7 @@ public:
     }
 };
 
-class LITERAL_N_ID84
+class LITERAL_N_ID96
 {
 public:
     static const char* GetLiteral()
@@ -772,7 +880,7 @@ public:
     }
 };
 
-class LITERAL_O_ID85
+class LITERAL_O_ID97
 {
 public:
     static const char* GetLiteral()
@@ -781,7 +889,7 @@ public:
     }
 };
 
-class LITERAL_P_ID86
+class LITERAL_P_ID98
 {
 public:
     static const char* GetLiteral()
@@ -790,7 +898,7 @@ public:
     }
 };
 
-class LITERAL_Q_ID87
+class LITERAL_Q_ID99
 {
 public:
     static const char* GetLiteral()
@@ -799,7 +907,7 @@ public:
     }
 };
 
-class LITERAL_R_ID88
+class LITERAL_R_ID100
 {
 public:
     static const char* GetLiteral()
@@ -808,7 +916,7 @@ public:
     }
 };
 
-class LITERAL_RETURN_ID89
+class LITERAL_RETURN_ID101
 {
 public:
     static const char* GetLiteral()
@@ -817,7 +925,7 @@ public:
     }
 };
 
-class LITERAL_S_ID90
+class LITERAL_S_ID102
 {
 public:
     static const char* GetLiteral()
@@ -826,7 +934,7 @@ public:
     }
 };
 
-class LITERAL_STRING_ID91
+class LITERAL_STRING_ID103
 {
 public:
     static const char* GetLiteral()
@@ -835,7 +943,7 @@ public:
     }
 };
 
-class LITERAL_T_ID92
+class LITERAL_T_ID104
 {
 public:
     static const char* GetLiteral()
@@ -844,7 +952,16 @@ public:
     }
 };
 
-class LITERAL_U_ID93
+class LITERAL_TRUE_ID105
+{
+public:
+    static const char* GetLiteral()
+    {
+        return "true";
+    }
+};
+
+class LITERAL_U_ID106
 {
 public:
     static const char* GetLiteral()
@@ -853,7 +970,7 @@ public:
     }
 };
 
-class LITERAL_V_ID94
+class LITERAL_V_ID107
 {
 public:
     static const char* GetLiteral()
@@ -862,7 +979,7 @@ public:
     }
 };
 
-class LITERAL_VOID_ID95
+class LITERAL_VOID_ID108
 {
 public:
     static const char* GetLiteral()
@@ -871,7 +988,7 @@ public:
     }
 };
 
-class LITERAL_W_ID96
+class LITERAL_W_ID109
 {
 public:
     static const char* GetLiteral()
@@ -880,7 +997,16 @@ public:
     }
 };
 
-class LITERAL_X_ID97
+class LITERAL_WHILE_ID110
+{
+public:
+    static const char* GetLiteral()
+    {
+        return "while";
+    }
+};
+
+class LITERAL_X_ID111
 {
 public:
     static const char* GetLiteral()
@@ -889,7 +1015,7 @@ public:
     }
 };
 
-class LITERAL_Y_ID98
+class LITERAL_Y_ID112
 {
 public:
     static const char* GetLiteral()
@@ -898,7 +1024,7 @@ public:
     }
 };
 
-class LITERAL_Z_ID99
+class LITERAL_Z_ID113
 {
 public:
     static const char* GetLiteral()
@@ -907,7 +1033,7 @@ public:
     }
 };
 
-class LITERAL_ID100
+class LITERAL_ID114
 {
 public:
     static const char* GetLiteral()
@@ -916,7 +1042,7 @@ public:
     }
 };
 
-class LITERAL_ID101
+class LITERAL_ID115
 {
 public:
     static const char* GetLiteral()
@@ -925,7 +1051,16 @@ public:
     }
 };
 
-class LITERAL_ID102
+class LITERAL_ID116
+{
+public:
+    static const char* GetLiteral()
+    {
+        return "||";
+    }
+};
+
+class LITERAL_ID117
 {
 public:
     static const char* GetLiteral()
@@ -934,7 +1069,7 @@ public:
     }
 };
 
-class LITERAL_ID103
+class LITERAL_ID118
 {
 public:
     static const char* GetLiteral()
@@ -1270,7 +1405,7 @@ s84::ctcode::dbnf::ExternalDefinition* ExternalDefinition::Parse(s84::ctcode::db
     std::list<s84::ctcode::dbnf::Node*> children;
     s84::ctcode::dbnf::QualfiedName* exdef = NULL;
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_EXDEF_ID71>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, exdef, s84::ctcode::dbnf::QualfiedName::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_EXDEF_ID81>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, exdef, s84::ctcode::dbnf::QualfiedName::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::ExternalDefinition* instance = new s84::ctcode::dbnf::ExternalDefinition();
         s84::ctcode::dbnf::LengthString data;
@@ -1352,9 +1487,15 @@ s84::ctcode::dbnf::Definition* Definition::Parse(s84::ctcode::dbnf::LengthString
 }
 
 InterfaceDef::InterfaceDef() : Node()
+    ,comment_(NULL)
     ,declarations_(NULL)
     ,name_(NULL)
 {
+}
+
+s84::ctcode::dbnf::Comment* InterfaceDef::GetComment()
+{
+    return comment_;
 }
 
 List<s84::ctcode::dbnf::ContentDeclaration>* InterfaceDef::GetDeclarations()
@@ -1385,10 +1526,11 @@ s84::ctcode::dbnf::InterfaceDef* InterfaceDef::Parse(s84::ctcode::dbnf::LengthSt
 {
     s84::ctcode::dbnf::LengthString start = index;
     std::list<s84::ctcode::dbnf::Node*> children;
+    s84::ctcode::dbnf::Comment* comment = NULL;
     List<s84::ctcode::dbnf::ContentDeclaration>* declarations = NULL;
     s84::ctcode::dbnf::Name* name = NULL;
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_INTERFACE_ID79>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 1>::Parse(index)) && s84::ctcode::dbnf::Match(children, name, s84::ctcode::dbnf::Name::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID100>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, declarations, MinimumParser<s84::ctcode::dbnf::ContentDeclaration, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID102>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Optional(children, comment, s84::ctcode::dbnf::Comment::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_INTERFACE_ID91>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 1>::Parse(index)) && s84::ctcode::dbnf::Match(children, name, s84::ctcode::dbnf::Name::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID114>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, declarations, MinimumParser<s84::ctcode::dbnf::ContentDeclaration, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID117>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::InterfaceDef* instance = new s84::ctcode::dbnf::InterfaceDef();
         s84::ctcode::dbnf::LengthString data;
@@ -1396,6 +1538,7 @@ s84::ctcode::dbnf::InterfaceDef* InterfaceDef::Parse(s84::ctcode::dbnf::LengthSt
         data.data = start.data;
         instance->SetString(data);
         instance->SetChildren(children);
+        instance->comment_ = comment;
         instance->name_ = name;
         instance->declarations_ = declarations;
         return instance;
@@ -1406,9 +1549,15 @@ s84::ctcode::dbnf::InterfaceDef* InterfaceDef::Parse(s84::ctcode::dbnf::LengthSt
 }
 
 ClassDef::ClassDef() : Node()
+    ,comment_(NULL)
     ,definitions_(NULL)
     ,name_(NULL)
 {
+}
+
+s84::ctcode::dbnf::Comment* ClassDef::GetComment()
+{
+    return comment_;
 }
 
 List<s84::ctcode::dbnf::ContentDefinition>* ClassDef::GetDefinitions()
@@ -1439,10 +1588,11 @@ s84::ctcode::dbnf::ClassDef* ClassDef::Parse(s84::ctcode::dbnf::LengthString& in
 {
     s84::ctcode::dbnf::LengthString start = index;
     std::list<s84::ctcode::dbnf::Node*> children;
+    s84::ctcode::dbnf::Comment* comment = NULL;
     List<s84::ctcode::dbnf::ContentDefinition>* definitions = NULL;
     s84::ctcode::dbnf::Name* name = NULL;
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_CLASS_ID68>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 1>::Parse(index)) && s84::ctcode::dbnf::Match(children, name, s84::ctcode::dbnf::Name::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID100>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, definitions, MinimumParser<s84::ctcode::dbnf::ContentDefinition, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID102>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Optional(children, comment, s84::ctcode::dbnf::Comment::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_CLASS_ID77>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 1>::Parse(index)) && s84::ctcode::dbnf::Match(children, name, s84::ctcode::dbnf::Name::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID114>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, definitions, MinimumParser<s84::ctcode::dbnf::ContentDefinition, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID117>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::ClassDef* instance = new s84::ctcode::dbnf::ClassDef();
         s84::ctcode::dbnf::LengthString data;
@@ -1450,6 +1600,7 @@ s84::ctcode::dbnf::ClassDef* ClassDef::Parse(s84::ctcode::dbnf::LengthString& in
         data.data = start.data;
         instance->SetString(data);
         instance->SetChildren(children);
+        instance->comment_ = comment;
         instance->name_ = name;
         instance->definitions_ = definitions;
         return instance;
@@ -1460,10 +1611,16 @@ s84::ctcode::dbnf::ClassDef* ClassDef::Parse(s84::ctcode::dbnf::LengthString& in
 }
 
 ContentDeclaration::ContentDeclaration() : Node()
+    ,comment_(NULL)
     ,name_(NULL)
     ,parameters_(NULL)
     ,type_(NULL)
 {
+}
+
+s84::ctcode::dbnf::Comment* ContentDeclaration::GetComment()
+{
+    return comment_;
 }
 
 s84::ctcode::dbnf::Name* ContentDeclaration::GetName()
@@ -1499,11 +1656,12 @@ s84::ctcode::dbnf::ContentDeclaration* ContentDeclaration::Parse(s84::ctcode::db
 {
     s84::ctcode::dbnf::LengthString start = index;
     std::list<s84::ctcode::dbnf::Node*> children;
+    s84::ctcode::dbnf::Comment* comment = NULL;
     s84::ctcode::dbnf::Name* name = NULL;
     s84::ctcode::dbnf::ParameterListDef* parameters = NULL;
     s84::ctcode::dbnf::ValueType* type = NULL;
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_FUNCTION_ID74>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 1>::Parse(index)) && s84::ctcode::dbnf::Match(children, type, s84::ctcode::dbnf::ValueType::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 1>::Parse(index)) && s84::ctcode::dbnf::Match(children, name, s84::ctcode::dbnf::Name::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID7>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Optional(children, parameters, s84::ctcode::dbnf::ParameterListDef::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID8>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID26>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Optional(children, comment, s84::ctcode::dbnf::Comment::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_FUNCTION_ID85>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 1>::Parse(index)) && s84::ctcode::dbnf::Match(children, type, s84::ctcode::dbnf::ValueType::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 1>::Parse(index)) && s84::ctcode::dbnf::Match(children, name, s84::ctcode::dbnf::Name::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID9>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Optional(children, parameters, s84::ctcode::dbnf::ParameterListDef::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID10>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID30>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::ContentDeclaration* instance = new s84::ctcode::dbnf::ContentDeclaration();
         s84::ctcode::dbnf::LengthString data;
@@ -1511,6 +1669,7 @@ s84::ctcode::dbnf::ContentDeclaration* ContentDeclaration::Parse(s84::ctcode::db
         data.data = start.data;
         instance->SetString(data);
         instance->SetChildren(children);
+        instance->comment_ = comment;
         instance->type_ = type;
         instance->name_ = name;
         instance->parameters_ = parameters;
@@ -1522,11 +1681,17 @@ s84::ctcode::dbnf::ContentDeclaration* ContentDeclaration::Parse(s84::ctcode::db
 }
 
 ContentDefinition::ContentDefinition() : Node()
+    ,comment_(NULL)
     ,functionBody_(NULL)
     ,name_(NULL)
     ,parameters_(NULL)
     ,type_(NULL)
 {
+}
+
+s84::ctcode::dbnf::Comment* ContentDefinition::GetComment()
+{
+    return comment_;
 }
 
 s84::ctcode::dbnf::CodeBlock* ContentDefinition::GetFunctionBody()
@@ -1567,12 +1732,13 @@ s84::ctcode::dbnf::ContentDefinition* ContentDefinition::Parse(s84::ctcode::dbnf
 {
     s84::ctcode::dbnf::LengthString start = index;
     std::list<s84::ctcode::dbnf::Node*> children;
+    s84::ctcode::dbnf::Comment* comment = NULL;
     s84::ctcode::dbnf::CodeBlock* functionBody = NULL;
     s84::ctcode::dbnf::Name* name = NULL;
     s84::ctcode::dbnf::ParameterListDef* parameters = NULL;
     s84::ctcode::dbnf::ValueType* type = NULL;
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_FUNCTION_ID74>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 1>::Parse(index)) && s84::ctcode::dbnf::Match(children, type, s84::ctcode::dbnf::ValueType::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 1>::Parse(index)) && s84::ctcode::dbnf::Match(children, name, s84::ctcode::dbnf::Name::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID7>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Optional(children, parameters, s84::ctcode::dbnf::ParameterListDef::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID8>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, functionBody, s84::ctcode::dbnf::CodeBlock::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Optional(children, comment, s84::ctcode::dbnf::Comment::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_FUNCTION_ID85>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 1>::Parse(index)) && s84::ctcode::dbnf::Match(children, type, s84::ctcode::dbnf::ValueType::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 1>::Parse(index)) && s84::ctcode::dbnf::Match(children, name, s84::ctcode::dbnf::Name::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID9>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Optional(children, parameters, s84::ctcode::dbnf::ParameterListDef::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID10>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, functionBody, s84::ctcode::dbnf::CodeBlock::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::ContentDefinition* instance = new s84::ctcode::dbnf::ContentDefinition();
         s84::ctcode::dbnf::LengthString data;
@@ -1580,6 +1746,7 @@ s84::ctcode::dbnf::ContentDefinition* ContentDefinition::Parse(s84::ctcode::dbnf
         data.data = start.data;
         instance->SetString(data);
         instance->SetChildren(children);
+        instance->comment_ = comment;
         instance->type_ = type;
         instance->name_ = name;
         instance->parameters_ = parameters;
@@ -1587,7 +1754,7 @@ s84::ctcode::dbnf::ContentDefinition* ContentDefinition::Parse(s84::ctcode::dbnf
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, type, s84::ctcode::dbnf::ValueType::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 1>::Parse(index)) && s84::ctcode::dbnf::Match(children, name, s84::ctcode::dbnf::Name::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID26>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Optional(children, comment, s84::ctcode::dbnf::Comment::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, type, s84::ctcode::dbnf::ValueType::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 1>::Parse(index)) && s84::ctcode::dbnf::Match(children, name, s84::ctcode::dbnf::Name::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID30>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::ContentDefinition* instance = new s84::ctcode::dbnf::ContentDefinition();
         s84::ctcode::dbnf::LengthString data;
@@ -1595,6 +1762,7 @@ s84::ctcode::dbnf::ContentDefinition* ContentDefinition::Parse(s84::ctcode::dbnf
         data.data = start.data;
         instance->SetString(data);
         instance->SetChildren(children);
+        instance->comment_ = comment;
         instance->type_ = type;
         instance->name_ = name;
         return instance;
@@ -1627,7 +1795,7 @@ s84::ctcode::dbnf::PrimativeType* PrimativeType::Parse(s84::ctcode::dbnf::Length
     s84::ctcode::dbnf::LengthString start = index;
     std::list<s84::ctcode::dbnf::Node*> children;
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_INT_ID78>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_INT_ID90>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::PrimativeType* instance = new s84::ctcode::dbnf::PrimativeType();
         s84::ctcode::dbnf::LengthString data;
@@ -1638,7 +1806,7 @@ s84::ctcode::dbnf::PrimativeType* PrimativeType::Parse(s84::ctcode::dbnf::Length
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_STRING_ID91>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_STRING_ID103>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::PrimativeType* instance = new s84::ctcode::dbnf::PrimativeType();
         s84::ctcode::dbnf::LengthString data;
@@ -1649,7 +1817,7 @@ s84::ctcode::dbnf::PrimativeType* PrimativeType::Parse(s84::ctcode::dbnf::Length
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_FLOAT_ID73>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_BOOL_ID75>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::PrimativeType* instance = new s84::ctcode::dbnf::PrimativeType();
         s84::ctcode::dbnf::LengthString data;
@@ -1660,7 +1828,18 @@ s84::ctcode::dbnf::PrimativeType* PrimativeType::Parse(s84::ctcode::dbnf::Length
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_VOID_ID95>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_FLOAT_ID84>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    {
+        s84::ctcode::dbnf::PrimativeType* instance = new s84::ctcode::dbnf::PrimativeType();
+        s84::ctcode::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_VOID_ID108>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::PrimativeType* instance = new s84::ctcode::dbnf::PrimativeType();
         s84::ctcode::dbnf::LengthString data;
@@ -1722,7 +1901,19 @@ s84::ctcode::dbnf::DefinedType* DefinedType::Parse(s84::ctcode::dbnf::LengthStri
 }
 
 SingletonType::SingletonType() : Node()
+    ,definedType_(NULL)
+    ,primativeType_(NULL)
 {
+}
+
+s84::ctcode::dbnf::DefinedType* SingletonType::GetDefinedType()
+{
+    return definedType_;
+}
+
+s84::ctcode::dbnf::PrimativeType* SingletonType::GetPrimativeType()
+{
+    return primativeType_;
 }
 
 SingletonType::~SingletonType()
@@ -1743,8 +1934,10 @@ s84::ctcode::dbnf::SingletonType* SingletonType::Parse(s84::ctcode::dbnf::Length
 {
     s84::ctcode::dbnf::LengthString start = index;
     std::list<s84::ctcode::dbnf::Node*> children;
+    s84::ctcode::dbnf::DefinedType* definedType = NULL;
+    s84::ctcode::dbnf::PrimativeType* primativeType = NULL;
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, s84::ctcode::dbnf::PrimativeType::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, primativeType, s84::ctcode::dbnf::PrimativeType::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::SingletonType* instance = new s84::ctcode::dbnf::SingletonType();
         s84::ctcode::dbnf::LengthString data;
@@ -1752,10 +1945,11 @@ s84::ctcode::dbnf::SingletonType* SingletonType::Parse(s84::ctcode::dbnf::Length
         data.data = start.data;
         instance->SetString(data);
         instance->SetChildren(children);
+        instance->primativeType_ = primativeType;
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, s84::ctcode::dbnf::DefinedType::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, definedType, s84::ctcode::dbnf::DefinedType::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::SingletonType* instance = new s84::ctcode::dbnf::SingletonType();
         s84::ctcode::dbnf::LengthString data;
@@ -1763,6 +1957,7 @@ s84::ctcode::dbnf::SingletonType* SingletonType::Parse(s84::ctcode::dbnf::Length
         data.data = start.data;
         instance->SetString(data);
         instance->SetChildren(children);
+        instance->definedType_ = definedType;
         return instance;
     }
 
@@ -1793,7 +1988,7 @@ s84::ctcode::dbnf::DimensionalNote* DimensionalNote::Parse(s84::ctcode::dbnf::Le
     s84::ctcode::dbnf::LengthString start = index;
     std::list<s84::ctcode::dbnf::Node*> children;
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID58>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID61>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID65>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID69>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::DimensionalNote* instance = new s84::ctcode::dbnf::DimensionalNote();
         s84::ctcode::dbnf::LengthString data;
@@ -1809,13 +2004,19 @@ s84::ctcode::dbnf::DimensionalNote* DimensionalNote::Parse(s84::ctcode::dbnf::Le
 }
 
 DimensionalType::DimensionalType() : Node()
-    ,type_(NULL)
+    ,dimensionalNote_(NULL)
+    ,singletonType_(NULL)
 {
 }
 
-List<s84::ctcode::dbnf::DimensionalNote>* DimensionalType::GetType()
+List<s84::ctcode::dbnf::DimensionalNote>* DimensionalType::GetDimensionalNote()
 {
-    return type_;
+    return dimensionalNote_;
+}
+
+s84::ctcode::dbnf::SingletonType* DimensionalType::GetSingletonType()
+{
+    return singletonType_;
 }
 
 DimensionalType::~DimensionalType()
@@ -1836,9 +2037,10 @@ s84::ctcode::dbnf::DimensionalType* DimensionalType::Parse(s84::ctcode::dbnf::Le
 {
     s84::ctcode::dbnf::LengthString start = index;
     std::list<s84::ctcode::dbnf::Node*> children;
-    List<s84::ctcode::dbnf::DimensionalNote>* type = NULL;
+    List<s84::ctcode::dbnf::DimensionalNote>* dimensionalNote = NULL;
+    s84::ctcode::dbnf::SingletonType* singletonType = NULL;
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, s84::ctcode::dbnf::SingletonType::Parse(index)) && s84::ctcode::dbnf::Match(children, type, MinimumParser<s84::ctcode::dbnf::DimensionalNote, 1>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, singletonType, s84::ctcode::dbnf::SingletonType::Parse(index)) && s84::ctcode::dbnf::Match(children, dimensionalNote, MinimumParser<s84::ctcode::dbnf::DimensionalNote, 1>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::DimensionalType* instance = new s84::ctcode::dbnf::DimensionalType();
         s84::ctcode::dbnf::LengthString data;
@@ -1846,7 +2048,8 @@ s84::ctcode::dbnf::DimensionalType* DimensionalType::Parse(s84::ctcode::dbnf::Le
         data.data = start.data;
         instance->SetString(data);
         instance->SetChildren(children);
-        instance->type_ = type;
+        instance->singletonType_ = singletonType;
+        instance->dimensionalNote_ = dimensionalNote;
         return instance;
     }
 
@@ -1891,18 +2094,6 @@ s84::ctcode::dbnf::ValueType* ValueType::Parse(s84::ctcode::dbnf::LengthString& 
     s84::ctcode::dbnf::DimensionalType* dimensionalType = NULL;
     s84::ctcode::dbnf::SingletonType* singletonType = NULL;
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, singletonType, s84::ctcode::dbnf::SingletonType::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
-    {
-        s84::ctcode::dbnf::ValueType* instance = new s84::ctcode::dbnf::ValueType();
-        s84::ctcode::dbnf::LengthString data;
-        data.length = start.length - index.length;
-        data.data = start.data;
-        instance->SetString(data);
-        instance->SetChildren(children);
-        instance->singletonType_ = singletonType;
-        return instance;
-    }
-
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, dimensionalType, s84::ctcode::dbnf::DimensionalType::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::ValueType* instance = new s84::ctcode::dbnf::ValueType();
@@ -1912,6 +2103,18 @@ s84::ctcode::dbnf::ValueType* ValueType::Parse(s84::ctcode::dbnf::LengthString& 
         instance->SetString(data);
         instance->SetChildren(children);
         instance->dimensionalType_ = dimensionalType;
+        return instance;
+    }
+
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, singletonType, s84::ctcode::dbnf::SingletonType::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    {
+        s84::ctcode::dbnf::ValueType* instance = new s84::ctcode::dbnf::ValueType();
+        s84::ctcode::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        instance->singletonType_ = singletonType;
         return instance;
     }
 
@@ -1963,7 +2166,7 @@ s84::ctcode::dbnf::ParameterListDef* ParameterListDef::Parse(s84::ctcode::dbnf::
     s84::ctcode::dbnf::ParameterListDef* parameterTail = NULL;
     s84::ctcode::dbnf::ValueType* type = NULL;
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, type, s84::ctcode::dbnf::ValueType::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 1>::Parse(index)) && s84::ctcode::dbnf::Match(children, name, s84::ctcode::dbnf::Name::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID11>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, parameterTail, s84::ctcode::dbnf::ParameterListDef::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, type, s84::ctcode::dbnf::ValueType::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 1>::Parse(index)) && s84::ctcode::dbnf::Match(children, name, s84::ctcode::dbnf::Name::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID14>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, parameterTail, s84::ctcode::dbnf::ParameterListDef::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::ParameterListDef* instance = new s84::ctcode::dbnf::ParameterListDef();
         s84::ctcode::dbnf::LengthString data;
@@ -1995,19 +2198,19 @@ s84::ctcode::dbnf::ParameterListDef* ParameterListDef::Parse(s84::ctcode::dbnf::
 }
 
 ParameterList::ParameterList() : Node()
-    ,name_(NULL)
     ,parameterTail_(NULL)
+    ,rvalue_(NULL)
 {
-}
-
-s84::ctcode::dbnf::Name* ParameterList::GetName()
-{
-    return name_;
 }
 
 s84::ctcode::dbnf::ParameterList* ParameterList::GetParameterTail()
 {
     return parameterTail_;
+}
+
+s84::ctcode::dbnf::RValue* ParameterList::GetRvalue()
+{
+    return rvalue_;
 }
 
 ParameterList::~ParameterList()
@@ -2028,10 +2231,10 @@ s84::ctcode::dbnf::ParameterList* ParameterList::Parse(s84::ctcode::dbnf::Length
 {
     s84::ctcode::dbnf::LengthString start = index;
     std::list<s84::ctcode::dbnf::Node*> children;
-    s84::ctcode::dbnf::Name* name = NULL;
     s84::ctcode::dbnf::ParameterList* parameterTail = NULL;
+    s84::ctcode::dbnf::RValue* rvalue = NULL;
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, name, s84::ctcode::dbnf::Name::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID11>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, parameterTail, s84::ctcode::dbnf::ParameterList::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, rvalue, s84::ctcode::dbnf::RValue::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID14>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, parameterTail, s84::ctcode::dbnf::ParameterList::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::ParameterList* instance = new s84::ctcode::dbnf::ParameterList();
         s84::ctcode::dbnf::LengthString data;
@@ -2039,12 +2242,12 @@ s84::ctcode::dbnf::ParameterList* ParameterList::Parse(s84::ctcode::dbnf::Length
         data.data = start.data;
         instance->SetString(data);
         instance->SetChildren(children);
-        instance->name_ = name;
+        instance->rvalue_ = rvalue;
         instance->parameterTail_ = parameterTail;
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, name, s84::ctcode::dbnf::Name::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, rvalue, s84::ctcode::dbnf::RValue::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::ParameterList* instance = new s84::ctcode::dbnf::ParameterList();
         s84::ctcode::dbnf::LengthString data;
@@ -2052,7 +2255,7 @@ s84::ctcode::dbnf::ParameterList* ParameterList::Parse(s84::ctcode::dbnf::Length
         data.data = start.data;
         instance->SetString(data);
         instance->SetChildren(children);
-        instance->name_ = name;
+        instance->rvalue_ = rvalue;
         return instance;
     }
 
@@ -2090,7 +2293,7 @@ s84::ctcode::dbnf::CodeBlock* CodeBlock::Parse(s84::ctcode::dbnf::LengthString& 
     std::list<s84::ctcode::dbnf::Node*> children;
     List<s84::ctcode::dbnf::Instruction>* instructions = NULL;
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID100>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, instructions, MinimumParser<s84::ctcode::dbnf::Instruction, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID102>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID114>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, instructions, MinimumParser<s84::ctcode::dbnf::Instruction, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID117>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::CodeBlock* instance = new s84::ctcode::dbnf::CodeBlock();
         s84::ctcode::dbnf::LengthString data;
@@ -2106,10 +2309,62 @@ s84::ctcode::dbnf::CodeBlock* CodeBlock::Parse(s84::ctcode::dbnf::LengthString& 
     return NULL;
 }
 
+DeclarationAssign::DeclarationAssign() : Node()
+    ,rvalue_(NULL)
+{
+}
+
+s84::ctcode::dbnf::RValue* DeclarationAssign::GetRvalue()
+{
+    return rvalue_;
+}
+
+DeclarationAssign::~DeclarationAssign()
+{
+}
+
+s84::ctcode::dbnf::DeclarationAssign* DeclarationAssign::Parse(const char*& index)
+{
+    s84::ctcode::dbnf::LengthString length_string_index;
+    length_string_index.data = index;
+    length_string_index.length = strlen(index);
+    s84::ctcode::dbnf::DeclarationAssign* instance = Parse(length_string_index);
+    index = length_string_index.data;
+    return instance;
+}
+
+s84::ctcode::dbnf::DeclarationAssign* DeclarationAssign::Parse(s84::ctcode::dbnf::LengthString& index)
+{
+    s84::ctcode::dbnf::LengthString start = index;
+    std::list<s84::ctcode::dbnf::Node*> children;
+    s84::ctcode::dbnf::RValue* rvalue = NULL;
+
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID33>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, rvalue, s84::ctcode::dbnf::RValue::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    {
+        s84::ctcode::dbnf::DeclarationAssign* instance = new s84::ctcode::dbnf::DeclarationAssign();
+        s84::ctcode::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        instance->rvalue_ = rvalue;
+        return instance;
+    }
+
+    s84::ctcode::dbnf::ClearNodes(children);
+    return NULL;
+}
+
 Declaration::Declaration() : Node()
+    ,assignment_(NULL)
     ,name_(NULL)
     ,type_(NULL)
 {
+}
+
+s84::ctcode::dbnf::DeclarationAssign* Declaration::GetAssignment()
+{
+    return assignment_;
 }
 
 s84::ctcode::dbnf::Name* Declaration::GetName()
@@ -2140,10 +2395,11 @@ s84::ctcode::dbnf::Declaration* Declaration::Parse(s84::ctcode::dbnf::LengthStri
 {
     s84::ctcode::dbnf::LengthString start = index;
     std::list<s84::ctcode::dbnf::Node*> children;
+    s84::ctcode::dbnf::DeclarationAssign* assignment = NULL;
     s84::ctcode::dbnf::Name* name = NULL;
     s84::ctcode::dbnf::ValueType* type = NULL;
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, type, s84::ctcode::dbnf::ValueType::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 1>::Parse(index)) && s84::ctcode::dbnf::Match(children, name, s84::ctcode::dbnf::Name::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID26>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, type, s84::ctcode::dbnf::ValueType::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 1>::Parse(index)) && s84::ctcode::dbnf::Match(children, name, s84::ctcode::dbnf::Name::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Optional(children, assignment, s84::ctcode::dbnf::DeclarationAssign::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID30>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::Declaration* instance = new s84::ctcode::dbnf::Declaration();
         s84::ctcode::dbnf::LengthString data;
@@ -2153,6 +2409,7 @@ s84::ctcode::dbnf::Declaration* Declaration::Parse(s84::ctcode::dbnf::LengthStri
         instance->SetChildren(children);
         instance->type_ = type;
         instance->name_ = name;
+        instance->assignment_ = assignment;
         return instance;
     }
 
@@ -2197,7 +2454,7 @@ s84::ctcode::dbnf::Assignment* Assignment::Parse(s84::ctcode::dbnf::LengthString
     s84::ctcode::dbnf::Name* lvalue = NULL;
     s84::ctcode::dbnf::RValue* rvalue = NULL;
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, lvalue, s84::ctcode::dbnf::Name::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID28>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, rvalue, s84::ctcode::dbnf::RValue::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID26>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, lvalue, s84::ctcode::dbnf::Name::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID33>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, rvalue, s84::ctcode::dbnf::RValue::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID30>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::Assignment* instance = new s84::ctcode::dbnf::Assignment();
         s84::ctcode::dbnf::LengthString data;
@@ -2251,7 +2508,7 @@ s84::ctcode::dbnf::Return* Return::Parse(s84::ctcode::dbnf::LengthString& index)
     s84::ctcode::dbnf::String* rtn = NULL;
     s84::ctcode::dbnf::RValue* rvalue = NULL;
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, rtn, StringParser<LITERAL_RETURN_ID89>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 1>::Parse(index)) && s84::ctcode::dbnf::Match(children, rvalue, s84::ctcode::dbnf::RValue::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID26>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, rtn, StringParser<LITERAL_RETURN_ID101>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 1>::Parse(index)) && s84::ctcode::dbnf::Match(children, rvalue, s84::ctcode::dbnf::RValue::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID30>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::Return* instance = new s84::ctcode::dbnf::Return();
         s84::ctcode::dbnf::LengthString data;
@@ -2268,14 +2525,212 @@ s84::ctcode::dbnf::Return* Return::Parse(s84::ctcode::dbnf::LengthString& index)
     return NULL;
 }
 
-Call::Call() : Node()
-    ,parameters_(NULL)
+ElseTail::ElseTail() : Node()
+    ,codeBlock_(NULL)
+    ,elseKey_(NULL)
 {
+}
+
+s84::ctcode::dbnf::CodeBlock* ElseTail::GetCodeBlock()
+{
+    return codeBlock_;
+}
+
+s84::ctcode::dbnf::String* ElseTail::GetElseKey()
+{
+    return elseKey_;
+}
+
+ElseTail::~ElseTail()
+{
+}
+
+s84::ctcode::dbnf::ElseTail* ElseTail::Parse(const char*& index)
+{
+    s84::ctcode::dbnf::LengthString length_string_index;
+    length_string_index.data = index;
+    length_string_index.length = strlen(index);
+    s84::ctcode::dbnf::ElseTail* instance = Parse(length_string_index);
+    index = length_string_index.data;
+    return instance;
+}
+
+s84::ctcode::dbnf::ElseTail* ElseTail::Parse(s84::ctcode::dbnf::LengthString& index)
+{
+    s84::ctcode::dbnf::LengthString start = index;
+    std::list<s84::ctcode::dbnf::Node*> children;
+    s84::ctcode::dbnf::CodeBlock* codeBlock = NULL;
+    s84::ctcode::dbnf::String* elseKey = NULL;
+
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, elseKey, StringParser<LITERAL_ELSE_ID80>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, codeBlock, s84::ctcode::dbnf::CodeBlock::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    {
+        s84::ctcode::dbnf::ElseTail* instance = new s84::ctcode::dbnf::ElseTail();
+        s84::ctcode::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        instance->elseKey_ = elseKey;
+        instance->codeBlock_ = codeBlock;
+        return instance;
+    }
+
+    s84::ctcode::dbnf::ClearNodes(children);
+    return NULL;
+}
+
+Conditional::Conditional() : Node()
+    ,codeBlock_(NULL)
+    ,conditionalKey_(NULL)
+    ,elseTail_(NULL)
+    ,rvalue_(NULL)
+{
+}
+
+s84::ctcode::dbnf::CodeBlock* Conditional::GetCodeBlock()
+{
+    return codeBlock_;
+}
+
+s84::ctcode::dbnf::String* Conditional::GetConditionalKey()
+{
+    return conditionalKey_;
+}
+
+s84::ctcode::dbnf::ElseTail* Conditional::GetElseTail()
+{
+    return elseTail_;
+}
+
+s84::ctcode::dbnf::RValue* Conditional::GetRvalue()
+{
+    return rvalue_;
+}
+
+Conditional::~Conditional()
+{
+}
+
+s84::ctcode::dbnf::Conditional* Conditional::Parse(const char*& index)
+{
+    s84::ctcode::dbnf::LengthString length_string_index;
+    length_string_index.data = index;
+    length_string_index.length = strlen(index);
+    s84::ctcode::dbnf::Conditional* instance = Parse(length_string_index);
+    index = length_string_index.data;
+    return instance;
+}
+
+s84::ctcode::dbnf::Conditional* Conditional::Parse(s84::ctcode::dbnf::LengthString& index)
+{
+    s84::ctcode::dbnf::LengthString start = index;
+    std::list<s84::ctcode::dbnf::Node*> children;
+    s84::ctcode::dbnf::CodeBlock* codeBlock = NULL;
+    s84::ctcode::dbnf::String* conditionalKey = NULL;
+    s84::ctcode::dbnf::ElseTail* elseTail = NULL;
+    s84::ctcode::dbnf::RValue* rvalue = NULL;
+
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, conditionalKey, StringParser<LITERAL_IF_ID89>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID9>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, rvalue, s84::ctcode::dbnf::RValue::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID10>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, codeBlock, s84::ctcode::dbnf::CodeBlock::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Optional(children, elseTail, s84::ctcode::dbnf::ElseTail::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    {
+        s84::ctcode::dbnf::Conditional* instance = new s84::ctcode::dbnf::Conditional();
+        s84::ctcode::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        instance->conditionalKey_ = conditionalKey;
+        instance->rvalue_ = rvalue;
+        instance->codeBlock_ = codeBlock;
+        instance->elseTail_ = elseTail;
+        return instance;
+    }
+
+    s84::ctcode::dbnf::ClearNodes(children);
+    return NULL;
+}
+
+Loop::Loop() : Node()
+    ,codeBlock_(NULL)
+    ,loopKey_(NULL)
+    ,rvalue_(NULL)
+{
+}
+
+s84::ctcode::dbnf::CodeBlock* Loop::GetCodeBlock()
+{
+    return codeBlock_;
+}
+
+s84::ctcode::dbnf::String* Loop::GetLoopKey()
+{
+    return loopKey_;
+}
+
+s84::ctcode::dbnf::RValue* Loop::GetRvalue()
+{
+    return rvalue_;
+}
+
+Loop::~Loop()
+{
+}
+
+s84::ctcode::dbnf::Loop* Loop::Parse(const char*& index)
+{
+    s84::ctcode::dbnf::LengthString length_string_index;
+    length_string_index.data = index;
+    length_string_index.length = strlen(index);
+    s84::ctcode::dbnf::Loop* instance = Parse(length_string_index);
+    index = length_string_index.data;
+    return instance;
+}
+
+s84::ctcode::dbnf::Loop* Loop::Parse(s84::ctcode::dbnf::LengthString& index)
+{
+    s84::ctcode::dbnf::LengthString start = index;
+    std::list<s84::ctcode::dbnf::Node*> children;
+    s84::ctcode::dbnf::CodeBlock* codeBlock = NULL;
+    s84::ctcode::dbnf::String* loopKey = NULL;
+    s84::ctcode::dbnf::RValue* rvalue = NULL;
+
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, loopKey, StringParser<LITERAL_WHILE_ID110>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID9>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, rvalue, s84::ctcode::dbnf::RValue::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID10>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, codeBlock, s84::ctcode::dbnf::CodeBlock::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    {
+        s84::ctcode::dbnf::Loop* instance = new s84::ctcode::dbnf::Loop();
+        s84::ctcode::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        instance->loopKey_ = loopKey;
+        instance->rvalue_ = rvalue;
+        instance->codeBlock_ = codeBlock;
+        return instance;
+    }
+
+    s84::ctcode::dbnf::ClearNodes(children);
+    return NULL;
+}
+
+Call::Call() : Node()
+    ,function_(NULL)
+    ,parameters_(NULL)
+    ,variable_(NULL)
+{
+}
+
+s84::ctcode::dbnf::Name* Call::GetFunction()
+{
+    return function_;
 }
 
 s84::ctcode::dbnf::ParameterList* Call::GetParameters()
 {
     return parameters_;
+}
+
+s84::ctcode::dbnf::Name* Call::GetVariable()
+{
+    return variable_;
 }
 
 Call::~Call()
@@ -2296,9 +2751,11 @@ s84::ctcode::dbnf::Call* Call::Parse(s84::ctcode::dbnf::LengthString& index)
 {
     s84::ctcode::dbnf::LengthString start = index;
     std::list<s84::ctcode::dbnf::Node*> children;
+    s84::ctcode::dbnf::Name* function = NULL;
     s84::ctcode::dbnf::ParameterList* parameters = NULL;
+    s84::ctcode::dbnf::Name* variable = NULL;
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, s84::ctcode::dbnf::Name::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID13>::Parse(index)) && s84::ctcode::dbnf::Match(children, s84::ctcode::dbnf::Name::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID7>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Optional(children, parameters, s84::ctcode::dbnf::ParameterList::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID8>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, variable, s84::ctcode::dbnf::Name::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID16>::Parse(index)) && s84::ctcode::dbnf::Match(children, function, s84::ctcode::dbnf::Name::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID9>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Optional(children, parameters, s84::ctcode::dbnf::ParameterList::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID10>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::Call* instance = new s84::ctcode::dbnf::Call();
         s84::ctcode::dbnf::LengthString data;
@@ -2306,6 +2763,21 @@ s84::ctcode::dbnf::Call* Call::Parse(s84::ctcode::dbnf::LengthString& index)
         data.data = start.data;
         instance->SetString(data);
         instance->SetChildren(children);
+        instance->variable_ = variable;
+        instance->function_ = function;
+        instance->parameters_ = parameters;
+        return instance;
+    }
+
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, function, s84::ctcode::dbnf::Name::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID9>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Optional(children, parameters, s84::ctcode::dbnf::ParameterList::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID10>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    {
+        s84::ctcode::dbnf::Call* instance = new s84::ctcode::dbnf::Call();
+        s84::ctcode::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        instance->function_ = function;
         instance->parameters_ = parameters;
         return instance;
     }
@@ -2315,7 +2787,55 @@ s84::ctcode::dbnf::Call* Call::Parse(s84::ctcode::dbnf::LengthString& index)
 }
 
 Instruction::Instruction() : Node()
+    ,assignment_(NULL)
+    ,call_(NULL)
+    ,codeBlock_(NULL)
+    ,comment_(NULL)
+    ,conditional_(NULL)
+    ,declaration_(NULL)
+    ,loop_(NULL)
+    ,rtn_(NULL)
 {
+}
+
+s84::ctcode::dbnf::Assignment* Instruction::GetAssignment()
+{
+    return assignment_;
+}
+
+s84::ctcode::dbnf::Call* Instruction::GetCall()
+{
+    return call_;
+}
+
+s84::ctcode::dbnf::CodeBlock* Instruction::GetCodeBlock()
+{
+    return codeBlock_;
+}
+
+s84::ctcode::dbnf::Comment* Instruction::GetComment()
+{
+    return comment_;
+}
+
+s84::ctcode::dbnf::Conditional* Instruction::GetConditional()
+{
+    return conditional_;
+}
+
+s84::ctcode::dbnf::Declaration* Instruction::GetDeclaration()
+{
+    return declaration_;
+}
+
+s84::ctcode::dbnf::Loop* Instruction::GetLoop()
+{
+    return loop_;
+}
+
+s84::ctcode::dbnf::Return* Instruction::GetRtn()
+{
+    return rtn_;
 }
 
 Instruction::~Instruction()
@@ -2336,8 +2856,16 @@ s84::ctcode::dbnf::Instruction* Instruction::Parse(s84::ctcode::dbnf::LengthStri
 {
     s84::ctcode::dbnf::LengthString start = index;
     std::list<s84::ctcode::dbnf::Node*> children;
+    s84::ctcode::dbnf::Assignment* assignment = NULL;
+    s84::ctcode::dbnf::Call* call = NULL;
+    s84::ctcode::dbnf::CodeBlock* codeBlock = NULL;
+    s84::ctcode::dbnf::Comment* comment = NULL;
+    s84::ctcode::dbnf::Conditional* conditional = NULL;
+    s84::ctcode::dbnf::Declaration* declaration = NULL;
+    s84::ctcode::dbnf::Loop* loop = NULL;
+    s84::ctcode::dbnf::Return* rtn = NULL;
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, s84::ctcode::dbnf::CodeBlock::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Optional(children, comment, s84::ctcode::dbnf::Comment::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, codeBlock, s84::ctcode::dbnf::CodeBlock::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::Instruction* instance = new s84::ctcode::dbnf::Instruction();
         s84::ctcode::dbnf::LengthString data;
@@ -2345,10 +2873,12 @@ s84::ctcode::dbnf::Instruction* Instruction::Parse(s84::ctcode::dbnf::LengthStri
         data.data = start.data;
         instance->SetString(data);
         instance->SetChildren(children);
+        instance->comment_ = comment;
+        instance->codeBlock_ = codeBlock;
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, s84::ctcode::dbnf::Return::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Optional(children, comment, s84::ctcode::dbnf::Comment::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, rtn, s84::ctcode::dbnf::Return::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::Instruction* instance = new s84::ctcode::dbnf::Instruction();
         s84::ctcode::dbnf::LengthString data;
@@ -2356,10 +2886,12 @@ s84::ctcode::dbnf::Instruction* Instruction::Parse(s84::ctcode::dbnf::LengthStri
         data.data = start.data;
         instance->SetString(data);
         instance->SetChildren(children);
+        instance->comment_ = comment;
+        instance->rtn_ = rtn;
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, s84::ctcode::dbnf::Declaration::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Optional(children, comment, s84::ctcode::dbnf::Comment::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, declaration, s84::ctcode::dbnf::Declaration::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::Instruction* instance = new s84::ctcode::dbnf::Instruction();
         s84::ctcode::dbnf::LengthString data;
@@ -2367,10 +2899,12 @@ s84::ctcode::dbnf::Instruction* Instruction::Parse(s84::ctcode::dbnf::LengthStri
         data.data = start.data;
         instance->SetString(data);
         instance->SetChildren(children);
+        instance->comment_ = comment;
+        instance->declaration_ = declaration;
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, s84::ctcode::dbnf::Assignment::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Optional(children, comment, s84::ctcode::dbnf::Comment::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, assignment, s84::ctcode::dbnf::Assignment::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::Instruction* instance = new s84::ctcode::dbnf::Instruction();
         s84::ctcode::dbnf::LengthString data;
@@ -2378,10 +2912,12 @@ s84::ctcode::dbnf::Instruction* Instruction::Parse(s84::ctcode::dbnf::LengthStri
         data.data = start.data;
         instance->SetString(data);
         instance->SetChildren(children);
+        instance->comment_ = comment;
+        instance->assignment_ = assignment;
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, s84::ctcode::dbnf::Call::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Optional(children, comment, s84::ctcode::dbnf::Comment::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, call, s84::ctcode::dbnf::Call::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID30>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::Instruction* instance = new s84::ctcode::dbnf::Instruction();
         s84::ctcode::dbnf::LengthString data;
@@ -2389,6 +2925,250 @@ s84::ctcode::dbnf::Instruction* Instruction::Parse(s84::ctcode::dbnf::LengthStri
         data.data = start.data;
         instance->SetString(data);
         instance->SetChildren(children);
+        instance->comment_ = comment;
+        instance->call_ = call;
+        return instance;
+    }
+
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Optional(children, comment, s84::ctcode::dbnf::Comment::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, conditional, s84::ctcode::dbnf::Conditional::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    {
+        s84::ctcode::dbnf::Instruction* instance = new s84::ctcode::dbnf::Instruction();
+        s84::ctcode::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        instance->comment_ = comment;
+        instance->conditional_ = conditional;
+        return instance;
+    }
+
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Optional(children, comment, s84::ctcode::dbnf::Comment::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, loop, s84::ctcode::dbnf::Loop::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    {
+        s84::ctcode::dbnf::Instruction* instance = new s84::ctcode::dbnf::Instruction();
+        s84::ctcode::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        instance->comment_ = comment;
+        instance->loop_ = loop;
+        return instance;
+    }
+
+    s84::ctcode::dbnf::ClearNodes(children);
+    return NULL;
+}
+
+RValueSingle::RValueSingle() : Node()
+    ,booleanLiteral_(NULL)
+    ,call_(NULL)
+    ,decimalLiteral_(NULL)
+    ,integerLiteral_(NULL)
+    ,stringLiteral_(NULL)
+    ,unary_operator_(NULL)
+    ,variable_(NULL)
+{
+}
+
+s84::ctcode::dbnf::Boolean* RValueSingle::GetBooleanLiteral()
+{
+    return booleanLiteral_;
+}
+
+s84::ctcode::dbnf::Call* RValueSingle::GetCall()
+{
+    return call_;
+}
+
+s84::ctcode::dbnf::Decimal* RValueSingle::GetDecimalLiteral()
+{
+    return decimalLiteral_;
+}
+
+s84::ctcode::dbnf::Number* RValueSingle::GetIntegerLiteral()
+{
+    return integerLiteral_;
+}
+
+s84::ctcode::dbnf::Literal* RValueSingle::GetStringLiteral()
+{
+    return stringLiteral_;
+}
+
+s84::ctcode::dbnf::UnaryOperator* RValueSingle::GetUnaryOperator()
+{
+    return unary_operator_;
+}
+
+s84::ctcode::dbnf::Name* RValueSingle::GetVariable()
+{
+    return variable_;
+}
+
+RValueSingle::~RValueSingle()
+{
+}
+
+s84::ctcode::dbnf::RValueSingle* RValueSingle::Parse(const char*& index)
+{
+    s84::ctcode::dbnf::LengthString length_string_index;
+    length_string_index.data = index;
+    length_string_index.length = strlen(index);
+    s84::ctcode::dbnf::RValueSingle* instance = Parse(length_string_index);
+    index = length_string_index.data;
+    return instance;
+}
+
+s84::ctcode::dbnf::RValueSingle* RValueSingle::Parse(s84::ctcode::dbnf::LengthString& index)
+{
+    s84::ctcode::dbnf::LengthString start = index;
+    std::list<s84::ctcode::dbnf::Node*> children;
+    s84::ctcode::dbnf::Boolean* booleanLiteral = NULL;
+    s84::ctcode::dbnf::Call* call = NULL;
+    s84::ctcode::dbnf::Decimal* decimalLiteral = NULL;
+    s84::ctcode::dbnf::Number* integerLiteral = NULL;
+    s84::ctcode::dbnf::Literal* stringLiteral = NULL;
+    s84::ctcode::dbnf::UnaryOperator* unary_operator = NULL;
+    s84::ctcode::dbnf::Name* variable = NULL;
+
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Optional(children, unary_operator, s84::ctcode::dbnf::UnaryOperator::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, call, s84::ctcode::dbnf::Call::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    {
+        s84::ctcode::dbnf::RValueSingle* instance = new s84::ctcode::dbnf::RValueSingle();
+        s84::ctcode::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        instance->unary_operator_ = unary_operator;
+        instance->call_ = call;
+        return instance;
+    }
+
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Optional(children, unary_operator, s84::ctcode::dbnf::UnaryOperator::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, decimalLiteral, s84::ctcode::dbnf::Decimal::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    {
+        s84::ctcode::dbnf::RValueSingle* instance = new s84::ctcode::dbnf::RValueSingle();
+        s84::ctcode::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        instance->unary_operator_ = unary_operator;
+        instance->decimalLiteral_ = decimalLiteral;
+        return instance;
+    }
+
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Optional(children, unary_operator, s84::ctcode::dbnf::UnaryOperator::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, integerLiteral, s84::ctcode::dbnf::Number::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    {
+        s84::ctcode::dbnf::RValueSingle* instance = new s84::ctcode::dbnf::RValueSingle();
+        s84::ctcode::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        instance->unary_operator_ = unary_operator;
+        instance->integerLiteral_ = integerLiteral;
+        return instance;
+    }
+
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Optional(children, unary_operator, s84::ctcode::dbnf::UnaryOperator::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, booleanLiteral, s84::ctcode::dbnf::Boolean::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    {
+        s84::ctcode::dbnf::RValueSingle* instance = new s84::ctcode::dbnf::RValueSingle();
+        s84::ctcode::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        instance->unary_operator_ = unary_operator;
+        instance->booleanLiteral_ = booleanLiteral;
+        return instance;
+    }
+
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Optional(children, unary_operator, s84::ctcode::dbnf::UnaryOperator::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, variable, s84::ctcode::dbnf::Name::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    {
+        s84::ctcode::dbnf::RValueSingle* instance = new s84::ctcode::dbnf::RValueSingle();
+        s84::ctcode::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        instance->unary_operator_ = unary_operator;
+        instance->variable_ = variable;
+        return instance;
+    }
+
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Optional(children, unary_operator, s84::ctcode::dbnf::UnaryOperator::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID66>::Parse(index)) && s84::ctcode::dbnf::Match(children, stringLiteral, s84::ctcode::dbnf::Literal::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID66>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    {
+        s84::ctcode::dbnf::RValueSingle* instance = new s84::ctcode::dbnf::RValueSingle();
+        s84::ctcode::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        instance->unary_operator_ = unary_operator;
+        instance->stringLiteral_ = stringLiteral;
+        return instance;
+    }
+
+    s84::ctcode::dbnf::ClearNodes(children);
+    return NULL;
+}
+
+RValueTail::RValueTail() : Node()
+    ,binary_operator_(NULL)
+    ,tail_(NULL)
+    ,value_(NULL)
+{
+}
+
+s84::ctcode::dbnf::BinaryOperator* RValueTail::GetBinaryOperator()
+{
+    return binary_operator_;
+}
+
+s84::ctcode::dbnf::RValueTail* RValueTail::GetTail()
+{
+    return tail_;
+}
+
+s84::ctcode::dbnf::RValueSingle* RValueTail::GetValue()
+{
+    return value_;
+}
+
+RValueTail::~RValueTail()
+{
+}
+
+s84::ctcode::dbnf::RValueTail* RValueTail::Parse(const char*& index)
+{
+    s84::ctcode::dbnf::LengthString length_string_index;
+    length_string_index.data = index;
+    length_string_index.length = strlen(index);
+    s84::ctcode::dbnf::RValueTail* instance = Parse(length_string_index);
+    index = length_string_index.data;
+    return instance;
+}
+
+s84::ctcode::dbnf::RValueTail* RValueTail::Parse(s84::ctcode::dbnf::LengthString& index)
+{
+    s84::ctcode::dbnf::LengthString start = index;
+    std::list<s84::ctcode::dbnf::Node*> children;
+    s84::ctcode::dbnf::BinaryOperator* binary_operator = NULL;
+    s84::ctcode::dbnf::RValueTail* tail = NULL;
+    s84::ctcode::dbnf::RValueSingle* value = NULL;
+
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, binary_operator, s84::ctcode::dbnf::BinaryOperator::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, value, s84::ctcode::dbnf::RValueSingle::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Optional(children, tail, s84::ctcode::dbnf::RValueTail::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    {
+        s84::ctcode::dbnf::RValueTail* instance = new s84::ctcode::dbnf::RValueTail();
+        s84::ctcode::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        instance->binary_operator_ = binary_operator;
+        instance->value_ = value;
+        instance->tail_ = tail;
         return instance;
     }
 
@@ -2397,7 +3177,19 @@ s84::ctcode::dbnf::Instruction* Instruction::Parse(s84::ctcode::dbnf::LengthStri
 }
 
 RValue::RValue() : Node()
+    ,tail_(NULL)
+    ,value_(NULL)
 {
+}
+
+s84::ctcode::dbnf::RValueTail* RValue::GetTail()
+{
+    return tail_;
+}
+
+s84::ctcode::dbnf::RValueSingle* RValue::GetValue()
+{
+    return value_;
 }
 
 RValue::~RValue()
@@ -2418,10 +3210,361 @@ s84::ctcode::dbnf::RValue* RValue::Parse(s84::ctcode::dbnf::LengthString& index)
 {
     s84::ctcode::dbnf::LengthString start = index;
     std::list<s84::ctcode::dbnf::Node*> children;
+    s84::ctcode::dbnf::RValueTail* tail = NULL;
+    s84::ctcode::dbnf::RValueSingle* value = NULL;
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, s84::ctcode::dbnf::Call::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, value, s84::ctcode::dbnf::RValueSingle::Parse(index)) && s84::ctcode::dbnf::Optional(children, tail, s84::ctcode::dbnf::RValueTail::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::RValue* instance = new s84::ctcode::dbnf::RValue();
+        s84::ctcode::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        instance->value_ = value;
+        instance->tail_ = tail;
+        return instance;
+    }
+
+    s84::ctcode::dbnf::ClearNodes(children);
+    return NULL;
+}
+
+BinaryOperator::BinaryOperator() : Node()
+    ,addition_(NULL)
+    ,andOp_(NULL)
+    ,equality_(NULL)
+    ,greaterThanEq_(NULL)
+    ,greaterThan_(NULL)
+    ,lessThanEq_(NULL)
+    ,lessThan_(NULL)
+    ,notEquality_(NULL)
+    ,orOp_(NULL)
+    ,subtraction_(NULL)
+{
+}
+
+s84::ctcode::dbnf::String* BinaryOperator::GetAddition()
+{
+    return addition_;
+}
+
+s84::ctcode::dbnf::String* BinaryOperator::GetAndOp()
+{
+    return andOp_;
+}
+
+s84::ctcode::dbnf::String* BinaryOperator::GetEquality()
+{
+    return equality_;
+}
+
+s84::ctcode::dbnf::String* BinaryOperator::GetGreaterThanEq()
+{
+    return greaterThanEq_;
+}
+
+s84::ctcode::dbnf::String* BinaryOperator::GetGreaterThan()
+{
+    return greaterThan_;
+}
+
+s84::ctcode::dbnf::String* BinaryOperator::GetLessThanEq()
+{
+    return lessThanEq_;
+}
+
+s84::ctcode::dbnf::String* BinaryOperator::GetLessThan()
+{
+    return lessThan_;
+}
+
+s84::ctcode::dbnf::String* BinaryOperator::GetNotEquality()
+{
+    return notEquality_;
+}
+
+s84::ctcode::dbnf::String* BinaryOperator::GetOrOp()
+{
+    return orOp_;
+}
+
+s84::ctcode::dbnf::String* BinaryOperator::GetSubtraction()
+{
+    return subtraction_;
+}
+
+BinaryOperator::~BinaryOperator()
+{
+}
+
+s84::ctcode::dbnf::BinaryOperator* BinaryOperator::Parse(const char*& index)
+{
+    s84::ctcode::dbnf::LengthString length_string_index;
+    length_string_index.data = index;
+    length_string_index.length = strlen(index);
+    s84::ctcode::dbnf::BinaryOperator* instance = Parse(length_string_index);
+    index = length_string_index.data;
+    return instance;
+}
+
+s84::ctcode::dbnf::BinaryOperator* BinaryOperator::Parse(s84::ctcode::dbnf::LengthString& index)
+{
+    s84::ctcode::dbnf::LengthString start = index;
+    std::list<s84::ctcode::dbnf::Node*> children;
+    s84::ctcode::dbnf::String* addition = NULL;
+    s84::ctcode::dbnf::String* andOp = NULL;
+    s84::ctcode::dbnf::String* equality = NULL;
+    s84::ctcode::dbnf::String* greaterThanEq = NULL;
+    s84::ctcode::dbnf::String* greaterThan = NULL;
+    s84::ctcode::dbnf::String* lessThanEq = NULL;
+    s84::ctcode::dbnf::String* lessThan = NULL;
+    s84::ctcode::dbnf::String* notEquality = NULL;
+    s84::ctcode::dbnf::String* orOp = NULL;
+    s84::ctcode::dbnf::String* subtraction = NULL;
+
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, addition, StringParser<LITERAL_ID13>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    {
+        s84::ctcode::dbnf::BinaryOperator* instance = new s84::ctcode::dbnf::BinaryOperator();
+        s84::ctcode::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        instance->addition_ = addition;
+        return instance;
+    }
+
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, subtraction, StringParser<LITERAL_ID15>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    {
+        s84::ctcode::dbnf::BinaryOperator* instance = new s84::ctcode::dbnf::BinaryOperator();
+        s84::ctcode::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        instance->subtraction_ = subtraction;
+        return instance;
+    }
+
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, lessThan, StringParser<LITERAL_ID31>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    {
+        s84::ctcode::dbnf::BinaryOperator* instance = new s84::ctcode::dbnf::BinaryOperator();
+        s84::ctcode::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        instance->lessThan_ = lessThan;
+        return instance;
+    }
+
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, lessThanEq, StringParser<LITERAL_ID32>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    {
+        s84::ctcode::dbnf::BinaryOperator* instance = new s84::ctcode::dbnf::BinaryOperator();
+        s84::ctcode::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        instance->lessThanEq_ = lessThanEq;
+        return instance;
+    }
+
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, equality, StringParser<LITERAL_ID34>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    {
+        s84::ctcode::dbnf::BinaryOperator* instance = new s84::ctcode::dbnf::BinaryOperator();
+        s84::ctcode::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        instance->equality_ = equality;
+        return instance;
+    }
+
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, notEquality, StringParser<LITERAL_ID2>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    {
+        s84::ctcode::dbnf::BinaryOperator* instance = new s84::ctcode::dbnf::BinaryOperator();
+        s84::ctcode::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        instance->notEquality_ = notEquality;
+        return instance;
+    }
+
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, greaterThanEq, StringParser<LITERAL_ID36>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    {
+        s84::ctcode::dbnf::BinaryOperator* instance = new s84::ctcode::dbnf::BinaryOperator();
+        s84::ctcode::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        instance->greaterThanEq_ = greaterThanEq;
+        return instance;
+    }
+
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, greaterThan, StringParser<LITERAL_ID35>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    {
+        s84::ctcode::dbnf::BinaryOperator* instance = new s84::ctcode::dbnf::BinaryOperator();
+        s84::ctcode::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        instance->greaterThan_ = greaterThan;
+        return instance;
+    }
+
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, orOp, StringParser<LITERAL_ID116>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    {
+        s84::ctcode::dbnf::BinaryOperator* instance = new s84::ctcode::dbnf::BinaryOperator();
+        s84::ctcode::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        instance->orOp_ = orOp;
+        return instance;
+    }
+
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, andOp, StringParser<LITERAL_ID7>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    {
+        s84::ctcode::dbnf::BinaryOperator* instance = new s84::ctcode::dbnf::BinaryOperator();
+        s84::ctcode::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        instance->andOp_ = andOp;
+        return instance;
+    }
+
+    s84::ctcode::dbnf::ClearNodes(children);
+    return NULL;
+}
+
+UnaryOperator::UnaryOperator() : Node()
+    ,negation_(NULL)
+{
+}
+
+s84::ctcode::dbnf::String* UnaryOperator::GetNegation()
+{
+    return negation_;
+}
+
+UnaryOperator::~UnaryOperator()
+{
+}
+
+s84::ctcode::dbnf::UnaryOperator* UnaryOperator::Parse(const char*& index)
+{
+    s84::ctcode::dbnf::LengthString length_string_index;
+    length_string_index.data = index;
+    length_string_index.length = strlen(index);
+    s84::ctcode::dbnf::UnaryOperator* instance = Parse(length_string_index);
+    index = length_string_index.data;
+    return instance;
+}
+
+s84::ctcode::dbnf::UnaryOperator* UnaryOperator::Parse(s84::ctcode::dbnf::LengthString& index)
+{
+    s84::ctcode::dbnf::LengthString start = index;
+    std::list<s84::ctcode::dbnf::Node*> children;
+    s84::ctcode::dbnf::String* negation = NULL;
+
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, negation, StringParser<LITERAL_ID1>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    {
+        s84::ctcode::dbnf::UnaryOperator* instance = new s84::ctcode::dbnf::UnaryOperator();
+        s84::ctcode::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        instance->negation_ = negation;
+        return instance;
+    }
+
+    s84::ctcode::dbnf::ClearNodes(children);
+    return NULL;
+}
+
+Comment::Comment() : Node()
+    ,content_(NULL)
+{
+}
+
+List<s84::ctcode::dbnf::CommentCharacter>* Comment::GetContent()
+{
+    return content_;
+}
+
+Comment::~Comment()
+{
+}
+
+s84::ctcode::dbnf::Comment* Comment::Parse(const char*& index)
+{
+    s84::ctcode::dbnf::LengthString length_string_index;
+    length_string_index.data = index;
+    length_string_index.length = strlen(index);
+    s84::ctcode::dbnf::Comment* instance = Parse(length_string_index);
+    index = length_string_index.data;
+    return instance;
+}
+
+s84::ctcode::dbnf::Comment* Comment::Parse(s84::ctcode::dbnf::LengthString& index)
+{
+    s84::ctcode::dbnf::LengthString start = index;
+    std::list<s84::ctcode::dbnf::Node*> children;
+    List<s84::ctcode::dbnf::CommentCharacter>* content = NULL;
+
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID18>::Parse(index)) && s84::ctcode::dbnf::Match(children, content, MinimumParser<s84::ctcode::dbnf::CommentCharacter, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID12>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    {
+        s84::ctcode::dbnf::Comment* instance = new s84::ctcode::dbnf::Comment();
+        s84::ctcode::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        instance->content_ = content;
+        return instance;
+    }
+
+    s84::ctcode::dbnf::ClearNodes(children);
+    return NULL;
+}
+
+CommentCharacter::CommentCharacter() : Node()
+{
+}
+
+CommentCharacter::~CommentCharacter()
+{
+}
+
+s84::ctcode::dbnf::CommentCharacter* CommentCharacter::Parse(const char*& index)
+{
+    s84::ctcode::dbnf::LengthString length_string_index;
+    length_string_index.data = index;
+    length_string_index.length = strlen(index);
+    s84::ctcode::dbnf::CommentCharacter* instance = Parse(length_string_index);
+    index = length_string_index.data;
+    return instance;
+}
+
+s84::ctcode::dbnf::CommentCharacter* CommentCharacter::Parse(s84::ctcode::dbnf::LengthString& index)
+{
+    s84::ctcode::dbnf::LengthString start = index;
+    std::list<s84::ctcode::dbnf::Node*> children;
+
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, s84::ctcode::dbnf::Whitespace::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    {
+        s84::ctcode::dbnf::CommentCharacter* instance = new s84::ctcode::dbnf::CommentCharacter();
         s84::ctcode::dbnf::LengthString data;
         data.length = start.length - index.length;
         data.data = start.data;
@@ -2430,9 +3573,9 @@ s84::ctcode::dbnf::RValue* RValue::Parse(s84::ctcode::dbnf::LengthString& index)
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, s84::ctcode::dbnf::Number::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID13>::Parse(index)) && s84::ctcode::dbnf::Match(children, s84::ctcode::dbnf::Number::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, s84::ctcode::dbnf::NameCharacter::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
-        s84::ctcode::dbnf::RValue* instance = new s84::ctcode::dbnf::RValue();
+        s84::ctcode::dbnf::CommentCharacter* instance = new s84::ctcode::dbnf::CommentCharacter();
         s84::ctcode::dbnf::LengthString data;
         data.length = start.length - index.length;
         data.data = start.data;
@@ -2441,9 +3584,9 @@ s84::ctcode::dbnf::RValue* RValue::Parse(s84::ctcode::dbnf::LengthString& index)
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, s84::ctcode::dbnf::Number::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID1>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
-        s84::ctcode::dbnf::RValue* instance = new s84::ctcode::dbnf::RValue();
+        s84::ctcode::dbnf::CommentCharacter* instance = new s84::ctcode::dbnf::CommentCharacter();
         s84::ctcode::dbnf::LengthString data;
         data.length = start.length - index.length;
         data.data = start.data;
@@ -2452,9 +3595,9 @@ s84::ctcode::dbnf::RValue* RValue::Parse(s84::ctcode::dbnf::LengthString& index)
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, s84::ctcode::dbnf::Name::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID67>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
-        s84::ctcode::dbnf::RValue* instance = new s84::ctcode::dbnf::RValue();
+        s84::ctcode::dbnf::CommentCharacter* instance = new s84::ctcode::dbnf::CommentCharacter();
         s84::ctcode::dbnf::LengthString data;
         data.length = start.length - index.length;
         data.data = start.data;
@@ -2463,9 +3606,295 @@ s84::ctcode::dbnf::RValue* RValue::Parse(s84::ctcode::dbnf::LengthString& index)
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID59>::Parse(index)) && s84::ctcode::dbnf::Match(children, s84::ctcode::dbnf::Literal::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID59>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID3>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
-        s84::ctcode::dbnf::RValue* instance = new s84::ctcode::dbnf::RValue();
+        s84::ctcode::dbnf::CommentCharacter* instance = new s84::ctcode::dbnf::CommentCharacter();
+        s84::ctcode::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID4>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    {
+        s84::ctcode::dbnf::CommentCharacter* instance = new s84::ctcode::dbnf::CommentCharacter();
+        s84::ctcode::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID5>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    {
+        s84::ctcode::dbnf::CommentCharacter* instance = new s84::ctcode::dbnf::CommentCharacter();
+        s84::ctcode::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID6>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    {
+        s84::ctcode::dbnf::CommentCharacter* instance = new s84::ctcode::dbnf::CommentCharacter();
+        s84::ctcode::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID8>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    {
+        s84::ctcode::dbnf::CommentCharacter* instance = new s84::ctcode::dbnf::CommentCharacter();
+        s84::ctcode::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID9>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    {
+        s84::ctcode::dbnf::CommentCharacter* instance = new s84::ctcode::dbnf::CommentCharacter();
+        s84::ctcode::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID10>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    {
+        s84::ctcode::dbnf::CommentCharacter* instance = new s84::ctcode::dbnf::CommentCharacter();
+        s84::ctcode::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID13>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    {
+        s84::ctcode::dbnf::CommentCharacter* instance = new s84::ctcode::dbnf::CommentCharacter();
+        s84::ctcode::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID14>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    {
+        s84::ctcode::dbnf::CommentCharacter* instance = new s84::ctcode::dbnf::CommentCharacter();
+        s84::ctcode::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID15>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    {
+        s84::ctcode::dbnf::CommentCharacter* instance = new s84::ctcode::dbnf::CommentCharacter();
+        s84::ctcode::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID16>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    {
+        s84::ctcode::dbnf::CommentCharacter* instance = new s84::ctcode::dbnf::CommentCharacter();
+        s84::ctcode::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID17>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    {
+        s84::ctcode::dbnf::CommentCharacter* instance = new s84::ctcode::dbnf::CommentCharacter();
+        s84::ctcode::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID29>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    {
+        s84::ctcode::dbnf::CommentCharacter* instance = new s84::ctcode::dbnf::CommentCharacter();
+        s84::ctcode::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID30>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    {
+        s84::ctcode::dbnf::CommentCharacter* instance = new s84::ctcode::dbnf::CommentCharacter();
+        s84::ctcode::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID31>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    {
+        s84::ctcode::dbnf::CommentCharacter* instance = new s84::ctcode::dbnf::CommentCharacter();
+        s84::ctcode::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID33>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    {
+        s84::ctcode::dbnf::CommentCharacter* instance = new s84::ctcode::dbnf::CommentCharacter();
+        s84::ctcode::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID35>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    {
+        s84::ctcode::dbnf::CommentCharacter* instance = new s84::ctcode::dbnf::CommentCharacter();
+        s84::ctcode::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID37>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    {
+        s84::ctcode::dbnf::CommentCharacter* instance = new s84::ctcode::dbnf::CommentCharacter();
+        s84::ctcode::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID38>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    {
+        s84::ctcode::dbnf::CommentCharacter* instance = new s84::ctcode::dbnf::CommentCharacter();
+        s84::ctcode::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID65>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    {
+        s84::ctcode::dbnf::CommentCharacter* instance = new s84::ctcode::dbnf::CommentCharacter();
+        s84::ctcode::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID69>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    {
+        s84::ctcode::dbnf::CommentCharacter* instance = new s84::ctcode::dbnf::CommentCharacter();
+        s84::ctcode::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID70>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    {
+        s84::ctcode::dbnf::CommentCharacter* instance = new s84::ctcode::dbnf::CommentCharacter();
+        s84::ctcode::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL___ID71>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    {
+        s84::ctcode::dbnf::CommentCharacter* instance = new s84::ctcode::dbnf::CommentCharacter();
+        s84::ctcode::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID114>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    {
+        s84::ctcode::dbnf::CommentCharacter* instance = new s84::ctcode::dbnf::CommentCharacter();
+        s84::ctcode::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID115>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    {
+        s84::ctcode::dbnf::CommentCharacter* instance = new s84::ctcode::dbnf::CommentCharacter();
+        s84::ctcode::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID117>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    {
+        s84::ctcode::dbnf::CommentCharacter* instance = new s84::ctcode::dbnf::CommentCharacter();
+        s84::ctcode::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID118>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    {
+        s84::ctcode::dbnf::CommentCharacter* instance = new s84::ctcode::dbnf::CommentCharacter();
         s84::ctcode::dbnf::LengthString data;
         data.length = start.length - index.length;
         data.data = start.data;
@@ -2569,7 +3998,7 @@ s84::ctcode::dbnf::NameTail* NameTail::Parse(s84::ctcode::dbnf::LengthString& in
     s84::ctcode::dbnf::Name* name = NULL;
     s84::ctcode::dbnf::NameTail* tail = NULL;
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID13>::Parse(index)) && s84::ctcode::dbnf::Match(children, name, s84::ctcode::dbnf::Name::Parse(index)) && s84::ctcode::dbnf::Optional(children, tail, s84::ctcode::dbnf::NameTail::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID16>::Parse(index)) && s84::ctcode::dbnf::Match(children, name, s84::ctcode::dbnf::Name::Parse(index)) && s84::ctcode::dbnf::Optional(children, tail, s84::ctcode::dbnf::NameTail::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::NameTail* instance = new s84::ctcode::dbnf::NameTail();
         s84::ctcode::dbnf::LengthString data;
@@ -2647,7 +4076,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
     s84::ctcode::dbnf::LengthString start = index;
     std::list<s84::ctcode::dbnf::Node*> children;
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_0_ID15>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_0_ID19>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::NameCharacter* instance = new s84::ctcode::dbnf::NameCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -2658,7 +4087,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_1_ID16>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_1_ID20>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::NameCharacter* instance = new s84::ctcode::dbnf::NameCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -2669,7 +4098,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_2_ID17>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_2_ID21>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::NameCharacter* instance = new s84::ctcode::dbnf::NameCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -2680,7 +4109,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_3_ID18>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_3_ID22>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::NameCharacter* instance = new s84::ctcode::dbnf::NameCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -2691,7 +4120,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_4_ID19>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_4_ID23>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::NameCharacter* instance = new s84::ctcode::dbnf::NameCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -2702,7 +4131,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_5_ID20>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_5_ID24>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::NameCharacter* instance = new s84::ctcode::dbnf::NameCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -2713,7 +4142,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_6_ID21>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_6_ID25>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::NameCharacter* instance = new s84::ctcode::dbnf::NameCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -2724,7 +4153,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_7_ID22>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_7_ID26>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::NameCharacter* instance = new s84::ctcode::dbnf::NameCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -2735,7 +4164,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_8_ID23>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_8_ID27>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::NameCharacter* instance = new s84::ctcode::dbnf::NameCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -2746,7 +4175,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_9_ID24>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_9_ID28>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::NameCharacter* instance = new s84::ctcode::dbnf::NameCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -2757,7 +4186,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_A_ID32>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_A_ID39>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::NameCharacter* instance = new s84::ctcode::dbnf::NameCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -2768,7 +4197,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_B_ID33>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_B_ID40>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::NameCharacter* instance = new s84::ctcode::dbnf::NameCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -2779,7 +4208,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_C_ID34>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_C_ID41>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::NameCharacter* instance = new s84::ctcode::dbnf::NameCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -2790,7 +4219,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_D_ID35>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_D_ID42>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::NameCharacter* instance = new s84::ctcode::dbnf::NameCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -2801,7 +4230,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_E_ID36>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_E_ID43>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::NameCharacter* instance = new s84::ctcode::dbnf::NameCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -2812,7 +4241,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_F_ID37>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_F_ID44>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::NameCharacter* instance = new s84::ctcode::dbnf::NameCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -2823,7 +4252,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_G_ID38>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_G_ID45>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::NameCharacter* instance = new s84::ctcode::dbnf::NameCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -2834,7 +4263,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_H_ID39>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_H_ID46>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::NameCharacter* instance = new s84::ctcode::dbnf::NameCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -2845,7 +4274,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_I_ID40>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_I_ID47>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::NameCharacter* instance = new s84::ctcode::dbnf::NameCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -2856,7 +4285,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_J_ID41>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_J_ID48>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::NameCharacter* instance = new s84::ctcode::dbnf::NameCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -2867,7 +4296,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_K_ID42>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_K_ID49>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::NameCharacter* instance = new s84::ctcode::dbnf::NameCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -2878,7 +4307,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_L_ID43>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_L_ID50>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::NameCharacter* instance = new s84::ctcode::dbnf::NameCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -2889,7 +4318,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_M_ID44>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_M_ID51>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::NameCharacter* instance = new s84::ctcode::dbnf::NameCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -2900,7 +4329,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_N_ID45>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_N_ID52>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::NameCharacter* instance = new s84::ctcode::dbnf::NameCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -2911,7 +4340,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_O_ID46>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_O_ID53>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::NameCharacter* instance = new s84::ctcode::dbnf::NameCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -2922,7 +4351,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_P_ID47>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_P_ID54>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::NameCharacter* instance = new s84::ctcode::dbnf::NameCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -2933,7 +4362,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_Q_ID48>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_Q_ID55>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::NameCharacter* instance = new s84::ctcode::dbnf::NameCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -2944,7 +4373,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_R_ID49>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_R_ID56>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::NameCharacter* instance = new s84::ctcode::dbnf::NameCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -2955,7 +4384,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_S_ID50>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_S_ID57>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::NameCharacter* instance = new s84::ctcode::dbnf::NameCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -2966,7 +4395,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_T_ID51>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_T_ID58>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::NameCharacter* instance = new s84::ctcode::dbnf::NameCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -2977,7 +4406,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_U_ID52>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_U_ID59>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::NameCharacter* instance = new s84::ctcode::dbnf::NameCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -2988,7 +4417,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_V_ID53>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_V_ID60>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::NameCharacter* instance = new s84::ctcode::dbnf::NameCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -2999,7 +4428,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_W_ID54>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_W_ID61>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::NameCharacter* instance = new s84::ctcode::dbnf::NameCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -3010,7 +4439,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_X_ID55>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_X_ID62>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::NameCharacter* instance = new s84::ctcode::dbnf::NameCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -3021,7 +4450,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_Y_ID56>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_Y_ID63>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::NameCharacter* instance = new s84::ctcode::dbnf::NameCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -3032,7 +4461,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_Z_ID57>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_Z_ID64>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::NameCharacter* instance = new s84::ctcode::dbnf::NameCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -3043,7 +4472,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL___ID63>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL___ID71>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::NameCharacter* instance = new s84::ctcode::dbnf::NameCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -3054,7 +4483,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_A_ID65>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_A_ID73>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::NameCharacter* instance = new s84::ctcode::dbnf::NameCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -3065,7 +4494,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_B_ID66>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_B_ID74>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::NameCharacter* instance = new s84::ctcode::dbnf::NameCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -3076,7 +4505,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_C_ID67>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_C_ID76>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::NameCharacter* instance = new s84::ctcode::dbnf::NameCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -3087,7 +4516,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_D_ID69>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_D_ID78>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::NameCharacter* instance = new s84::ctcode::dbnf::NameCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -3098,7 +4527,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_E_ID70>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_E_ID79>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::NameCharacter* instance = new s84::ctcode::dbnf::NameCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -3109,7 +4538,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_F_ID72>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_F_ID82>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::NameCharacter* instance = new s84::ctcode::dbnf::NameCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -3120,7 +4549,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_G_ID75>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_G_ID86>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::NameCharacter* instance = new s84::ctcode::dbnf::NameCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -3131,7 +4560,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_H_ID76>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_H_ID87>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::NameCharacter* instance = new s84::ctcode::dbnf::NameCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -3142,7 +4571,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_I_ID77>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_I_ID88>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::NameCharacter* instance = new s84::ctcode::dbnf::NameCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -3153,7 +4582,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_J_ID80>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_J_ID92>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::NameCharacter* instance = new s84::ctcode::dbnf::NameCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -3164,7 +4593,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_K_ID81>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_K_ID93>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::NameCharacter* instance = new s84::ctcode::dbnf::NameCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -3175,7 +4604,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_L_ID82>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_L_ID94>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::NameCharacter* instance = new s84::ctcode::dbnf::NameCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -3186,7 +4615,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_M_ID83>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_M_ID95>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::NameCharacter* instance = new s84::ctcode::dbnf::NameCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -3197,7 +4626,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_N_ID84>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_N_ID96>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::NameCharacter* instance = new s84::ctcode::dbnf::NameCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -3208,7 +4637,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_O_ID85>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_O_ID97>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::NameCharacter* instance = new s84::ctcode::dbnf::NameCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -3219,7 +4648,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_P_ID86>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_P_ID98>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::NameCharacter* instance = new s84::ctcode::dbnf::NameCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -3230,7 +4659,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_Q_ID87>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_Q_ID99>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::NameCharacter* instance = new s84::ctcode::dbnf::NameCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -3241,7 +4670,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_R_ID88>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_R_ID100>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::NameCharacter* instance = new s84::ctcode::dbnf::NameCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -3252,7 +4681,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_S_ID90>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_S_ID102>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::NameCharacter* instance = new s84::ctcode::dbnf::NameCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -3263,7 +4692,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_T_ID92>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_T_ID104>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::NameCharacter* instance = new s84::ctcode::dbnf::NameCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -3274,7 +4703,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_U_ID93>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_U_ID106>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::NameCharacter* instance = new s84::ctcode::dbnf::NameCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -3285,7 +4714,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_V_ID94>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_V_ID107>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::NameCharacter* instance = new s84::ctcode::dbnf::NameCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -3296,7 +4725,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_W_ID96>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_W_ID109>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::NameCharacter* instance = new s84::ctcode::dbnf::NameCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -3307,7 +4736,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_X_ID97>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_X_ID111>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::NameCharacter* instance = new s84::ctcode::dbnf::NameCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -3318,7 +4747,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_Y_ID98>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_Y_ID112>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::NameCharacter* instance = new s84::ctcode::dbnf::NameCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -3329,9 +4758,96 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_Z_ID99>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_Z_ID113>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::NameCharacter* instance = new s84::ctcode::dbnf::NameCharacter();
+        s84::ctcode::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    s84::ctcode::dbnf::ClearNodes(children);
+    return NULL;
+}
+
+Boolean::Boolean() : Node()
+{
+}
+
+Boolean::~Boolean()
+{
+}
+
+s84::ctcode::dbnf::Boolean* Boolean::Parse(const char*& index)
+{
+    s84::ctcode::dbnf::LengthString length_string_index;
+    length_string_index.data = index;
+    length_string_index.length = strlen(index);
+    s84::ctcode::dbnf::Boolean* instance = Parse(length_string_index);
+    index = length_string_index.data;
+    return instance;
+}
+
+s84::ctcode::dbnf::Boolean* Boolean::Parse(s84::ctcode::dbnf::LengthString& index)
+{
+    s84::ctcode::dbnf::LengthString start = index;
+    std::list<s84::ctcode::dbnf::Node*> children;
+
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_TRUE_ID105>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    {
+        s84::ctcode::dbnf::Boolean* instance = new s84::ctcode::dbnf::Boolean();
+        s84::ctcode::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_FALSE_ID83>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    {
+        s84::ctcode::dbnf::Boolean* instance = new s84::ctcode::dbnf::Boolean();
+        s84::ctcode::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    s84::ctcode::dbnf::ClearNodes(children);
+    return NULL;
+}
+
+Decimal::Decimal() : Node()
+{
+}
+
+Decimal::~Decimal()
+{
+}
+
+s84::ctcode::dbnf::Decimal* Decimal::Parse(const char*& index)
+{
+    s84::ctcode::dbnf::LengthString length_string_index;
+    length_string_index.data = index;
+    length_string_index.length = strlen(index);
+    s84::ctcode::dbnf::Decimal* instance = Parse(length_string_index);
+    index = length_string_index.data;
+    return instance;
+}
+
+s84::ctcode::dbnf::Decimal* Decimal::Parse(s84::ctcode::dbnf::LengthString& index)
+{
+    s84::ctcode::dbnf::LengthString start = index;
+    std::list<s84::ctcode::dbnf::Node*> children;
+
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, s84::ctcode::dbnf::Number::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID16>::Parse(index)) && s84::ctcode::dbnf::Match(children, s84::ctcode::dbnf::Number::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    {
+        s84::ctcode::dbnf::Decimal* instance = new s84::ctcode::dbnf::Decimal();
         s84::ctcode::dbnf::LengthString data;
         data.length = start.length - index.length;
         data.data = start.data;
@@ -3405,7 +4921,7 @@ s84::ctcode::dbnf::Digit* Digit::Parse(s84::ctcode::dbnf::LengthString& index)
     s84::ctcode::dbnf::LengthString start = index;
     std::list<s84::ctcode::dbnf::Node*> children;
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_0_ID15>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_0_ID19>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::Digit* instance = new s84::ctcode::dbnf::Digit();
         s84::ctcode::dbnf::LengthString data;
@@ -3416,7 +4932,7 @@ s84::ctcode::dbnf::Digit* Digit::Parse(s84::ctcode::dbnf::LengthString& index)
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_1_ID16>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_1_ID20>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::Digit* instance = new s84::ctcode::dbnf::Digit();
         s84::ctcode::dbnf::LengthString data;
@@ -3427,7 +4943,7 @@ s84::ctcode::dbnf::Digit* Digit::Parse(s84::ctcode::dbnf::LengthString& index)
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_2_ID17>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_2_ID21>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::Digit* instance = new s84::ctcode::dbnf::Digit();
         s84::ctcode::dbnf::LengthString data;
@@ -3438,7 +4954,7 @@ s84::ctcode::dbnf::Digit* Digit::Parse(s84::ctcode::dbnf::LengthString& index)
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_3_ID18>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_3_ID22>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::Digit* instance = new s84::ctcode::dbnf::Digit();
         s84::ctcode::dbnf::LengthString data;
@@ -3449,7 +4965,7 @@ s84::ctcode::dbnf::Digit* Digit::Parse(s84::ctcode::dbnf::LengthString& index)
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_4_ID19>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_4_ID23>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::Digit* instance = new s84::ctcode::dbnf::Digit();
         s84::ctcode::dbnf::LengthString data;
@@ -3460,7 +4976,7 @@ s84::ctcode::dbnf::Digit* Digit::Parse(s84::ctcode::dbnf::LengthString& index)
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_5_ID20>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_5_ID24>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::Digit* instance = new s84::ctcode::dbnf::Digit();
         s84::ctcode::dbnf::LengthString data;
@@ -3471,7 +4987,7 @@ s84::ctcode::dbnf::Digit* Digit::Parse(s84::ctcode::dbnf::LengthString& index)
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_6_ID21>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_6_ID25>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::Digit* instance = new s84::ctcode::dbnf::Digit();
         s84::ctcode::dbnf::LengthString data;
@@ -3482,7 +4998,7 @@ s84::ctcode::dbnf::Digit* Digit::Parse(s84::ctcode::dbnf::LengthString& index)
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_7_ID22>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_7_ID26>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::Digit* instance = new s84::ctcode::dbnf::Digit();
         s84::ctcode::dbnf::LengthString data;
@@ -3493,7 +5009,7 @@ s84::ctcode::dbnf::Digit* Digit::Parse(s84::ctcode::dbnf::LengthString& index)
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_8_ID23>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_8_ID27>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::Digit* instance = new s84::ctcode::dbnf::Digit();
         s84::ctcode::dbnf::LengthString data;
@@ -3504,7 +5020,7 @@ s84::ctcode::dbnf::Digit* Digit::Parse(s84::ctcode::dbnf::LengthString& index)
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_9_ID24>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_9_ID28>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::Digit* instance = new s84::ctcode::dbnf::Digit();
         s84::ctcode::dbnf::LengthString data;
@@ -3954,18 +5470,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID59>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
-    {
-        s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
-        s84::ctcode::dbnf::LengthString data;
-        data.length = start.length - index.length;
-        data.data = start.data;
-        instance->SetString(data);
-        instance->SetChildren(children);
-        return instance;
-    }
-
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID2>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID67>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4020,17 +5525,6 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID7>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
-    {
-        s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
-        s84::ctcode::dbnf::LengthString data;
-        data.length = start.length - index.length;
-        data.data = start.data;
-        instance->SetString(data);
-        instance->SetChildren(children);
-        return instance;
-    }
-
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID8>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
@@ -4075,17 +5569,6 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID12>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
-    {
-        s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
-        s84::ctcode::dbnf::LengthString data;
-        data.length = start.length - index.length;
-        data.data = start.data;
-        instance->SetString(data);
-        instance->SetChildren(children);
-        return instance;
-    }
-
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID13>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
@@ -4108,7 +5591,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_0_ID15>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID15>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4119,7 +5602,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_1_ID16>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID16>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4130,7 +5613,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_2_ID17>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID17>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4141,7 +5624,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_3_ID18>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_0_ID19>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4152,7 +5635,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_4_ID19>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_1_ID20>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4163,7 +5646,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_5_ID20>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_2_ID21>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4174,7 +5657,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_6_ID21>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_3_ID22>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4185,7 +5668,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_7_ID22>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_4_ID23>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4196,7 +5679,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_8_ID23>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_5_ID24>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4207,7 +5690,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_9_ID24>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_6_ID25>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4218,7 +5701,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID25>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_7_ID26>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4229,7 +5712,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID26>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_8_ID27>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4240,18 +5723,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID27>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
-    {
-        s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
-        s84::ctcode::dbnf::LengthString data;
-        data.length = start.length - index.length;
-        data.data = start.data;
-        instance->SetString(data);
-        instance->SetChildren(children);
-        return instance;
-    }
-
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID28>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_9_ID28>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4295,7 +5767,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_A_ID32>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID33>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4306,7 +5778,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_B_ID33>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID35>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4317,7 +5789,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_C_ID34>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID37>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4328,7 +5800,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_D_ID35>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID38>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4339,7 +5811,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_E_ID36>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_A_ID39>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4350,7 +5822,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_F_ID37>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_B_ID40>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4361,7 +5833,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_G_ID38>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_C_ID41>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4372,7 +5844,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_H_ID39>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_D_ID42>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4383,7 +5855,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_I_ID40>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_E_ID43>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4394,7 +5866,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_J_ID41>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_F_ID44>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4405,7 +5877,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_K_ID42>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_G_ID45>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4416,7 +5888,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_L_ID43>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_H_ID46>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4427,7 +5899,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_M_ID44>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_I_ID47>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4438,7 +5910,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_N_ID45>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_J_ID48>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4449,7 +5921,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_O_ID46>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_K_ID49>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4460,7 +5932,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_P_ID47>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_L_ID50>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4471,7 +5943,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_Q_ID48>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_M_ID51>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4482,7 +5954,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_R_ID49>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_N_ID52>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4493,7 +5965,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_S_ID50>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_O_ID53>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4504,7 +5976,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_T_ID51>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_P_ID54>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4515,7 +5987,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_U_ID52>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_Q_ID55>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4526,7 +5998,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_V_ID53>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_R_ID56>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4537,7 +6009,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_W_ID54>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_S_ID57>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4548,7 +6020,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_X_ID55>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_T_ID58>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4559,7 +6031,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_Y_ID56>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_U_ID59>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4570,7 +6042,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_Z_ID57>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_V_ID60>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4581,7 +6053,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID58>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_W_ID61>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4592,7 +6064,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID60>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_X_ID62>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4603,7 +6075,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID61>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_Y_ID63>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4614,7 +6086,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID62>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_Z_ID64>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4625,7 +6097,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL___ID63>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID65>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4636,7 +6108,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID64>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID68>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4647,7 +6119,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_A_ID65>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID69>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4658,7 +6130,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_B_ID66>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID70>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4669,7 +6141,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_C_ID67>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL___ID71>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4680,7 +6152,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_D_ID69>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID72>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4691,7 +6163,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_E_ID70>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_A_ID73>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4702,7 +6174,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_F_ID72>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_B_ID74>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4713,7 +6185,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_G_ID75>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_C_ID76>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4724,7 +6196,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_H_ID76>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_D_ID78>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4735,7 +6207,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_I_ID77>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_E_ID79>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4746,7 +6218,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_J_ID80>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_F_ID82>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4757,7 +6229,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_K_ID81>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_G_ID86>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4768,7 +6240,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_L_ID82>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_H_ID87>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4779,7 +6251,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_M_ID83>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_I_ID88>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4790,7 +6262,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_N_ID84>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_J_ID92>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4801,7 +6273,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_O_ID85>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_K_ID93>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4812,7 +6284,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_P_ID86>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_L_ID94>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4823,7 +6295,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_Q_ID87>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_M_ID95>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4834,7 +6306,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_R_ID88>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_N_ID96>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4845,7 +6317,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_S_ID90>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_O_ID97>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4856,7 +6328,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_T_ID92>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_P_ID98>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4867,7 +6339,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_U_ID93>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_Q_ID99>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4878,7 +6350,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_V_ID94>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_R_ID100>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4889,7 +6361,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_W_ID96>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_S_ID102>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4900,7 +6372,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_X_ID97>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_T_ID104>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4911,7 +6383,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_Y_ID98>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_U_ID106>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4922,7 +6394,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_Z_ID99>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_V_ID107>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4933,7 +6405,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID100>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_W_ID109>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4944,7 +6416,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID101>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_X_ID111>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4955,7 +6427,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID102>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_Y_ID112>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -4966,7 +6438,51 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID103>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_Z_ID113>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    {
+        s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
+        s84::ctcode::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID114>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    {
+        s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
+        s84::ctcode::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID115>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    {
+        s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
+        s84::ctcode::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID117>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    {
+        s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
+        s84::ctcode::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID118>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::LiteralCharacter* instance = new s84::ctcode::dbnf::LiteralCharacter();
         s84::ctcode::dbnf::LengthString data;
@@ -6412,7 +7928,7 @@ s84::ctcode::dbnf::HexDigit* HexDigit::Parse(s84::ctcode::dbnf::LengthString& in
     s84::ctcode::dbnf::LengthString start = index;
     std::list<s84::ctcode::dbnf::Node*> children;
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_0_ID15>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_0_ID19>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::HexDigit* instance = new s84::ctcode::dbnf::HexDigit();
         s84::ctcode::dbnf::LengthString data;
@@ -6423,7 +7939,7 @@ s84::ctcode::dbnf::HexDigit* HexDigit::Parse(s84::ctcode::dbnf::LengthString& in
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_1_ID16>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_1_ID20>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::HexDigit* instance = new s84::ctcode::dbnf::HexDigit();
         s84::ctcode::dbnf::LengthString data;
@@ -6434,7 +7950,7 @@ s84::ctcode::dbnf::HexDigit* HexDigit::Parse(s84::ctcode::dbnf::LengthString& in
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_2_ID17>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_2_ID21>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::HexDigit* instance = new s84::ctcode::dbnf::HexDigit();
         s84::ctcode::dbnf::LengthString data;
@@ -6445,7 +7961,7 @@ s84::ctcode::dbnf::HexDigit* HexDigit::Parse(s84::ctcode::dbnf::LengthString& in
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_3_ID18>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_3_ID22>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::HexDigit* instance = new s84::ctcode::dbnf::HexDigit();
         s84::ctcode::dbnf::LengthString data;
@@ -6456,7 +7972,7 @@ s84::ctcode::dbnf::HexDigit* HexDigit::Parse(s84::ctcode::dbnf::LengthString& in
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_4_ID19>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_4_ID23>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::HexDigit* instance = new s84::ctcode::dbnf::HexDigit();
         s84::ctcode::dbnf::LengthString data;
@@ -6467,7 +7983,7 @@ s84::ctcode::dbnf::HexDigit* HexDigit::Parse(s84::ctcode::dbnf::LengthString& in
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_5_ID20>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_5_ID24>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::HexDigit* instance = new s84::ctcode::dbnf::HexDigit();
         s84::ctcode::dbnf::LengthString data;
@@ -6478,7 +7994,7 @@ s84::ctcode::dbnf::HexDigit* HexDigit::Parse(s84::ctcode::dbnf::LengthString& in
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_6_ID21>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_6_ID25>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::HexDigit* instance = new s84::ctcode::dbnf::HexDigit();
         s84::ctcode::dbnf::LengthString data;
@@ -6489,7 +8005,7 @@ s84::ctcode::dbnf::HexDigit* HexDigit::Parse(s84::ctcode::dbnf::LengthString& in
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_7_ID22>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_7_ID26>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::HexDigit* instance = new s84::ctcode::dbnf::HexDigit();
         s84::ctcode::dbnf::LengthString data;
@@ -6500,7 +8016,7 @@ s84::ctcode::dbnf::HexDigit* HexDigit::Parse(s84::ctcode::dbnf::LengthString& in
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_8_ID23>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_8_ID27>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::HexDigit* instance = new s84::ctcode::dbnf::HexDigit();
         s84::ctcode::dbnf::LengthString data;
@@ -6511,7 +8027,7 @@ s84::ctcode::dbnf::HexDigit* HexDigit::Parse(s84::ctcode::dbnf::LengthString& in
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_9_ID24>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_9_ID28>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::HexDigit* instance = new s84::ctcode::dbnf::HexDigit();
         s84::ctcode::dbnf::LengthString data;
@@ -6522,7 +8038,7 @@ s84::ctcode::dbnf::HexDigit* HexDigit::Parse(s84::ctcode::dbnf::LengthString& in
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_A_ID32>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_A_ID39>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::HexDigit* instance = new s84::ctcode::dbnf::HexDigit();
         s84::ctcode::dbnf::LengthString data;
@@ -6533,7 +8049,7 @@ s84::ctcode::dbnf::HexDigit* HexDigit::Parse(s84::ctcode::dbnf::LengthString& in
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_B_ID33>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_B_ID40>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::HexDigit* instance = new s84::ctcode::dbnf::HexDigit();
         s84::ctcode::dbnf::LengthString data;
@@ -6544,7 +8060,7 @@ s84::ctcode::dbnf::HexDigit* HexDigit::Parse(s84::ctcode::dbnf::LengthString& in
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_C_ID34>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_C_ID41>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::HexDigit* instance = new s84::ctcode::dbnf::HexDigit();
         s84::ctcode::dbnf::LengthString data;
@@ -6555,7 +8071,7 @@ s84::ctcode::dbnf::HexDigit* HexDigit::Parse(s84::ctcode::dbnf::LengthString& in
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_D_ID35>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_D_ID42>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::HexDigit* instance = new s84::ctcode::dbnf::HexDigit();
         s84::ctcode::dbnf::LengthString data;
@@ -6566,7 +8082,7 @@ s84::ctcode::dbnf::HexDigit* HexDigit::Parse(s84::ctcode::dbnf::LengthString& in
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_E_ID36>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_E_ID43>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::HexDigit* instance = new s84::ctcode::dbnf::HexDigit();
         s84::ctcode::dbnf::LengthString data;
@@ -6577,7 +8093,7 @@ s84::ctcode::dbnf::HexDigit* HexDigit::Parse(s84::ctcode::dbnf::LengthString& in
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_F_ID37>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_F_ID44>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::HexDigit* instance = new s84::ctcode::dbnf::HexDigit();
         s84::ctcode::dbnf::LengthString data;

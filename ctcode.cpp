@@ -3,7 +3,7 @@
 #include <string>
 
 #include "S84.CTCode.dbnf.hpp"
-#include "generator.hpp"
+#include "transpiler.hpp"
 
 char* ReadFileIntoBuffer(std::string file)
 {
@@ -34,11 +34,11 @@ int main(int argc, char* argv[])
 {
 	if (argc != 3)
 	{
-		std::cout << argv[0] << " <CTCodeFile> <Generator>" << std::endl;
-		std::cout << "Known generators:" << std::endl;
-		std::list<std::string> generators = s84::ctcode::Generator::GetGeneratorList();
+		std::cout << argv[0] << " <CTCodeFile> <Transpiler>" << std::endl;
+		std::cout << "Known transpilers:" << std::endl;
+		std::list<std::string> transpilers = s84::ctcode::Transpiler::GetTranspilerList();
 		
-		for(std::list<std::string>::iterator index = generators.begin();index != generators.end();++index)
+		for(std::list<std::string>::iterator index = transpilers.begin();index != transpilers.end();++index)
 		{
 			std::cout<< "    " << (*index) << std::endl;
 		}
@@ -47,25 +47,25 @@ int main(int argc, char* argv[])
 	}
 	
 	std::string ctcode_file_name = argv[1];
-	std::string generator_name = argv[2];
-	s84::ctcode::Generator* generator = s84::ctcode::Generator::GetGenerator(generator_name);
+	std::string transpiler_name = argv[2];
+	s84::ctcode::Transpiler* transpiler = s84::ctcode::Transpiler::GetTranspiler(transpiler_name);
     char* buffer = ReadFileIntoBuffer(ctcode_file_name);
 
 	if(buffer)
 	{
-		if(generator)
+		if(transpiler)
 		{
-			int value = generator->GenerateParser(buffer, ctcode_file_name);
+			int value = transpiler->Transpile(buffer, ctcode_file_name);
 			delete[] buffer;
 			return value;
 		}
 		else
 		{
-			std::cout << "The generator " << generator_name << " is unknown." << std::endl;
-			std::cout << "Known generators:" << std::endl;
-			std::list<std::string> generators = s84::ctcode::Generator::GetGeneratorList();
+			std::cout << "The transpiler " << transpiler_name << " is unknown." << std::endl;
+			std::cout << "Known transpilers:" << std::endl;
+			std::list<std::string> transpilers = s84::ctcode::Transpiler::GetTranspilerList();
 			
-			for(std::list<std::string>::iterator index = generators.begin();index != generators.end();++index)
+			for(std::list<std::string>::iterator index = transpilers.begin();index != transpilers.end();++index)
 			{
 				std::cout<< "    " << (*index) << std::endl;
 			}

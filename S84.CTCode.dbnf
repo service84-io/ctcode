@@ -5,47 +5,101 @@
 <ExternalDefinition>::= "exdef" <whitespace>* attribute(exdef <qualfied_name>)
 <Definition>        ::= attribute(interfaceDef <InterfaceDef>)
                     ::= attribute(classDef <ClassDef>)
-<InterfaceDef>      ::= <whitespace>* "interface" <whitespace>+ attribute(name <name>) <whitespace>* "{" <whitespace>* attribute(declarations <ContentDeclaration>*) <whitespace>* "}" <whitespace>*
-<ClassDef>          ::= <whitespace>* "class" <whitespace>+ attribute(name <name>) <whitespace>* "{" <whitespace>* attribute(definitions <ContentDefinition>*) <whitespace>* "}" <whitespace>*
-<ContentDeclaration>::= <whitespace>* "function" <whitespace>+ attribute(type <ValueType>) <whitespace>+ attribute(name <name>) <whitespace>* "(" <whitespace>* attribute(parameters <ParameterListDef>?) <whitespace>* ")" <whitespace>* ";" <whitespace>*
-<ContentDefinition> ::= <whitespace>* "function" <whitespace>+ attribute(type <ValueType>) <whitespace>+ attribute(name <name>) <whitespace>* "(" <whitespace>* attribute(parameters <ParameterListDef>?) <whitespace>* ")" <whitespace>* attribute(functionBody <CodeBlock>) <whitespace>*
-                    ::= <whitespace>* attribute(type <ValueType>) <whitespace>+ attribute(name <name>) <whitespace>* ";" <whitespace>*
+<InterfaceDef>      ::= <whitespace>* attribute(comment <Comment>?) <whitespace>* "interface" <whitespace>+ attribute(name <name>) <whitespace>* "{" <whitespace>* attribute(declarations <ContentDeclaration>*) <whitespace>* "}" <whitespace>*
+<ClassDef>          ::= <whitespace>* attribute(comment <Comment>?) <whitespace>* "class" <whitespace>+ attribute(name <name>) <whitespace>* "{" <whitespace>* attribute(definitions <ContentDefinition>*) <whitespace>* "}" <whitespace>*
+<ContentDeclaration>::= <whitespace>* attribute(comment <Comment>?) <whitespace>* "function" <whitespace>+ attribute(type <ValueType>) <whitespace>+ attribute(name <name>) <whitespace>* "(" <whitespace>* attribute(parameters <ParameterListDef>?) <whitespace>* ")" <whitespace>* ";" <whitespace>*
+<ContentDefinition> ::= <whitespace>* attribute(comment <Comment>?) <whitespace>* "function" <whitespace>+ attribute(type <ValueType>) <whitespace>+ attribute(name <name>) <whitespace>* "(" <whitespace>* attribute(parameters <ParameterListDef>?) <whitespace>* ")" <whitespace>* attribute(functionBody <CodeBlock>) <whitespace>*
+                    ::= <whitespace>* attribute(comment <Comment>?) <whitespace>* attribute(type <ValueType>) <whitespace>+ attribute(name <name>) <whitespace>* ";" <whitespace>*
 ################################
 #Types##########################
 ################################
 <PrimativeType>     ::= "int"
                     ::= "string"
+                    ::= "bool"
                     ::= "float"
                     ::= "void"
 <DefinedType>       ::= attribute(name <qualfied_name>)
-<SingletonType>     ::= <PrimativeType>
-                    ::= <DefinedType>
-<DimensionalNote>   ::= <whitespace>* "[" <whitespace>* "]" <whitespace>*
-<DimensionalType>   ::= <SingletonType> attribute(type <DimensionalNote>+)
-<ValueType>         ::= attribute(singletonType <SingletonType>)
-                    ::= attribute(dimensionalType <DimensionalType>)
+<SingletonType>     ::= attribute(primativeType <PrimativeType>)
+                    ::= attribute(definedType <DefinedType>)
+<DimensionalNote>   ::= <whitespace>* "[" <whitespace>* "]"
+<DimensionalType>   ::= attribute(singletonType <SingletonType>) attribute(dimensionalNote <DimensionalNote>+)
+<ValueType>         ::= attribute(dimensionalType <DimensionalType>)
+                    ::= attribute(singletonType <SingletonType>)
 ################################
 ################################
 ################################
 <ParameterListDef>  ::= <whitespace>* attribute(type <ValueType>) <whitespace>+ attribute(name <name>) <whitespace>* "," <whitespace>* attribute(parameterTail <ParameterListDef>)
                     ::= <whitespace>* attribute(type <ValueType>) <whitespace>+ attribute(name <name>) <whitespace>*
-<ParameterList>     ::= <whitespace>* attribute(name <name>) <whitespace>* "," <whitespace>* attribute(parameterTail <ParameterList>)
-                    ::= <whitespace>* attribute(name <name>) <whitespace>*
+<ParameterList>     ::= <whitespace>* attribute(rvalue <RValue>) <whitespace>* "," <whitespace>* attribute(parameterTail <ParameterList>)
+                    ::= <whitespace>* attribute(rvalue <RValue>) <whitespace>*
 <CodeBlock>         ::= <whitespace>* "{" <whitespace>* attribute(instructions <Instruction>*) <whitespace>* "}" <whitespace>*
-<Declaration>       ::= <whitespace>* attribute(type <ValueType>) <whitespace>+ attribute(name <name>) <whitespace>* ";" <whitespace>*
+<DeclarationAssign> ::= <whitespace>* "=" <whitespace>* attribute(rvalue <RValue>) <whitespace>*
+<Declaration>       ::= <whitespace>* attribute(type <ValueType>) <whitespace>+ attribute(name <name>) <whitespace>* attribute(assignment <DeclarationAssign>?) <whitespace>* ";" <whitespace>*
 <Assignment>        ::= <whitespace>* attribute(lvalue <name>) <whitespace>* "=" <whitespace>* attribute(rvalue <RValue>) <whitespace>* ";" <whitespace>*
 <Return>            ::= <whitespace>* attribute(rtn "return") <whitespace>+ attribute(rvalue <RValue>) <whitespace>* ";" <whitespace>*
-<Call>              ::= <name> "." <name> <whitespace>* "(" <whitespace>* attribute(parameters <ParameterList>?) <whitespace>* ")" <whitespace>*
-<Instruction>       ::= <CodeBlock>
-                    ::= <Return>
-                    ::= <Declaration>
-                    ::= <Assignment>
-                    ::= <Call>
-<RValue>            ::= <Call>
-                    ::= <number> "." <number>
-                    ::= <number>
-                    ::= <name>
-                    ::= "\\\"" <literal> "\\\""
+<ElseTail>          ::= <whitespace>* attribute(elseKey "else") <whitespace>* attribute(codeBlock <CodeBlock>) <whitespace>*
+<Conditional>       ::= <whitespace>* attribute(conditionalKey "if") <whitespace>* "(" <whitespace>* attribute(rvalue <RValue>) <whitespace>* ")" <whitespace>* attribute(codeBlock <CodeBlock>) <whitespace>* attribute(elseTail <ElseTail>?)
+<Loop>              ::= <whitespace>* attribute(loopKey "while") <whitespace>* "(" <whitespace>* attribute(rvalue <RValue>) <whitespace>* ")" <whitespace>* attribute(codeBlock <CodeBlock>) <whitespace>*
+<Call>              ::= attribute(variable <name>) "." attribute(function <name>) <whitespace>* "(" <whitespace>* attribute(parameters <ParameterList>?) <whitespace>* ")" <whitespace>*
+                    ::= attribute(function <name>) <whitespace>* "(" <whitespace>* attribute(parameters <ParameterList>?) <whitespace>* ")" <whitespace>*
+<Instruction>       ::= <whitespace>* attribute(comment <Comment>?) <whitespace>* attribute(codeBlock <CodeBlock>)
+                    ::= <whitespace>* attribute(comment <Comment>?) <whitespace>* attribute(rtn <Return>)
+                    ::= <whitespace>* attribute(comment <Comment>?) <whitespace>* attribute(declaration <Declaration>)
+                    ::= <whitespace>* attribute(comment <Comment>?) <whitespace>* attribute(assignment <Assignment>)
+                    ::= <whitespace>* attribute(comment <Comment>?) <whitespace>* attribute(call <Call>) <whitespace>* ";" <whitespace>*
+                    ::= <whitespace>* attribute(comment <Comment>?) <whitespace>* attribute(conditional <Conditional>)
+                    ::= <whitespace>* attribute(comment <Comment>?) <whitespace>* attribute(loop <Loop>)
+<RValueSingle>      ::= <whitespace>* attribute(unary_operator <UnaryOperator>?) <whitespace>* attribute(call <Call>)
+                    ::= <whitespace>* attribute(unary_operator <UnaryOperator>?) <whitespace>* attribute(decimalLiteral <decimal>)
+                    ::= <whitespace>* attribute(unary_operator <UnaryOperator>?) <whitespace>* attribute(integerLiteral <number>)
+                    ::= <whitespace>* attribute(unary_operator <UnaryOperator>?) <whitespace>* attribute(booleanLiteral <boolean>)
+                    ::= <whitespace>* attribute(unary_operator <UnaryOperator>?) <whitespace>* attribute(variable <name>)
+                    ::= <whitespace>* attribute(unary_operator <UnaryOperator>?) <whitespace>* "\"" attribute(stringLiteral <literal>) "\""
+<RValueTail>        ::= <whitespace>* attribute(binary_operator <BinaryOperator>) <whitespace>* attribute(value <RValueSingle>) <whitespace>* attribute(tail <RValueTail>?)
+<RValue>            ::= attribute(value <RValueSingle>) attribute(tail <RValueTail>?)
+<BinaryOperator>    ::= attribute(addition "+")
+                    ::= attribute(subtraction "-")
+                    ::= attribute(lessThan "<")
+                    ::= attribute(lessThanEq "<=")
+                    ::= attribute(equality "==")
+                    ::= attribute(notEquality "!=")
+                    ::= attribute(greaterThanEq ">=")
+                    ::= attribute(greaterThan ">")
+                    ::= attribute(orOp "||")
+                    ::= attribute(andOp "&&")
+<UnaryOperator>     ::= attribute(negation "!")
+<Comment>           ::= "/*" attribute(content <comment_character>*) "*/"
+<comment_character> ::= <whitespace>
+                    ::= <name_character>
+                    ::= "!"
+                    ::= "\\\""
+                    ::= "#"
+                    ::= "$"
+                    ::= "%"
+                    ::= "&"
+                    ::= "'"
+                    ::= "("
+                    ::= ")"
+                    ::= "+"
+                    ::= ","
+                    ::= "-"
+                    ::= "."
+                    ::= "/"
+                    ::= ":"
+                    ::= ";"
+                    ::= "<"
+                    ::= "="
+                    ::= ">"
+                    ::= "?"
+                    ::= "@"
+                    ::= "["
+                    ::= "]"
+                    ::= "^"
+                    ::= "_"
+                    ::= "{"
+                    ::= "|"
+                    ::= "}"
+                    ::= "~"
 <qualfied_name>     ::= attribute(name <name>) attribute(tail <name_tail>?)
 <name_tail>         ::= "." attribute(name <name>) attribute(tail <name_tail>?)
 <name>              ::= <name_character>+
@@ -112,6 +166,9 @@
                     ::= "x"
                     ::= "y"
                     ::= "z"
+<boolean>           ::= "true"
+                    ::= "false"
+<decimal>           ::= <number> "." <number>
 <number>            ::= <digit>+
 <digit>             ::= "0"
                     ::= "1"
