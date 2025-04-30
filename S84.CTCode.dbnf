@@ -1,8 +1,9 @@
 ################################
 #Global Structure###############
 ################################
-<CTCodeFile>        ::= attribute(declarations <ExternalDefinition>*) attribute(definitions <Definition>*)
-<ExternalDefinition>::= "exdef" <whitespace>* attribute(exdef <qualfied_name>) <whitespace>* ";"
+<CTCodeFile>        ::= attribute(declarations <ExternalDefinition>*) attribute(unmanaged_types <UnmanagedType>*) attribute(definitions <Definition>*)
+<ExternalDefinition>::= "exdef" <whitespace>* attribute(exdef <qualfied_name>) <whitespace>* ";" <whitespace>*
+<UnmanagedType>     ::= "unmanaged" <whitespace>* attribute(unmanaged_type <qualfied_name>) <whitespace>* ";" <whitespace>*
 <Definition>        ::= attribute(interfaceDef <InterfaceDef>)
                     ::= attribute(classDef <ClassDef>)
 <InterfaceDef>      ::= <whitespace>* attribute(comment <Comment>?) <whitespace>* "interface" <whitespace>+ attribute(name <name>) <whitespace>* "{" <whitespace>* attribute(declarations <ContentDeclaration>*) <whitespace>* "}" <whitespace>*

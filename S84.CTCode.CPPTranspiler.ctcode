@@ -1,9 +1,41 @@
 exdef S84.CTCode.dbnf;
 
+unmanaged s84.ctcode.dbnf.ClassDef;
+unmanaged s84.ctcode.dbnf.ContentDeclaration;
+unmanaged s84.ctcode.dbnf.ContentDefinition;
+unmanaged s84.ctcode.dbnf.Definition;
+unmanaged s84.ctcode.dbnf.ExternalDefinition;
+unmanaged s84.ctcode.dbnf.Instruction;
+unmanaged s84.ctcode.dbnf.UnmanagedType;
+
 interface OutputStream {
     function void WriteLine(string line);
 }
+
 class CPPTranspilerCTCodeLogic {
+    string[] saved_unmanaged_types;
+
+    function void SetSavedUnmanagedTypes(string[] value)
+    {
+        saved_unmanaged_types = value;
+    }
+
+    function bool IsUnmanagedType(string type_name)
+    {
+        int index = 0;
+
+        while (index < Size(saved_unmanaged_types))
+        {
+            if (type_name == Element(saved_unmanaged_types, index))
+            {
+                return true;
+            }
+
+            index = index + 1;
+        }
+
+        return false;
+    }
 
     function void GenerateHeader(s84.ctcode.dbnf.CTCodeFile ctcodeFile, OutputStream header, string[] base_name_tokens)
     {
@@ -31,6 +63,7 @@ class CPPTranspilerCTCodeLogic {
         header.WriteLine("");
         header.WriteLine("#include <cstring>");
         header.WriteLine("#include <list>");
+        header.WriteLine("#include <memory>");
         header.WriteLine("#include <string>");
         header.WriteLine("#include <vector>");
         header.WriteLine("");
@@ -92,6 +125,35 @@ class CPPTranspilerCTCodeLogic {
         s84.ctcode.dbnf.DefinitionList definition_list = ctcodeFile.GetDefinitions();
         s84.ctcode.dbnf.Definition[] definitions = definition_list.GetVector();
 
+        header.WriteLine("");
+        header.WriteLine("template<typename T>");
+        header.WriteLine("class OmniPointer");
+        header.WriteLine("{");
+        header.WriteLine("public:");
+        header.WriteLine("    OmniPointer() { }");
+        header.WriteLine("    OmniPointer(T* value) { value_raw = value; }");
+        header.WriteLine("    OmniPointer(std::shared_ptr<T> value) { value_shared = value; }");
+        header.WriteLine("");
+        header.WriteLine("    operator bool()");
+        header.WriteLine("    {");
+        header.WriteLine("        if (value_raw) return true;");
+        header.WriteLine("        return value_shared.get() != NULL;");
+        header.WriteLine("    }");
+        header.WriteLine("    T& operator*()");
+        header.WriteLine("    {");
+        header.WriteLine("        if (value_raw) return *value_raw;");
+        header.WriteLine("        return *value_shared;");
+        header.WriteLine("    }");
+        header.WriteLine("    T* operator->()");
+        header.WriteLine("    {");
+        header.WriteLine("        if (value_raw) return value_raw;");
+        header.WriteLine("        return value_shared.get();");
+        header.WriteLine("    }");
+        header.WriteLine("");
+        header.WriteLine("private:");
+        header.WriteLine("    T* value_raw;");
+        header.WriteLine("    std::shared_ptr<T> value_shared;");
+        header.WriteLine("};");
         header.WriteLine("");
         header.WriteLine("template<typename T>");
         header.WriteLine("inline int Size(std::vector<T> input) { return input.size(); };");
@@ -454,6 +516,21 @@ class CPPTranspilerCTCodeLogic {
         return Concat(exdef_name.UnParse(), ".hpp");
     }
 
+    function string[] GetUnmanagedTypes(s84.ctcode.dbnf.UnmanagedType[] unmanaged_types)
+    {
+        string[] unmanaged_type_strings;
+        int index;
+        index = 0;
+
+        while (index < Size(unmanaged_types)) {
+            s84.ctcode.dbnf.UnmanagedType unmanaged_type = Element(unmanaged_types, index);
+            unmanaged_type_strings = Append(unmanaged_type_strings, GetRawDefinedType(unmanaged_type.GetUnmanagedType()));
+            index = index + 1;
+        }
+
+        return unmanaged_type_strings;
+    }
+
     function string Indentation(int indent) {
         string result;
         result = "";
@@ -719,6 +796,16 @@ class CPPTranspilerCTCodeLogic {
     }
 
     function string GetDefinedType(s84.ctcode.dbnf.QualfiedName qualified_name) {
+        string raw_type = GetRawDefinedType(qualified_name);
+
+        if (IsUnmanagedType(raw_type)) {
+            return Concat(raw_type, "*");
+        } else {
+            return Concat("OmniPointer<", Concat(raw_type, ">"));
+        }
+    }
+
+    function string GetRawDefinedType(s84.ctcode.dbnf.QualfiedName qualified_name) {
         s84.ctcode.dbnf.NameTail name_tail;
         name_tail = qualified_name.GetTail();
         s84.ctcode.dbnf.Name name;
@@ -733,22 +820,19 @@ class CPPTranspilerCTCodeLogic {
             string lower_name_string;
             lower_name_string = ToLower(name_string);
             string name_tail_string;
-            name_tail_string = GetDefinedTypeTail(name_tail);
+            name_tail_string = GetRawDefinedTypeTail(name_tail);
             result = Concat(result, lower_name_string);
             result = Concat(result, name_tail_string);
         } else {
-            string type_suffix;
-            type_suffix = "*";
             string class_name;
             class_name = GenerateClassName(name);
             result = Concat(result, class_name);
-            result = Concat(result, type_suffix);
         }
 
        return result;
     }
 
-    function string GetDefinedTypeTail(s84.ctcode.dbnf.NameTail name_tail)
+    function string GetRawDefinedTypeTail(s84.ctcode.dbnf.NameTail name_tail)
     {
         s84.ctcode.dbnf.NameTail name_tail_tail;
         name_tail_tail = name_tail.GetTail();
@@ -764,16 +848,13 @@ class CPPTranspilerCTCodeLogic {
             string lower_name_string;
             lower_name_string = ToLower(name_string);
             string name_tail_tail_string;
-            name_tail_tail_string = GetDefinedTypeTail(name_tail_tail);
+            name_tail_tail_string = GetRawDefinedTypeTail(name_tail_tail);
             result = Concat(result, lower_name_string);
             result = Concat(result, name_tail_tail_string);
         } else {
-            string type_suffix;
-            type_suffix = "*";
             string class_name;
             class_name = GenerateClassName(name);
             result = Concat(result, class_name);
-            result = Concat(result, type_suffix);
         }
 
        return result;

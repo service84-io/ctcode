@@ -16,6 +16,7 @@ class Node;
 class String;
 class CTCodeFile;
 class ExternalDefinition;
+class UnmanagedType;
 class Definition;
 class InterfaceDef;
 class ClassDef;
@@ -129,10 +130,12 @@ public:
 
     List<s84::ctcode::dbnf::ExternalDefinition>* GetDeclarations();
     List<s84::ctcode::dbnf::Definition>* GetDefinitions();
+    List<s84::ctcode::dbnf::UnmanagedType>* GetUnmanagedTypes();
 
 private:
     List<s84::ctcode::dbnf::ExternalDefinition>* declarations_;
     List<s84::ctcode::dbnf::Definition>* definitions_;
+    List<s84::ctcode::dbnf::UnmanagedType>* unmanaged_types_;
 };
 
 typedef List<ExternalDefinition> ExternalDefinitionList;
@@ -150,6 +153,23 @@ public:
 
 private:
     s84::ctcode::dbnf::QualfiedName* exdef_;
+};
+
+typedef List<UnmanagedType> UnmanagedTypeList;
+
+class UnmanagedType : public s84::ctcode::dbnf::Node
+{
+public:
+    UnmanagedType();
+    ~UnmanagedType();
+
+    static s84::ctcode::dbnf::UnmanagedType* Parse(const char*& index);
+    static s84::ctcode::dbnf::UnmanagedType* Parse(s84::ctcode::dbnf::LengthString& index);
+
+    s84::ctcode::dbnf::QualfiedName* GetUnmanagedType();
+
+private:
+    s84::ctcode::dbnf::QualfiedName* unmanaged_type_;
 };
 
 typedef List<Definition> DefinitionList;

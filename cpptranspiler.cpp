@@ -31,8 +31,6 @@ private:
 class CPPTranspiler : public s84::ctcode::Transpiler
 {
 public:
-	s84::ctcode::cpptranspiler::ctcode::CPPTranspilerCTCodeLogic ctcodeLogic;
-
 	CPPTranspiler()
 	{
 	}
@@ -47,11 +45,13 @@ public:
 
 		if(ctcodeFile)
 		{
+			s84::ctcode::cpptranspiler::ctcode::CPPTranspilerCTCodeLogic ctcodeLogic;
 			std::ofstream header(base_name + ".hpp", std::ofstream::trunc | std::ofstream::out);
 			std::ofstream implementation(base_name + ".cpp", std::ofstream::trunc | std::ofstream::out);
 			OStreamWriter header_stream(header);
 			OStreamWriter implementation_stream(implementation);
 			std::vector<std::string> base_name_tokens = ctcodeLogic.TokenizeBaseName(base_name);
+			ctcodeLogic.SetSavedUnmanagedTypes(ctcodeLogic.GetUnmanagedTypes(ctcodeFile->GetUnmanagedTypes()->GetVector()));
 			ctcodeLogic.GenerateHeader(ctcodeFile, &header_stream, base_name_tokens);
 			ctcodeLogic.GenerateImplementation(ctcodeFile, &implementation_stream, base_name, base_name_tokens);
 			return 0;
