@@ -1,4 +1,4 @@
-exdef S84.CTCode.dbnf
+exdef S84.CTCode.dbnf;
 
 interface OutputStream {
     function void WriteLine(string line);
