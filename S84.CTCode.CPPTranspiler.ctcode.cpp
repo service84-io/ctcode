@@ -209,10 +209,10 @@ namespace ctcode
             header->WriteLine("");
             header->WriteLine("private:");
             index = 0;
-            while (index < Size(function_definitions))
+            while (index < Size(member_definitions))
             {
                 s84::ctcode::dbnf::ContentDefinition* definition;
-                definition = Element(function_definitions, index);
+                definition = Element(member_definitions, index);
                 header->WriteLine(Concat("    ", Concat(GetType(definition->GetType()), Concat(" ", Concat(GenerateVariableName(definition->GetName()), ";")))));
                 index = index + 1;
             }
@@ -330,7 +330,7 @@ namespace ctcode
             while (index < Size(function_definitions))
             {
                 s84::ctcode::dbnf::ContentDefinition* definition;
-                definition = Element(definitions, index);
+                definition = Element(function_definitions, index);
                 if (!first_class_definition || index != 0)
                 {
                     implementation->WriteLine("");
