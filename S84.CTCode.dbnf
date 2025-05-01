@@ -43,6 +43,7 @@
 <Loop>              ::= <whitespace>* attribute(loopKey "while") <whitespace>* "(" <whitespace>* attribute(rvalue <RValue>) <whitespace>* ")" <whitespace>* attribute(codeBlock <CodeBlock>) <whitespace>*
 <Call>              ::= attribute(variable <name>) "." attribute(function <name>) <whitespace>* "(" <whitespace>* attribute(parameters <ParameterList>?) <whitespace>* ")" <whitespace>*
                     ::= attribute(function <name>) <whitespace>* "(" <whitespace>* attribute(parameters <ParameterList>?) <whitespace>* ")" <whitespace>*
+<Allocate>          ::= <whitespace>* "new" <whitespace>* attribute(managed_type <qualfied_name>) <whitespace>*
 <Instruction>       ::= <whitespace>* attribute(comment <Comment>?) <whitespace>* attribute(codeBlock <CodeBlock>)
                     ::= <whitespace>* attribute(comment <Comment>?) <whitespace>* attribute(rtn <Return>)
                     ::= <whitespace>* attribute(comment <Comment>?) <whitespace>* attribute(declaration <Declaration>)
@@ -51,6 +52,7 @@
                     ::= <whitespace>* attribute(comment <Comment>?) <whitespace>* attribute(conditional <Conditional>)
                     ::= <whitespace>* attribute(comment <Comment>?) <whitespace>* attribute(loop <Loop>)
 <RValueSingle>      ::= <whitespace>* attribute(unary_operator <UnaryOperator>?) <whitespace>* attribute(call <Call>)
+                    ::= <whitespace>* attribute(unary_operator <UnaryOperator>?) <whitespace>* attribute(allocate <Allocate>)
                     ::= <whitespace>* attribute(unary_operator <UnaryOperator>?) <whitespace>* attribute(decimalLiteral <decimal>)
                     ::= <whitespace>* attribute(unary_operator <UnaryOperator>?) <whitespace>* attribute(integerLiteral <number>)
                     ::= <whitespace>* attribute(unary_operator <UnaryOperator>?) <whitespace>* attribute(booleanLiteral <boolean>)

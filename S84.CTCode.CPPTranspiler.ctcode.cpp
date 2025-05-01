@@ -602,6 +602,13 @@ namespace ctcode
             return GetCallString(r_value_single->GetCall());
         }
 
+        if (r_value_single->GetAllocate())
+        {
+            OmniPointer<s84::ctcode::dbnf::Allocate> allocate = r_value_single->GetAllocate();
+            std::string raw_type = GetRawDefinedType(allocate->GetManagedType());
+            return Concat("std::shared_ptr<", Concat(raw_type, Concat(">(new ", Concat(raw_type, "())"))));
+        }
+
         if (r_value_single->GetDecimalLiteral())
         {
             return r_value_single->UnParse();

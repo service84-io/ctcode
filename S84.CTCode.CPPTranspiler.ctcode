@@ -579,6 +579,12 @@ class CPPTranspilerCTCodeLogic {
             return GetCallString(rValueSingle.GetCall());
         }
 
+        if (rValueSingle.GetAllocate()) {
+            s84.ctcode.dbnf.Allocate allocate = rValueSingle.GetAllocate();
+            string raw_type = GetRawDefinedType(allocate.GetManagedType());
+            return Concat("std::shared_ptr<", Concat(raw_type, Concat(">(new ", Concat(raw_type, "())"))));
+        }
+
         if (rValueSingle.GetDecimalLiteral()) {
             return rValueSingle.UnParse();
         }

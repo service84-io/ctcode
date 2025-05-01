@@ -39,6 +39,7 @@ class ElseTail;
 class Conditional;
 class Loop;
 class Call;
+class Allocate;
 class Instruction;
 class RValueSingle;
 class RValueTail;
@@ -596,6 +597,23 @@ private:
     s84::ctcode::dbnf::Name* variable_;
 };
 
+typedef List<Allocate> AllocateList;
+
+class Allocate : public s84::ctcode::dbnf::Node
+{
+public:
+    Allocate();
+    ~Allocate();
+
+    static s84::ctcode::dbnf::Allocate* Parse(const char*& index);
+    static s84::ctcode::dbnf::Allocate* Parse(s84::ctcode::dbnf::LengthString& index);
+
+    s84::ctcode::dbnf::QualfiedName* GetManagedType();
+
+private:
+    s84::ctcode::dbnf::QualfiedName* managed_type_;
+};
+
 typedef List<Instruction> InstructionList;
 
 class Instruction : public s84::ctcode::dbnf::Node
@@ -638,6 +656,7 @@ public:
     static s84::ctcode::dbnf::RValueSingle* Parse(const char*& index);
     static s84::ctcode::dbnf::RValueSingle* Parse(s84::ctcode::dbnf::LengthString& index);
 
+    s84::ctcode::dbnf::Allocate* GetAllocate();
     s84::ctcode::dbnf::Boolean* GetBooleanLiteral();
     s84::ctcode::dbnf::Call* GetCall();
     s84::ctcode::dbnf::Decimal* GetDecimalLiteral();
@@ -647,6 +666,7 @@ public:
     s84::ctcode::dbnf::Name* GetVariable();
 
 private:
+    s84::ctcode::dbnf::Allocate* allocate_;
     s84::ctcode::dbnf::Boolean* booleanLiteral_;
     s84::ctcode::dbnf::Call* call_;
     s84::ctcode::dbnf::Decimal* decimalLiteral_;
