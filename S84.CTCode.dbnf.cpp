@@ -2888,7 +2888,7 @@ s84::ctcode::dbnf::Allocate* Allocate::Parse(s84::ctcode::dbnf::LengthString& in
     std::list<s84::ctcode::dbnf::Node*> children;
     s84::ctcode::dbnf::QualfiedName* managed_type = NULL;
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_NEW_ID97>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, managed_type, s84::ctcode::dbnf::QualfiedName::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_NEW_ID97>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 1>::Parse(index)) && s84::ctcode::dbnf::Match(children, managed_type, s84::ctcode::dbnf::QualfiedName::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::Allocate* instance = new s84::ctcode::dbnf::Allocate();
         s84::ctcode::dbnf::LengthString data;
