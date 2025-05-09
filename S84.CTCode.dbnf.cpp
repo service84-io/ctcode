@@ -3485,18 +3485,6 @@ s84::ctcode::dbnf::BinaryOperator* BinaryOperator::Parse(s84::ctcode::dbnf::Leng
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, lessThan, StringParser<LITERAL_ID31>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
-    {
-        s84::ctcode::dbnf::BinaryOperator* instance = new s84::ctcode::dbnf::BinaryOperator();
-        s84::ctcode::dbnf::LengthString data;
-        data.length = start.length - index.length;
-        data.data = start.data;
-        instance->SetString(data);
-        instance->SetChildren(children);
-        instance->lessThan_ = lessThan;
-        return instance;
-    }
-
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, lessThanEq, StringParser<LITERAL_ID32>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::BinaryOperator* instance = new s84::ctcode::dbnf::BinaryOperator();
@@ -3506,6 +3494,18 @@ s84::ctcode::dbnf::BinaryOperator* BinaryOperator::Parse(s84::ctcode::dbnf::Leng
         instance->SetString(data);
         instance->SetChildren(children);
         instance->lessThanEq_ = lessThanEq;
+        return instance;
+    }
+
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, greaterThanEq, StringParser<LITERAL_ID36>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    {
+        s84::ctcode::dbnf::BinaryOperator* instance = new s84::ctcode::dbnf::BinaryOperator();
+        s84::ctcode::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        instance->greaterThanEq_ = greaterThanEq;
         return instance;
     }
 
@@ -3533,7 +3533,7 @@ s84::ctcode::dbnf::BinaryOperator* BinaryOperator::Parse(s84::ctcode::dbnf::Leng
         return instance;
     }
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, greaterThanEq, StringParser<LITERAL_ID36>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, lessThan, StringParser<LITERAL_ID31>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::BinaryOperator* instance = new s84::ctcode::dbnf::BinaryOperator();
         s84::ctcode::dbnf::LengthString data;
@@ -3541,7 +3541,7 @@ s84::ctcode::dbnf::BinaryOperator* BinaryOperator::Parse(s84::ctcode::dbnf::Leng
         data.data = start.data;
         instance->SetString(data);
         instance->SetChildren(children);
-        instance->greaterThanEq_ = greaterThanEq;
+        instance->lessThan_ = lessThan;
         return instance;
     }
 
