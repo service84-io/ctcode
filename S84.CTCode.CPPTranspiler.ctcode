@@ -363,12 +363,12 @@ class CPPTranspilerCTCodeLogic {
         while (index < Size(classDefinitions)) {
             s84.ctcode.dbnf.ClassDef classDefinition;
             classDefinition = Element(classDefinitions, index);
-            WriteClassDefinition(classDefinition, implementation, index == 0);
+            WriteClassDefinition(classDefinition, implementation);
             index = index + 1;
         }
     }
 
-    function void WriteClassDefinition(s84.ctcode.dbnf.ClassDef classDefinition, OutputStream implementation, bool first_class_definition)
+    function void WriteClassDefinition(s84.ctcode.dbnf.ClassDef classDefinition, OutputStream implementation)
     {
         string class_name;
         class_name = GenerateClassName(classDefinition.GetName());
@@ -401,14 +401,8 @@ class CPPTranspilerCTCodeLogic {
             while (index < Size(functionDefinitions)) {
                 s84.ctcode.dbnf.ContentDefinition definition;
                 definition = Element(functionDefinitions, index);
-
-                if (!first_class_definition || index != 0) {
-                    implementation.WriteLine("");
-                }
-
                 implementation.WriteLine(Concat("    ", Concat(GetType(definition.GetType()), Concat(" ", Concat(class_name, Concat("::", Concat(GenerateCallName(definition.GetName()), Concat("(", Concat(GenerateParameterList(definition.GetParameters()), ")")))))))));
                 WriteCodeBlock(1, implementation, definition.GetFunctionBody(), true);
-
                 index = index + 1;
             }
         }
