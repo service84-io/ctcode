@@ -1395,6 +1395,10 @@ s84::ctcode::dbnf::CTCodeFile* CTCodeFile::Parse(s84::ctcode::dbnf::LengthString
         instance->unmanaged_types_ = unmanaged_types;
         instance->definitions_ = definitions;
         return instance;
+    } else {
+        declarations = NULL;
+        unmanaged_types = NULL;
+        definitions = NULL;
     }
 
     s84::ctcode::dbnf::ClearNodes(children);
@@ -1441,6 +1445,8 @@ s84::ctcode::dbnf::ExternalDefinition* ExternalDefinition::Parse(s84::ctcode::db
         instance->SetChildren(children);
         instance->exdef_ = exdef;
         return instance;
+    } else {
+        exdef = NULL;
     }
 
     s84::ctcode::dbnf::ClearNodes(children);
@@ -1487,6 +1493,8 @@ s84::ctcode::dbnf::UnmanagedType* UnmanagedType::Parse(s84::ctcode::dbnf::Length
         instance->SetChildren(children);
         instance->unmanaged_type_ = unmanaged_type;
         return instance;
+    } else {
+        unmanaged_type = NULL;
     }
 
     s84::ctcode::dbnf::ClearNodes(children);
@@ -1540,6 +1548,8 @@ s84::ctcode::dbnf::Definition* Definition::Parse(s84::ctcode::dbnf::LengthString
         instance->SetChildren(children);
         instance->interfaceDef_ = interfaceDef;
         return instance;
+    } else {
+        interfaceDef = NULL;
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, classDef, s84::ctcode::dbnf::ClassDef::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -1552,6 +1562,8 @@ s84::ctcode::dbnf::Definition* Definition::Parse(s84::ctcode::dbnf::LengthString
         instance->SetChildren(children);
         instance->classDef_ = classDef;
         return instance;
+    } else {
+        classDef = NULL;
     }
 
     s84::ctcode::dbnf::ClearNodes(children);
@@ -1614,6 +1626,10 @@ s84::ctcode::dbnf::InterfaceDef* InterfaceDef::Parse(s84::ctcode::dbnf::LengthSt
         instance->name_ = name;
         instance->declarations_ = declarations;
         return instance;
+    } else {
+        comment = NULL;
+        name = NULL;
+        declarations = NULL;
     }
 
     s84::ctcode::dbnf::ClearNodes(children);
@@ -1676,6 +1692,10 @@ s84::ctcode::dbnf::ClassDef* ClassDef::Parse(s84::ctcode::dbnf::LengthString& in
         instance->name_ = name;
         instance->definitions_ = definitions;
         return instance;
+    } else {
+        comment = NULL;
+        name = NULL;
+        definitions = NULL;
     }
 
     s84::ctcode::dbnf::ClearNodes(children);
@@ -1746,6 +1766,11 @@ s84::ctcode::dbnf::ContentDeclaration* ContentDeclaration::Parse(s84::ctcode::db
         instance->name_ = name;
         instance->parameters_ = parameters;
         return instance;
+    } else {
+        comment = NULL;
+        type = NULL;
+        name = NULL;
+        parameters = NULL;
     }
 
     s84::ctcode::dbnf::ClearNodes(children);
@@ -1824,6 +1849,12 @@ s84::ctcode::dbnf::ContentDefinition* ContentDefinition::Parse(s84::ctcode::dbnf
         instance->parameters_ = parameters;
         instance->functionBody_ = functionBody;
         return instance;
+    } else {
+        comment = NULL;
+        type = NULL;
+        name = NULL;
+        parameters = NULL;
+        functionBody = NULL;
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Optional(children, comment, s84::ctcode::dbnf::Comment::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, type, s84::ctcode::dbnf::ValueType::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 1>::Parse(index)) && s84::ctcode::dbnf::Match(children, name, s84::ctcode::dbnf::Name::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID30>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -1838,6 +1869,10 @@ s84::ctcode::dbnf::ContentDefinition* ContentDefinition::Parse(s84::ctcode::dbnf
         instance->type_ = type;
         instance->name_ = name;
         return instance;
+    } else {
+        comment = NULL;
+        type = NULL;
+        name = NULL;
     }
 
     s84::ctcode::dbnf::ClearNodes(children);
@@ -1876,6 +1911,7 @@ s84::ctcode::dbnf::PrimativeType* PrimativeType::Parse(s84::ctcode::dbnf::Length
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_STRING_ID104>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -1887,6 +1923,7 @@ s84::ctcode::dbnf::PrimativeType* PrimativeType::Parse(s84::ctcode::dbnf::Length
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_BOOL_ID75>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -1898,6 +1935,7 @@ s84::ctcode::dbnf::PrimativeType* PrimativeType::Parse(s84::ctcode::dbnf::Length
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_FLOAT_ID84>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -1909,6 +1947,7 @@ s84::ctcode::dbnf::PrimativeType* PrimativeType::Parse(s84::ctcode::dbnf::Length
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_VOID_ID110>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -1920,6 +1959,7 @@ s84::ctcode::dbnf::PrimativeType* PrimativeType::Parse(s84::ctcode::dbnf::Length
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     s84::ctcode::dbnf::ClearNodes(children);
@@ -1966,6 +2006,8 @@ s84::ctcode::dbnf::DefinedType* DefinedType::Parse(s84::ctcode::dbnf::LengthStri
         instance->SetChildren(children);
         instance->name_ = name;
         return instance;
+    } else {
+        name = NULL;
     }
 
     s84::ctcode::dbnf::ClearNodes(children);
@@ -2019,6 +2061,8 @@ s84::ctcode::dbnf::SingletonType* SingletonType::Parse(s84::ctcode::dbnf::Length
         instance->SetChildren(children);
         instance->primativeType_ = primativeType;
         return instance;
+    } else {
+        primativeType = NULL;
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, definedType, s84::ctcode::dbnf::DefinedType::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -2031,6 +2075,8 @@ s84::ctcode::dbnf::SingletonType* SingletonType::Parse(s84::ctcode::dbnf::Length
         instance->SetChildren(children);
         instance->definedType_ = definedType;
         return instance;
+    } else {
+        definedType = NULL;
     }
 
     s84::ctcode::dbnf::ClearNodes(children);
@@ -2069,6 +2115,7 @@ s84::ctcode::dbnf::DimensionalNote* DimensionalNote::Parse(s84::ctcode::dbnf::Le
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     s84::ctcode::dbnf::ClearNodes(children);
@@ -2123,6 +2170,9 @@ s84::ctcode::dbnf::DimensionalType* DimensionalType::Parse(s84::ctcode::dbnf::Le
         instance->singletonType_ = singletonType;
         instance->dimensionalNote_ = dimensionalNote;
         return instance;
+    } else {
+        singletonType = NULL;
+        dimensionalNote = NULL;
     }
 
     s84::ctcode::dbnf::ClearNodes(children);
@@ -2161,6 +2211,7 @@ s84::ctcode::dbnf::MapNote* MapNote::Parse(s84::ctcode::dbnf::LengthString& inde
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     s84::ctcode::dbnf::ClearNodes(children);
@@ -2215,6 +2266,9 @@ s84::ctcode::dbnf::MapType* MapType::Parse(s84::ctcode::dbnf::LengthString& inde
         instance->singletonType_ = singletonType;
         instance->mapNote_ = mapNote;
         return instance;
+    } else {
+        singletonType = NULL;
+        mapNote = NULL;
     }
 
     s84::ctcode::dbnf::ClearNodes(children);
@@ -2275,6 +2329,8 @@ s84::ctcode::dbnf::ValueType* ValueType::Parse(s84::ctcode::dbnf::LengthString& 
         instance->SetChildren(children);
         instance->dimensionalType_ = dimensionalType;
         return instance;
+    } else {
+        dimensionalType = NULL;
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, mapType, s84::ctcode::dbnf::MapType::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -2287,6 +2343,8 @@ s84::ctcode::dbnf::ValueType* ValueType::Parse(s84::ctcode::dbnf::LengthString& 
         instance->SetChildren(children);
         instance->mapType_ = mapType;
         return instance;
+    } else {
+        mapType = NULL;
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, singletonType, s84::ctcode::dbnf::SingletonType::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -2299,6 +2357,8 @@ s84::ctcode::dbnf::ValueType* ValueType::Parse(s84::ctcode::dbnf::LengthString& 
         instance->SetChildren(children);
         instance->singletonType_ = singletonType;
         return instance;
+    } else {
+        singletonType = NULL;
     }
 
     s84::ctcode::dbnf::ClearNodes(children);
@@ -2361,6 +2421,10 @@ s84::ctcode::dbnf::ParameterListDef* ParameterListDef::Parse(s84::ctcode::dbnf::
         instance->name_ = name;
         instance->parameterTail_ = parameterTail;
         return instance;
+    } else {
+        type = NULL;
+        name = NULL;
+        parameterTail = NULL;
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, type, s84::ctcode::dbnf::ValueType::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 1>::Parse(index)) && s84::ctcode::dbnf::Match(children, name, s84::ctcode::dbnf::Name::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -2374,6 +2438,9 @@ s84::ctcode::dbnf::ParameterListDef* ParameterListDef::Parse(s84::ctcode::dbnf::
         instance->type_ = type;
         instance->name_ = name;
         return instance;
+    } else {
+        type = NULL;
+        name = NULL;
     }
 
     s84::ctcode::dbnf::ClearNodes(children);
@@ -2428,6 +2495,9 @@ s84::ctcode::dbnf::ParameterList* ParameterList::Parse(s84::ctcode::dbnf::Length
         instance->rvalue_ = rvalue;
         instance->parameterTail_ = parameterTail;
         return instance;
+    } else {
+        rvalue = NULL;
+        parameterTail = NULL;
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, rvalue, s84::ctcode::dbnf::RValue::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -2440,6 +2510,8 @@ s84::ctcode::dbnf::ParameterList* ParameterList::Parse(s84::ctcode::dbnf::Length
         instance->SetChildren(children);
         instance->rvalue_ = rvalue;
         return instance;
+    } else {
+        rvalue = NULL;
     }
 
     s84::ctcode::dbnf::ClearNodes(children);
@@ -2486,6 +2558,8 @@ s84::ctcode::dbnf::CodeBlock* CodeBlock::Parse(s84::ctcode::dbnf::LengthString& 
         instance->SetChildren(children);
         instance->instructions_ = instructions;
         return instance;
+    } else {
+        instructions = NULL;
     }
 
     s84::ctcode::dbnf::ClearNodes(children);
@@ -2532,6 +2606,8 @@ s84::ctcode::dbnf::DeclarationAssign* DeclarationAssign::Parse(s84::ctcode::dbnf
         instance->SetChildren(children);
         instance->rvalue_ = rvalue;
         return instance;
+    } else {
+        rvalue = NULL;
     }
 
     s84::ctcode::dbnf::ClearNodes(children);
@@ -2594,6 +2670,10 @@ s84::ctcode::dbnf::Declaration* Declaration::Parse(s84::ctcode::dbnf::LengthStri
         instance->name_ = name;
         instance->assignment_ = assignment;
         return instance;
+    } else {
+        type = NULL;
+        name = NULL;
+        assignment = NULL;
     }
 
     s84::ctcode::dbnf::ClearNodes(children);
@@ -2648,6 +2728,9 @@ s84::ctcode::dbnf::Assignment* Assignment::Parse(s84::ctcode::dbnf::LengthString
         instance->lvalue_ = lvalue;
         instance->rvalue_ = rvalue;
         return instance;
+    } else {
+        lvalue = NULL;
+        rvalue = NULL;
     }
 
     s84::ctcode::dbnf::ClearNodes(children);
@@ -2702,6 +2785,9 @@ s84::ctcode::dbnf::Return* Return::Parse(s84::ctcode::dbnf::LengthString& index)
         instance->rtn_ = rtn;
         instance->rvalue_ = rvalue;
         return instance;
+    } else {
+        rtn = NULL;
+        rvalue = NULL;
     }
 
     s84::ctcode::dbnf::ClearNodes(children);
@@ -2756,6 +2842,9 @@ s84::ctcode::dbnf::ElseTail* ElseTail::Parse(s84::ctcode::dbnf::LengthString& in
         instance->elseKey_ = elseKey;
         instance->codeBlock_ = codeBlock;
         return instance;
+    } else {
+        elseKey = NULL;
+        codeBlock = NULL;
     }
 
     s84::ctcode::dbnf::ClearNodes(children);
@@ -2826,6 +2915,11 @@ s84::ctcode::dbnf::Conditional* Conditional::Parse(s84::ctcode::dbnf::LengthStri
         instance->codeBlock_ = codeBlock;
         instance->elseTail_ = elseTail;
         return instance;
+    } else {
+        conditionalKey = NULL;
+        rvalue = NULL;
+        codeBlock = NULL;
+        elseTail = NULL;
     }
 
     s84::ctcode::dbnf::ClearNodes(children);
@@ -2888,6 +2982,10 @@ s84::ctcode::dbnf::Loop* Loop::Parse(s84::ctcode::dbnf::LengthString& index)
         instance->rvalue_ = rvalue;
         instance->codeBlock_ = codeBlock;
         return instance;
+    } else {
+        loopKey = NULL;
+        rvalue = NULL;
+        codeBlock = NULL;
     }
 
     s84::ctcode::dbnf::ClearNodes(children);
@@ -2950,6 +3048,10 @@ s84::ctcode::dbnf::Call* Call::Parse(s84::ctcode::dbnf::LengthString& index)
         instance->function_ = function;
         instance->parameters_ = parameters;
         return instance;
+    } else {
+        variable = NULL;
+        function = NULL;
+        parameters = NULL;
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, function, s84::ctcode::dbnf::Name::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID9>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Optional(children, parameters, s84::ctcode::dbnf::ParameterList::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID10>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -2963,6 +3065,9 @@ s84::ctcode::dbnf::Call* Call::Parse(s84::ctcode::dbnf::LengthString& index)
         instance->function_ = function;
         instance->parameters_ = parameters;
         return instance;
+    } else {
+        function = NULL;
+        parameters = NULL;
     }
 
     s84::ctcode::dbnf::ClearNodes(children);
@@ -3009,6 +3114,8 @@ s84::ctcode::dbnf::Allocate* Allocate::Parse(s84::ctcode::dbnf::LengthString& in
         instance->SetChildren(children);
         instance->managed_type_ = managed_type;
         return instance;
+    } else {
+        managed_type = NULL;
     }
 
     s84::ctcode::dbnf::ClearNodes(children);
@@ -3105,6 +3212,9 @@ s84::ctcode::dbnf::Instruction* Instruction::Parse(s84::ctcode::dbnf::LengthStri
         instance->comment_ = comment;
         instance->codeBlock_ = codeBlock;
         return instance;
+    } else {
+        comment = NULL;
+        codeBlock = NULL;
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Optional(children, comment, s84::ctcode::dbnf::Comment::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, rtn, s84::ctcode::dbnf::Return::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -3118,6 +3228,9 @@ s84::ctcode::dbnf::Instruction* Instruction::Parse(s84::ctcode::dbnf::LengthStri
         instance->comment_ = comment;
         instance->rtn_ = rtn;
         return instance;
+    } else {
+        comment = NULL;
+        rtn = NULL;
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Optional(children, comment, s84::ctcode::dbnf::Comment::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, declaration, s84::ctcode::dbnf::Declaration::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -3131,6 +3244,9 @@ s84::ctcode::dbnf::Instruction* Instruction::Parse(s84::ctcode::dbnf::LengthStri
         instance->comment_ = comment;
         instance->declaration_ = declaration;
         return instance;
+    } else {
+        comment = NULL;
+        declaration = NULL;
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Optional(children, comment, s84::ctcode::dbnf::Comment::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, assignment, s84::ctcode::dbnf::Assignment::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -3144,6 +3260,9 @@ s84::ctcode::dbnf::Instruction* Instruction::Parse(s84::ctcode::dbnf::LengthStri
         instance->comment_ = comment;
         instance->assignment_ = assignment;
         return instance;
+    } else {
+        comment = NULL;
+        assignment = NULL;
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Optional(children, comment, s84::ctcode::dbnf::Comment::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, call, s84::ctcode::dbnf::Call::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID30>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -3157,6 +3276,9 @@ s84::ctcode::dbnf::Instruction* Instruction::Parse(s84::ctcode::dbnf::LengthStri
         instance->comment_ = comment;
         instance->call_ = call;
         return instance;
+    } else {
+        comment = NULL;
+        call = NULL;
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Optional(children, comment, s84::ctcode::dbnf::Comment::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, conditional, s84::ctcode::dbnf::Conditional::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -3170,6 +3292,9 @@ s84::ctcode::dbnf::Instruction* Instruction::Parse(s84::ctcode::dbnf::LengthStri
         instance->comment_ = comment;
         instance->conditional_ = conditional;
         return instance;
+    } else {
+        comment = NULL;
+        conditional = NULL;
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Optional(children, comment, s84::ctcode::dbnf::Comment::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, loop, s84::ctcode::dbnf::Loop::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -3183,6 +3308,9 @@ s84::ctcode::dbnf::Instruction* Instruction::Parse(s84::ctcode::dbnf::LengthStri
         instance->comment_ = comment;
         instance->loop_ = loop;
         return instance;
+    } else {
+        comment = NULL;
+        loop = NULL;
     }
 
     s84::ctcode::dbnf::ClearNodes(children);
@@ -3279,6 +3407,9 @@ s84::ctcode::dbnf::RValueSingle* RValueSingle::Parse(s84::ctcode::dbnf::LengthSt
         instance->unary_operator_ = unary_operator;
         instance->call_ = call;
         return instance;
+    } else {
+        unary_operator = NULL;
+        call = NULL;
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Optional(children, unary_operator, s84::ctcode::dbnf::UnaryOperator::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, allocate, s84::ctcode::dbnf::Allocate::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -3292,6 +3423,9 @@ s84::ctcode::dbnf::RValueSingle* RValueSingle::Parse(s84::ctcode::dbnf::LengthSt
         instance->unary_operator_ = unary_operator;
         instance->allocate_ = allocate;
         return instance;
+    } else {
+        unary_operator = NULL;
+        allocate = NULL;
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Optional(children, unary_operator, s84::ctcode::dbnf::UnaryOperator::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, decimalLiteral, s84::ctcode::dbnf::Decimal::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -3305,6 +3439,9 @@ s84::ctcode::dbnf::RValueSingle* RValueSingle::Parse(s84::ctcode::dbnf::LengthSt
         instance->unary_operator_ = unary_operator;
         instance->decimalLiteral_ = decimalLiteral;
         return instance;
+    } else {
+        unary_operator = NULL;
+        decimalLiteral = NULL;
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Optional(children, unary_operator, s84::ctcode::dbnf::UnaryOperator::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, integerLiteral, s84::ctcode::dbnf::Number::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -3318,6 +3455,9 @@ s84::ctcode::dbnf::RValueSingle* RValueSingle::Parse(s84::ctcode::dbnf::LengthSt
         instance->unary_operator_ = unary_operator;
         instance->integerLiteral_ = integerLiteral;
         return instance;
+    } else {
+        unary_operator = NULL;
+        integerLiteral = NULL;
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Optional(children, unary_operator, s84::ctcode::dbnf::UnaryOperator::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, booleanLiteral, s84::ctcode::dbnf::Boolean::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -3331,6 +3471,9 @@ s84::ctcode::dbnf::RValueSingle* RValueSingle::Parse(s84::ctcode::dbnf::LengthSt
         instance->unary_operator_ = unary_operator;
         instance->booleanLiteral_ = booleanLiteral;
         return instance;
+    } else {
+        unary_operator = NULL;
+        booleanLiteral = NULL;
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Optional(children, unary_operator, s84::ctcode::dbnf::UnaryOperator::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, variable, s84::ctcode::dbnf::Name::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -3344,6 +3487,9 @@ s84::ctcode::dbnf::RValueSingle* RValueSingle::Parse(s84::ctcode::dbnf::LengthSt
         instance->unary_operator_ = unary_operator;
         instance->variable_ = variable;
         return instance;
+    } else {
+        unary_operator = NULL;
+        variable = NULL;
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Optional(children, unary_operator, s84::ctcode::dbnf::UnaryOperator::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID66>::Parse(index)) && s84::ctcode::dbnf::Match(children, stringLiteral, s84::ctcode::dbnf::Literal::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID66>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -3357,6 +3503,9 @@ s84::ctcode::dbnf::RValueSingle* RValueSingle::Parse(s84::ctcode::dbnf::LengthSt
         instance->unary_operator_ = unary_operator;
         instance->stringLiteral_ = stringLiteral;
         return instance;
+    } else {
+        unary_operator = NULL;
+        stringLiteral = NULL;
     }
 
     s84::ctcode::dbnf::ClearNodes(children);
@@ -3419,6 +3568,10 @@ s84::ctcode::dbnf::RValueTail* RValueTail::Parse(s84::ctcode::dbnf::LengthString
         instance->value_ = value;
         instance->tail_ = tail;
         return instance;
+    } else {
+        binary_operator = NULL;
+        value = NULL;
+        tail = NULL;
     }
 
     s84::ctcode::dbnf::ClearNodes(children);
@@ -3473,6 +3626,9 @@ s84::ctcode::dbnf::RValue* RValue::Parse(s84::ctcode::dbnf::LengthString& index)
         instance->value_ = value;
         instance->tail_ = tail;
         return instance;
+    } else {
+        value = NULL;
+        tail = NULL;
     }
 
     s84::ctcode::dbnf::ClearNodes(children);
@@ -3582,6 +3738,8 @@ s84::ctcode::dbnf::BinaryOperator* BinaryOperator::Parse(s84::ctcode::dbnf::Leng
         instance->SetChildren(children);
         instance->addition_ = addition;
         return instance;
+    } else {
+        addition = NULL;
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, subtraction, StringParser<LITERAL_ID15>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -3594,6 +3752,8 @@ s84::ctcode::dbnf::BinaryOperator* BinaryOperator::Parse(s84::ctcode::dbnf::Leng
         instance->SetChildren(children);
         instance->subtraction_ = subtraction;
         return instance;
+    } else {
+        subtraction = NULL;
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, lessThanEq, StringParser<LITERAL_ID32>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -3606,6 +3766,8 @@ s84::ctcode::dbnf::BinaryOperator* BinaryOperator::Parse(s84::ctcode::dbnf::Leng
         instance->SetChildren(children);
         instance->lessThanEq_ = lessThanEq;
         return instance;
+    } else {
+        lessThanEq = NULL;
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, greaterThanEq, StringParser<LITERAL_ID36>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -3618,6 +3780,8 @@ s84::ctcode::dbnf::BinaryOperator* BinaryOperator::Parse(s84::ctcode::dbnf::Leng
         instance->SetChildren(children);
         instance->greaterThanEq_ = greaterThanEq;
         return instance;
+    } else {
+        greaterThanEq = NULL;
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, equality, StringParser<LITERAL_ID34>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -3630,6 +3794,8 @@ s84::ctcode::dbnf::BinaryOperator* BinaryOperator::Parse(s84::ctcode::dbnf::Leng
         instance->SetChildren(children);
         instance->equality_ = equality;
         return instance;
+    } else {
+        equality = NULL;
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, notEquality, StringParser<LITERAL_ID2>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -3642,6 +3808,8 @@ s84::ctcode::dbnf::BinaryOperator* BinaryOperator::Parse(s84::ctcode::dbnf::Leng
         instance->SetChildren(children);
         instance->notEquality_ = notEquality;
         return instance;
+    } else {
+        notEquality = NULL;
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, lessThan, StringParser<LITERAL_ID31>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -3654,6 +3822,8 @@ s84::ctcode::dbnf::BinaryOperator* BinaryOperator::Parse(s84::ctcode::dbnf::Leng
         instance->SetChildren(children);
         instance->lessThan_ = lessThan;
         return instance;
+    } else {
+        lessThan = NULL;
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, greaterThan, StringParser<LITERAL_ID35>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -3666,6 +3836,8 @@ s84::ctcode::dbnf::BinaryOperator* BinaryOperator::Parse(s84::ctcode::dbnf::Leng
         instance->SetChildren(children);
         instance->greaterThan_ = greaterThan;
         return instance;
+    } else {
+        greaterThan = NULL;
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, orOp, StringParser<LITERAL_ID118>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -3678,6 +3850,8 @@ s84::ctcode::dbnf::BinaryOperator* BinaryOperator::Parse(s84::ctcode::dbnf::Leng
         instance->SetChildren(children);
         instance->orOp_ = orOp;
         return instance;
+    } else {
+        orOp = NULL;
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, andOp, StringParser<LITERAL_ID7>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -3690,6 +3864,8 @@ s84::ctcode::dbnf::BinaryOperator* BinaryOperator::Parse(s84::ctcode::dbnf::Leng
         instance->SetChildren(children);
         instance->andOp_ = andOp;
         return instance;
+    } else {
+        andOp = NULL;
     }
 
     s84::ctcode::dbnf::ClearNodes(children);
@@ -3736,6 +3912,8 @@ s84::ctcode::dbnf::UnaryOperator* UnaryOperator::Parse(s84::ctcode::dbnf::Length
         instance->SetChildren(children);
         instance->negation_ = negation;
         return instance;
+    } else {
+        negation = NULL;
     }
 
     s84::ctcode::dbnf::ClearNodes(children);
@@ -3782,6 +3960,8 @@ s84::ctcode::dbnf::Comment* Comment::Parse(s84::ctcode::dbnf::LengthString& inde
         instance->SetChildren(children);
         instance->content_ = content;
         return instance;
+    } else {
+        content = NULL;
     }
 
     s84::ctcode::dbnf::ClearNodes(children);
@@ -3820,6 +4000,7 @@ s84::ctcode::dbnf::CommentCharacter* CommentCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, s84::ctcode::dbnf::NameCharacter::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -3831,6 +4012,7 @@ s84::ctcode::dbnf::CommentCharacter* CommentCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID1>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -3842,6 +4024,7 @@ s84::ctcode::dbnf::CommentCharacter* CommentCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID67>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -3853,6 +4036,7 @@ s84::ctcode::dbnf::CommentCharacter* CommentCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID3>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -3864,6 +4048,7 @@ s84::ctcode::dbnf::CommentCharacter* CommentCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID4>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -3875,6 +4060,7 @@ s84::ctcode::dbnf::CommentCharacter* CommentCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID5>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -3886,6 +4072,7 @@ s84::ctcode::dbnf::CommentCharacter* CommentCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID6>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -3897,6 +4084,7 @@ s84::ctcode::dbnf::CommentCharacter* CommentCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID8>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -3908,6 +4096,7 @@ s84::ctcode::dbnf::CommentCharacter* CommentCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID9>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -3919,6 +4108,7 @@ s84::ctcode::dbnf::CommentCharacter* CommentCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID10>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -3930,6 +4120,7 @@ s84::ctcode::dbnf::CommentCharacter* CommentCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID13>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -3941,6 +4132,7 @@ s84::ctcode::dbnf::CommentCharacter* CommentCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID14>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -3952,6 +4144,7 @@ s84::ctcode::dbnf::CommentCharacter* CommentCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID15>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -3963,6 +4156,7 @@ s84::ctcode::dbnf::CommentCharacter* CommentCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID16>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -3974,6 +4168,7 @@ s84::ctcode::dbnf::CommentCharacter* CommentCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID17>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -3985,6 +4180,7 @@ s84::ctcode::dbnf::CommentCharacter* CommentCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID29>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -3996,6 +4192,7 @@ s84::ctcode::dbnf::CommentCharacter* CommentCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID30>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4007,6 +4204,7 @@ s84::ctcode::dbnf::CommentCharacter* CommentCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID31>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4018,6 +4216,7 @@ s84::ctcode::dbnf::CommentCharacter* CommentCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID33>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4029,6 +4228,7 @@ s84::ctcode::dbnf::CommentCharacter* CommentCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID35>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4040,6 +4240,7 @@ s84::ctcode::dbnf::CommentCharacter* CommentCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID37>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4051,6 +4252,7 @@ s84::ctcode::dbnf::CommentCharacter* CommentCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID38>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4062,6 +4264,7 @@ s84::ctcode::dbnf::CommentCharacter* CommentCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID65>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4073,6 +4276,7 @@ s84::ctcode::dbnf::CommentCharacter* CommentCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID69>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4084,6 +4288,7 @@ s84::ctcode::dbnf::CommentCharacter* CommentCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID70>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4095,6 +4300,7 @@ s84::ctcode::dbnf::CommentCharacter* CommentCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL___ID71>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4106,6 +4312,7 @@ s84::ctcode::dbnf::CommentCharacter* CommentCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID116>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4117,6 +4324,7 @@ s84::ctcode::dbnf::CommentCharacter* CommentCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID117>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4128,6 +4336,7 @@ s84::ctcode::dbnf::CommentCharacter* CommentCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID119>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4139,6 +4348,7 @@ s84::ctcode::dbnf::CommentCharacter* CommentCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID120>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4150,6 +4360,7 @@ s84::ctcode::dbnf::CommentCharacter* CommentCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     s84::ctcode::dbnf::ClearNodes(children);
@@ -4204,6 +4415,9 @@ s84::ctcode::dbnf::QualfiedName* QualfiedName::Parse(s84::ctcode::dbnf::LengthSt
         instance->name_ = name;
         instance->tail_ = tail;
         return instance;
+    } else {
+        name = NULL;
+        tail = NULL;
     }
 
     s84::ctcode::dbnf::ClearNodes(children);
@@ -4258,6 +4472,9 @@ s84::ctcode::dbnf::NameTail* NameTail::Parse(s84::ctcode::dbnf::LengthString& in
         instance->name_ = name;
         instance->tail_ = tail;
         return instance;
+    } else {
+        name = NULL;
+        tail = NULL;
     }
 
     s84::ctcode::dbnf::ClearNodes(children);
@@ -4296,6 +4513,7 @@ s84::ctcode::dbnf::Name* Name::Parse(s84::ctcode::dbnf::LengthString& index)
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     s84::ctcode::dbnf::ClearNodes(children);
@@ -4334,6 +4552,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_1_ID20>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4345,6 +4564,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_2_ID21>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4356,6 +4576,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_3_ID22>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4367,6 +4588,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_4_ID23>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4378,6 +4600,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_5_ID24>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4389,6 +4612,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_6_ID25>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4400,6 +4624,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_7_ID26>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4411,6 +4636,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_8_ID27>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4422,6 +4648,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_9_ID28>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4433,6 +4660,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_A_ID39>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4444,6 +4672,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_B_ID40>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4455,6 +4684,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_C_ID41>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4466,6 +4696,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_D_ID42>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4477,6 +4708,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_E_ID43>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4488,6 +4720,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_F_ID44>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4499,6 +4732,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_G_ID45>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4510,6 +4744,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_H_ID46>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4521,6 +4756,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_I_ID47>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4532,6 +4768,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_J_ID48>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4543,6 +4780,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_K_ID49>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4554,6 +4792,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_L_ID50>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4565,6 +4804,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_M_ID51>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4576,6 +4816,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_N_ID52>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4587,6 +4828,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_O_ID53>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4598,6 +4840,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_P_ID54>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4609,6 +4852,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_Q_ID55>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4620,6 +4864,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_R_ID56>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4631,6 +4876,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_S_ID57>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4642,6 +4888,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_T_ID58>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4653,6 +4900,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_U_ID59>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4664,6 +4912,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_V_ID60>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4675,6 +4924,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_W_ID61>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4686,6 +4936,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_X_ID62>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4697,6 +4948,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_Y_ID63>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4708,6 +4960,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_Z_ID64>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4719,6 +4972,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL___ID71>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4730,6 +4984,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_A_ID73>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4741,6 +4996,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_B_ID74>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4752,6 +5008,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_C_ID76>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4763,6 +5020,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_D_ID78>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4774,6 +5032,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_E_ID79>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4785,6 +5044,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_F_ID82>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4796,6 +5056,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_G_ID86>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4807,6 +5068,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_H_ID87>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4818,6 +5080,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_I_ID88>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4829,6 +5092,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_J_ID92>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4840,6 +5104,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_K_ID93>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4851,6 +5116,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_L_ID94>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4862,6 +5128,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_M_ID95>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4873,6 +5140,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_N_ID96>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4884,6 +5152,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_O_ID98>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4895,6 +5164,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_P_ID99>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4906,6 +5176,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_Q_ID100>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4917,6 +5188,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_R_ID101>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4928,6 +5200,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_S_ID103>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4939,6 +5212,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_T_ID105>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4950,6 +5224,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_U_ID107>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4961,6 +5236,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_V_ID109>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4972,6 +5248,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_W_ID111>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4983,6 +5260,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_X_ID113>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -4994,6 +5272,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_Y_ID114>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5005,6 +5284,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_Z_ID115>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5016,6 +5296,7 @@ s84::ctcode::dbnf::NameCharacter* NameCharacter::Parse(s84::ctcode::dbnf::Length
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     s84::ctcode::dbnf::ClearNodes(children);
@@ -5054,6 +5335,7 @@ s84::ctcode::dbnf::Boolean* Boolean::Parse(s84::ctcode::dbnf::LengthString& inde
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_FALSE_ID83>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5065,6 +5347,7 @@ s84::ctcode::dbnf::Boolean* Boolean::Parse(s84::ctcode::dbnf::LengthString& inde
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     s84::ctcode::dbnf::ClearNodes(children);
@@ -5103,6 +5386,7 @@ s84::ctcode::dbnf::Decimal* Decimal::Parse(s84::ctcode::dbnf::LengthString& inde
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     s84::ctcode::dbnf::ClearNodes(children);
@@ -5141,6 +5425,7 @@ s84::ctcode::dbnf::Number* Number::Parse(s84::ctcode::dbnf::LengthString& index)
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     s84::ctcode::dbnf::ClearNodes(children);
@@ -5179,6 +5464,7 @@ s84::ctcode::dbnf::Digit* Digit::Parse(s84::ctcode::dbnf::LengthString& index)
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_1_ID20>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5190,6 +5476,7 @@ s84::ctcode::dbnf::Digit* Digit::Parse(s84::ctcode::dbnf::LengthString& index)
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_2_ID21>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5201,6 +5488,7 @@ s84::ctcode::dbnf::Digit* Digit::Parse(s84::ctcode::dbnf::LengthString& index)
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_3_ID22>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5212,6 +5500,7 @@ s84::ctcode::dbnf::Digit* Digit::Parse(s84::ctcode::dbnf::LengthString& index)
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_4_ID23>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5223,6 +5512,7 @@ s84::ctcode::dbnf::Digit* Digit::Parse(s84::ctcode::dbnf::LengthString& index)
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_5_ID24>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5234,6 +5524,7 @@ s84::ctcode::dbnf::Digit* Digit::Parse(s84::ctcode::dbnf::LengthString& index)
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_6_ID25>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5245,6 +5536,7 @@ s84::ctcode::dbnf::Digit* Digit::Parse(s84::ctcode::dbnf::LengthString& index)
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_7_ID26>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5256,6 +5548,7 @@ s84::ctcode::dbnf::Digit* Digit::Parse(s84::ctcode::dbnf::LengthString& index)
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_8_ID27>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5267,6 +5560,7 @@ s84::ctcode::dbnf::Digit* Digit::Parse(s84::ctcode::dbnf::LengthString& index)
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_9_ID28>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5278,6 +5572,7 @@ s84::ctcode::dbnf::Digit* Digit::Parse(s84::ctcode::dbnf::LengthString& index)
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     s84::ctcode::dbnf::ClearNodes(children);
@@ -5316,6 +5611,7 @@ s84::ctcode::dbnf::Literal* Literal::Parse(s84::ctcode::dbnf::LengthString& inde
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     s84::ctcode::dbnf::ClearNodes(children);
@@ -5354,6 +5650,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x01'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5365,6 +5662,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x02'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5376,6 +5674,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x03'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5387,6 +5686,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x04'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5398,6 +5698,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x05'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5409,6 +5710,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x06'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5420,6 +5722,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x07'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5431,6 +5734,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x08'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5442,6 +5746,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x09'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5453,6 +5758,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x0A'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5464,6 +5770,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x0B'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5475,6 +5782,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x0C'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5486,6 +5794,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x0D'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5497,6 +5806,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x0E'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5508,6 +5818,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x0F'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5519,6 +5830,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x10'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5530,6 +5842,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x11'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5541,6 +5854,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x12'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5552,6 +5866,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x13'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5563,6 +5878,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x14'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5574,6 +5890,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x15'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5585,6 +5902,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x16'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5596,6 +5914,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x17'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5607,6 +5926,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x18'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5618,6 +5938,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x19'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5629,6 +5950,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x1A'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5640,6 +5962,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x1B'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5651,6 +5974,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x1C'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5662,6 +5986,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x1D'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5673,6 +5998,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x1E'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5684,6 +6010,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x1F'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5695,6 +6022,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID0>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5706,6 +6034,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID1>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5717,6 +6046,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID67>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5728,6 +6058,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID3>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5739,6 +6070,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID4>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5750,6 +6082,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID5>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5761,6 +6094,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID6>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5772,6 +6106,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID8>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5783,6 +6118,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID9>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5794,6 +6130,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID10>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5805,6 +6142,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID11>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5816,6 +6154,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID13>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5827,6 +6166,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID14>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5838,6 +6178,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID15>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5849,6 +6190,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID16>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5860,6 +6202,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID17>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5871,6 +6214,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_0_ID19>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5882,6 +6226,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_1_ID20>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5893,6 +6238,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_2_ID21>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5904,6 +6250,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_3_ID22>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5915,6 +6262,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_4_ID23>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5926,6 +6274,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_5_ID24>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5937,6 +6286,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_6_ID25>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5948,6 +6298,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_7_ID26>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5959,6 +6310,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_8_ID27>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5970,6 +6322,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_9_ID28>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5981,6 +6334,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID29>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -5992,6 +6346,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID30>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6003,6 +6358,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID31>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6014,6 +6370,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID33>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6025,6 +6382,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID35>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6036,6 +6394,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID37>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6047,6 +6406,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID38>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6058,6 +6418,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_A_ID39>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6069,6 +6430,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_B_ID40>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6080,6 +6442,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_C_ID41>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6091,6 +6454,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_D_ID42>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6102,6 +6466,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_E_ID43>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6113,6 +6478,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_F_ID44>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6124,6 +6490,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_G_ID45>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6135,6 +6502,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_H_ID46>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6146,6 +6514,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_I_ID47>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6157,6 +6526,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_J_ID48>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6168,6 +6538,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_K_ID49>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6179,6 +6550,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_L_ID50>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6190,6 +6562,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_M_ID51>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6201,6 +6574,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_N_ID52>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6212,6 +6586,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_O_ID53>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6223,6 +6598,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_P_ID54>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6234,6 +6610,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_Q_ID55>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6245,6 +6622,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_R_ID56>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6256,6 +6634,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_S_ID57>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6267,6 +6646,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_T_ID58>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6278,6 +6658,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_U_ID59>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6289,6 +6670,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_V_ID60>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6300,6 +6682,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_W_ID61>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6311,6 +6694,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_X_ID62>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6322,6 +6706,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_Y_ID63>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6333,6 +6718,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_Z_ID64>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6344,6 +6730,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID65>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6355,6 +6742,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID68>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6366,6 +6754,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID69>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6377,6 +6766,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID70>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6388,6 +6778,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL___ID71>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6399,6 +6790,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID72>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6410,6 +6802,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_A_ID73>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6421,6 +6814,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_B_ID74>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6432,6 +6826,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_C_ID76>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6443,6 +6838,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_D_ID78>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6454,6 +6850,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_E_ID79>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6465,6 +6862,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_F_ID82>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6476,6 +6874,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_G_ID86>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6487,6 +6886,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_H_ID87>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6498,6 +6898,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_I_ID88>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6509,6 +6910,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_J_ID92>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6520,6 +6922,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_K_ID93>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6531,6 +6934,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_L_ID94>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6542,6 +6946,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_M_ID95>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6553,6 +6958,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_N_ID96>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6564,6 +6970,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_O_ID98>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6575,6 +6982,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_P_ID99>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6586,6 +6994,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_Q_ID100>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6597,6 +7006,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_R_ID101>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6608,6 +7018,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_S_ID103>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6619,6 +7030,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_T_ID105>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6630,6 +7042,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_U_ID107>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6641,6 +7054,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_V_ID109>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6652,6 +7066,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_W_ID111>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6663,6 +7078,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_X_ID113>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6674,6 +7090,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_Y_ID114>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6685,6 +7102,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_Z_ID115>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6696,6 +7114,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID116>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6707,6 +7126,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID117>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6718,6 +7138,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID119>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6729,6 +7150,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID120>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6740,6 +7162,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x80'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6751,6 +7174,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x81'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6762,6 +7186,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x82'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6773,6 +7198,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x83'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6784,6 +7210,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x84'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6795,6 +7222,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x85'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6806,6 +7234,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x86'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6817,6 +7246,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x87'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6828,6 +7258,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x88'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6839,6 +7270,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x89'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6850,6 +7282,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x8A'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6861,6 +7294,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x8B'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6872,6 +7306,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x8C'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6883,6 +7318,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x8D'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6894,6 +7330,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x8E'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6905,6 +7342,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x8F'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6916,6 +7354,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x90'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6927,6 +7366,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x91'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6938,6 +7378,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x92'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6949,6 +7390,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x93'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6960,6 +7402,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x94'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6971,6 +7414,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x95'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6982,6 +7426,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x96'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -6993,6 +7438,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x97'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7004,6 +7450,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x98'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7015,6 +7462,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x99'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7026,6 +7474,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x9A'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7037,6 +7486,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x9B'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7048,6 +7498,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x9C'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7059,6 +7510,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x9D'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7070,6 +7522,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x9E'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7081,6 +7534,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x9F'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7092,6 +7546,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xA0'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7103,6 +7558,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xA1'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7114,6 +7570,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xA2'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7125,6 +7582,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xA3'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7136,6 +7594,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xA4'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7147,6 +7606,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xA5'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7158,6 +7618,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xA6'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7169,6 +7630,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xA7'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7180,6 +7642,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xA8'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7191,6 +7654,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xA9'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7202,6 +7666,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xAA'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7213,6 +7678,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xAB'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7224,6 +7690,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xAC'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7235,6 +7702,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xAD'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7246,6 +7714,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xAE'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7257,6 +7726,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xAF'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7268,6 +7738,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xB0'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7279,6 +7750,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xB1'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7290,6 +7762,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xB2'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7301,6 +7774,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xB3'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7312,6 +7786,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xB4'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7323,6 +7798,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xB5'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7334,6 +7810,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xB6'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7345,6 +7822,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xB7'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7356,6 +7834,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xB8'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7367,6 +7846,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xB9'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7378,6 +7858,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xBA'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7389,6 +7870,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xBB'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7400,6 +7882,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xBC'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7411,6 +7894,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xBD'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7422,6 +7906,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xBE'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7433,6 +7918,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xBF'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7444,6 +7930,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xC0'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7455,6 +7942,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xC1'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7466,6 +7954,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xC2'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7477,6 +7966,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xC3'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7488,6 +7978,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xC4'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7499,6 +7990,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xC5'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7510,6 +8002,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xC6'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7521,6 +8014,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xC7'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7532,6 +8026,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xC8'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7543,6 +8038,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xC9'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7554,6 +8050,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xCA'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7565,6 +8062,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xCB'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7576,6 +8074,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xCC'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7587,6 +8086,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xCD'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7598,6 +8098,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xCE'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7609,6 +8110,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xCF'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7620,6 +8122,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xD0'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7631,6 +8134,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xD1'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7642,6 +8146,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xD2'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7653,6 +8158,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xD3'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7664,6 +8170,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xD4'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7675,6 +8182,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xD5'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7686,6 +8194,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xD6'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7697,6 +8206,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xD7'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7708,6 +8218,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xD8'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7719,6 +8230,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xD9'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7730,6 +8242,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xDA'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7741,6 +8254,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xDB'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7752,6 +8266,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xDC'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7763,6 +8278,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xDD'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7774,6 +8290,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xDE'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7785,6 +8302,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xDF'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7796,6 +8314,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xE0'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7807,6 +8326,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xE1'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7818,6 +8338,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xE2'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7829,6 +8350,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xE3'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7840,6 +8362,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xE4'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7851,6 +8374,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xE5'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7862,6 +8386,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xE6'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7873,6 +8398,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xE7'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7884,6 +8410,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xE8'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7895,6 +8422,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xE9'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7906,6 +8434,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xEA'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7917,6 +8446,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xEB'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7928,6 +8458,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xEC'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7939,6 +8470,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xED'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7950,6 +8482,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xEE'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7961,6 +8494,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xEF'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7972,6 +8506,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xF0'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7983,6 +8518,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xF1'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -7994,6 +8530,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xF2'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -8005,6 +8542,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xF3'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -8016,6 +8554,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xF4'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -8027,6 +8566,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xF5'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -8038,6 +8578,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xF6'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -8049,6 +8590,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xF7'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -8060,6 +8602,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xF8'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -8071,6 +8614,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xF9'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -8082,6 +8626,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xFA'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -8093,6 +8638,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xFB'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -8104,6 +8650,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xFC'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -8115,6 +8662,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xFD'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -8126,6 +8674,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xFE'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -8137,6 +8686,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\xFF'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -8148,6 +8698,7 @@ s84::ctcode::dbnf::LiteralCharacter* LiteralCharacter::Parse(s84::ctcode::dbnf::
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     s84::ctcode::dbnf::ClearNodes(children);
@@ -8186,6 +8737,7 @@ s84::ctcode::dbnf::HexDigit* HexDigit::Parse(s84::ctcode::dbnf::LengthString& in
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_1_ID20>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -8197,6 +8749,7 @@ s84::ctcode::dbnf::HexDigit* HexDigit::Parse(s84::ctcode::dbnf::LengthString& in
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_2_ID21>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -8208,6 +8761,7 @@ s84::ctcode::dbnf::HexDigit* HexDigit::Parse(s84::ctcode::dbnf::LengthString& in
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_3_ID22>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -8219,6 +8773,7 @@ s84::ctcode::dbnf::HexDigit* HexDigit::Parse(s84::ctcode::dbnf::LengthString& in
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_4_ID23>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -8230,6 +8785,7 @@ s84::ctcode::dbnf::HexDigit* HexDigit::Parse(s84::ctcode::dbnf::LengthString& in
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_5_ID24>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -8241,6 +8797,7 @@ s84::ctcode::dbnf::HexDigit* HexDigit::Parse(s84::ctcode::dbnf::LengthString& in
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_6_ID25>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -8252,6 +8809,7 @@ s84::ctcode::dbnf::HexDigit* HexDigit::Parse(s84::ctcode::dbnf::LengthString& in
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_7_ID26>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -8263,6 +8821,7 @@ s84::ctcode::dbnf::HexDigit* HexDigit::Parse(s84::ctcode::dbnf::LengthString& in
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_8_ID27>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -8274,6 +8833,7 @@ s84::ctcode::dbnf::HexDigit* HexDigit::Parse(s84::ctcode::dbnf::LengthString& in
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_9_ID28>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -8285,6 +8845,7 @@ s84::ctcode::dbnf::HexDigit* HexDigit::Parse(s84::ctcode::dbnf::LengthString& in
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_A_ID39>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -8296,6 +8857,7 @@ s84::ctcode::dbnf::HexDigit* HexDigit::Parse(s84::ctcode::dbnf::LengthString& in
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_B_ID40>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -8307,6 +8869,7 @@ s84::ctcode::dbnf::HexDigit* HexDigit::Parse(s84::ctcode::dbnf::LengthString& in
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_C_ID41>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -8318,6 +8881,7 @@ s84::ctcode::dbnf::HexDigit* HexDigit::Parse(s84::ctcode::dbnf::LengthString& in
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_D_ID42>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -8329,6 +8893,7 @@ s84::ctcode::dbnf::HexDigit* HexDigit::Parse(s84::ctcode::dbnf::LengthString& in
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_E_ID43>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -8340,6 +8905,7 @@ s84::ctcode::dbnf::HexDigit* HexDigit::Parse(s84::ctcode::dbnf::LengthString& in
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_F_ID44>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -8351,6 +8917,7 @@ s84::ctcode::dbnf::HexDigit* HexDigit::Parse(s84::ctcode::dbnf::LengthString& in
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     s84::ctcode::dbnf::ClearNodes(children);
@@ -8389,6 +8956,7 @@ s84::ctcode::dbnf::Whitespace* Whitespace::Parse(s84::ctcode::dbnf::LengthString
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x01'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -8400,6 +8968,7 @@ s84::ctcode::dbnf::Whitespace* Whitespace::Parse(s84::ctcode::dbnf::LengthString
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x02'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -8411,6 +8980,7 @@ s84::ctcode::dbnf::Whitespace* Whitespace::Parse(s84::ctcode::dbnf::LengthString
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x03'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -8422,6 +8992,7 @@ s84::ctcode::dbnf::Whitespace* Whitespace::Parse(s84::ctcode::dbnf::LengthString
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x04'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -8433,6 +9004,7 @@ s84::ctcode::dbnf::Whitespace* Whitespace::Parse(s84::ctcode::dbnf::LengthString
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x05'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -8444,6 +9016,7 @@ s84::ctcode::dbnf::Whitespace* Whitespace::Parse(s84::ctcode::dbnf::LengthString
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x06'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -8455,6 +9028,7 @@ s84::ctcode::dbnf::Whitespace* Whitespace::Parse(s84::ctcode::dbnf::LengthString
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x07'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -8466,6 +9040,7 @@ s84::ctcode::dbnf::Whitespace* Whitespace::Parse(s84::ctcode::dbnf::LengthString
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x08'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -8477,6 +9052,7 @@ s84::ctcode::dbnf::Whitespace* Whitespace::Parse(s84::ctcode::dbnf::LengthString
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x09'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -8488,6 +9064,7 @@ s84::ctcode::dbnf::Whitespace* Whitespace::Parse(s84::ctcode::dbnf::LengthString
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x0A'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -8499,6 +9076,7 @@ s84::ctcode::dbnf::Whitespace* Whitespace::Parse(s84::ctcode::dbnf::LengthString
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x0B'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -8510,6 +9088,7 @@ s84::ctcode::dbnf::Whitespace* Whitespace::Parse(s84::ctcode::dbnf::LengthString
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x0C'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -8521,6 +9100,7 @@ s84::ctcode::dbnf::Whitespace* Whitespace::Parse(s84::ctcode::dbnf::LengthString
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x0D'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -8532,6 +9112,7 @@ s84::ctcode::dbnf::Whitespace* Whitespace::Parse(s84::ctcode::dbnf::LengthString
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x0E'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -8543,6 +9124,7 @@ s84::ctcode::dbnf::Whitespace* Whitespace::Parse(s84::ctcode::dbnf::LengthString
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x0F'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -8554,6 +9136,7 @@ s84::ctcode::dbnf::Whitespace* Whitespace::Parse(s84::ctcode::dbnf::LengthString
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x10'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -8565,6 +9148,7 @@ s84::ctcode::dbnf::Whitespace* Whitespace::Parse(s84::ctcode::dbnf::LengthString
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x11'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -8576,6 +9160,7 @@ s84::ctcode::dbnf::Whitespace* Whitespace::Parse(s84::ctcode::dbnf::LengthString
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x12'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -8587,6 +9172,7 @@ s84::ctcode::dbnf::Whitespace* Whitespace::Parse(s84::ctcode::dbnf::LengthString
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x13'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -8598,6 +9184,7 @@ s84::ctcode::dbnf::Whitespace* Whitespace::Parse(s84::ctcode::dbnf::LengthString
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x14'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -8609,6 +9196,7 @@ s84::ctcode::dbnf::Whitespace* Whitespace::Parse(s84::ctcode::dbnf::LengthString
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x15'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -8620,6 +9208,7 @@ s84::ctcode::dbnf::Whitespace* Whitespace::Parse(s84::ctcode::dbnf::LengthString
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x16'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -8631,6 +9220,7 @@ s84::ctcode::dbnf::Whitespace* Whitespace::Parse(s84::ctcode::dbnf::LengthString
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x17'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -8642,6 +9232,7 @@ s84::ctcode::dbnf::Whitespace* Whitespace::Parse(s84::ctcode::dbnf::LengthString
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x18'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -8653,6 +9244,7 @@ s84::ctcode::dbnf::Whitespace* Whitespace::Parse(s84::ctcode::dbnf::LengthString
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x19'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -8664,6 +9256,7 @@ s84::ctcode::dbnf::Whitespace* Whitespace::Parse(s84::ctcode::dbnf::LengthString
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x1A'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -8675,6 +9268,7 @@ s84::ctcode::dbnf::Whitespace* Whitespace::Parse(s84::ctcode::dbnf::LengthString
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x1B'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -8686,6 +9280,7 @@ s84::ctcode::dbnf::Whitespace* Whitespace::Parse(s84::ctcode::dbnf::LengthString
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x1C'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -8697,6 +9292,7 @@ s84::ctcode::dbnf::Whitespace* Whitespace::Parse(s84::ctcode::dbnf::LengthString
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x1D'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -8708,6 +9304,7 @@ s84::ctcode::dbnf::Whitespace* Whitespace::Parse(s84::ctcode::dbnf::LengthString
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x1E'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -8719,6 +9316,7 @@ s84::ctcode::dbnf::Whitespace* Whitespace::Parse(s84::ctcode::dbnf::LengthString
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, CharacterParser<'\x1F'>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -8730,6 +9328,7 @@ s84::ctcode::dbnf::Whitespace* Whitespace::Parse(s84::ctcode::dbnf::LengthString
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID0>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -8741,6 +9340,7 @@ s84::ctcode::dbnf::Whitespace* Whitespace::Parse(s84::ctcode::dbnf::LengthString
         instance->SetString(data);
         instance->SetChildren(children);
         return instance;
+    } else {
     }
 
     s84::ctcode::dbnf::ClearNodes(children);
