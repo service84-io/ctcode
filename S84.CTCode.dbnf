@@ -24,7 +24,10 @@
                     ::= attribute(definedType <DefinedType>)
 <DimensionalNote>   ::= <whitespace>* "[" <whitespace>* "]"
 <DimensionalType>   ::= attribute(singletonType <SingletonType>) attribute(dimensionalNote <DimensionalNote>+)
+<MapNote>           ::= <whitespace>* "{" <whitespace>* "}"
+<MapType>           ::= attribute(singletonType <SingletonType>) attribute(mapNote <MapNote>)
 <ValueType>         ::= attribute(dimensionalType <DimensionalType>)
+                    ::= attribute(mapType <MapType>)
                     ::= attribute(singletonType <SingletonType>)
 ################################
 ################################

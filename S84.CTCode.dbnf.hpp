@@ -27,6 +27,8 @@ class DefinedType;
 class SingletonType;
 class DimensionalNote;
 class DimensionalType;
+class MapNote;
+class MapType;
 class ValueType;
 class ParameterListDef;
 class ParameterList;
@@ -361,6 +363,37 @@ private:
     s84::ctcode::dbnf::SingletonType* singletonType_;
 };
 
+typedef List<MapNote> MapNoteList;
+
+class MapNote : public s84::ctcode::dbnf::Node
+{
+public:
+    MapNote();
+    ~MapNote();
+
+    static s84::ctcode::dbnf::MapNote* Parse(const char*& index);
+    static s84::ctcode::dbnf::MapNote* Parse(s84::ctcode::dbnf::LengthString& index);
+};
+
+typedef List<MapType> MapTypeList;
+
+class MapType : public s84::ctcode::dbnf::Node
+{
+public:
+    MapType();
+    ~MapType();
+
+    static s84::ctcode::dbnf::MapType* Parse(const char*& index);
+    static s84::ctcode::dbnf::MapType* Parse(s84::ctcode::dbnf::LengthString& index);
+
+    s84::ctcode::dbnf::MapNote* GetMapNote();
+    s84::ctcode::dbnf::SingletonType* GetSingletonType();
+
+private:
+    s84::ctcode::dbnf::MapNote* mapNote_;
+    s84::ctcode::dbnf::SingletonType* singletonType_;
+};
+
 typedef List<ValueType> ValueTypeList;
 
 class ValueType : public s84::ctcode::dbnf::Node
@@ -373,10 +406,12 @@ public:
     static s84::ctcode::dbnf::ValueType* Parse(s84::ctcode::dbnf::LengthString& index);
 
     s84::ctcode::dbnf::DimensionalType* GetDimensionalType();
+    s84::ctcode::dbnf::MapType* GetMapType();
     s84::ctcode::dbnf::SingletonType* GetSingletonType();
 
 private:
     s84::ctcode::dbnf::DimensionalType* dimensionalType_;
+    s84::ctcode::dbnf::MapType* mapType_;
     s84::ctcode::dbnf::SingletonType* singletonType_;
 };
 

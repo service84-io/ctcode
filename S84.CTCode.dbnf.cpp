@@ -2129,8 +2129,101 @@ s84::ctcode::dbnf::DimensionalType* DimensionalType::Parse(s84::ctcode::dbnf::Le
     return NULL;
 }
 
+MapNote::MapNote() : Node()
+{
+}
+
+MapNote::~MapNote()
+{
+}
+
+s84::ctcode::dbnf::MapNote* MapNote::Parse(const char*& index)
+{
+    s84::ctcode::dbnf::LengthString length_string_index;
+    length_string_index.data = index;
+    length_string_index.length = strlen(index);
+    s84::ctcode::dbnf::MapNote* instance = Parse(length_string_index);
+    index = length_string_index.data;
+    return instance;
+}
+
+s84::ctcode::dbnf::MapNote* MapNote::Parse(s84::ctcode::dbnf::LengthString& index)
+{
+    s84::ctcode::dbnf::LengthString start = index;
+    std::list<s84::ctcode::dbnf::Node*> children;
+
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID116>::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Whitespace, 0>::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID119>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    {
+        s84::ctcode::dbnf::MapNote* instance = new s84::ctcode::dbnf::MapNote();
+        s84::ctcode::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    s84::ctcode::dbnf::ClearNodes(children);
+    return NULL;
+}
+
+MapType::MapType() : Node()
+    ,mapNote_(NULL)
+    ,singletonType_(NULL)
+{
+}
+
+s84::ctcode::dbnf::MapNote* MapType::GetMapNote()
+{
+    return mapNote_;
+}
+
+s84::ctcode::dbnf::SingletonType* MapType::GetSingletonType()
+{
+    return singletonType_;
+}
+
+MapType::~MapType()
+{
+}
+
+s84::ctcode::dbnf::MapType* MapType::Parse(const char*& index)
+{
+    s84::ctcode::dbnf::LengthString length_string_index;
+    length_string_index.data = index;
+    length_string_index.length = strlen(index);
+    s84::ctcode::dbnf::MapType* instance = Parse(length_string_index);
+    index = length_string_index.data;
+    return instance;
+}
+
+s84::ctcode::dbnf::MapType* MapType::Parse(s84::ctcode::dbnf::LengthString& index)
+{
+    s84::ctcode::dbnf::LengthString start = index;
+    std::list<s84::ctcode::dbnf::Node*> children;
+    s84::ctcode::dbnf::MapNote* mapNote = NULL;
+    s84::ctcode::dbnf::SingletonType* singletonType = NULL;
+
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, singletonType, s84::ctcode::dbnf::SingletonType::Parse(index)) && s84::ctcode::dbnf::Match(children, mapNote, s84::ctcode::dbnf::MapNote::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    {
+        s84::ctcode::dbnf::MapType* instance = new s84::ctcode::dbnf::MapType();
+        s84::ctcode::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        instance->singletonType_ = singletonType;
+        instance->mapNote_ = mapNote;
+        return instance;
+    }
+
+    s84::ctcode::dbnf::ClearNodes(children);
+    return NULL;
+}
+
 ValueType::ValueType() : Node()
     ,dimensionalType_(NULL)
+    ,mapType_(NULL)
     ,singletonType_(NULL)
 {
 }
@@ -2138,6 +2231,11 @@ ValueType::ValueType() : Node()
 s84::ctcode::dbnf::DimensionalType* ValueType::GetDimensionalType()
 {
     return dimensionalType_;
+}
+
+s84::ctcode::dbnf::MapType* ValueType::GetMapType()
+{
+    return mapType_;
 }
 
 s84::ctcode::dbnf::SingletonType* ValueType::GetSingletonType()
@@ -2164,6 +2262,7 @@ s84::ctcode::dbnf::ValueType* ValueType::Parse(s84::ctcode::dbnf::LengthString& 
     s84::ctcode::dbnf::LengthString start = index;
     std::list<s84::ctcode::dbnf::Node*> children;
     s84::ctcode::dbnf::DimensionalType* dimensionalType = NULL;
+    s84::ctcode::dbnf::MapType* mapType = NULL;
     s84::ctcode::dbnf::SingletonType* singletonType = NULL;
 
     if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, dimensionalType, s84::ctcode::dbnf::DimensionalType::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
@@ -2175,6 +2274,18 @@ s84::ctcode::dbnf::ValueType* ValueType::Parse(s84::ctcode::dbnf::LengthString& 
         instance->SetString(data);
         instance->SetChildren(children);
         instance->dimensionalType_ = dimensionalType;
+        return instance;
+    }
+
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, mapType, s84::ctcode::dbnf::MapType::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    {
+        s84::ctcode::dbnf::ValueType* instance = new s84::ctcode::dbnf::ValueType();
+        s84::ctcode::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        instance->mapType_ = mapType;
         return instance;
     }
 

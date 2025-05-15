@@ -63,6 +63,7 @@ class CPPTranspilerCTCodeLogic {
         header.WriteLine("");
         header.WriteLine("#include <cstring>");
         header.WriteLine("#include <list>");
+        header.WriteLine("#include <unordered_map>");
         header.WriteLine("#include <memory>");
         header.WriteLine("#include <string>");
         header.WriteLine("#include <vector>");
@@ -156,11 +157,26 @@ class CPPTranspilerCTCodeLogic {
         header.WriteLine("};");
         header.WriteLine("");
         header.WriteLine("template<typename T>");
-        header.WriteLine("inline int Size(std::vector<T> input) { return input.size(); };");
+        header.WriteLine("inline int Size(const std::vector<T>& input) { return input.size(); };");
         header.WriteLine("template<typename T>");
-        header.WriteLine("inline T Element(std::vector<T> input, int element) { return input.at(element); };");
+        header.WriteLine("inline T Element(const std::vector<T>& input, int element) { return input.at(element); };");
         header.WriteLine("template<typename T>");
-        header.WriteLine("inline std::vector<T> Append(std::vector<T> input, T element) { input.push_back(element); return input; };");
+        header.WriteLine("inline std::vector<T> Append(std::vector<T>& input, T element) { input.push_back(element); return input; };");
+        header.WriteLine("template<typename T>");
+        header.WriteLine("inline std::unordered_map<std::string, T> SetKV(std::unordered_map<std::string, T>& input, std::string key, T element)");
+        header.WriteLine("{");
+        header.WriteLine("    input.erase(key);");
+        header.WriteLine("    input.insert(std::pair<std::string, T>(key, element));");
+        header.WriteLine("    return input;");
+        header.WriteLine("}");
+        header.WriteLine("template<typename T>");
+        header.WriteLine("inline bool HasKV(const std::unordered_map<std::string, T>& input, std::string key)");
+        header.WriteLine("{");
+        header.WriteLine("    typename std::unordered_map<std::string, T>::iterator beginning = input.find(key);");
+        header.WriteLine("    return beginning != input.end();");
+        header.WriteLine("}");
+        header.WriteLine("template<typename T>");
+        header.WriteLine("inline T GetKV(const std::unordered_map<std::string, T>& input, std::string key) { return input.at(key); }");
         header.WriteLine("inline int Length(std::string input) { return (int)input.length(); };");
         header.WriteLine("inline std::string At(std::string input, int index) { return input.substr(index, 1); };");
         header.WriteLine("inline std::string Concat(std::string left, std::string right) { return left + right; };");
@@ -245,9 +261,9 @@ class CPPTranspilerCTCodeLogic {
             definition = Element(definitions, index);
 
             if (definition.GetFunctionBody()) {
-                functionDefinitions = Append(functionDefinitions, definition);
+                Append(functionDefinitions, definition);
             } else {
-                memberDefinitions = Append(memberDefinitions, definition);
+                Append(memberDefinitions, definition);
             }
 
             index = index + 1;
@@ -352,7 +368,7 @@ class CPPTranspilerCTCodeLogic {
             classDefinition = definition.GetClassDef();
 
             if (classDefinition) {
-                classDefinitions = Append(classDefinitions, classDefinition);
+                Append(classDefinitions, classDefinition);
             }
 
             index = index + 1;
@@ -388,7 +404,7 @@ class CPPTranspilerCTCodeLogic {
             definition = Element(definitions, index);
 
             if (definition.GetFunctionBody()) {
-                functionDefinitions = Append(functionDefinitions, definition);
+                Append(functionDefinitions, definition);
             }
 
             index = index + 1;
@@ -518,7 +534,7 @@ class CPPTranspilerCTCodeLogic {
 
         while (index < Size(unmanaged_types)) {
             s84.ctcode.dbnf.UnmanagedType unmanaged_type = Element(unmanaged_types, index);
-            unmanaged_type_strings = Append(unmanaged_type_strings, GetRawDefinedType(unmanaged_type.GetUnmanagedType()));
+            Append(unmanaged_type_strings, GetRawDefinedType(unmanaged_type.GetUnmanagedType()));
             index = index + 1;
         }
 
@@ -596,7 +612,7 @@ class CPPTranspilerCTCodeLogic {
         }
 
         if (rValueSingle.GetStringLiteral()) {
-            return rValueSingle.UnParse();
+            return Concat(Concat("std::string(", rValueSingle.UnParse()), ")");
         }
 
         return "/*WARNING RValueSingle FALL THROUGH*/";
@@ -715,6 +731,10 @@ class CPPTranspilerCTCodeLogic {
             return GetDimensionalType(value_type.GetDimensionalType());
         }
 
+        if (value_type.GetMapType()) {
+            return GetMapType(value_type.GetMapType());
+        }
+
         if (value_type.GetSingletonType()) {
             return GetSingletonType(value_type.GetSingletonType());
         }
@@ -752,6 +772,10 @@ class CPPTranspilerCTCodeLogic {
         }
 
         return dimensionalSuffix;
+    }
+
+    function string GetMapType(s84.ctcode.dbnf.MapType map_type) {
+        return Concat("std::unordered_map<std::string, ", Concat(GetSingletonType(map_type.GetSingletonType()), ">"));
     }
 
     function string GetSingletonType(s84.ctcode.dbnf.SingletonType singleton_type) {
@@ -915,7 +939,7 @@ class CPPTranspilerCTCodeLogic {
             character = At(name, index);
 
             if (character == ".") {
-                base_name_tokens = Append(base_name_tokens, current_token);
+                Append(base_name_tokens, current_token);
                 current_token = "";
             } else {
                 current_token = Concat(current_token, character);

@@ -5,6 +5,7 @@
 
 #include <cstring>
 #include <list>
+#include <unordered_map>
 #include <memory>
 #include <string>
 #include <vector>
@@ -50,11 +51,26 @@ private:
 };
 
 template<typename T>
-inline int Size(std::vector<T> input) { return input.size(); };
+inline int Size(const std::vector<T>& input) { return input.size(); };
 template<typename T>
-inline T Element(std::vector<T> input, int element) { return input.at(element); };
+inline T Element(const std::vector<T>& input, int element) { return input.at(element); };
 template<typename T>
-inline std::vector<T> Append(std::vector<T> input, T element) { input.push_back(element); return input; };
+inline std::vector<T> Append(std::vector<T>& input, T element) { input.push_back(element); return input; };
+template<typename T>
+inline std::unordered_map<std::string, T> SetKV(std::unordered_map<std::string, T>& input, std::string key, T element)
+{
+    input.erase(key);
+    input.insert(std::pair<std::string, T>(key, element));
+    return input;
+}
+template<typename T>
+inline bool HasKV(const std::unordered_map<std::string, T>& input, std::string key)
+{
+    typename std::unordered_map<std::string, T>::iterator beginning = input.find(key);
+    return beginning != input.end();
+}
+template<typename T>
+inline T GetKV(const std::unordered_map<std::string, T>& input, std::string key) { return input.at(key); }
 inline int Length(std::string input) { return (int)input.length(); };
 inline std::string At(std::string input, int index) { return input.substr(index, 1); };
 inline std::string Concat(std::string left, std::string right) { return left + right; };
@@ -113,6 +129,7 @@ public:
     std::string GetDimensionalType(OmniPointer<s84::ctcode::dbnf::DimensionalType> dimensional_type);
     std::string GetDimensionalPrefix(int dimensional_notes);
     std::string GetDimensionalSuffix(int dimensional_notes);
+    std::string GetMapType(OmniPointer<s84::ctcode::dbnf::MapType> map_type);
     std::string GetSingletonType(OmniPointer<s84::ctcode::dbnf::SingletonType> singleton_type);
     std::string GetDefinedType(OmniPointer<s84::ctcode::dbnf::QualfiedName> qualified_name);
     std::string GetRawDefinedType(OmniPointer<s84::ctcode::dbnf::QualfiedName> qualified_name);
