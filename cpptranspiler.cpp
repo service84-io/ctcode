@@ -43,6 +43,22 @@ public:
 		const char* index = buffer;
 		s84::ctcode::dbnf::CTCodeFile* ctcodeFile = s84::ctcode::dbnf::CTCodeFile::Parse(index);
 
+		if (*index) {
+			std::cout << "Failed to parse input" << std::endl;
+
+			for (int count = 0;count < 200;count++) {
+				if (index[count]) {
+					std::cout << index[count];
+				} else {
+					break;
+				}
+			}
+
+			std::cout << std::endl;
+
+			return 1;
+		}
+
 		if(ctcodeFile)
 		{
 			s84::ctcode::cpptranspiler::ctcode::CPPTranspilerCTCodeLogic ctcodeLogic;
