@@ -161,13 +161,12 @@ class CPPTranspilerCTCodeLogic {
         header.WriteLine("template<typename T>");
         header.WriteLine("inline T Element(const std::vector<T>& input, int element) { return input.at(element); };");
         header.WriteLine("template<typename T>");
-        header.WriteLine("inline std::vector<T> Append(std::vector<T>& input, T element) { input.push_back(element); return input; };");
+        header.WriteLine("inline void Append(std::vector<T>& input, T element) { input.push_back(element); };");
         header.WriteLine("template<typename T>");
-        header.WriteLine("inline std::unordered_map<std::string, T> SetKV(std::unordered_map<std::string, T>& input, std::string key, T element)");
+        header.WriteLine("inline void SetKV(std::unordered_map<std::string, T>& input, std::string key, T element)");
         header.WriteLine("{");
         header.WriteLine("    input.erase(key);");
         header.WriteLine("    input.insert(std::pair<std::string, T>(key, element));");
-        header.WriteLine("    return input;");
         header.WriteLine("}");
         header.WriteLine("template<typename T>");
         header.WriteLine("inline bool HasKV(const std::unordered_map<std::string, T>& input, std::string key)");

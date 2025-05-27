@@ -55,13 +55,12 @@ inline int Size(const std::vector<T>& input) { return input.size(); };
 template<typename T>
 inline T Element(const std::vector<T>& input, int element) { return input.at(element); };
 template<typename T>
-inline std::vector<T> Append(std::vector<T>& input, T element) { input.push_back(element); return input; };
+inline void Append(std::vector<T>& input, T element) { input.push_back(element); };
 template<typename T>
-inline std::unordered_map<std::string, T> SetKV(std::unordered_map<std::string, T>& input, std::string key, T element)
+inline void SetKV(std::unordered_map<std::string, T>& input, std::string key, T element)
 {
     input.erase(key);
     input.insert(std::pair<std::string, T>(key, element));
-    return input;
 }
 template<typename T>
 inline bool HasKV(const std::unordered_map<std::string, T>& input, std::string key)

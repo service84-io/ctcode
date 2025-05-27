@@ -150,13 +150,12 @@ namespace ctcode
         header->WriteLine(std::string("template<typename T>"));
         header->WriteLine(std::string("inline T Element(const std::vector<T>& input, int element) { return input.at(element); };"));
         header->WriteLine(std::string("template<typename T>"));
-        header->WriteLine(std::string("inline std::vector<T> Append(std::vector<T>& input, T element) { input.push_back(element); return input; };"));
+        header->WriteLine(std::string("inline void Append(std::vector<T>& input, T element) { input.push_back(element); };"));
         header->WriteLine(std::string("template<typename T>"));
-        header->WriteLine(std::string("inline std::unordered_map<std::string, T> SetKV(std::unordered_map<std::string, T>& input, std::string key, T element)"));
+        header->WriteLine(std::string("inline void SetKV(std::unordered_map<std::string, T>& input, std::string key, T element)"));
         header->WriteLine(std::string("{"));
         header->WriteLine(std::string("    input.erase(key);"));
         header->WriteLine(std::string("    input.insert(std::pair<std::string, T>(key, element));"));
-        header->WriteLine(std::string("    return input;"));
         header->WriteLine(std::string("}"));
         header->WriteLine(std::string("template<typename T>"));
         header->WriteLine(std::string("inline bool HasKV(const std::unordered_map<std::string, T>& input, std::string key)"));
