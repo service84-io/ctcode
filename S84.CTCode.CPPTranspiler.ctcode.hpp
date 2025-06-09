@@ -51,11 +51,15 @@ private:
 };
 
 template<typename T>
+inline void ClearList(std::vector<T>& input) { input.clear(); };
+template<typename T>
 inline int Size(const std::vector<T>& input) { return input.size(); };
 template<typename T>
 inline T Element(const std::vector<T>& input, int element) { return input.at(element); };
 template<typename T>
 inline void Append(std::vector<T>& input, T element) { input.push_back(element); };
+template<typename T>
+inline void ClearMap(std::unordered_map<std::string, T>& input) { input.clear(); };
 template<typename T>
 inline void SetKV(std::unordered_map<std::string, T>& input, std::string key, T element)
 {

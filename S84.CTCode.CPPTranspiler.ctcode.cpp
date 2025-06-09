@@ -146,11 +146,15 @@ namespace ctcode
         header->WriteLine(std::string("};"));
         header->WriteLine(std::string(""));
         header->WriteLine(std::string("template<typename T>"));
+        header->WriteLine(std::string("inline void ClearList(std::vector<T>& input) { input.clear(); };"));
+        header->WriteLine(std::string("template<typename T>"));
         header->WriteLine(std::string("inline int Size(const std::vector<T>& input) { return input.size(); };"));
         header->WriteLine(std::string("template<typename T>"));
         header->WriteLine(std::string("inline T Element(const std::vector<T>& input, int element) { return input.at(element); };"));
         header->WriteLine(std::string("template<typename T>"));
         header->WriteLine(std::string("inline void Append(std::vector<T>& input, T element) { input.push_back(element); };"));
+        header->WriteLine(std::string("template<typename T>"));
+        header->WriteLine(std::string("inline void ClearMap(std::unordered_map<std::string, T>& input) { input.clear(); };"));
         header->WriteLine(std::string("template<typename T>"));
         header->WriteLine(std::string("inline void SetKV(std::unordered_map<std::string, T>& input, std::string key, T element)"));
         header->WriteLine(std::string("{"));
