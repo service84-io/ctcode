@@ -964,6 +964,11 @@ namespace ctcode
         {
             std::string name_node_string;
             name_node_string = name_node->UnParse();
+            if (name_node_string == std::string("myself"))
+            {
+                return std::string("this");
+            }
+
             return CamelCaseToSnakeCase(name_node_string);
         }
         else

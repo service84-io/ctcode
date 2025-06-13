@@ -907,6 +907,11 @@ class CPPTranspilerCTCodeLogic {
         {
             string name_node_string;
             name_node_string = name_node.UnParse();
+
+            if (name_node_string == "myself") {
+                return "this";
+            }
+
             return CamelCaseToSnakeCase(name_node_string);
         }
         else
