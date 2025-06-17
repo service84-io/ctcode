@@ -192,8 +192,9 @@
                     ::= "D"
                     ::= "E"
                     ::= "F"
-<decimal>           ::= <number> "." <number>
-<number>            ::= <digit>+
+<negative>          ::= "-"
+<decimal>           ::= <negative>? <number> "." <number>
+<number>            ::= <negative>? <digit>+
 <digit>             ::= "0"
                     ::= "1"
                     ::= "2"

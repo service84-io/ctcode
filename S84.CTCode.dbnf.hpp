@@ -57,6 +57,7 @@ class NameCharacter;
 class Boolean;
 class Byte;
 class ByteDigit;
+class Negative;
 class Decimal;
 class Number;
 class Digit;
@@ -939,6 +940,18 @@ public:
 
     static s84::ctcode::dbnf::ByteDigit* Parse(const char*& index);
     static s84::ctcode::dbnf::ByteDigit* Parse(s84::ctcode::dbnf::LengthString& index);
+};
+
+typedef List<Negative> NegativeList;
+
+class Negative : public s84::ctcode::dbnf::Node
+{
+public:
+    Negative();
+    ~Negative();
+
+    static s84::ctcode::dbnf::Negative* Parse(const char*& index);
+    static s84::ctcode::dbnf::Negative* Parse(s84::ctcode::dbnf::LengthString& index);
 };
 
 typedef List<Decimal> DecimalList;

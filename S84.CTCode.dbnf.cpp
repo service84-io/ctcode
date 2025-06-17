@@ -5662,6 +5662,45 @@ s84::ctcode::dbnf::ByteDigit* ByteDigit::Parse(s84::ctcode::dbnf::LengthString& 
     return NULL;
 }
 
+Negative::Negative() : Node()
+{
+}
+
+Negative::~Negative()
+{
+}
+
+s84::ctcode::dbnf::Negative* Negative::Parse(const char*& index)
+{
+    s84::ctcode::dbnf::LengthString length_string_index;
+    length_string_index.data = index;
+    length_string_index.length = strlen(index);
+    s84::ctcode::dbnf::Negative* instance = Parse(length_string_index);
+    index = length_string_index.data;
+    return instance;
+}
+
+s84::ctcode::dbnf::Negative* Negative::Parse(s84::ctcode::dbnf::LengthString& index)
+{
+    s84::ctcode::dbnf::LengthString start = index;
+    std::list<s84::ctcode::dbnf::Node*> children;
+
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID15>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    {
+        s84::ctcode::dbnf::Negative* instance = new s84::ctcode::dbnf::Negative();
+        s84::ctcode::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    } else {
+    }
+
+    s84::ctcode::dbnf::ClearNodes(children);
+    return NULL;
+}
+
 Decimal::Decimal() : Node()
 {
 }
@@ -5685,7 +5724,7 @@ s84::ctcode::dbnf::Decimal* Decimal::Parse(s84::ctcode::dbnf::LengthString& inde
     s84::ctcode::dbnf::LengthString start = index;
     std::list<s84::ctcode::dbnf::Node*> children;
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, s84::ctcode::dbnf::Number::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID16>::Parse(index)) && s84::ctcode::dbnf::Match(children, s84::ctcode::dbnf::Number::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Optional(children, s84::ctcode::dbnf::Negative::Parse(index)) && s84::ctcode::dbnf::Match(children, s84::ctcode::dbnf::Number::Parse(index)) && s84::ctcode::dbnf::Match(children, StringParser<LITERAL_ID16>::Parse(index)) && s84::ctcode::dbnf::Match(children, s84::ctcode::dbnf::Number::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::Decimal* instance = new s84::ctcode::dbnf::Decimal();
         s84::ctcode::dbnf::LengthString data;
@@ -5724,7 +5763,7 @@ s84::ctcode::dbnf::Number* Number::Parse(s84::ctcode::dbnf::LengthString& index)
     s84::ctcode::dbnf::LengthString start = index;
     std::list<s84::ctcode::dbnf::Node*> children;
 
-    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Digit, 1>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
+    if ((s84::ctcode::dbnf::ClearNodes(children) && s84::ctcode::dbnf::Optional(children, s84::ctcode::dbnf::Negative::Parse(index)) && s84::ctcode::dbnf::Match(children, MinimumParser<s84::ctcode::dbnf::Digit, 1>::Parse(index))) || s84::ctcode::dbnf::Reset(start, index))
     {
         s84::ctcode::dbnf::Number* instance = new s84::ctcode::dbnf::Number();
         s84::ctcode::dbnf::LengthString data;
