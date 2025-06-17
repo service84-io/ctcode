@@ -598,6 +598,10 @@ class CPPTranspilerCTCodeLogic {
             return Concat("std::shared_ptr<", Concat(raw_type, Concat(">(new ", Concat(raw_type, "())"))));
         }
 
+        if (rValueSingle.GetByteLiteral()) {
+            return rValueSingle.UnParse();
+        }
+
         if (rValueSingle.GetDecimalLiteral()) {
             return rValueSingle.UnParse();
         }

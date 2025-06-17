@@ -55,6 +55,8 @@ class NameTail;
 class Name;
 class NameCharacter;
 class Boolean;
+class Byte;
+class ByteDigit;
 class Decimal;
 class Number;
 class Digit;
@@ -693,6 +695,7 @@ public:
 
     s84::ctcode::dbnf::Allocate* GetAllocate();
     s84::ctcode::dbnf::Boolean* GetBooleanLiteral();
+    s84::ctcode::dbnf::Byte* GetByteLiteral();
     s84::ctcode::dbnf::Call* GetCall();
     s84::ctcode::dbnf::Decimal* GetDecimalLiteral();
     s84::ctcode::dbnf::Number* GetIntegerLiteral();
@@ -703,6 +706,7 @@ public:
 private:
     s84::ctcode::dbnf::Allocate* allocate_;
     s84::ctcode::dbnf::Boolean* booleanLiteral_;
+    s84::ctcode::dbnf::Byte* byteLiteral_;
     s84::ctcode::dbnf::Call* call_;
     s84::ctcode::dbnf::Decimal* decimalLiteral_;
     s84::ctcode::dbnf::Number* integerLiteral_;
@@ -904,6 +908,37 @@ public:
 
     static s84::ctcode::dbnf::Boolean* Parse(const char*& index);
     static s84::ctcode::dbnf::Boolean* Parse(s84::ctcode::dbnf::LengthString& index);
+};
+
+typedef List<Byte> ByteList;
+
+class Byte : public s84::ctcode::dbnf::Node
+{
+public:
+    Byte();
+    ~Byte();
+
+    static s84::ctcode::dbnf::Byte* Parse(const char*& index);
+    static s84::ctcode::dbnf::Byte* Parse(s84::ctcode::dbnf::LengthString& index);
+
+    s84::ctcode::dbnf::ByteDigit* GetHigh();
+    s84::ctcode::dbnf::ByteDigit* GetLow();
+
+private:
+    s84::ctcode::dbnf::ByteDigit* high_;
+    s84::ctcode::dbnf::ByteDigit* low_;
+};
+
+typedef List<ByteDigit> ByteDigitList;
+
+class ByteDigit : public s84::ctcode::dbnf::Node
+{
+public:
+    ByteDigit();
+    ~ByteDigit();
+
+    static s84::ctcode::dbnf::ByteDigit* Parse(const char*& index);
+    static s84::ctcode::dbnf::ByteDigit* Parse(s84::ctcode::dbnf::LengthString& index);
 };
 
 typedef List<Decimal> DecimalList;

@@ -599,6 +599,11 @@ namespace ctcode
             return Concat(std::string("std::shared_ptr<"), Concat(raw_type, Concat(std::string(">(new "), Concat(raw_type, std::string("())")))));
         }
 
+        if (r_value_single->GetByteLiteral())
+        {
+            return r_value_single->UnParse();
+        }
+
         if (r_value_single->GetDecimalLiteral())
         {
             return r_value_single->UnParse();
