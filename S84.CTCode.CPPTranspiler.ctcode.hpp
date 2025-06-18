@@ -76,6 +76,7 @@ template<typename T>
 inline T GetKV(const std::unordered_map<std::string, T>& input, std::string key) { return input.at(key); }
 inline int Length(std::string input) { return (int)input.length(); };
 inline std::string At(std::string input, int index) { return input.substr(index, 1); };
+inline int IntAt(std::string input, int index) { return input.at(index); };
 inline std::string Concat(std::string left, std::string right) { return left + right; };
 
 class OutputStream
