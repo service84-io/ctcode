@@ -56,6 +56,14 @@ private:
 };
 
 template<typename T>
+inline std::vector<T*> UnwrapOmniList(std::vector<OmniPointer<T>> input) {
+	std::vector<T*> result;
+	for (typename std::vector<OmniPointer<T>>::iterator index = input.begin();index != input.end();index++) {
+		result.push_back(index->raw());
+	}
+	return result;
+};
+template<typename T>
 inline void ClearList(std::vector<T>& input) { input.clear(); };
 template<typename T>
 inline int Size(const std::vector<T>& input) { return input.size(); };

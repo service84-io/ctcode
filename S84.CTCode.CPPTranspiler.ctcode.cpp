@@ -151,6 +151,14 @@ namespace ctcode
         header->WriteLine(std::string("};"));
         header->WriteLine(std::string(""));
         header->WriteLine(std::string("template<typename T>"));
+        header->WriteLine(std::string("inline std::vector<T*> UnwrapOmniList(std::vector<OmniPointer<T>> input) {"));
+        header->WriteLine(std::string("	std::vector<T*> result;"));
+        header->WriteLine(std::string("	for (typename std::vector<OmniPointer<T>>::iterator index = input.begin();index != input.end();index++) {"));
+        header->WriteLine(std::string("		result.push_back(index->raw());"));
+        header->WriteLine(std::string("	}"));
+        header->WriteLine(std::string("	return result;"));
+        header->WriteLine(std::string("};"));
+        header->WriteLine(std::string("template<typename T>"));
         header->WriteLine(std::string("inline void ClearList(std::vector<T>& input) { input.clear(); };"));
         header->WriteLine(std::string("template<typename T>"));
         header->WriteLine(std::string("inline int Size(const std::vector<T>& input) { return input.size(); };"));

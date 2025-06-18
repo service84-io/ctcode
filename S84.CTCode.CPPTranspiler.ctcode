@@ -162,6 +162,14 @@ class CPPTranspilerCTCodeLogic {
         header.WriteLine("};");
         header.WriteLine("");
         header.WriteLine("template<typename T>");
+        header.WriteLine("inline std::vector<T*> UnwrapOmniList(std::vector<OmniPointer<T>> input) {");
+        header.WriteLine("	std::vector<T*> result;");
+        header.WriteLine("	for (typename std::vector<OmniPointer<T>>::iterator index = input.begin();index != input.end();index++) {");
+        header.WriteLine("		result.push_back(index->raw());");
+        header.WriteLine("	}");
+        header.WriteLine("	return result;");
+        header.WriteLine("};");
+        header.WriteLine("template<typename T>");
         header.WriteLine("inline void ClearList(std::vector<T>& input) { input.clear(); };");
         header.WriteLine("template<typename T>");
         header.WriteLine("inline int Size(const std::vector<T>& input) { return input.size(); };");
