@@ -44,6 +44,11 @@ public:
         if (value_raw) return value_raw;
         return value_shared.get();
     }
+    T* raw()
+    {
+        if (value_raw) return value_raw;
+        return value_shared.get();
+    }
 
 private:
     T* value_raw;

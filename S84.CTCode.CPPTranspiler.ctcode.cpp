@@ -139,6 +139,11 @@ namespace ctcode
         header->WriteLine(std::string("        if (value_raw) return value_raw;"));
         header->WriteLine(std::string("        return value_shared.get();"));
         header->WriteLine(std::string("    }"));
+        header->WriteLine(std::string("    T* raw()"));
+        header->WriteLine(std::string("    {"));
+        header->WriteLine(std::string("        if (value_raw) return value_raw;"));
+        header->WriteLine(std::string("        return value_shared.get();"));
+        header->WriteLine(std::string("    }"));
         header->WriteLine(std::string(""));
         header->WriteLine(std::string("private:"));
         header->WriteLine(std::string("    T* value_raw;"));

@@ -150,6 +150,11 @@ class CPPTranspilerCTCodeLogic {
         header.WriteLine("        if (value_raw) return value_raw;");
         header.WriteLine("        return value_shared.get();");
         header.WriteLine("    }");
+        header.WriteLine("    T* raw()");
+        header.WriteLine("    {");
+        header.WriteLine("        if (value_raw) return value_raw;");
+        header.WriteLine("        return value_shared.get();");
+        header.WriteLine("    }");
         header.WriteLine("");
         header.WriteLine("private:");
         header.WriteLine("    T* value_raw;");
