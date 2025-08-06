@@ -10,24 +10,15 @@
 #include <string>
 #include <vector>
 
-namespace s84
-{
-namespace ctcode
-{
-namespace cpptranspiler
-{
-namespace ctcode
-{
-class OutputStream;
-class CPPTranspilerCTCodeLogic;
-
+#ifndef CTCODE_COMMON_FUNCTIONS_VERSION_1
+#define CTCODE_COMMON_FUNCTIONS_VERSION_1
 template<typename T>
 class OmniPointer
 {
 public:
-    OmniPointer() { }
+    OmniPointer() { value_raw = NULL; }
     OmniPointer(T* value) { value_raw = value; }
-    OmniPointer(std::shared_ptr<T> value) { value_shared = value; }
+    OmniPointer(std::shared_ptr<T> value) { value_raw = NULL; value_shared = value; }
 
     operator bool()
     {
@@ -91,6 +82,19 @@ inline int Length(std::string input) { return (int)input.length(); };
 inline std::string At(std::string input, int index) { return input.substr(index, 1); };
 inline int IntAt(std::string input, int index) { return input.at(index); };
 inline std::string Concat(std::string left, std::string right) { return left + right; };
+#endif
+
+namespace s84
+{
+namespace ctcode
+{
+namespace cpptranspiler
+{
+namespace ctcode
+{
+class OutputStream;
+class CPPTranspilerCTCodeLogic;
+
 
 class OutputStream
 {
@@ -110,6 +114,7 @@ public:
     void SetSavedUnmanagedTypes(std::vector<std::string> value);
     bool IsUnmanagedType(std::string type_name);
     void GenerateHeader(OmniPointer<s84::ctcode::dbnf::CTCodeFile> ctcode_file, OmniPointer<OutputStream> header, std::vector<std::string> base_name_tokens);
+    void WriteCTCodeCommonFunctions(OmniPointer<OutputStream> header);
     void WriteForwardDeclaration(OmniPointer<s84::ctcode::dbnf::CTCodeFile> ctcode_file, OmniPointer<OutputStream> header);
     void WriteClassDeclarations(OmniPointer<s84::ctcode::dbnf::CTCodeFile> ctcode_file, OmniPointer<OutputStream> header);
     void WriteInterfaceDeclaration(OmniPointer<s84::ctcode::dbnf::InterfaceDef> interface_definition, OmniPointer<OutputStream> header);
