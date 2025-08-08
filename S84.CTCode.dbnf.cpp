@@ -1258,6 +1258,28 @@ public:
     }
 };
 
+template<char low_character, char high_character>
+class CharacterRangeParser
+{
+public:
+    static s84::ctcode::dbnf::String* Parse(s84::ctcode::dbnf::LengthString& index)
+    {
+        s84::ctcode::dbnf::LengthString data = {index.data, 1};
+
+        if((index.length > 0) && (low_character <= (*(index.data))) && ((*(index.data))) <= high_character)
+        {
+            ++(index.data);
+            --(index.length);
+            s84::ctcode::dbnf::String* string_node = new s84::ctcode::dbnf::String(data);
+            return string_node;
+        }
+        else
+        {
+            return NULL;
+        }
+    }
+};
+
 template<typename Literal>
 class StringParser
 {

@@ -141,6 +141,65 @@ class Character
     LengthString length_string;
 }
 
+class CharacterRangeParser
+{
+    function bool ParseSingle(LengthString index, int low_value, int high_value)
+    {
+        if (0 == index.GetLength())
+        {
+            return false;
+        }
+
+        int current_character = IntAt(index.GetData(), index.GetStart());
+
+        if (low_value <= current_character && current_character <= high_value)
+        {
+            index.SetStart(index.GetStart() + 1);
+            index.SetLength(index.GetLength() - 1);
+            return true;
+        }
+
+        return false;
+    }
+}
+
+class CharacterRangeResult
+{
+    function void SetValue(CharacterRange new_value) { value = new_value; }
+    function CharacterRange GetValue() { return value; }
+    function void SetResult(bool new_result) { result = new_result; }
+    function bool GetResult() { return result; }
+
+    CharacterRange value;
+    bool result;
+}
+
+class CharacterRangeListResult
+{
+    function void SetValue(CharacterRange[] new_value) { value = new_value; }
+    function CharacterRange[] GetValue() { return value; }
+    function void SetResult(bool new_result) { result = new_result; }
+    function bool GetResult() { return result; }
+
+    CharacterRange[] value;
+    bool result;
+}
+
+class CharacterRange
+{
+    function void SetLengthString(LengthString new_value)
+    {
+        length_string = new LengthString;
+        length_string.SetData(new_value.GetData());
+        length_string.SetStart(new_value.GetStart());
+        length_string.SetLength(new_value.GetLength());
+    }
+
+    function string UnParse() { return length_string.GetString(); }
+
+    LengthString length_string;
+}
+
 class ParserNetwork
 {
     CTCodeFileParser c_t_code_file_parser_field;
@@ -249,6 +308,8 @@ class ParserNetwork
     function StringParser GetStringParser() { return string_parser_field;}
     CharacterParser character_parser_field;
     function CharacterParser GetCharacterParser() { return character_parser_field;}
+    CharacterRangeParser character_range_parser_field;
+    function CharacterRangeParser GetCharacterRangeParser() { return character_range_parser_field;}
     function void Initialize() {
         c_t_code_file_parser_field = new CTCodeFileParser;
         c_t_code_file_parser_field.SetParserNetwork(myself);
@@ -1449,6 +1510,7 @@ class CTCodeFileParser
         WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && external_definition_parser_instance.ParseManySave(index, declarations_field, 0, -1) && unmanaged_type_parser_instance.ParseManySave(index, unmanaged_types_field, 0, -1) && definition_parser_instance.ParseManySave(index, definitions_field, 0, -1)) {
             instance.SetDeclarations(declarations_field.GetValue());
@@ -1656,6 +1718,7 @@ class ExternalDefinitionParser
         WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && string_parser_instance.ParseSingle(index, "exdef") && whitespace_parser_instance.ParseMany(index, 0, -1) && qualfied_name_parser_instance.ParseSingleSave(index, exdef_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, ";") && whitespace_parser_instance.ParseMany(index, 0, -1)) {
             instance.SetExdef(exdef_field.GetValue());
@@ -1853,6 +1916,7 @@ class UnmanagedTypeParser
         WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && string_parser_instance.ParseSingle(index, "unmanaged") && whitespace_parser_instance.ParseMany(index, 0, -1) && qualfied_name_parser_instance.ParseSingleSave(index, unmanaged_type_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, ";") && whitespace_parser_instance.ParseMany(index, 0, -1)) {
             instance.SetUnmanagedType(unmanaged_type_field.GetValue());
@@ -2051,6 +2115,7 @@ class DefinitionParser
         WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && interface_def_parser_instance.ParseSingleSave(index, interfaceDef_field)) {
             instance.SetClassDef(classDef_field.GetValue());
@@ -2270,6 +2335,7 @@ class InterfaceDefParser
         WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && whitespace_parser_instance.ParseMany(index, 0, -1) && comment_parser_instance.ParseOptionalSave(index, comment_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, "interface") && whitespace_parser_instance.ParseMany(index, 1, -1) && name_parser_instance.ParseSingleSave(index, name_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, "{") && whitespace_parser_instance.ParseMany(index, 0, -1) && content_declaration_parser_instance.ParseManySave(index, declarations_field, 0, -1) && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, "}") && whitespace_parser_instance.ParseMany(index, 0, -1)) {
             instance.SetComment(comment_field.GetValue());
@@ -2479,6 +2545,7 @@ class ClassDefParser
         WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && whitespace_parser_instance.ParseMany(index, 0, -1) && comment_parser_instance.ParseOptionalSave(index, comment_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, "class") && whitespace_parser_instance.ParseMany(index, 1, -1) && name_parser_instance.ParseSingleSave(index, name_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, "{") && whitespace_parser_instance.ParseMany(index, 0, -1) && content_definition_parser_instance.ParseManySave(index, definitions_field, 0, -1) && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, "}") && whitespace_parser_instance.ParseMany(index, 0, -1)) {
             instance.SetComment(comment_field.GetValue());
@@ -2689,6 +2756,7 @@ class ContentDeclarationParser
         WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && whitespace_parser_instance.ParseMany(index, 0, -1) && comment_parser_instance.ParseOptionalSave(index, comment_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, "function") && whitespace_parser_instance.ParseMany(index, 1, -1) && value_type_parser_instance.ParseSingleSave(index, type_field) && whitespace_parser_instance.ParseMany(index, 1, -1) && name_parser_instance.ParseSingleSave(index, name_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, "(") && whitespace_parser_instance.ParseMany(index, 0, -1) && parameter_list_def_parser_instance.ParseOptionalSave(index, parameters_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, ")") && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, ";") && whitespace_parser_instance.ParseMany(index, 0, -1)) {
             instance.SetComment(comment_field.GetValue());
@@ -2905,6 +2973,7 @@ class ContentDefinitionParser
         WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && whitespace_parser_instance.ParseMany(index, 0, -1) && comment_parser_instance.ParseOptionalSave(index, comment_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, "function") && whitespace_parser_instance.ParseMany(index, 1, -1) && value_type_parser_instance.ParseSingleSave(index, type_field) && whitespace_parser_instance.ParseMany(index, 1, -1) && name_parser_instance.ParseSingleSave(index, name_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, "(") && whitespace_parser_instance.ParseMany(index, 0, -1) && parameter_list_def_parser_instance.ParseOptionalSave(index, parameters_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, ")") && whitespace_parser_instance.ParseMany(index, 0, -1) && code_block_parser_instance.ParseSingleSave(index, functionBody_field) && whitespace_parser_instance.ParseMany(index, 0, -1)) {
             instance.SetComment(comment_field.GetValue());
@@ -3142,6 +3211,7 @@ class PrimativeTypeParser
         WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && string_parser_instance.ParseSingle(index, "int")) {
             consumed_string.SetLength(index.GetStart() - index_start);
@@ -3378,6 +3448,7 @@ class DefinedTypeParser
         WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && qualfied_name_parser_instance.ParseSingleSave(index, name_field)) {
             instance.SetName(name_field.GetValue());
@@ -3576,6 +3647,7 @@ class SingletonTypeParser
         WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && primative_type_parser_instance.ParseSingleSave(index, primativeType_field)) {
             instance.SetDefinedType(definedType_field.GetValue());
@@ -3792,6 +3864,7 @@ class DimensionalNoteParser
         WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, "[") && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, "]")) {
             consumed_string.SetLength(index.GetStart() - index_start);
@@ -3985,6 +4058,7 @@ class DimensionalTypeParser
         WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && singleton_type_parser_instance.ParseSingleSave(index, singletonType_field) && dimensional_note_parser_instance.ParseManySave(index, dimensionalNote_field, 1, -1)) {
             instance.SetDimensionalNote(dimensionalNote_field.GetValue());
@@ -4186,6 +4260,7 @@ class MapNoteParser
         WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, "{") && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, "}")) {
             consumed_string.SetLength(index.GetStart() - index_start);
@@ -4379,6 +4454,7 @@ class MapTypeParser
         WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && singleton_type_parser_instance.ParseSingleSave(index, singletonType_field) && map_note_parser_instance.ParseSingleSave(index, mapNote_field)) {
             instance.SetMapNote(mapNote_field.GetValue());
@@ -4583,6 +4659,7 @@ class ValueTypeParser
         WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && dimensional_type_parser_instance.ParseSingleSave(index, dimensionalType_field)) {
             instance.SetDimensionalType(dimensionalType_field.GetValue());
@@ -4826,6 +4903,7 @@ class ParameterListDefParser
         WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && whitespace_parser_instance.ParseMany(index, 0, -1) && value_type_parser_instance.ParseSingleSave(index, type_field) && whitespace_parser_instance.ParseMany(index, 1, -1) && name_parser_instance.ParseSingleSave(index, name_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, ",") && whitespace_parser_instance.ParseMany(index, 0, -1) && parameter_list_def_parser_instance.ParseSingleSave(index, parameterTail_field)) {
             instance.SetName(name_field.GetValue());
@@ -5051,6 +5129,7 @@ class ParameterListParser
         WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && whitespace_parser_instance.ParseMany(index, 0, -1) && r_value_parser_instance.ParseSingleSave(index, rvalue_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, ",") && whitespace_parser_instance.ParseMany(index, 0, -1) && parameter_list_parser_instance.ParseSingleSave(index, parameterTail_field)) {
             instance.SetParameterTail(parameterTail_field.GetValue());
@@ -5268,6 +5347,7 @@ class CodeBlockParser
         WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, "{") && whitespace_parser_instance.ParseMany(index, 0, -1) && instruction_parser_instance.ParseManySave(index, instructions_field, 0, -1) && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, "}") && whitespace_parser_instance.ParseMany(index, 0, -1)) {
             instance.SetInstructions(instructions_field.GetValue());
@@ -5465,6 +5545,7 @@ class DeclarationAssignParser
         WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, "=") && whitespace_parser_instance.ParseMany(index, 0, -1) && r_value_parser_instance.ParseSingleSave(index, rvalue_field) && whitespace_parser_instance.ParseMany(index, 0, -1)) {
             instance.SetRvalue(rvalue_field.GetValue());
@@ -5664,6 +5745,7 @@ class DeclarationParser
         WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && whitespace_parser_instance.ParseMany(index, 0, -1) && value_type_parser_instance.ParseSingleSave(index, type_field) && whitespace_parser_instance.ParseMany(index, 1, -1) && name_parser_instance.ParseSingleSave(index, name_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && declaration_assign_parser_instance.ParseOptionalSave(index, assignment_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, ";") && whitespace_parser_instance.ParseMany(index, 0, -1)) {
             instance.SetAssignment(assignment_field.GetValue());
@@ -5872,6 +5954,7 @@ class AssignmentParser
         WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && whitespace_parser_instance.ParseMany(index, 0, -1) && name_parser_instance.ParseSingleSave(index, lvalue_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, "=") && whitespace_parser_instance.ParseMany(index, 0, -1) && r_value_parser_instance.ParseSingleSave(index, rvalue_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, ";") && whitespace_parser_instance.ParseMany(index, 0, -1)) {
             instance.SetLvalue(lvalue_field.GetValue());
@@ -6075,6 +6158,7 @@ class ReturnParser
         WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingleSave(index, "return", rtn_field) && whitespace_parser_instance.ParseMany(index, 1, -1) && r_value_parser_instance.ParseSingleSave(index, rvalue_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, ";") && whitespace_parser_instance.ParseMany(index, 0, -1)) {
             instance.SetRtn(rtn_field.GetValue());
@@ -6278,6 +6362,7 @@ class ElseTailParser
         WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingleSave(index, "else", elseKey_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && code_block_parser_instance.ParseSingleSave(index, codeBlock_field) && whitespace_parser_instance.ParseMany(index, 0, -1)) {
             instance.SetCodeBlock(codeBlock_field.GetValue());
@@ -6483,6 +6568,7 @@ class ConditionalParser
         WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingleSave(index, "if", conditionalKey_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, "(") && whitespace_parser_instance.ParseMany(index, 0, -1) && r_value_parser_instance.ParseSingleSave(index, rvalue_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, ")") && whitespace_parser_instance.ParseMany(index, 0, -1) && code_block_parser_instance.ParseSingleSave(index, codeBlock_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && else_tail_parser_instance.ParseOptionalSave(index, elseTail_field)) {
             instance.SetCodeBlock(codeBlock_field.GetValue());
@@ -6697,6 +6783,7 @@ class LoopParser
         WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingleSave(index, "while", loopKey_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, "(") && whitespace_parser_instance.ParseMany(index, 0, -1) && r_value_parser_instance.ParseSingleSave(index, rvalue_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, ")") && whitespace_parser_instance.ParseMany(index, 0, -1) && code_block_parser_instance.ParseSingleSave(index, codeBlock_field) && whitespace_parser_instance.ParseMany(index, 0, -1)) {
             instance.SetCodeBlock(codeBlock_field.GetValue());
@@ -6906,6 +6993,7 @@ class CallParser
         WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && name_parser_instance.ParseSingleSave(index, variable_field) && string_parser_instance.ParseSingle(index, ".") && name_parser_instance.ParseSingleSave(index, function_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, "(") && whitespace_parser_instance.ParseMany(index, 0, -1) && parameter_list_parser_instance.ParseOptionalSave(index, parameters_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, ")") && whitespace_parser_instance.ParseMany(index, 0, -1)) {
             instance.SetFunction(function_field.GetValue());
@@ -7130,6 +7218,7 @@ class AllocateParser
         WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, "new") && whitespace_parser_instance.ParseMany(index, 1, -1) && qualfied_name_parser_instance.ParseSingleSave(index, managed_type_field) && whitespace_parser_instance.ParseMany(index, 0, -1)) {
             instance.SetManagedType(managed_type_field.GetValue());
@@ -7334,6 +7423,7 @@ class InstructionParser
         WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && whitespace_parser_instance.ParseMany(index, 0, -1) && comment_parser_instance.ParseOptionalSave(index, comment_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && code_block_parser_instance.ParseSingleSave(index, codeBlock_field)) {
             instance.SetAssignment(assignment_field.GetValue());
@@ -7736,6 +7826,7 @@ class RValueSingleParser
         WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && whitespace_parser_instance.ParseMany(index, 0, -1) && unary_operator_parser_instance.ParseOptionalSave(index, unary_operator_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && call_parser_instance.ParseSingleSave(index, call_field)) {
             instance.SetAllocate(allocate_field.GetValue());
@@ -8178,6 +8269,7 @@ class RValueTailParser
         WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && whitespace_parser_instance.ParseMany(index, 0, -1) && binary_operator_parser_instance.ParseSingleSave(index, binary_operator_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && r_value_single_parser_instance.ParseSingleSave(index, value_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && r_value_tail_parser_instance.ParseOptionalSave(index, tail_field)) {
             instance.SetBinaryOperator(binary_operator_field.GetValue());
@@ -8386,6 +8478,7 @@ class RValueParser
         WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && r_value_single_parser_instance.ParseSingleSave(index, value_field) && r_value_tail_parser_instance.ParseOptionalSave(index, tail_field)) {
             instance.SetTail(tail_field.GetValue());
@@ -8597,6 +8690,7 @@ class BinaryOperatorParser
         WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && string_parser_instance.ParseSingleSave(index, "+", addition_field)) {
             instance.SetAddition(addition_field.GetValue());
@@ -9118,6 +9212,7 @@ class UnaryOperatorParser
         WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && string_parser_instance.ParseSingleSave(index, "!", negation_field)) {
             instance.SetNegation(negation_field.GetValue());
@@ -9315,6 +9410,7 @@ class CommentParser
         WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && string_parser_instance.ParseSingle(index, "/*") && comment_character_parser_instance.ParseManySave(index, content_field, 0, -1) && string_parser_instance.ParseSingle(index, "*/")) {
             instance.SetContent(content_field.GetValue());
@@ -9511,6 +9607,7 @@ class CommentCharacterParser
         WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && whitespace_parser_instance.ParseSingle(index)) {
             consumed_string.SetLength(index.GetStart() - index_start);
@@ -10034,6 +10131,7 @@ class QualfiedNameParser
         WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && name_parser_instance.ParseSingleSave(index, name_field) && name_tail_parser_instance.ParseOptionalSave(index, tail_field)) {
             instance.SetName(name_field.GetValue());
@@ -10237,6 +10335,7 @@ class NameTailParser
         WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && string_parser_instance.ParseSingle(index, ".") && name_parser_instance.ParseSingleSave(index, name_field) && name_tail_parser_instance.ParseOptionalSave(index, tail_field)) {
             instance.SetName(name_field.GetValue());
@@ -10438,6 +10537,7 @@ class NameParser
         WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && name_character_parser_instance.ParseMany(index, 1, -1)) {
             consumed_string.SetLength(index.GetStart() - index_start);
@@ -10629,6 +10729,7 @@ class NameCharacterParser
         WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && string_parser_instance.ParseSingle(index, "0")) {
             consumed_string.SetLength(index.GetStart() - index_start);
@@ -11502,6 +11603,7 @@ class BooleanParser
         WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && string_parser_instance.ParseSingle(index, "true")) {
             consumed_string.SetLength(index.GetStart() - index_start);
@@ -11706,6 +11808,7 @@ class ByteParser
         WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && string_parser_instance.ParseSingle(index, "0x") && byte_digit_parser_instance.ParseSingleSave(index, high_field) && byte_digit_parser_instance.ParseSingleSave(index, low_field)) {
             instance.SetHigh(high_field.GetValue());
@@ -11907,6 +12010,7 @@ class ByteDigitParser
         WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && string_parser_instance.ParseSingle(index, "0")) {
             consumed_string.SetLength(index.GetStart() - index_start);
@@ -12263,6 +12367,7 @@ class NegativeParser
         WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && string_parser_instance.ParseSingle(index, "-")) {
             consumed_string.SetLength(index.GetStart() - index_start);
@@ -12454,6 +12559,7 @@ class DecimalParser
         WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && negative_parser_instance.ParseOptional(index) && number_parser_instance.ParseSingle(index) && string_parser_instance.ParseSingle(index, ".") && number_parser_instance.ParseSingle(index)) {
             consumed_string.SetLength(index.GetStart() - index_start);
@@ -12645,6 +12751,7 @@ class NumberParser
         WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && negative_parser_instance.ParseOptional(index) && digit_parser_instance.ParseMany(index, 1, -1)) {
             consumed_string.SetLength(index.GetStart() - index_start);
@@ -12836,6 +12943,7 @@ class DigitParser
         WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && string_parser_instance.ParseSingle(index, "0")) {
             consumed_string.SetLength(index.GetStart() - index_start);
@@ -13126,6 +13234,7 @@ class LiteralParser
         WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && literal_character_parser_instance.ParseMany(index, 0, -1)) {
             consumed_string.SetLength(index.GetStart() - index_start);
@@ -13317,6 +13426,7 @@ class LiteralCharacterParser
         WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && character_parser_instance.ParseSingle(index, 0x00)) {
             consumed_string.SetLength(index.GetStart() - index_start);
@@ -16302,6 +16412,7 @@ class HexDigitParser
         WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && string_parser_instance.ParseSingle(index, "0")) {
             consumed_string.SetLength(index.GetStart() - index_start);
@@ -16658,6 +16769,7 @@ class WhitespaceParser
         WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && character_parser_instance.ParseSingle(index, 0x00)) {
             consumed_string.SetLength(index.GetStart() - index_start);
@@ -17001,6 +17113,17 @@ class WhitespaceParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x1F)) {
+            consumed_string.SetLength(index.GetStart() - index_start);
+            instance.SetLengthString(consumed_string);
+            result.SetValue(instance);
+            result.SetResult(true);
+            return result.GetResult();
+        } else {
+            index.SetStart(index_start);
+            index.SetLength(index_length);
+        }
+
+        if (true && string_parser_instance.ParseSingle(index, " ")) {
             consumed_string.SetLength(index.GetStart() - index_start);
             instance.SetLengthString(consumed_string);
             result.SetValue(instance);

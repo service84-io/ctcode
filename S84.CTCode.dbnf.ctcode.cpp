@@ -176,6 +176,77 @@ namespace ctcode
         return length_string->GetString();
     }
 
+    bool CharacterRangeParser::ParseSingle(OmniPointer<LengthString> index, int low_value, int high_value)
+    {
+        if (0 == index->GetLength())
+        {
+            return false;
+        }
+
+        int current_character = IntAt(index->GetData(), index->GetStart());
+        if (low_value <= current_character && current_character <= high_value)
+        {
+            index->SetStart(index->GetStart() + 1);
+            index->SetLength(index->GetLength() - 1);
+            return true;
+        }
+
+        return false;
+    }
+
+    void CharacterRangeResult::SetValue(OmniPointer<CharacterRange> new_value)
+    {
+        value = new_value;
+    }
+
+    OmniPointer<CharacterRange> CharacterRangeResult::GetValue()
+    {
+        return value;
+    }
+
+    void CharacterRangeResult::SetResult(bool new_result)
+    {
+        result = new_result;
+    }
+
+    bool CharacterRangeResult::GetResult()
+    {
+        return result;
+    }
+
+    void CharacterRangeListResult::SetValue(std::vector<OmniPointer<CharacterRange>> new_value)
+    {
+        value = new_value;
+    }
+
+    std::vector<OmniPointer<CharacterRange>> CharacterRangeListResult::GetValue()
+    {
+        return value;
+    }
+
+    void CharacterRangeListResult::SetResult(bool new_result)
+    {
+        result = new_result;
+    }
+
+    bool CharacterRangeListResult::GetResult()
+    {
+        return result;
+    }
+
+    void CharacterRange::SetLengthString(OmniPointer<LengthString> new_value)
+    {
+        length_string = std::shared_ptr<LengthString>(new LengthString());
+        length_string->SetData(new_value->GetData());
+        length_string->SetStart(new_value->GetStart());
+        length_string->SetLength(new_value->GetLength());
+    }
+
+    std::string CharacterRange::UnParse()
+    {
+        return length_string->GetString();
+    }
+
     OmniPointer<CTCodeFileParser> ParserNetwork::GetCTCodeFileParser()
     {
         return c_t_code_file_parser_field;
@@ -439,6 +510,11 @@ namespace ctcode
     OmniPointer<CharacterParser> ParserNetwork::GetCharacterParser()
     {
         return character_parser_field;
+    }
+
+    OmniPointer<CharacterRangeParser> ParserNetwork::GetCharacterRangeParser()
+    {
+        return character_range_parser_field;
     }
 
     void ParserNetwork::Initialize()
@@ -2080,6 +2156,7 @@ namespace ctcode
         OmniPointer<WhitespaceParser> whitespace_parser_instance = parser_network->GetWhitespaceParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && external_definition_parser_instance->ParseManySave(index, declarations_field, 0, -1) && unmanaged_type_parser_instance->ParseManySave(index, unmanaged_types_field, 0, -1) && definition_parser_instance->ParseManySave(index, definitions_field, 0, -1))
         {
             instance->SetDeclarations(declarations_field->GetValue());
@@ -2325,6 +2402,7 @@ namespace ctcode
         OmniPointer<WhitespaceParser> whitespace_parser_instance = parser_network->GetWhitespaceParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && string_parser_instance->ParseSingle(index, std::string("exdef")) && whitespace_parser_instance->ParseMany(index, 0, -1) && qualfied_name_parser_instance->ParseSingleSave(index, exdef_field) && whitespace_parser_instance->ParseMany(index, 0, -1) && string_parser_instance->ParseSingle(index, std::string(";")) && whitespace_parser_instance->ParseMany(index, 0, -1))
         {
             instance->SetExdef(exdef_field->GetValue());
@@ -2546,6 +2624,7 @@ namespace ctcode
         OmniPointer<WhitespaceParser> whitespace_parser_instance = parser_network->GetWhitespaceParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && string_parser_instance->ParseSingle(index, std::string("unmanaged")) && whitespace_parser_instance->ParseMany(index, 0, -1) && qualfied_name_parser_instance->ParseSingleSave(index, unmanaged_type_field) && whitespace_parser_instance->ParseMany(index, 0, -1) && string_parser_instance->ParseSingle(index, std::string(";")) && whitespace_parser_instance->ParseMany(index, 0, -1))
         {
             instance->SetUnmanagedType(unmanaged_type_field->GetValue());
@@ -2768,6 +2847,7 @@ namespace ctcode
         OmniPointer<WhitespaceParser> whitespace_parser_instance = parser_network->GetWhitespaceParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && interface_def_parser_instance->ParseSingleSave(index, interface_def_field))
         {
             instance->SetClassDef(class_def_field->GetValue());
@@ -3021,6 +3101,7 @@ namespace ctcode
         OmniPointer<WhitespaceParser> whitespace_parser_instance = parser_network->GetWhitespaceParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && whitespace_parser_instance->ParseMany(index, 0, -1) && comment_parser_instance->ParseOptionalSave(index, comment_field) && whitespace_parser_instance->ParseMany(index, 0, -1) && string_parser_instance->ParseSingle(index, std::string("interface")) && whitespace_parser_instance->ParseMany(index, 1, -1) && name_parser_instance->ParseSingleSave(index, name_field) && whitespace_parser_instance->ParseMany(index, 0, -1) && string_parser_instance->ParseSingle(index, std::string("{")) && whitespace_parser_instance->ParseMany(index, 0, -1) && content_declaration_parser_instance->ParseManySave(index, declarations_field, 0, -1) && whitespace_parser_instance->ParseMany(index, 0, -1) && string_parser_instance->ParseSingle(index, std::string("}")) && whitespace_parser_instance->ParseMany(index, 0, -1))
         {
             instance->SetComment(comment_field->GetValue());
@@ -3268,6 +3349,7 @@ namespace ctcode
         OmniPointer<WhitespaceParser> whitespace_parser_instance = parser_network->GetWhitespaceParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && whitespace_parser_instance->ParseMany(index, 0, -1) && comment_parser_instance->ParseOptionalSave(index, comment_field) && whitespace_parser_instance->ParseMany(index, 0, -1) && string_parser_instance->ParseSingle(index, std::string("class")) && whitespace_parser_instance->ParseMany(index, 1, -1) && name_parser_instance->ParseSingleSave(index, name_field) && whitespace_parser_instance->ParseMany(index, 0, -1) && string_parser_instance->ParseSingle(index, std::string("{")) && whitespace_parser_instance->ParseMany(index, 0, -1) && content_definition_parser_instance->ParseManySave(index, definitions_field, 0, -1) && whitespace_parser_instance->ParseMany(index, 0, -1) && string_parser_instance->ParseSingle(index, std::string("}")) && whitespace_parser_instance->ParseMany(index, 0, -1))
         {
             instance->SetComment(comment_field->GetValue());
@@ -3516,6 +3598,7 @@ namespace ctcode
         OmniPointer<WhitespaceParser> whitespace_parser_instance = parser_network->GetWhitespaceParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && whitespace_parser_instance->ParseMany(index, 0, -1) && comment_parser_instance->ParseOptionalSave(index, comment_field) && whitespace_parser_instance->ParseMany(index, 0, -1) && string_parser_instance->ParseSingle(index, std::string("function")) && whitespace_parser_instance->ParseMany(index, 1, -1) && value_type_parser_instance->ParseSingleSave(index, type_field) && whitespace_parser_instance->ParseMany(index, 1, -1) && name_parser_instance->ParseSingleSave(index, name_field) && whitespace_parser_instance->ParseMany(index, 0, -1) && string_parser_instance->ParseSingle(index, std::string("(")) && whitespace_parser_instance->ParseMany(index, 0, -1) && parameter_list_def_parser_instance->ParseOptionalSave(index, parameters_field) && whitespace_parser_instance->ParseMany(index, 0, -1) && string_parser_instance->ParseSingle(index, std::string(")")) && whitespace_parser_instance->ParseMany(index, 0, -1) && string_parser_instance->ParseSingle(index, std::string(";")) && whitespace_parser_instance->ParseMany(index, 0, -1))
         {
             instance->SetComment(comment_field->GetValue());
@@ -3777,6 +3860,7 @@ namespace ctcode
         OmniPointer<WhitespaceParser> whitespace_parser_instance = parser_network->GetWhitespaceParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && whitespace_parser_instance->ParseMany(index, 0, -1) && comment_parser_instance->ParseOptionalSave(index, comment_field) && whitespace_parser_instance->ParseMany(index, 0, -1) && string_parser_instance->ParseSingle(index, std::string("function")) && whitespace_parser_instance->ParseMany(index, 1, -1) && value_type_parser_instance->ParseSingleSave(index, type_field) && whitespace_parser_instance->ParseMany(index, 1, -1) && name_parser_instance->ParseSingleSave(index, name_field) && whitespace_parser_instance->ParseMany(index, 0, -1) && string_parser_instance->ParseSingle(index, std::string("(")) && whitespace_parser_instance->ParseMany(index, 0, -1) && parameter_list_def_parser_instance->ParseOptionalSave(index, parameters_field) && whitespace_parser_instance->ParseMany(index, 0, -1) && string_parser_instance->ParseSingle(index, std::string(")")) && whitespace_parser_instance->ParseMany(index, 0, -1) && code_block_parser_instance->ParseSingleSave(index, function_body_field) && whitespace_parser_instance->ParseMany(index, 0, -1))
         {
             instance->SetComment(comment_field->GetValue());
@@ -4069,6 +4153,7 @@ namespace ctcode
         OmniPointer<WhitespaceParser> whitespace_parser_instance = parser_network->GetWhitespaceParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && string_parser_instance->ParseSingle(index, std::string("int")))
         {
             consumed_string->SetLength(index->GetStart() - index_start);
@@ -4334,6 +4419,7 @@ namespace ctcode
         OmniPointer<WhitespaceParser> whitespace_parser_instance = parser_network->GetWhitespaceParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && qualfied_name_parser_instance->ParseSingleSave(index, name_field))
         {
             instance->SetName(name_field->GetValue());
@@ -4556,6 +4642,7 @@ namespace ctcode
         OmniPointer<WhitespaceParser> whitespace_parser_instance = parser_network->GetWhitespaceParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && primative_type_parser_instance->ParseSingleSave(index, primative_type_field))
         {
             instance->SetDefinedType(defined_type_field->GetValue());
@@ -4806,6 +4893,7 @@ namespace ctcode
         OmniPointer<WhitespaceParser> whitespace_parser_instance = parser_network->GetWhitespaceParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && whitespace_parser_instance->ParseMany(index, 0, -1) && string_parser_instance->ParseSingle(index, std::string("[")) && whitespace_parser_instance->ParseMany(index, 0, -1) && string_parser_instance->ParseSingle(index, std::string("]")))
         {
             consumed_string->SetLength(index->GetStart() - index_start);
@@ -5016,6 +5104,7 @@ namespace ctcode
         OmniPointer<WhitespaceParser> whitespace_parser_instance = parser_network->GetWhitespaceParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && singleton_type_parser_instance->ParseSingleSave(index, singleton_type_field) && dimensional_note_parser_instance->ParseManySave(index, dimensional_note_field, 1, -1))
         {
             instance->SetDimensionalNote(dimensional_note_field->GetValue());
@@ -5248,6 +5337,7 @@ namespace ctcode
         OmniPointer<WhitespaceParser> whitespace_parser_instance = parser_network->GetWhitespaceParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && whitespace_parser_instance->ParseMany(index, 0, -1) && string_parser_instance->ParseSingle(index, std::string("{")) && whitespace_parser_instance->ParseMany(index, 0, -1) && string_parser_instance->ParseSingle(index, std::string("}")))
         {
             consumed_string->SetLength(index->GetStart() - index_start);
@@ -5458,6 +5548,7 @@ namespace ctcode
         OmniPointer<WhitespaceParser> whitespace_parser_instance = parser_network->GetWhitespaceParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && singleton_type_parser_instance->ParseSingleSave(index, singleton_type_field) && map_note_parser_instance->ParseSingleSave(index, map_note_field))
         {
             instance->SetMapNote(map_note_field->GetValue());
@@ -5693,6 +5784,7 @@ namespace ctcode
         OmniPointer<WhitespaceParser> whitespace_parser_instance = parser_network->GetWhitespaceParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && dimensional_type_parser_instance->ParseSingleSave(index, dimensional_type_field))
         {
             instance->SetDimensionalType(dimensional_type_field->GetValue());
@@ -5980,6 +6072,7 @@ namespace ctcode
         OmniPointer<WhitespaceParser> whitespace_parser_instance = parser_network->GetWhitespaceParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && whitespace_parser_instance->ParseMany(index, 0, -1) && value_type_parser_instance->ParseSingleSave(index, type_field) && whitespace_parser_instance->ParseMany(index, 1, -1) && name_parser_instance->ParseSingleSave(index, name_field) && whitespace_parser_instance->ParseMany(index, 0, -1) && string_parser_instance->ParseSingle(index, std::string(",")) && whitespace_parser_instance->ParseMany(index, 0, -1) && parameter_list_def_parser_instance->ParseSingleSave(index, parameter_tail_field))
         {
             instance->SetName(name_field->GetValue());
@@ -6246,6 +6339,7 @@ namespace ctcode
         OmniPointer<WhitespaceParser> whitespace_parser_instance = parser_network->GetWhitespaceParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && whitespace_parser_instance->ParseMany(index, 0, -1) && r_value_parser_instance->ParseSingleSave(index, rvalue_field) && whitespace_parser_instance->ParseMany(index, 0, -1) && string_parser_instance->ParseSingle(index, std::string(",")) && whitespace_parser_instance->ParseMany(index, 0, -1) && parameter_list_parser_instance->ParseSingleSave(index, parameter_tail_field))
         {
             instance->SetParameterTail(parameter_tail_field->GetValue());
@@ -6497,6 +6591,7 @@ namespace ctcode
         OmniPointer<WhitespaceParser> whitespace_parser_instance = parser_network->GetWhitespaceParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && whitespace_parser_instance->ParseMany(index, 0, -1) && string_parser_instance->ParseSingle(index, std::string("{")) && whitespace_parser_instance->ParseMany(index, 0, -1) && instruction_parser_instance->ParseManySave(index, instructions_field, 0, -1) && whitespace_parser_instance->ParseMany(index, 0, -1) && string_parser_instance->ParseSingle(index, std::string("}")) && whitespace_parser_instance->ParseMany(index, 0, -1))
         {
             instance->SetInstructions(instructions_field->GetValue());
@@ -6718,6 +6813,7 @@ namespace ctcode
         OmniPointer<WhitespaceParser> whitespace_parser_instance = parser_network->GetWhitespaceParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && whitespace_parser_instance->ParseMany(index, 0, -1) && string_parser_instance->ParseSingle(index, std::string("=")) && whitespace_parser_instance->ParseMany(index, 0, -1) && r_value_parser_instance->ParseSingleSave(index, rvalue_field) && whitespace_parser_instance->ParseMany(index, 0, -1))
         {
             instance->SetRvalue(rvalue_field->GetValue());
@@ -6941,6 +7037,7 @@ namespace ctcode
         OmniPointer<WhitespaceParser> whitespace_parser_instance = parser_network->GetWhitespaceParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && whitespace_parser_instance->ParseMany(index, 0, -1) && value_type_parser_instance->ParseSingleSave(index, type_field) && whitespace_parser_instance->ParseMany(index, 1, -1) && name_parser_instance->ParseSingleSave(index, name_field) && whitespace_parser_instance->ParseMany(index, 0, -1) && declaration_assign_parser_instance->ParseOptionalSave(index, assignment_field) && whitespace_parser_instance->ParseMany(index, 0, -1) && string_parser_instance->ParseSingle(index, std::string(";")) && whitespace_parser_instance->ParseMany(index, 0, -1))
         {
             instance->SetAssignment(assignment_field->GetValue());
@@ -7187,6 +7284,7 @@ namespace ctcode
         OmniPointer<WhitespaceParser> whitespace_parser_instance = parser_network->GetWhitespaceParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && whitespace_parser_instance->ParseMany(index, 0, -1) && name_parser_instance->ParseSingleSave(index, lvalue_field) && whitespace_parser_instance->ParseMany(index, 0, -1) && string_parser_instance->ParseSingle(index, std::string("=")) && whitespace_parser_instance->ParseMany(index, 0, -1) && r_value_parser_instance->ParseSingleSave(index, rvalue_field) && whitespace_parser_instance->ParseMany(index, 0, -1) && string_parser_instance->ParseSingle(index, std::string(";")) && whitespace_parser_instance->ParseMany(index, 0, -1))
         {
             instance->SetLvalue(lvalue_field->GetValue());
@@ -7421,6 +7519,7 @@ namespace ctcode
         OmniPointer<WhitespaceParser> whitespace_parser_instance = parser_network->GetWhitespaceParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && whitespace_parser_instance->ParseMany(index, 0, -1) && string_parser_instance->ParseSingleSave(index, std::string("return"), rtn_field) && whitespace_parser_instance->ParseMany(index, 1, -1) && r_value_parser_instance->ParseSingleSave(index, rvalue_field) && whitespace_parser_instance->ParseMany(index, 0, -1) && string_parser_instance->ParseSingle(index, std::string(";")) && whitespace_parser_instance->ParseMany(index, 0, -1))
         {
             instance->SetRtn(rtn_field->GetValue());
@@ -7655,6 +7754,7 @@ namespace ctcode
         OmniPointer<WhitespaceParser> whitespace_parser_instance = parser_network->GetWhitespaceParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && whitespace_parser_instance->ParseMany(index, 0, -1) && string_parser_instance->ParseSingleSave(index, std::string("else"), else_key_field) && whitespace_parser_instance->ParseMany(index, 0, -1) && code_block_parser_instance->ParseSingleSave(index, code_block_field) && whitespace_parser_instance->ParseMany(index, 0, -1))
         {
             instance->SetCodeBlock(code_block_field->GetValue());
@@ -7891,6 +7991,7 @@ namespace ctcode
         OmniPointer<WhitespaceParser> whitespace_parser_instance = parser_network->GetWhitespaceParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && whitespace_parser_instance->ParseMany(index, 0, -1) && string_parser_instance->ParseSingleSave(index, std::string("if"), conditional_key_field) && whitespace_parser_instance->ParseMany(index, 0, -1) && string_parser_instance->ParseSingle(index, std::string("(")) && whitespace_parser_instance->ParseMany(index, 0, -1) && r_value_parser_instance->ParseSingleSave(index, rvalue_field) && whitespace_parser_instance->ParseMany(index, 0, -1) && string_parser_instance->ParseSingle(index, std::string(")")) && whitespace_parser_instance->ParseMany(index, 0, -1) && code_block_parser_instance->ParseSingleSave(index, code_block_field) && whitespace_parser_instance->ParseMany(index, 0, -1) && else_tail_parser_instance->ParseOptionalSave(index, else_tail_field))
         {
             instance->SetCodeBlock(code_block_field->GetValue());
@@ -8150,6 +8251,7 @@ namespace ctcode
         OmniPointer<WhitespaceParser> whitespace_parser_instance = parser_network->GetWhitespaceParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && whitespace_parser_instance->ParseMany(index, 0, -1) && string_parser_instance->ParseSingleSave(index, std::string("while"), loop_key_field) && whitespace_parser_instance->ParseMany(index, 0, -1) && string_parser_instance->ParseSingle(index, std::string("(")) && whitespace_parser_instance->ParseMany(index, 0, -1) && r_value_parser_instance->ParseSingleSave(index, rvalue_field) && whitespace_parser_instance->ParseMany(index, 0, -1) && string_parser_instance->ParseSingle(index, std::string(")")) && whitespace_parser_instance->ParseMany(index, 0, -1) && code_block_parser_instance->ParseSingleSave(index, code_block_field) && whitespace_parser_instance->ParseMany(index, 0, -1))
         {
             instance->SetCodeBlock(code_block_field->GetValue());
@@ -8397,6 +8499,7 @@ namespace ctcode
         OmniPointer<WhitespaceParser> whitespace_parser_instance = parser_network->GetWhitespaceParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && name_parser_instance->ParseSingleSave(index, variable_field) && string_parser_instance->ParseSingle(index, std::string(".")) && name_parser_instance->ParseSingleSave(index, function_field) && whitespace_parser_instance->ParseMany(index, 0, -1) && string_parser_instance->ParseSingle(index, std::string("(")) && whitespace_parser_instance->ParseMany(index, 0, -1) && parameter_list_parser_instance->ParseOptionalSave(index, parameters_field) && whitespace_parser_instance->ParseMany(index, 0, -1) && string_parser_instance->ParseSingle(index, std::string(")")) && whitespace_parser_instance->ParseMany(index, 0, -1))
         {
             instance->SetFunction(function_field->GetValue());
@@ -8662,6 +8765,7 @@ namespace ctcode
         OmniPointer<WhitespaceParser> whitespace_parser_instance = parser_network->GetWhitespaceParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && whitespace_parser_instance->ParseMany(index, 0, -1) && string_parser_instance->ParseSingle(index, std::string("new")) && whitespace_parser_instance->ParseMany(index, 1, -1) && qualfied_name_parser_instance->ParseSingleSave(index, managed_type_field) && whitespace_parser_instance->ParseMany(index, 0, -1))
         {
             instance->SetManagedType(managed_type_field->GetValue());
@@ -8890,6 +8994,7 @@ namespace ctcode
         OmniPointer<WhitespaceParser> whitespace_parser_instance = parser_network->GetWhitespaceParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && whitespace_parser_instance->ParseMany(index, 0, -1) && comment_parser_instance->ParseOptionalSave(index, comment_field) && whitespace_parser_instance->ParseMany(index, 0, -1) && code_block_parser_instance->ParseSingleSave(index, code_block_field))
         {
             instance->SetAssignment(assignment_field->GetValue());
@@ -9383,6 +9488,7 @@ namespace ctcode
         OmniPointer<WhitespaceParser> whitespace_parser_instance = parser_network->GetWhitespaceParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && whitespace_parser_instance->ParseMany(index, 0, -1) && unary_operator_parser_instance->ParseOptionalSave(index, unary_operator_field) && whitespace_parser_instance->ParseMany(index, 0, -1) && call_parser_instance->ParseSingleSave(index, call_field))
         {
             instance->SetAllocate(allocate_field->GetValue());
@@ -9926,6 +10032,7 @@ namespace ctcode
         OmniPointer<WhitespaceParser> whitespace_parser_instance = parser_network->GetWhitespaceParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && whitespace_parser_instance->ParseMany(index, 0, -1) && binary_operator_parser_instance->ParseSingleSave(index, binary_operator_field) && whitespace_parser_instance->ParseMany(index, 0, -1) && r_value_single_parser_instance->ParseSingleSave(index, value_field) && whitespace_parser_instance->ParseMany(index, 0, -1) && r_value_tail_parser_instance->ParseOptionalSave(index, tail_field))
         {
             instance->SetBinaryOperator(binary_operator_field->GetValue());
@@ -10172,6 +10279,7 @@ namespace ctcode
         OmniPointer<WhitespaceParser> whitespace_parser_instance = parser_network->GetWhitespaceParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && r_value_single_parser_instance->ParseSingleSave(index, value_field) && r_value_tail_parser_instance->ParseOptionalSave(index, tail_field))
         {
             instance->SetTail(tail_field->GetValue());
@@ -10414,6 +10522,7 @@ namespace ctcode
         OmniPointer<WhitespaceParser> whitespace_parser_instance = parser_network->GetWhitespaceParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && string_parser_instance->ParseSingleSave(index, std::string("+"), addition_field))
         {
             instance->SetAddition(addition_field->GetValue());
@@ -11049,6 +11158,7 @@ namespace ctcode
         OmniPointer<WhitespaceParser> whitespace_parser_instance = parser_network->GetWhitespaceParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && string_parser_instance->ParseSingleSave(index, std::string("!"), negation_field))
         {
             instance->SetNegation(negation_field->GetValue());
@@ -11270,6 +11380,7 @@ namespace ctcode
         OmniPointer<WhitespaceParser> whitespace_parser_instance = parser_network->GetWhitespaceParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && string_parser_instance->ParseSingle(index, std::string("/*")) && comment_character_parser_instance->ParseManySave(index, content_field, 0, -1) && string_parser_instance->ParseSingle(index, std::string("*/")))
         {
             instance->SetContent(content_field->GetValue());
@@ -11490,6 +11601,7 @@ namespace ctcode
         OmniPointer<WhitespaceParser> whitespace_parser_instance = parser_network->GetWhitespaceParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && whitespace_parser_instance->ParseSingle(index))
         {
             consumed_string->SetLength(index->GetStart() - index_start);
@@ -12120,6 +12232,7 @@ namespace ctcode
         OmniPointer<WhitespaceParser> whitespace_parser_instance = parser_network->GetWhitespaceParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && name_parser_instance->ParseSingleSave(index, name_field) && name_tail_parser_instance->ParseOptionalSave(index, tail_field))
         {
             instance->SetName(name_field->GetValue());
@@ -12354,6 +12467,7 @@ namespace ctcode
         OmniPointer<WhitespaceParser> whitespace_parser_instance = parser_network->GetWhitespaceParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && string_parser_instance->ParseSingle(index, std::string(".")) && name_parser_instance->ParseSingleSave(index, name_field) && name_tail_parser_instance->ParseOptionalSave(index, tail_field))
         {
             instance->SetName(name_field->GetValue());
@@ -12586,6 +12700,7 @@ namespace ctcode
         OmniPointer<WhitespaceParser> whitespace_parser_instance = parser_network->GetWhitespaceParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && name_character_parser_instance->ParseMany(index, 1, -1))
         {
             consumed_string->SetLength(index->GetStart() - index_start);
@@ -12794,6 +12909,7 @@ namespace ctcode
         OmniPointer<WhitespaceParser> whitespace_parser_instance = parser_network->GetWhitespaceParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && string_parser_instance->ParseSingle(index, std::string("0")))
         {
             consumed_string->SetLength(index->GetStart() - index_start);
@@ -13870,6 +13986,7 @@ namespace ctcode
         OmniPointer<WhitespaceParser> whitespace_parser_instance = parser_network->GetWhitespaceParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && string_parser_instance->ParseSingle(index, std::string("true")))
         {
             consumed_string->SetLength(index->GetStart() - index_start);
@@ -14094,6 +14211,7 @@ namespace ctcode
         OmniPointer<WhitespaceParser> whitespace_parser_instance = parser_network->GetWhitespaceParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && string_parser_instance->ParseSingle(index, std::string("0x")) && byte_digit_parser_instance->ParseSingleSave(index, high_field) && byte_digit_parser_instance->ParseSingleSave(index, low_field))
         {
             instance->SetHigh(high_field->GetValue());
@@ -14326,6 +14444,7 @@ namespace ctcode
         OmniPointer<WhitespaceParser> whitespace_parser_instance = parser_network->GetWhitespaceParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && string_parser_instance->ParseSingle(index, std::string("0")))
         {
             consumed_string->SetLength(index->GetStart() - index_start);
@@ -14744,6 +14863,7 @@ namespace ctcode
         OmniPointer<WhitespaceParser> whitespace_parser_instance = parser_network->GetWhitespaceParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && string_parser_instance->ParseSingle(index, std::string("-")))
         {
             consumed_string->SetLength(index->GetStart() - index_start);
@@ -14952,6 +15072,7 @@ namespace ctcode
         OmniPointer<WhitespaceParser> whitespace_parser_instance = parser_network->GetWhitespaceParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && negative_parser_instance->ParseOptional(index) && number_parser_instance->ParseSingle(index) && string_parser_instance->ParseSingle(index, std::string(".")) && number_parser_instance->ParseSingle(index))
         {
             consumed_string->SetLength(index->GetStart() - index_start);
@@ -15160,6 +15281,7 @@ namespace ctcode
         OmniPointer<WhitespaceParser> whitespace_parser_instance = parser_network->GetWhitespaceParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && negative_parser_instance->ParseOptional(index) && digit_parser_instance->ParseMany(index, 1, -1))
         {
             consumed_string->SetLength(index->GetStart() - index_start);
@@ -15368,6 +15490,7 @@ namespace ctcode
         OmniPointer<WhitespaceParser> whitespace_parser_instance = parser_network->GetWhitespaceParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && string_parser_instance->ParseSingle(index, std::string("0")))
         {
             consumed_string->SetLength(index->GetStart() - index_start);
@@ -15702,6 +15825,7 @@ namespace ctcode
         OmniPointer<WhitespaceParser> whitespace_parser_instance = parser_network->GetWhitespaceParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && literal_character_parser_instance->ParseMany(index, 0, -1))
         {
             consumed_string->SetLength(index->GetStart() - index_start);
@@ -15910,6 +16034,7 @@ namespace ctcode
         OmniPointer<WhitespaceParser> whitespace_parser_instance = parser_network->GetWhitespaceParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && character_parser_instance->ParseSingle(index, 0x00))
         {
             consumed_string->SetLength(index->GetStart() - index_start);
@@ -19674,6 +19799,7 @@ namespace ctcode
         OmniPointer<WhitespaceParser> whitespace_parser_instance = parser_network->GetWhitespaceParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && string_parser_instance->ParseSingle(index, std::string("0")))
         {
             consumed_string->SetLength(index->GetStart() - index_start);
@@ -20092,6 +20218,7 @@ namespace ctcode
         OmniPointer<WhitespaceParser> whitespace_parser_instance = parser_network->GetWhitespaceParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && character_parser_instance->ParseSingle(index, 0x00))
         {
             consumed_string->SetLength(index->GetStart() - index_start);
@@ -20527,6 +20654,20 @@ namespace ctcode
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x1F))
+        {
+            consumed_string->SetLength(index->GetStart() - index_start);
+            instance->SetLengthString(consumed_string);
+            result->SetValue(instance);
+            result->SetResult(true);
+            return result->GetResult();
+        }
+        else
+        {
+            index->SetStart(index_start);
+            index->SetLength(index_length);
+        }
+
+        if (true && string_parser_instance->ParseSingle(index, std::string(" ")))
         {
             consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);

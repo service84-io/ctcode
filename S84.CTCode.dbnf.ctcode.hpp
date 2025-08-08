@@ -79,7 +79,7 @@ template<typename T>
 inline T GetKV(const std::unordered_map<std::string, T>& input, std::string key) { return input.at(key); }
 inline int Length(std::string input) { return (int)input.length(); };
 inline std::string At(std::string input, int index) { return input.substr(index, 1); };
-inline int IntAt(std::string input, int index) { return input.at(index); };
+inline int IntAt(std::string input, int index) { return (input.at(index) + 256) % 256; };
 inline std::string Concat(std::string left, std::string right) { return left + right; };
 #endif
 
@@ -99,6 +99,10 @@ class CharacterParser;
 class CharacterResult;
 class CharacterListResult;
 class Character;
+class CharacterRangeParser;
+class CharacterRangeResult;
+class CharacterRangeListResult;
+class CharacterRange;
 class ParserNetwork;
 class DBNFOmniType;
 class DBNFOmniTypeResult;
@@ -419,6 +423,60 @@ private:
     OmniPointer<LengthString> length_string;
 };
 
+class CharacterRangeParser
+{
+public:
+    inline CharacterRangeParser() {};
+    inline ~CharacterRangeParser() {};
+
+    bool ParseSingle(OmniPointer<LengthString> index, int low_value, int high_value);
+};
+
+class CharacterRangeResult
+{
+public:
+    inline CharacterRangeResult() {};
+    inline ~CharacterRangeResult() {};
+
+    void SetValue(OmniPointer<CharacterRange> new_value);
+    OmniPointer<CharacterRange> GetValue();
+    void SetResult(bool new_result);
+    bool GetResult();
+
+private:
+    OmniPointer<CharacterRange> value;
+    bool result;
+};
+
+class CharacterRangeListResult
+{
+public:
+    inline CharacterRangeListResult() {};
+    inline ~CharacterRangeListResult() {};
+
+    void SetValue(std::vector<OmniPointer<CharacterRange>> new_value);
+    std::vector<OmniPointer<CharacterRange>> GetValue();
+    void SetResult(bool new_result);
+    bool GetResult();
+
+private:
+    std::vector<OmniPointer<CharacterRange>> value;
+    bool result;
+};
+
+class CharacterRange
+{
+public:
+    inline CharacterRange() {};
+    inline ~CharacterRange() {};
+
+    void SetLengthString(OmniPointer<LengthString> new_value);
+    std::string UnParse();
+
+private:
+    OmniPointer<LengthString> length_string;
+};
+
 class ParserNetwork
 {
 public:
@@ -478,6 +536,7 @@ public:
     OmniPointer<WhitespaceParser> GetWhitespaceParser();
     OmniPointer<StringParser> GetStringParser();
     OmniPointer<CharacterParser> GetCharacterParser();
+    OmniPointer<CharacterRangeParser> GetCharacterRangeParser();
     void Initialize();
 
 private:
@@ -534,6 +593,7 @@ private:
     OmniPointer<WhitespaceParser> whitespace_parser_field;
     OmniPointer<StringParser> string_parser_field;
     OmniPointer<CharacterParser> character_parser_field;
+    OmniPointer<CharacterRangeParser> character_range_parser_field;
 };
 
 class DBNFOmniType

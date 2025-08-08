@@ -160,7 +160,7 @@ namespace ctcode
         header->WriteLine(std::string("inline T GetKV(const std::unordered_map<std::string, T>& input, std::string key) { return input.at(key); }"));
         header->WriteLine(std::string("inline int Length(std::string input) { return (int)input.length(); };"));
         header->WriteLine(std::string("inline std::string At(std::string input, int index) { return input.substr(index, 1); };"));
-        header->WriteLine(std::string("inline int IntAt(std::string input, int index) { return input.at(index); };"));
+        header->WriteLine(std::string("inline int IntAt(std::string input, int index) { return (input.at(index) + 256) % 256; };"));
         header->WriteLine(std::string("inline std::string Concat(std::string left, std::string right) { return left + right; };"));
         header->WriteLine(std::string("#endif"));
     }
