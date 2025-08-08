@@ -63,7 +63,6 @@ class Number;
 class Digit;
 class Literal;
 class LiteralCharacter;
-class HexDigit;
 class Whitespace;
 
 struct LengthString
@@ -1012,18 +1011,6 @@ public:
 
     static s84::ctcode::dbnf::LiteralCharacter* Parse(const char*& index);
     static s84::ctcode::dbnf::LiteralCharacter* Parse(s84::ctcode::dbnf::LengthString& index);
-};
-
-typedef List<HexDigit> HexDigitList;
-
-class HexDigit : public s84::ctcode::dbnf::Node
-{
-public:
-    HexDigit();
-    ~HexDigit();
-
-    static s84::ctcode::dbnf::HexDigit* Parse(const char*& index);
-    static s84::ctcode::dbnf::HexDigit* Parse(s84::ctcode::dbnf::LengthString& index);
 };
 
 typedef List<Whitespace> WhitespaceList;

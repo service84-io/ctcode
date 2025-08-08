@@ -304,10 +304,6 @@ class LiteralCharacterParser;
 class LiteralCharacterResult;
 class LiteralCharacterListResult;
 class LiteralCharacter;
-class HexDigitParser;
-class HexDigitResult;
-class HexDigitListResult;
-class HexDigit;
 class WhitespaceParser;
 class WhitespaceResult;
 class WhitespaceListResult;
@@ -532,7 +528,6 @@ public:
     OmniPointer<DigitParser> GetDigitParser();
     OmniPointer<LiteralParser> GetLiteralParser();
     OmniPointer<LiteralCharacterParser> GetLiteralCharacterParser();
-    OmniPointer<HexDigitParser> GetHexDigitParser();
     OmniPointer<WhitespaceParser> GetWhitespaceParser();
     OmniPointer<StringParser> GetStringParser();
     OmniPointer<CharacterParser> GetCharacterParser();
@@ -589,7 +584,6 @@ private:
     OmniPointer<DigitParser> digit_parser_field;
     OmniPointer<LiteralParser> literal_parser_field;
     OmniPointer<LiteralCharacterParser> literal_character_parser_field;
-    OmniPointer<HexDigitParser> hex_digit_parser_field;
     OmniPointer<WhitespaceParser> whitespace_parser_field;
     OmniPointer<StringParser> string_parser_field;
     OmniPointer<CharacterParser> character_parser_field;
@@ -700,8 +694,6 @@ public:
     OmniPointer<Literal> GetLiteral();
     void SetLiteralCharacter(OmniPointer<LiteralCharacter> input_value);
     OmniPointer<LiteralCharacter> GetLiteralCharacter();
-    void SetHexDigit(OmniPointer<HexDigit> input_value);
-    OmniPointer<HexDigit> GetHexDigit();
     void SetWhitespace(OmniPointer<Whitespace> input_value);
     OmniPointer<Whitespace> GetWhitespace();
 
@@ -755,7 +747,6 @@ private:
     OmniPointer<Digit> digit_field;
     OmniPointer<Literal> literal_field;
     OmniPointer<LiteralCharacter> literal_character_field;
-    OmniPointer<HexDigit> hex_digit_field;
     OmniPointer<Whitespace> whitespace_field;
 };
 
@@ -818,7 +809,6 @@ public:
     void SetDigit(OmniPointer<Digit> input_value);
     void SetLiteral(OmniPointer<Literal> input_value);
     void SetLiteralCharacter(OmniPointer<LiteralCharacter> input_value);
-    void SetHexDigit(OmniPointer<HexDigit> input_value);
     void SetWhitespace(OmniPointer<Whitespace> input_value);
 
 private:
@@ -885,7 +875,6 @@ public:
     void SetDigit(std::vector<OmniPointer<Digit>> input_value);
     void SetLiteral(std::vector<OmniPointer<Literal>> input_value);
     void SetLiteralCharacter(std::vector<OmniPointer<LiteralCharacter>> input_value);
-    void SetHexDigit(std::vector<OmniPointer<HexDigit>> input_value);
     void SetWhitespace(std::vector<OmniPointer<Whitespace>> input_value);
 
 private:
@@ -4289,69 +4278,6 @@ class LiteralCharacter
 public:
     inline LiteralCharacter() {};
     inline ~LiteralCharacter() {};
-
-    void SetLengthString(OmniPointer<LengthString> new_value);
-    std::string UnParse();
-
-private:
-    OmniPointer<LengthString> length_string;
-};
-
-class HexDigitParser
-{
-public:
-    inline HexDigitParser() {};
-    inline ~HexDigitParser() {};
-
-    void SetParserNetwork(OmniPointer<ParserNetwork> input);
-    bool ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<HexDigitResult> result);
-    bool ParseSingle(OmniPointer<LengthString> index);
-    bool ParseOptionalSave(OmniPointer<LengthString> index, OmniPointer<HexDigitResult> result);
-    bool ParseOptional(OmniPointer<LengthString> index);
-    bool ParseManySave(OmniPointer<LengthString> index, OmniPointer<HexDigitListResult> list_result, int minimum, int maximum);
-    bool ParseMany(OmniPointer<LengthString> index, int minimum, int maximum);
-
-private:
-    OmniPointer<ParserNetwork> parser_network;
-};
-
-class HexDigitResult
-{
-public:
-    inline HexDigitResult() {};
-    inline ~HexDigitResult() {};
-
-    void SetValue(OmniPointer<HexDigit> new_value);
-    OmniPointer<HexDigit> GetValue();
-    void SetResult(bool new_result);
-    bool GetResult();
-
-private:
-    OmniPointer<HexDigit> value;
-    bool result;
-};
-
-class HexDigitListResult
-{
-public:
-    inline HexDigitListResult() {};
-    inline ~HexDigitListResult() {};
-
-    void SetValue(std::vector<OmniPointer<HexDigit>> new_value);
-    std::vector<OmniPointer<HexDigit>> GetValue();
-    void SetResult(bool new_result);
-    bool GetResult();
-
-private:
-    std::vector<OmniPointer<HexDigit>> value;
-    bool result;
-};
-
-class HexDigit
-{
-public:
-    inline HexDigit() {};
-    inline ~HexDigit() {};
 
     void SetLengthString(OmniPointer<LengthString> new_value);
     std::string UnParse();
