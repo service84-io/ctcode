@@ -891,6 +891,8 @@ public:
 
     void SetData(std::string new_data);
     std::string GetData();
+    int GetIntAt(int offset);
+    std::string GetAt(int offset);
 
 private:
     std::string data;

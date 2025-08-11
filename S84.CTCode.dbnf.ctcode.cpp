@@ -29,7 +29,7 @@ namespace ctcode
         int offset_index = 0;
         while (offset_index < value_length)
         {
-            if (At(index_data->GetData(), index->GetStart() + offset_index) != At(value, offset_index))
+            if (index_data->GetAt(index->GetStart() + offset_index) != At(value, offset_index))
             {
                 result->SetResult(false);
                 return false;
@@ -114,7 +114,7 @@ namespace ctcode
         }
 
         OmniPointer<LargeString> index_data = index->GetData();
-        int current_character = IntAt(index_data->GetData(), index->GetStart());
+        int current_character = index_data->GetIntAt(index->GetStart());
         if (current_character == value)
         {
             index->SetStart(index->GetStart() + 1);
@@ -186,7 +186,7 @@ namespace ctcode
         }
 
         OmniPointer<LargeString> index_data = index->GetData();
-        int current_character = IntAt(index_data->GetData(), index->GetStart());
+        int current_character = index_data->GetIntAt(index->GetStart());
         if (low_value <= current_character && current_character <= high_value)
         {
             index->SetStart(index->GetStart() + 1);
@@ -2019,6 +2019,16 @@ namespace ctcode
     std::string LargeString::GetData()
     {
         return data;
+    }
+
+    int LargeString::GetIntAt(int offset)
+    {
+        return IntAt(data, offset);
+    }
+
+    std::string LargeString::GetAt(int offset)
+    {
+        return At(data, offset);
     }
 
     void LengthString::SetData(OmniPointer<LargeString> new_data)
