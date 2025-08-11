@@ -146,23 +146,23 @@ class CPPTranspilerCTCodeLogic {
         header.WriteLine("template<typename T>");
         header.WriteLine("inline void ClearMap(std::unordered_map<std::string, T>& input) { input.clear(); };");
         header.WriteLine("template<typename T>");
-        header.WriteLine("inline void SetKV(std::unordered_map<std::string, T>& input, std::string key, T element)");
+        header.WriteLine("inline void SetKV(std::unordered_map<std::string, T>& input, const std::string& key, T element)");
         header.WriteLine("{");
         header.WriteLine("    input.erase(key);");
         header.WriteLine("    input.insert(std::pair<std::string, T>(key, element));");
         header.WriteLine("}");
         header.WriteLine("template<typename T>");
-        header.WriteLine("inline bool HasKV(const std::unordered_map<std::string, T>& input, std::string key)");
+        header.WriteLine("inline bool HasKV(const std::unordered_map<std::string, T>& input, const std::string& key)");
         header.WriteLine("{");
         header.WriteLine("    typename std::unordered_map<std::string, T>::iterator beginning = input.find(key);");
         header.WriteLine("    return beginning != input.end();");
         header.WriteLine("}");
         header.WriteLine("template<typename T>");
-        header.WriteLine("inline T GetKV(const std::unordered_map<std::string, T>& input, std::string key) { return input.at(key); }");
-        header.WriteLine("inline int Length(std::string input) { return (int)input.length(); };");
-        header.WriteLine("inline std::string At(std::string input, int index) { return input.substr(index, 1); };");
-        header.WriteLine("inline int IntAt(std::string input, int index) { return (input.at(index) + 256) % 256; };");
-        header.WriteLine("inline std::string Concat(std::string left, std::string right) { return left + right; };");
+        header.WriteLine("inline T GetKV(const std::unordered_map<std::string, T>& input, const std::string& key) { return input.at(key); }");
+        header.WriteLine("inline int Length(const std::string& input) { return (int)input.length(); };");
+        header.WriteLine("inline std::string At(const std::string& input, int index) { return input.substr(index, 1); };");
+        header.WriteLine("inline int IntAt(const std::string& input, int index) { return (input.at(index) + 256) % 256; };");
+        header.WriteLine("inline std::string Concat(const std::string& left, const std::string& right) { return left + right; };");
         header.WriteLine("#endif");
     }
 

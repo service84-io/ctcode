@@ -145,23 +145,23 @@ namespace ctcode
         header->WriteLine(std::string("template<typename T>"));
         header->WriteLine(std::string("inline void ClearMap(std::unordered_map<std::string, T>& input) { input.clear(); };"));
         header->WriteLine(std::string("template<typename T>"));
-        header->WriteLine(std::string("inline void SetKV(std::unordered_map<std::string, T>& input, std::string key, T element)"));
+        header->WriteLine(std::string("inline void SetKV(std::unordered_map<std::string, T>& input, const std::string& key, T element)"));
         header->WriteLine(std::string("{"));
         header->WriteLine(std::string("    input.erase(key);"));
         header->WriteLine(std::string("    input.insert(std::pair<std::string, T>(key, element));"));
         header->WriteLine(std::string("}"));
         header->WriteLine(std::string("template<typename T>"));
-        header->WriteLine(std::string("inline bool HasKV(const std::unordered_map<std::string, T>& input, std::string key)"));
+        header->WriteLine(std::string("inline bool HasKV(const std::unordered_map<std::string, T>& input, const std::string& key)"));
         header->WriteLine(std::string("{"));
         header->WriteLine(std::string("    typename std::unordered_map<std::string, T>::iterator beginning = input.find(key);"));
         header->WriteLine(std::string("    return beginning != input.end();"));
         header->WriteLine(std::string("}"));
         header->WriteLine(std::string("template<typename T>"));
-        header->WriteLine(std::string("inline T GetKV(const std::unordered_map<std::string, T>& input, std::string key) { return input.at(key); }"));
-        header->WriteLine(std::string("inline int Length(std::string input) { return (int)input.length(); };"));
-        header->WriteLine(std::string("inline std::string At(std::string input, int index) { return input.substr(index, 1); };"));
-        header->WriteLine(std::string("inline int IntAt(std::string input, int index) { return (input.at(index) + 256) % 256; };"));
-        header->WriteLine(std::string("inline std::string Concat(std::string left, std::string right) { return left + right; };"));
+        header->WriteLine(std::string("inline T GetKV(const std::unordered_map<std::string, T>& input, const std::string& key) { return input.at(key); }"));
+        header->WriteLine(std::string("inline int Length(const std::string& input) { return (int)input.length(); };"));
+        header->WriteLine(std::string("inline std::string At(const std::string& input, int index) { return input.substr(index, 1); };"));
+        header->WriteLine(std::string("inline int IntAt(const std::string& input, int index) { return (input.at(index) + 256) % 256; };"));
+        header->WriteLine(std::string("inline std::string Concat(const std::string& left, const std::string& right) { return left + right; };"));
         header->WriteLine(std::string("#endif"));
     }
 

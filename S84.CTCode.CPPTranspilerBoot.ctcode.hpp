@@ -65,23 +65,23 @@ inline void Append(std::vector<T>& input, T element) { input.push_back(element);
 template<typename T>
 inline void ClearMap(std::unordered_map<std::string, T>& input) { input.clear(); };
 template<typename T>
-inline void SetKV(std::unordered_map<std::string, T>& input, std::string key, T element)
+inline void SetKV(std::unordered_map<std::string, T>& input, const std::string& key, T element)
 {
     input.erase(key);
     input.insert(std::pair<std::string, T>(key, element));
 }
 template<typename T>
-inline bool HasKV(const std::unordered_map<std::string, T>& input, std::string key)
+inline bool HasKV(const std::unordered_map<std::string, T>& input, const std::string& key)
 {
     typename std::unordered_map<std::string, T>::iterator beginning = input.find(key);
     return beginning != input.end();
 }
 template<typename T>
-inline T GetKV(const std::unordered_map<std::string, T>& input, std::string key) { return input.at(key); }
-inline int Length(std::string input) { return (int)input.length(); };
-inline std::string At(std::string input, int index) { return input.substr(index, 1); };
-inline int IntAt(std::string input, int index) { return (input.at(index) + 256) % 256; };
-inline std::string Concat(std::string left, std::string right) { return left + right; };
+inline T GetKV(const std::unordered_map<std::string, T>& input, const std::string& key) { return input.at(key); }
+inline int Length(const std::string& input) { return (int)input.length(); };
+inline std::string At(const std::string& input, int index) { return input.substr(index, 1); };
+inline int IntAt(const std::string& input, int index) { return (input.at(index) + 256) % 256; };
+inline std::string Concat(const std::string& left, const std::string& right) { return left + right; };
 #endif
 
 namespace s84
