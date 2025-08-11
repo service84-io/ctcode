@@ -41,6 +41,7 @@ public:
 	virtual int Transpile(const char* buffer, std::string base_name)
 	{
 		const char* index = buffer;
+		std::cout << "Parsing CTCode File..." << std::endl;
 		s84::ctcode::dbnf::CTCodeFile* ctcodeFile = s84::ctcode::dbnf::CTCodeFile::Parse(index);
 
 		if (*index) {
@@ -61,6 +62,7 @@ public:
 
 		if(ctcodeFile)
 		{
+			std::cout << "CTCode File Parsed!" << std::endl;
 			s84::ctcode::cpptranspiler::ctcode::CPPTranspilerCTCodeLogic ctcodeLogic;
 			std::ofstream header(base_name + ".hpp", std::ofstream::trunc | std::ofstream::out);
 			std::ofstream implementation(base_name + ".cpp", std::ofstream::trunc | std::ofstream::out);
@@ -74,6 +76,7 @@ public:
 		}
 		else
 		{
+			std::cout << "Failed to parse CTCode file." << std::endl;
 			return 1;
 		}
 	}

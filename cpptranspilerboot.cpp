@@ -8,8 +8,8 @@
 #include <sstream>
 #include <string>
 
-#include "S84.CTCode.dbnf.hpp"
-#include "S84.CTCode.CPPTranspiler.ctcode.hpp"
+#include "S84.CTCode.dbnf.ctcode.hpp"
+#include "S84.CTCode.CPPTranspilerBoot.ctcode.hpp"
 #include "transpiler.hpp"
 #include <vector>
 
@@ -17,7 +17,7 @@ namespace s84
 {
 namespace ctcode
 {
-class OStreamWriterBoot : public s84::ctcode::cpptranspiler::ctcode::OutputStream {
+class OStreamWriterBoot : public s84::ctcode::cpptranspilerboot::ctcode::OutputStream {
 public:
 	OStreamWriterBoot(std::ostream& stream) : destination(stream) {}
 
@@ -40,40 +40,42 @@ public:
 
 	virtual int Transpile(const char* buffer, std::string base_name)
 	{
-		const char* index = buffer;
-		s84::ctcode::dbnf::CTCodeFile* ctcodeFile = s84::ctcode::dbnf::CTCodeFile::Parse(index);
+		s84::ctcode::dbnf::ctcode::LengthString index;
+		std::string data(buffer);
+		index.SetData(data);
+		index.SetStart(0);
+		index.SetLength(data.length());
+		s84::ctcode::dbnf::ctcode::ParserNetwork parser_network;
+		parser_network.Initialize();
+		s84::ctcode::dbnf::ctcode::CTCodeFileResult ctcodeFile_result;
+		std::cout << "Parsing CTCode File..." << std::endl;
+		parser_network.GetCTCodeFileParser()->ParseSingleSave(&index, &ctcodeFile_result);
+		s84::ctcode::dbnf::ctcode::CTCodeFile* ctcodeFile = ctcodeFile_result.GetValue().raw();
 
-		if (*index) {
+		if (index.GetLength() > 0) {
 			std::cout << "Failed to parse input" << std::endl;
-
-			for (int count = 0;count < 200;count++) {
-				if (index[count]) {
-					std::cout << index[count];
-				} else {
-					break;
-				}
-			}
-
-			std::cout << std::endl;
+			std::cout << index.GetString().substr(0,200) << std::endl;
 
 			return 1;
 		}
 
 		if(ctcodeFile)
 		{
-			s84::ctcode::cpptranspiler::ctcode::CPPTranspilerCTCodeLogic ctcodeLogic;
+			std::cout << "CTCode File Parsed!" << std::endl;
+			s84::ctcode::cpptranspilerboot::ctcode::CPPTranspilerCTCodeLogic ctcodeLogic;
 			std::ofstream header(base_name + ".hpp", std::ofstream::trunc | std::ofstream::out);
 			std::ofstream implementation(base_name + ".cpp", std::ofstream::trunc | std::ofstream::out);
 			OStreamWriterBoot header_stream(header);
 			OStreamWriterBoot implementation_stream(implementation);
 			std::vector<std::string> base_name_tokens = ctcodeLogic.TokenizeBaseName(base_name);
-			ctcodeLogic.SetSavedUnmanagedTypes(ctcodeLogic.GetUnmanagedTypes(ctcodeFile->GetUnmanagedTypes()->GetVector()));
+			ctcodeLogic.SetSavedUnmanagedTypes(ctcodeLogic.GetUnmanagedTypes(ctcodeFile->GetUnmanagedTypes()));
 			ctcodeLogic.GenerateHeader(ctcodeFile, &header_stream, base_name_tokens);
 			ctcodeLogic.GenerateImplementation(ctcodeFile, &implementation_stream, base_name, base_name_tokens);
 			return 0;
 		}
 		else
 		{
+			std::cout << "Failed to parse CTCode file." << std::endl;
 			return 1;
 		}
 	}
