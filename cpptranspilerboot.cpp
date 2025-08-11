@@ -40,11 +40,13 @@ public:
 
 	virtual int Transpile(const char* buffer, std::string base_name)
 	{
+		std::string buffer_string(buffer);
+		s84::ctcode::dbnf::ctcode::LargeString data;
+		data.SetData(buffer_string);
 		s84::ctcode::dbnf::ctcode::LengthString index;
-		std::string data(buffer);
-		index.SetData(data);
+		index.SetData(&data);
 		index.SetStart(0);
-		index.SetLength(data.length());
+		index.SetLength(buffer_string.length());
 		s84::ctcode::dbnf::ctcode::ParserNetwork parser_network;
 		parser_network.Initialize();
 		s84::ctcode::dbnf::ctcode::CTCodeFileResult ctcodeFile_result;

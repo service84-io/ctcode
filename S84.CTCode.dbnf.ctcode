@@ -4,6 +4,7 @@ class StringParser
     {
         int index_start = index.GetStart();
         int index_length = index.GetLength();
+        LargeString index_data = index.GetData();
         LengthString consumed_string = new LengthString;
         consumed_string.SetData(index.GetData());
         consumed_string.SetStart(index.GetStart());
@@ -21,7 +22,7 @@ class StringParser
 
         while (offset_index < value_length)
         {
-            if (At(index.GetData(), index.GetStart() + offset_index) != At(value, offset_index))
+            if (At(index_data.GetData(), index.GetStart() + offset_index) != At(value, offset_index))
             {
                 result.SetResult(false);
                 return false;
@@ -91,7 +92,8 @@ class CharacterParser
             return false;
         }
 
-        int current_character = IntAt(index.GetData(), index.GetStart());
+        LargeString index_data = index.GetData();
+        int current_character = IntAt(index_data.GetData(), index.GetStart());
 
         if (current_character == value)
         {
@@ -150,7 +152,8 @@ class CharacterRangeParser
             return false;
         }
 
-        int current_character = IntAt(index.GetData(), index.GetStart());
+        LargeString index_data = index.GetData();
+        int current_character = IntAt(index_data.GetData(), index.GetStart());
 
         if (low_value <= current_character && current_character <= high_value)
         {
@@ -1389,30 +1392,39 @@ class DBNFOmniTypeListResult
     bool result;
 }
 
-class LengthString
+class LargeString
 {
     function void SetData(string new_data) { data = new_data; }
     function string GetData() { return data; }
+
+    string data;
+}
+
+class LengthString
+{
+    function void SetData(LargeString new_data) { data = new_data; }
+    function LargeString GetData() { return data; }
     function void SetStart(int new_start) { start = new_start; }
     function int GetStart() { return start; }
     function void SetLength(int new_length) { length = new_length; }
     function int GetLength() { return length; }
     function string GetString()
     {
+        string deep_data = data.GetData();
         string result;
         int index = start;
         int end = start + length;
 
         while (index < end)
         {
-            result = Concat(result, At(data, index));
+            result = Concat(result, At(deep_data, index));
             index = index + 1;
         }
 
         return result;
     }
 
-    string data;
+    LargeString data;
     int start;
     int length;
 }

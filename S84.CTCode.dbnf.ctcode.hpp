@@ -107,6 +107,7 @@ class ParserNetwork;
 class DBNFOmniType;
 class DBNFOmniTypeResult;
 class DBNFOmniTypeListResult;
+class LargeString;
 class LengthString;
 class CTCodeFileParser;
 class CTCodeFileResult;
@@ -882,14 +883,27 @@ private:
     bool result;
 };
 
+class LargeString
+{
+public:
+    inline LargeString() {};
+    inline ~LargeString() {};
+
+    void SetData(std::string new_data);
+    std::string GetData();
+
+private:
+    std::string data;
+};
+
 class LengthString
 {
 public:
     inline LengthString() {};
     inline ~LengthString() {};
 
-    void SetData(std::string new_data);
-    std::string GetData();
+    void SetData(OmniPointer<LargeString> new_data);
+    OmniPointer<LargeString> GetData();
     void SetStart(int new_start);
     int GetStart();
     void SetLength(int new_length);
@@ -897,7 +911,7 @@ public:
     std::string GetString();
 
 private:
-    std::string data;
+    OmniPointer<LargeString> data;
     int start;
     int length;
 };
