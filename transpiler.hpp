@@ -4,8 +4,6 @@
 #include <list>
 #include <string>
 
-#include "S84.CTCode.dbnf.hpp"
-
 namespace s84
 {
 namespace ctcode

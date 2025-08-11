@@ -1,6 +1,6 @@
 #include "S84.CTCode.CPPTranspiler.ctcode.hpp"
 
-#include "S84.CTCode.dbnf.hpp"
+#include "S84.CTCode.dbnf.ctcode.hpp"
 
 namespace s84
 {
@@ -31,22 +31,19 @@ namespace ctcode
         return false;
     }
 
-    void CPPTranspilerCTCodeLogic::GenerateHeader(OmniPointer<s84::ctcode::dbnf::CTCodeFile> ctcode_file, OmniPointer<OutputStream> header, std::vector<std::string> base_name_tokens)
+    void CPPTranspilerCTCodeLogic::GenerateHeader(OmniPointer<s84::ctcode::dbnf::ctcode::CTCodeFile> ctcode_file, OmniPointer<OutputStream> header, std::vector<std::string> base_name_tokens)
     {
         std::string guard_name = GenerateGuardName(base_name_tokens);
         header->WriteLine(Concat(std::string("#ifndef "), guard_name));
         header->WriteLine(Concat(std::string("#define "), guard_name));
         header->WriteLine(std::string(""));
-        OmniPointer<s84::ctcode::dbnf::ExternalDefinitionList> exdef_list;
-        exdef_list = ctcode_file->GetDeclarations();
-        std::vector<s84::ctcode::dbnf::ExternalDefinition*> exdefs;
-        exdefs = exdef_list->GetVector();
+        std::vector<OmniPointer<s84::ctcode::dbnf::ctcode::ExternalDefinition>> exdefs = ctcode_file->GetDeclarations();
         int index = 0;
         while (index < Size(exdefs))
         {
-            s84::ctcode::dbnf::ExternalDefinition* exdef;
+            OmniPointer<s84::ctcode::dbnf::ctcode::ExternalDefinition> exdef;
             exdef = Element(exdefs, index);
-            OmniPointer<s84::ctcode::dbnf::QualfiedName> exdef_name;
+            OmniPointer<s84::ctcode::dbnf::ctcode::QualfiedName> exdef_name;
             exdef_name = exdef->GetExdef();
             header->WriteLine(Concat(std::string("#include \""), Concat(GetExdefHeaderString(exdef_name), std::string("\""))));
             index = index + 1;
@@ -165,17 +162,16 @@ namespace ctcode
         header->WriteLine(std::string("#endif"));
     }
 
-    void CPPTranspilerCTCodeLogic::WriteForwardDeclaration(OmniPointer<s84::ctcode::dbnf::CTCodeFile> ctcode_file, OmniPointer<OutputStream> header)
+    void CPPTranspilerCTCodeLogic::WriteForwardDeclaration(OmniPointer<s84::ctcode::dbnf::ctcode::CTCodeFile> ctcode_file, OmniPointer<OutputStream> header)
     {
-        OmniPointer<s84::ctcode::dbnf::DefinitionList> definition_list = ctcode_file->GetDefinitions();
-        std::vector<s84::ctcode::dbnf::Definition*> definitions = definition_list->GetVector();
+        std::vector<OmniPointer<s84::ctcode::dbnf::ctcode::Definition>> definitions = ctcode_file->GetDefinitions();
         int index = 0;
         while (index < Size(definitions))
         {
-            s84::ctcode::dbnf::Definition* definition;
+            OmniPointer<s84::ctcode::dbnf::ctcode::Definition> definition;
             definition = Element(definitions, index);
-            OmniPointer<s84::ctcode::dbnf::InterfaceDef> interface_definition = definition->GetInterfaceDef();
-            s84::ctcode::dbnf::ClassDef* class_definition = definition->GetClassDef();
+            OmniPointer<s84::ctcode::dbnf::ctcode::InterfaceDef> interface_definition = definition->GetInterfaceDef();
+            OmniPointer<s84::ctcode::dbnf::ctcode::ClassDef> class_definition = definition->GetClassDef();
             if (interface_definition)
             {
                 header->WriteLine(Concat(std::string("class "), Concat(GenerateClassName(interface_definition->GetName()), std::string(";"))));
@@ -190,16 +186,15 @@ namespace ctcode
         }
     }
 
-    void CPPTranspilerCTCodeLogic::WriteClassDeclarations(OmniPointer<s84::ctcode::dbnf::CTCodeFile> ctcode_file, OmniPointer<OutputStream> header)
+    void CPPTranspilerCTCodeLogic::WriteClassDeclarations(OmniPointer<s84::ctcode::dbnf::ctcode::CTCodeFile> ctcode_file, OmniPointer<OutputStream> header)
     {
-        OmniPointer<s84::ctcode::dbnf::DefinitionList> definition_list = ctcode_file->GetDefinitions();
-        std::vector<s84::ctcode::dbnf::Definition*> definitions = definition_list->GetVector();
+        std::vector<OmniPointer<s84::ctcode::dbnf::ctcode::Definition>> definitions = ctcode_file->GetDefinitions();
         header->WriteLine(std::string(""));
         int index;
         index = 0;
         while (index < Size(definitions))
         {
-            s84::ctcode::dbnf::Definition* definition;
+            OmniPointer<s84::ctcode::dbnf::ctcode::Definition> definition;
             definition = Element(definitions, index);
             if (definition->GetInterfaceDef())
             {
@@ -215,7 +210,7 @@ namespace ctcode
         }
     }
 
-    void CPPTranspilerCTCodeLogic::WriteInterfaceDeclaration(OmniPointer<s84::ctcode::dbnf::InterfaceDef> interface_definition, OmniPointer<OutputStream> header)
+    void CPPTranspilerCTCodeLogic::WriteInterfaceDeclaration(OmniPointer<s84::ctcode::dbnf::ctcode::InterfaceDef> interface_definition, OmniPointer<OutputStream> header)
     {
         std::string class_name = std::string("");
         class_name = GenerateClassName(interface_definition->GetName());
@@ -225,10 +220,7 @@ namespace ctcode
         header->WriteLine(std::string("public:"));
         header->WriteLine(Concat(std::string("    inline "), Concat(class_name, std::string("() {};"))));
         header->WriteLine(Concat(std::string("    inline ~"), Concat(class_name, std::string("() {};"))));
-        OmniPointer<s84::ctcode::dbnf::ContentDeclarationList> declaration_list;
-        declaration_list = interface_definition->GetDeclarations();
-        std::vector<s84::ctcode::dbnf::ContentDeclaration*> declarations;
-        declarations = declaration_list->GetVector();
+        std::vector<OmniPointer<s84::ctcode::dbnf::ctcode::ContentDeclaration>> declarations = interface_definition->GetDeclarations();
         int index;
         index = 0;
         if (Size(declarations) > 0)
@@ -236,7 +228,7 @@ namespace ctcode
             header->WriteLine(std::string(""));
             while (index < Size(declarations))
             {
-                s84::ctcode::dbnf::ContentDeclaration* declaration;
+                OmniPointer<s84::ctcode::dbnf::ctcode::ContentDeclaration> declaration;
                 declaration = Element(declarations, index);
                 header->WriteLine(Concat(std::string("    virtual "), Concat(GetType(declaration->GetType()), Concat(std::string(" "), Concat(GenerateCallName(declaration->GetName()), Concat(std::string("("), Concat(GenerateParameterList(declaration->GetParameters()), std::string(") = 0;"))))))));
                 index = index + 1;
@@ -246,7 +238,7 @@ namespace ctcode
         header->WriteLine(std::string("};"));
     }
 
-    void CPPTranspilerCTCodeLogic::WriteClassDeclaration(s84::ctcode::dbnf::ClassDef* class_definition, OmniPointer<OutputStream> header)
+    void CPPTranspilerCTCodeLogic::WriteClassDeclaration(OmniPointer<s84::ctcode::dbnf::ctcode::ClassDef> class_definition, OmniPointer<OutputStream> header)
     {
         std::string class_name;
         class_name = GenerateClassName(class_definition->GetName());
@@ -256,17 +248,14 @@ namespace ctcode
         header->WriteLine(std::string("public:"));
         header->WriteLine(Concat(std::string("    inline "), Concat(class_name, std::string("() {};"))));
         header->WriteLine(Concat(std::string("    inline ~"), Concat(class_name, std::string("() {};"))));
-        OmniPointer<s84::ctcode::dbnf::ContentDefinitionList> definition_list;
-        definition_list = class_definition->GetDefinitions();
-        std::vector<s84::ctcode::dbnf::ContentDefinition*> definitions;
-        definitions = definition_list->GetVector();
-        std::vector<s84::ctcode::dbnf::ContentDefinition*> function_definitions;
-        std::vector<s84::ctcode::dbnf::ContentDefinition*> member_definitions;
+        std::vector<OmniPointer<s84::ctcode::dbnf::ctcode::ContentDefinition>> definitions = class_definition->GetDefinitions();
+        std::vector<OmniPointer<s84::ctcode::dbnf::ctcode::ContentDefinition>> function_definitions;
+        std::vector<OmniPointer<s84::ctcode::dbnf::ctcode::ContentDefinition>> member_definitions;
         int index;
         index = 0;
         while (index < Size(definitions))
         {
-            s84::ctcode::dbnf::ContentDefinition* definition;
+            OmniPointer<s84::ctcode::dbnf::ctcode::ContentDefinition> definition;
             definition = Element(definitions, index);
             if (definition->GetFunctionBody())
             {
@@ -286,7 +275,7 @@ namespace ctcode
             index = 0;
             while (index < Size(function_definitions))
             {
-                s84::ctcode::dbnf::ContentDefinition* definition;
+                OmniPointer<s84::ctcode::dbnf::ctcode::ContentDefinition> definition;
                 definition = Element(function_definitions, index);
                 header->WriteLine(Concat(std::string("    "), Concat(GetType(definition->GetType()), Concat(std::string(" "), Concat(GenerateCallName(definition->GetName()), Concat(std::string("("), Concat(GenerateParameterList(definition->GetParameters()), std::string(");"))))))));
                 index = index + 1;
@@ -300,7 +289,7 @@ namespace ctcode
             index = 0;
             while (index < Size(member_definitions))
             {
-                s84::ctcode::dbnf::ContentDefinition* definition;
+                OmniPointer<s84::ctcode::dbnf::ctcode::ContentDefinition> definition;
                 definition = Element(member_definitions, index);
                 header->WriteLine(Concat(std::string("    "), Concat(GetType(definition->GetType()), Concat(std::string(" "), Concat(GenerateVariableName(definition->GetName()), std::string(";"))))));
                 index = index + 1;
@@ -310,21 +299,18 @@ namespace ctcode
         header->WriteLine(std::string("};"));
     }
 
-    void CPPTranspilerCTCodeLogic::GenerateImplementation(OmniPointer<s84::ctcode::dbnf::CTCodeFile> ctcode_file, OmniPointer<OutputStream> implementation, std::string base_name, std::vector<std::string> base_name_tokens)
+    void CPPTranspilerCTCodeLogic::GenerateImplementation(OmniPointer<s84::ctcode::dbnf::ctcode::CTCodeFile> ctcode_file, OmniPointer<OutputStream> implementation, std::string base_name, std::vector<std::string> base_name_tokens)
     {
         implementation->WriteLine(Concat(std::string("#include \""), Concat(base_name, std::string(".hpp\""))));
         implementation->WriteLine(std::string(""));
-        OmniPointer<s84::ctcode::dbnf::ExternalDefinitionList> exdef_list;
-        exdef_list = ctcode_file->GetDeclarations();
-        std::vector<s84::ctcode::dbnf::ExternalDefinition*> exdefs;
-        exdefs = exdef_list->GetVector();
+        std::vector<OmniPointer<s84::ctcode::dbnf::ctcode::ExternalDefinition>> exdefs = ctcode_file->GetDeclarations();
         int index;
         index = 0;
         while (index < Size(exdefs))
         {
-            s84::ctcode::dbnf::ExternalDefinition* exdef;
+            OmniPointer<s84::ctcode::dbnf::ctcode::ExternalDefinition> exdef;
             exdef = Element(exdefs, index);
-            OmniPointer<s84::ctcode::dbnf::QualfiedName> exdef_name;
+            OmniPointer<s84::ctcode::dbnf::ctcode::QualfiedName> exdef_name;
             exdef_name = exdef->GetExdef();
             implementation->WriteLine(Concat(std::string("#include \""), Concat(GetExdefHeaderString(exdef_name), std::string("\""))));
             index = index + 1;
@@ -354,20 +340,17 @@ namespace ctcode
         implementation->WriteLine(std::string("};"));
     }
 
-    void CPPTranspilerCTCodeLogic::WriteFunctionDefinitions(OmniPointer<s84::ctcode::dbnf::CTCodeFile> ctcode_file, OmniPointer<OutputStream> implementation)
+    void CPPTranspilerCTCodeLogic::WriteFunctionDefinitions(OmniPointer<s84::ctcode::dbnf::ctcode::CTCodeFile> ctcode_file, OmniPointer<OutputStream> implementation)
     {
-        OmniPointer<s84::ctcode::dbnf::DefinitionList> definition_list;
-        definition_list = ctcode_file->GetDefinitions();
-        std::vector<s84::ctcode::dbnf::Definition*> definitions;
-        definitions = definition_list->GetVector();
-        std::vector<s84::ctcode::dbnf::ClassDef*> class_definitions;
+        std::vector<OmniPointer<s84::ctcode::dbnf::ctcode::Definition>> definitions = ctcode_file->GetDefinitions();
+        std::vector<OmniPointer<s84::ctcode::dbnf::ctcode::ClassDef>> class_definitions;
         int index;
         index = 0;
         while (index < Size(definitions))
         {
-            s84::ctcode::dbnf::Definition* definition;
+            OmniPointer<s84::ctcode::dbnf::ctcode::Definition> definition;
             definition = Element(definitions, index);
-            s84::ctcode::dbnf::ClassDef* class_definition;
+            OmniPointer<s84::ctcode::dbnf::ctcode::ClassDef> class_definition;
             class_definition = definition->GetClassDef();
             if (class_definition)
             {
@@ -380,27 +363,24 @@ namespace ctcode
         index = 0;
         while (index < Size(class_definitions))
         {
-            s84::ctcode::dbnf::ClassDef* class_definition;
+            OmniPointer<s84::ctcode::dbnf::ctcode::ClassDef> class_definition;
             class_definition = Element(class_definitions, index);
             WriteClassDefinition(class_definition, implementation);
             index = index + 1;
         }
     }
 
-    void CPPTranspilerCTCodeLogic::WriteClassDefinition(s84::ctcode::dbnf::ClassDef* class_definition, OmniPointer<OutputStream> implementation)
+    void CPPTranspilerCTCodeLogic::WriteClassDefinition(OmniPointer<s84::ctcode::dbnf::ctcode::ClassDef> class_definition, OmniPointer<OutputStream> implementation)
     {
         std::string class_name;
         class_name = GenerateClassName(class_definition->GetName());
-        OmniPointer<s84::ctcode::dbnf::ContentDefinitionList> definition_list;
-        definition_list = class_definition->GetDefinitions();
-        std::vector<s84::ctcode::dbnf::ContentDefinition*> definitions;
-        definitions = definition_list->GetVector();
-        std::vector<s84::ctcode::dbnf::ContentDefinition*> function_definitions;
+        std::vector<OmniPointer<s84::ctcode::dbnf::ctcode::ContentDefinition>> definitions = class_definition->GetDefinitions();
+        std::vector<OmniPointer<s84::ctcode::dbnf::ctcode::ContentDefinition>> function_definitions;
         int index;
         index = 0;
         while (index < Size(definitions))
         {
-            s84::ctcode::dbnf::ContentDefinition* definition;
+            OmniPointer<s84::ctcode::dbnf::ctcode::ContentDefinition> definition;
             definition = Element(definitions, index);
             if (definition->GetFunctionBody())
             {
@@ -415,7 +395,7 @@ namespace ctcode
             index = 0;
             while (index < Size(function_definitions))
             {
-                s84::ctcode::dbnf::ContentDefinition* definition;
+                OmniPointer<s84::ctcode::dbnf::ctcode::ContentDefinition> definition;
                 definition = Element(function_definitions, index);
                 implementation->WriteLine(Concat(std::string("    "), Concat(GetType(definition->GetType()), Concat(std::string(" "), Concat(class_name, Concat(std::string("::"), Concat(GenerateCallName(definition->GetName()), Concat(std::string("("), Concat(GenerateParameterList(definition->GetParameters()), std::string(")"))))))))));
                 WriteCodeBlock(1, implementation, definition->GetFunctionBody(), true);
@@ -424,7 +404,7 @@ namespace ctcode
         }
     }
 
-    void CPPTranspilerCTCodeLogic::WriteInstruction(int indent, OmniPointer<OutputStream> implementation, s84::ctcode::dbnf::Instruction* instruction, bool add_newline_after_code_block)
+    void CPPTranspilerCTCodeLogic::WriteInstruction(int indent, OmniPointer<OutputStream> implementation, OmniPointer<s84::ctcode::dbnf::ctcode::Instruction> instruction, bool add_newline_after_code_block)
     {
         if (instruction->GetCodeBlock())
         {
@@ -462,13 +442,10 @@ namespace ctcode
         }
     }
 
-    void CPPTranspilerCTCodeLogic::WriteCodeBlock(int indent, OmniPointer<OutputStream> implementation, OmniPointer<s84::ctcode::dbnf::CodeBlock> code_block, bool add_newline_after_code_block)
+    void CPPTranspilerCTCodeLogic::WriteCodeBlock(int indent, OmniPointer<OutputStream> implementation, OmniPointer<s84::ctcode::dbnf::ctcode::CodeBlock> code_block, bool add_newline_after_code_block)
     {
         implementation->WriteLine(Concat(Indentation(indent), std::string("{")));
-        OmniPointer<s84::ctcode::dbnf::InstructionList> instruction_list;
-        instruction_list = code_block->GetInstructions();
-        std::vector<s84::ctcode::dbnf::Instruction*> instructions;
-        instructions = instruction_list->GetVector();
+        std::vector<OmniPointer<s84::ctcode::dbnf::ctcode::Instruction>> instructions = code_block->GetInstructions();
         int index;
         index = 0;
         int last;
@@ -486,12 +463,12 @@ namespace ctcode
         }
     }
 
-    void CPPTranspilerCTCodeLogic::WriteConditional(int indent, OmniPointer<OutputStream> implementation, OmniPointer<s84::ctcode::dbnf::Conditional> conditional, bool add_newline_after_code_block)
+    void CPPTranspilerCTCodeLogic::WriteConditional(int indent, OmniPointer<OutputStream> implementation, OmniPointer<s84::ctcode::dbnf::ctcode::Conditional> conditional, bool add_newline_after_code_block)
     {
         implementation->WriteLine(Concat(Indentation(indent), Concat(std::string("if ("), Concat(GetRValueString(conditional->GetRvalue()), std::string(")")))));
         if (conditional->GetElseTail())
         {
-            OmniPointer<s84::ctcode::dbnf::ElseTail> else_tail;
+            OmniPointer<s84::ctcode::dbnf::ctcode::ElseTail> else_tail;
             else_tail = conditional->GetElseTail();
             WriteCodeBlock(indent, implementation, conditional->GetCodeBlock(), false);
             implementation->WriteLine(Concat(Indentation(indent), std::string("else")));
@@ -503,24 +480,24 @@ namespace ctcode
         }
     }
 
-    void CPPTranspilerCTCodeLogic::WriteLoop(int indent, OmniPointer<OutputStream> implementation, OmniPointer<s84::ctcode::dbnf::Loop> loop, bool add_newline_after_code_block)
+    void CPPTranspilerCTCodeLogic::WriteLoop(int indent, OmniPointer<OutputStream> implementation, OmniPointer<s84::ctcode::dbnf::ctcode::Loop> loop, bool add_newline_after_code_block)
     {
         implementation->WriteLine(Concat(Indentation(indent), Concat(std::string("while ("), Concat(GetRValueString(loop->GetRvalue()), std::string(")")))));
         WriteCodeBlock(indent, implementation, loop->GetCodeBlock(), add_newline_after_code_block);
     }
 
-    void CPPTranspilerCTCodeLogic::WriteRtn(int indent, OmniPointer<OutputStream> implementation, OmniPointer<s84::ctcode::dbnf::Return> rtn)
+    void CPPTranspilerCTCodeLogic::WriteRtn(int indent, OmniPointer<OutputStream> implementation, OmniPointer<s84::ctcode::dbnf::ctcode::Return> rtn)
     {
         implementation->WriteLine(Concat(Indentation(indent), Concat(std::string("return "), Concat(GetRValueString(rtn->GetRvalue()), std::string(";")))));
     }
 
-    void CPPTranspilerCTCodeLogic::WriteDeclaration(int indent, OmniPointer<OutputStream> implementation, OmniPointer<s84::ctcode::dbnf::Declaration> declaration)
+    void CPPTranspilerCTCodeLogic::WriteDeclaration(int indent, OmniPointer<OutputStream> implementation, OmniPointer<s84::ctcode::dbnf::ctcode::Declaration> declaration)
     {
         std::string assignment_suffix;
         assignment_suffix = std::string("");
         if (declaration->GetAssignment())
         {
-            OmniPointer<s84::ctcode::dbnf::DeclarationAssign> assignment;
+            OmniPointer<s84::ctcode::dbnf::ctcode::DeclarationAssign> assignment;
             assignment = declaration->GetAssignment();
             assignment_suffix = Concat(std::string(" = "), GetRValueString(assignment->GetRvalue()));
         }
@@ -528,29 +505,29 @@ namespace ctcode
         implementation->WriteLine(Concat(Indentation(indent), Concat(GetVariableDefinition(declaration->GetType(), declaration->GetName()), Concat(assignment_suffix, std::string(";")))));
     }
 
-    void CPPTranspilerCTCodeLogic::WriteAssignment(int indent, OmniPointer<OutputStream> implementation, OmniPointer<s84::ctcode::dbnf::Assignment> assignment)
+    void CPPTranspilerCTCodeLogic::WriteAssignment(int indent, OmniPointer<OutputStream> implementation, OmniPointer<s84::ctcode::dbnf::ctcode::Assignment> assignment)
     {
         implementation->WriteLine(Concat(Indentation(indent), Concat(GenerateVariableName(assignment->GetLvalue()), Concat(std::string(" = "), Concat(GetRValueString(assignment->GetRvalue()), std::string(";"))))));
     }
 
-    void CPPTranspilerCTCodeLogic::WriteCall(int indent, OmniPointer<OutputStream> implementation, OmniPointer<s84::ctcode::dbnf::Call> call)
+    void CPPTranspilerCTCodeLogic::WriteCall(int indent, OmniPointer<OutputStream> implementation, OmniPointer<s84::ctcode::dbnf::ctcode::Call> call)
     {
         implementation->WriteLine(Concat(Indentation(indent), Concat(GetCallString(call), std::string(";"))));
     }
 
-    std::string CPPTranspilerCTCodeLogic::GetExdefHeaderString(OmniPointer<s84::ctcode::dbnf::QualfiedName> exdef_name)
+    std::string CPPTranspilerCTCodeLogic::GetExdefHeaderString(OmniPointer<s84::ctcode::dbnf::ctcode::QualfiedName> exdef_name)
     {
         return Concat(exdef_name->UnParse(), std::string(".hpp"));
     }
 
-    std::vector<std::string> CPPTranspilerCTCodeLogic::GetUnmanagedTypes(std::vector<s84::ctcode::dbnf::UnmanagedType*> unmanaged_types)
+    std::vector<std::string> CPPTranspilerCTCodeLogic::GetUnmanagedTypes(std::vector<OmniPointer<s84::ctcode::dbnf::ctcode::UnmanagedType>> unmanaged_types)
     {
         std::vector<std::string> unmanaged_type_strings;
         int index;
         index = 0;
         while (index < Size(unmanaged_types))
         {
-            s84::ctcode::dbnf::UnmanagedType* unmanaged_type = Element(unmanaged_types, index);
+            OmniPointer<s84::ctcode::dbnf::ctcode::UnmanagedType> unmanaged_type = Element(unmanaged_types, index);
             Append(unmanaged_type_strings, GetRawDefinedType(unmanaged_type->GetUnmanagedType()));
             index = index + 1;
         }
@@ -571,16 +548,16 @@ namespace ctcode
         return result;
     }
 
-    std::string CPPTranspilerCTCodeLogic::GetRValueSingleString(OmniPointer<s84::ctcode::dbnf::RValueSingle> r_value_single)
+    std::string CPPTranspilerCTCodeLogic::GetRValueSingleString(OmniPointer<s84::ctcode::dbnf::ctcode::RValueSingle> r_value_single)
     {
         return Concat(GetRValueSingleUnaryString(r_value_single), GetRValueSingleCoreString(r_value_single));
     }
 
-    std::string CPPTranspilerCTCodeLogic::GetRValueSingleUnaryString(OmniPointer<s84::ctcode::dbnf::RValueSingle> r_value_single)
+    std::string CPPTranspilerCTCodeLogic::GetRValueSingleUnaryString(OmniPointer<s84::ctcode::dbnf::ctcode::RValueSingle> r_value_single)
     {
         if (r_value_single->GetUnaryOperator())
         {
-            OmniPointer<s84::ctcode::dbnf::UnaryOperator> unary_operator;
+            OmniPointer<s84::ctcode::dbnf::ctcode::UnaryOperator> unary_operator;
             unary_operator = r_value_single->GetUnaryOperator();
             if (unary_operator->GetNegation())
             {
@@ -595,7 +572,7 @@ namespace ctcode
         }
     }
 
-    std::string CPPTranspilerCTCodeLogic::GetCallString(OmniPointer<s84::ctcode::dbnf::Call> call)
+    std::string CPPTranspilerCTCodeLogic::GetCallString(OmniPointer<s84::ctcode::dbnf::ctcode::Call> call)
     {
         std::string result;
         result = std::string("");
@@ -608,7 +585,7 @@ namespace ctcode
         return result;
     }
 
-    std::string CPPTranspilerCTCodeLogic::GetRValueSingleCoreString(OmniPointer<s84::ctcode::dbnf::RValueSingle> r_value_single)
+    std::string CPPTranspilerCTCodeLogic::GetRValueSingleCoreString(OmniPointer<s84::ctcode::dbnf::ctcode::RValueSingle> r_value_single)
     {
         if (r_value_single->GetCall())
         {
@@ -617,7 +594,7 @@ namespace ctcode
 
         if (r_value_single->GetAllocate())
         {
-            OmniPointer<s84::ctcode::dbnf::Allocate> allocate = r_value_single->GetAllocate();
+            OmniPointer<s84::ctcode::dbnf::ctcode::Allocate> allocate = r_value_single->GetAllocate();
             std::string raw_type = GetRawDefinedType(allocate->GetManagedType());
             return Concat(std::string("std::shared_ptr<"), Concat(raw_type, Concat(std::string(">(new "), Concat(raw_type, std::string("())")))));
         }
@@ -655,7 +632,7 @@ namespace ctcode
         return std::string("/*WARNING RValueSingle FALL THROUGH*/");
     }
 
-    std::string CPPTranspilerCTCodeLogic::GetOperator(OmniPointer<s84::ctcode::dbnf::BinaryOperator> op)
+    std::string CPPTranspilerCTCodeLogic::GetOperator(OmniPointer<s84::ctcode::dbnf::ctcode::BinaryOperator> op)
     {
         if (op->GetAddition())
         {
@@ -710,11 +687,11 @@ namespace ctcode
         return std::string("/*WARNING BinaryOperator FALL THROUGH*/");
     }
 
-    std::string CPPTranspilerCTCodeLogic::GetRValueTail(OmniPointer<s84::ctcode::dbnf::RValueTail> r_value_tail)
+    std::string CPPTranspilerCTCodeLogic::GetRValueTail(OmniPointer<s84::ctcode::dbnf::ctcode::RValueTail> r_value_tail)
     {
         if (r_value_tail)
         {
-            OmniPointer<s84::ctcode::dbnf::BinaryOperator> op;
+            OmniPointer<s84::ctcode::dbnf::ctcode::BinaryOperator> op;
             op = r_value_tail->GetBinaryOperator();
             return Concat(std::string(" "), Concat(GetOperator(op), Concat(std::string(" "), Concat(GetRValueSingleString(r_value_tail->GetValue()), GetRValueTail(r_value_tail->GetTail())))));
         }
@@ -722,22 +699,22 @@ namespace ctcode
         return std::string("");
     }
 
-    std::string CPPTranspilerCTCodeLogic::GetRValueString(OmniPointer<s84::ctcode::dbnf::RValue> r_value)
+    std::string CPPTranspilerCTCodeLogic::GetRValueString(OmniPointer<s84::ctcode::dbnf::ctcode::RValue> r_value)
     {
         return Concat(GetRValueSingleString(r_value->GetValue()), GetRValueTail(r_value->GetTail()));
     }
 
-    std::string CPPTranspilerCTCodeLogic::GetVariableDefinition(OmniPointer<s84::ctcode::dbnf::ValueType> type, OmniPointer<s84::ctcode::dbnf::Name> name)
+    std::string CPPTranspilerCTCodeLogic::GetVariableDefinition(OmniPointer<s84::ctcode::dbnf::ctcode::ValueType> type, OmniPointer<s84::ctcode::dbnf::ctcode::Name> name)
     {
         return Concat(GetType(type), Concat(std::string(" "), GenerateVariableName(name)));
     }
 
-    std::string CPPTranspilerCTCodeLogic::GetParameterString(OmniPointer<s84::ctcode::dbnf::ParameterListDef> parameter)
+    std::string CPPTranspilerCTCodeLogic::GetParameterString(OmniPointer<s84::ctcode::dbnf::ctcode::ParameterListDef> parameter)
     {
         return GetVariableDefinition(parameter->GetType(), parameter->GetName());
     }
 
-    std::string CPPTranspilerCTCodeLogic::GenerateParameterListTail(OmniPointer<s84::ctcode::dbnf::ParameterListDef> parameters)
+    std::string CPPTranspilerCTCodeLogic::GenerateParameterListTail(OmniPointer<s84::ctcode::dbnf::ctcode::ParameterListDef> parameters)
     {
         if (parameters)
         {
@@ -747,7 +724,7 @@ namespace ctcode
         return std::string("");
     }
 
-    std::string CPPTranspilerCTCodeLogic::GenerateParameterList(OmniPointer<s84::ctcode::dbnf::ParameterListDef> parameters)
+    std::string CPPTranspilerCTCodeLogic::GenerateParameterList(OmniPointer<s84::ctcode::dbnf::ctcode::ParameterListDef> parameters)
     {
         if (parameters)
         {
@@ -759,7 +736,7 @@ namespace ctcode
         }
     }
 
-    std::string CPPTranspilerCTCodeLogic::GenerateCallingParameterList(OmniPointer<s84::ctcode::dbnf::ParameterList> parameters)
+    std::string CPPTranspilerCTCodeLogic::GenerateCallingParameterList(OmniPointer<s84::ctcode::dbnf::ctcode::ParameterList> parameters)
     {
         if (parameters)
         {
@@ -771,7 +748,7 @@ namespace ctcode
         }
     }
 
-    std::string CPPTranspilerCTCodeLogic::GetCallingParameterString(OmniPointer<s84::ctcode::dbnf::ParameterList> parameter)
+    std::string CPPTranspilerCTCodeLogic::GetCallingParameterString(OmniPointer<s84::ctcode::dbnf::ctcode::ParameterList> parameter)
     {
         if (parameter)
         {
@@ -783,7 +760,7 @@ namespace ctcode
         }
     }
 
-    std::string CPPTranspilerCTCodeLogic::GenerateCallingParameterListTail(OmniPointer<s84::ctcode::dbnf::ParameterList> parameters)
+    std::string CPPTranspilerCTCodeLogic::GenerateCallingParameterListTail(OmniPointer<s84::ctcode::dbnf::ctcode::ParameterList> parameters)
     {
         if (parameters)
         {
@@ -793,7 +770,7 @@ namespace ctcode
         return std::string("");
     }
 
-    std::string CPPTranspilerCTCodeLogic::GetType(OmniPointer<s84::ctcode::dbnf::ValueType> value_type)
+    std::string CPPTranspilerCTCodeLogic::GetType(OmniPointer<s84::ctcode::dbnf::ctcode::ValueType> value_type)
     {
         if (value_type->GetDimensionalType())
         {
@@ -813,12 +790,12 @@ namespace ctcode
         return std::string("/*WARNING ValueType FALL THROUGH*/");
     }
 
-    std::string CPPTranspilerCTCodeLogic::GetDimensionalType(OmniPointer<s84::ctcode::dbnf::DimensionalType> dimensional_type)
+    std::string CPPTranspilerCTCodeLogic::GetDimensionalType(OmniPointer<s84::ctcode::dbnf::ctcode::DimensionalType> dimensional_type)
     {
-        OmniPointer<s84::ctcode::dbnf::DimensionalNoteList> dimensional_note_list;
+        std::vector<OmniPointer<s84::ctcode::dbnf::ctcode::DimensionalNote>> dimensional_note_list;
         dimensional_note_list = dimensional_type->GetDimensionalNote();
         int dimensional_notes;
-        dimensional_notes = Size(dimensional_note_list->GetVector());
+        dimensional_notes = Size(dimensional_note_list);
         return Concat(GetDimensionalPrefix(dimensional_notes), Concat(GetSingletonType(dimensional_type->GetSingletonType()), GetDimensionalSuffix(dimensional_notes)));
     }
 
@@ -848,25 +825,25 @@ namespace ctcode
         return dimensional_suffix;
     }
 
-    std::string CPPTranspilerCTCodeLogic::GetMapType(OmniPointer<s84::ctcode::dbnf::MapType> map_type)
+    std::string CPPTranspilerCTCodeLogic::GetMapType(OmniPointer<s84::ctcode::dbnf::ctcode::MapType> map_type)
     {
         return Concat(std::string("std::unordered_map<std::string, "), Concat(GetSingletonType(map_type->GetSingletonType()), std::string(">")));
     }
 
-    std::string CPPTranspilerCTCodeLogic::GetSingletonType(OmniPointer<s84::ctcode::dbnf::SingletonType> singleton_type)
+    std::string CPPTranspilerCTCodeLogic::GetSingletonType(OmniPointer<s84::ctcode::dbnf::ctcode::SingletonType> singleton_type)
     {
         if (singleton_type->GetDefinedType())
         {
-            OmniPointer<s84::ctcode::dbnf::DefinedType> defined_type;
+            OmniPointer<s84::ctcode::dbnf::ctcode::DefinedType> defined_type;
             defined_type = singleton_type->GetDefinedType();
-            OmniPointer<s84::ctcode::dbnf::QualfiedName> defined_type_name;
+            OmniPointer<s84::ctcode::dbnf::ctcode::QualfiedName> defined_type_name;
             defined_type_name = defined_type->GetName();
             return GetDefinedType(defined_type_name);
         }
 
         if (singleton_type->GetPrimativeType())
         {
-            OmniPointer<s84::ctcode::dbnf::PrimativeType> primative_type;
+            OmniPointer<s84::ctcode::dbnf::ctcode::PrimativeType> primative_type;
             primative_type = singleton_type->GetPrimativeType();
             std::string primative_type_string;
             primative_type_string = primative_type->UnParse();
@@ -901,7 +878,7 @@ namespace ctcode
         return std::string("/*WARNING SingletonType FALL THROUGH*/");
     }
 
-    std::string CPPTranspilerCTCodeLogic::GetDefinedType(OmniPointer<s84::ctcode::dbnf::QualfiedName> qualified_name)
+    std::string CPPTranspilerCTCodeLogic::GetDefinedType(OmniPointer<s84::ctcode::dbnf::ctcode::QualfiedName> qualified_name)
     {
         std::string raw_type = GetRawDefinedType(qualified_name);
         if (IsUnmanagedType(raw_type))
@@ -914,11 +891,11 @@ namespace ctcode
         }
     }
 
-    std::string CPPTranspilerCTCodeLogic::GetRawDefinedType(OmniPointer<s84::ctcode::dbnf::QualfiedName> qualified_name)
+    std::string CPPTranspilerCTCodeLogic::GetRawDefinedType(OmniPointer<s84::ctcode::dbnf::ctcode::QualfiedName> qualified_name)
     {
-        OmniPointer<s84::ctcode::dbnf::NameTail> name_tail;
+        OmniPointer<s84::ctcode::dbnf::ctcode::NameTail> name_tail;
         name_tail = qualified_name->GetTail();
-        OmniPointer<s84::ctcode::dbnf::Name> name;
+        OmniPointer<s84::ctcode::dbnf::ctcode::Name> name;
         name = qualified_name->GetName();
         std::string result;
         result = std::string("");
@@ -943,11 +920,11 @@ namespace ctcode
         return result;
     }
 
-    std::string CPPTranspilerCTCodeLogic::GetRawDefinedTypeTail(OmniPointer<s84::ctcode::dbnf::NameTail> name_tail)
+    std::string CPPTranspilerCTCodeLogic::GetRawDefinedTypeTail(OmniPointer<s84::ctcode::dbnf::ctcode::NameTail> name_tail)
     {
-        OmniPointer<s84::ctcode::dbnf::NameTail> name_tail_tail;
+        OmniPointer<s84::ctcode::dbnf::ctcode::NameTail> name_tail_tail;
         name_tail_tail = name_tail->GetTail();
-        OmniPointer<s84::ctcode::dbnf::Name> name;
+        OmniPointer<s84::ctcode::dbnf::ctcode::Name> name;
         name = name_tail->GetName();
         std::string result;
         result = std::string("::");
@@ -972,7 +949,7 @@ namespace ctcode
         return result;
     }
 
-    std::string CPPTranspilerCTCodeLogic::GenerateClassName(OmniPointer<s84::ctcode::dbnf::Name> name_node)
+    std::string CPPTranspilerCTCodeLogic::GenerateClassName(OmniPointer<s84::ctcode::dbnf::ctcode::Name> name_node)
     {
         if (name_node)
         {
@@ -986,7 +963,7 @@ namespace ctcode
         }
     }
 
-    std::string CPPTranspilerCTCodeLogic::GenerateVariableName(OmniPointer<s84::ctcode::dbnf::Name> name_node)
+    std::string CPPTranspilerCTCodeLogic::GenerateVariableName(OmniPointer<s84::ctcode::dbnf::ctcode::Name> name_node)
     {
         if (name_node)
         {
@@ -1005,7 +982,7 @@ namespace ctcode
         }
     }
 
-    std::string CPPTranspilerCTCodeLogic::GenerateCallName(OmniPointer<s84::ctcode::dbnf::Name> name_node)
+    std::string CPPTranspilerCTCodeLogic::GenerateCallName(OmniPointer<s84::ctcode::dbnf::ctcode::Name> name_node)
     {
         if (name_node)
         {

@@ -1,7 +1,7 @@
 #ifndef S84_CTCODE_CPPTRANSPILER_CTCODE_H
 #define S84_CTCODE_CPPTRANSPILER_CTCODE_H
 
-#include "S84.CTCode.dbnf.hpp"
+#include "S84.CTCode.dbnf.ctcode.hpp"
 
 #include <cstring>
 #include <list>
@@ -113,52 +113,52 @@ public:
 
     void SetSavedUnmanagedTypes(std::vector<std::string> value);
     bool IsUnmanagedType(std::string type_name);
-    void GenerateHeader(OmniPointer<s84::ctcode::dbnf::CTCodeFile> ctcode_file, OmniPointer<OutputStream> header, std::vector<std::string> base_name_tokens);
+    void GenerateHeader(OmniPointer<s84::ctcode::dbnf::ctcode::CTCodeFile> ctcode_file, OmniPointer<OutputStream> header, std::vector<std::string> base_name_tokens);
     void WriteCTCodeCommonFunctions(OmniPointer<OutputStream> header);
-    void WriteForwardDeclaration(OmniPointer<s84::ctcode::dbnf::CTCodeFile> ctcode_file, OmniPointer<OutputStream> header);
-    void WriteClassDeclarations(OmniPointer<s84::ctcode::dbnf::CTCodeFile> ctcode_file, OmniPointer<OutputStream> header);
-    void WriteInterfaceDeclaration(OmniPointer<s84::ctcode::dbnf::InterfaceDef> interface_definition, OmniPointer<OutputStream> header);
-    void WriteClassDeclaration(s84::ctcode::dbnf::ClassDef* class_definition, OmniPointer<OutputStream> header);
-    void GenerateImplementation(OmniPointer<s84::ctcode::dbnf::CTCodeFile> ctcode_file, OmniPointer<OutputStream> implementation, std::string base_name, std::vector<std::string> base_name_tokens);
-    void WriteFunctionDefinitions(OmniPointer<s84::ctcode::dbnf::CTCodeFile> ctcode_file, OmniPointer<OutputStream> implementation);
-    void WriteClassDefinition(s84::ctcode::dbnf::ClassDef* class_definition, OmniPointer<OutputStream> implementation);
-    void WriteInstruction(int indent, OmniPointer<OutputStream> implementation, s84::ctcode::dbnf::Instruction* instruction, bool add_newline_after_code_block);
-    void WriteCodeBlock(int indent, OmniPointer<OutputStream> implementation, OmniPointer<s84::ctcode::dbnf::CodeBlock> code_block, bool add_newline_after_code_block);
-    void WriteConditional(int indent, OmniPointer<OutputStream> implementation, OmniPointer<s84::ctcode::dbnf::Conditional> conditional, bool add_newline_after_code_block);
-    void WriteLoop(int indent, OmniPointer<OutputStream> implementation, OmniPointer<s84::ctcode::dbnf::Loop> loop, bool add_newline_after_code_block);
-    void WriteRtn(int indent, OmniPointer<OutputStream> implementation, OmniPointer<s84::ctcode::dbnf::Return> rtn);
-    void WriteDeclaration(int indent, OmniPointer<OutputStream> implementation, OmniPointer<s84::ctcode::dbnf::Declaration> declaration);
-    void WriteAssignment(int indent, OmniPointer<OutputStream> implementation, OmniPointer<s84::ctcode::dbnf::Assignment> assignment);
-    void WriteCall(int indent, OmniPointer<OutputStream> implementation, OmniPointer<s84::ctcode::dbnf::Call> call);
-    std::string GetExdefHeaderString(OmniPointer<s84::ctcode::dbnf::QualfiedName> exdef_name);
-    std::vector<std::string> GetUnmanagedTypes(std::vector<s84::ctcode::dbnf::UnmanagedType*> unmanaged_types);
+    void WriteForwardDeclaration(OmniPointer<s84::ctcode::dbnf::ctcode::CTCodeFile> ctcode_file, OmniPointer<OutputStream> header);
+    void WriteClassDeclarations(OmniPointer<s84::ctcode::dbnf::ctcode::CTCodeFile> ctcode_file, OmniPointer<OutputStream> header);
+    void WriteInterfaceDeclaration(OmniPointer<s84::ctcode::dbnf::ctcode::InterfaceDef> interface_definition, OmniPointer<OutputStream> header);
+    void WriteClassDeclaration(OmniPointer<s84::ctcode::dbnf::ctcode::ClassDef> class_definition, OmniPointer<OutputStream> header);
+    void GenerateImplementation(OmniPointer<s84::ctcode::dbnf::ctcode::CTCodeFile> ctcode_file, OmniPointer<OutputStream> implementation, std::string base_name, std::vector<std::string> base_name_tokens);
+    void WriteFunctionDefinitions(OmniPointer<s84::ctcode::dbnf::ctcode::CTCodeFile> ctcode_file, OmniPointer<OutputStream> implementation);
+    void WriteClassDefinition(OmniPointer<s84::ctcode::dbnf::ctcode::ClassDef> class_definition, OmniPointer<OutputStream> implementation);
+    void WriteInstruction(int indent, OmniPointer<OutputStream> implementation, OmniPointer<s84::ctcode::dbnf::ctcode::Instruction> instruction, bool add_newline_after_code_block);
+    void WriteCodeBlock(int indent, OmniPointer<OutputStream> implementation, OmniPointer<s84::ctcode::dbnf::ctcode::CodeBlock> code_block, bool add_newline_after_code_block);
+    void WriteConditional(int indent, OmniPointer<OutputStream> implementation, OmniPointer<s84::ctcode::dbnf::ctcode::Conditional> conditional, bool add_newline_after_code_block);
+    void WriteLoop(int indent, OmniPointer<OutputStream> implementation, OmniPointer<s84::ctcode::dbnf::ctcode::Loop> loop, bool add_newline_after_code_block);
+    void WriteRtn(int indent, OmniPointer<OutputStream> implementation, OmniPointer<s84::ctcode::dbnf::ctcode::Return> rtn);
+    void WriteDeclaration(int indent, OmniPointer<OutputStream> implementation, OmniPointer<s84::ctcode::dbnf::ctcode::Declaration> declaration);
+    void WriteAssignment(int indent, OmniPointer<OutputStream> implementation, OmniPointer<s84::ctcode::dbnf::ctcode::Assignment> assignment);
+    void WriteCall(int indent, OmniPointer<OutputStream> implementation, OmniPointer<s84::ctcode::dbnf::ctcode::Call> call);
+    std::string GetExdefHeaderString(OmniPointer<s84::ctcode::dbnf::ctcode::QualfiedName> exdef_name);
+    std::vector<std::string> GetUnmanagedTypes(std::vector<OmniPointer<s84::ctcode::dbnf::ctcode::UnmanagedType>> unmanaged_types);
     std::string Indentation(int indent);
-    std::string GetRValueSingleString(OmniPointer<s84::ctcode::dbnf::RValueSingle> r_value_single);
-    std::string GetRValueSingleUnaryString(OmniPointer<s84::ctcode::dbnf::RValueSingle> r_value_single);
-    std::string GetCallString(OmniPointer<s84::ctcode::dbnf::Call> call);
-    std::string GetRValueSingleCoreString(OmniPointer<s84::ctcode::dbnf::RValueSingle> r_value_single);
-    std::string GetOperator(OmniPointer<s84::ctcode::dbnf::BinaryOperator> op);
-    std::string GetRValueTail(OmniPointer<s84::ctcode::dbnf::RValueTail> r_value_tail);
-    std::string GetRValueString(OmniPointer<s84::ctcode::dbnf::RValue> r_value);
-    std::string GetVariableDefinition(OmniPointer<s84::ctcode::dbnf::ValueType> type, OmniPointer<s84::ctcode::dbnf::Name> name);
-    std::string GetParameterString(OmniPointer<s84::ctcode::dbnf::ParameterListDef> parameter);
-    std::string GenerateParameterListTail(OmniPointer<s84::ctcode::dbnf::ParameterListDef> parameters);
-    std::string GenerateParameterList(OmniPointer<s84::ctcode::dbnf::ParameterListDef> parameters);
-    std::string GenerateCallingParameterList(OmniPointer<s84::ctcode::dbnf::ParameterList> parameters);
-    std::string GetCallingParameterString(OmniPointer<s84::ctcode::dbnf::ParameterList> parameter);
-    std::string GenerateCallingParameterListTail(OmniPointer<s84::ctcode::dbnf::ParameterList> parameters);
-    std::string GetType(OmniPointer<s84::ctcode::dbnf::ValueType> value_type);
-    std::string GetDimensionalType(OmniPointer<s84::ctcode::dbnf::DimensionalType> dimensional_type);
+    std::string GetRValueSingleString(OmniPointer<s84::ctcode::dbnf::ctcode::RValueSingle> r_value_single);
+    std::string GetRValueSingleUnaryString(OmniPointer<s84::ctcode::dbnf::ctcode::RValueSingle> r_value_single);
+    std::string GetCallString(OmniPointer<s84::ctcode::dbnf::ctcode::Call> call);
+    std::string GetRValueSingleCoreString(OmniPointer<s84::ctcode::dbnf::ctcode::RValueSingle> r_value_single);
+    std::string GetOperator(OmniPointer<s84::ctcode::dbnf::ctcode::BinaryOperator> op);
+    std::string GetRValueTail(OmniPointer<s84::ctcode::dbnf::ctcode::RValueTail> r_value_tail);
+    std::string GetRValueString(OmniPointer<s84::ctcode::dbnf::ctcode::RValue> r_value);
+    std::string GetVariableDefinition(OmniPointer<s84::ctcode::dbnf::ctcode::ValueType> type, OmniPointer<s84::ctcode::dbnf::ctcode::Name> name);
+    std::string GetParameterString(OmniPointer<s84::ctcode::dbnf::ctcode::ParameterListDef> parameter);
+    std::string GenerateParameterListTail(OmniPointer<s84::ctcode::dbnf::ctcode::ParameterListDef> parameters);
+    std::string GenerateParameterList(OmniPointer<s84::ctcode::dbnf::ctcode::ParameterListDef> parameters);
+    std::string GenerateCallingParameterList(OmniPointer<s84::ctcode::dbnf::ctcode::ParameterList> parameters);
+    std::string GetCallingParameterString(OmniPointer<s84::ctcode::dbnf::ctcode::ParameterList> parameter);
+    std::string GenerateCallingParameterListTail(OmniPointer<s84::ctcode::dbnf::ctcode::ParameterList> parameters);
+    std::string GetType(OmniPointer<s84::ctcode::dbnf::ctcode::ValueType> value_type);
+    std::string GetDimensionalType(OmniPointer<s84::ctcode::dbnf::ctcode::DimensionalType> dimensional_type);
     std::string GetDimensionalPrefix(int dimensional_notes);
     std::string GetDimensionalSuffix(int dimensional_notes);
-    std::string GetMapType(OmniPointer<s84::ctcode::dbnf::MapType> map_type);
-    std::string GetSingletonType(OmniPointer<s84::ctcode::dbnf::SingletonType> singleton_type);
-    std::string GetDefinedType(OmniPointer<s84::ctcode::dbnf::QualfiedName> qualified_name);
-    std::string GetRawDefinedType(OmniPointer<s84::ctcode::dbnf::QualfiedName> qualified_name);
-    std::string GetRawDefinedTypeTail(OmniPointer<s84::ctcode::dbnf::NameTail> name_tail);
-    std::string GenerateClassName(OmniPointer<s84::ctcode::dbnf::Name> name_node);
-    std::string GenerateVariableName(OmniPointer<s84::ctcode::dbnf::Name> name_node);
-    std::string GenerateCallName(OmniPointer<s84::ctcode::dbnf::Name> name_node);
+    std::string GetMapType(OmniPointer<s84::ctcode::dbnf::ctcode::MapType> map_type);
+    std::string GetSingletonType(OmniPointer<s84::ctcode::dbnf::ctcode::SingletonType> singleton_type);
+    std::string GetDefinedType(OmniPointer<s84::ctcode::dbnf::ctcode::QualfiedName> qualified_name);
+    std::string GetRawDefinedType(OmniPointer<s84::ctcode::dbnf::ctcode::QualfiedName> qualified_name);
+    std::string GetRawDefinedTypeTail(OmniPointer<s84::ctcode::dbnf::ctcode::NameTail> name_tail);
+    std::string GenerateClassName(OmniPointer<s84::ctcode::dbnf::ctcode::Name> name_node);
+    std::string GenerateVariableName(OmniPointer<s84::ctcode::dbnf::ctcode::Name> name_node);
+    std::string GenerateCallName(OmniPointer<s84::ctcode::dbnf::ctcode::Name> name_node);
     std::vector<std::string> TokenizeBaseName(std::string name);
     std::string GenerateGuardName(std::vector<std::string> base_name_tokens);
     std::string SnakeCaseToCamelCase(std::string snake_case);
