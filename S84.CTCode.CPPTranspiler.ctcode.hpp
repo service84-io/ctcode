@@ -18,7 +18,11 @@ class OmniPointer
 public:
     OmniPointer() { value_raw = NULL; }
     OmniPointer(T* value) { value_raw = value; }
+    template<typename U>
+    OmniPointer(U* value) { value_raw = value; }
     OmniPointer(std::shared_ptr<T> value) { value_raw = NULL; value_shared = value; }
+    template<typename U>
+    OmniPointer(std::shared_ptr<U> value) { value_raw = NULL; value_shared = value; }
 
     operator bool()
     {
@@ -71,9 +75,18 @@ inline void SetKV(std::unordered_map<std::string, T>& input, const std::string& 
     input.insert(std::pair<std::string, T>(key, element));
 }
 template<typename T>
+inline std::vector<std::string> Keys(const std::unordered_map<std::string, T>& input)
+{
+    std::vector<std::string> result;
+    for(typename std::unordered_map<std::string, T>::const_iterator index = input.begin();index != input.end();index++) {
+        result.push_back(index->first);
+    }
+    return result;
+}
+template<typename T>
 inline bool HasKV(const std::unordered_map<std::string, T>& input, const std::string& key)
 {
-    typename std::unordered_map<std::string, T>::iterator beginning = input.find(key);
+    typename std::unordered_map<std::string, T>::const_iterator beginning = input.find(key);
     return beginning != input.end();
 }
 template<typename T>
@@ -119,6 +132,7 @@ public:
     void WriteClassDeclarations(OmniPointer<s84::ctcode::dbnf::ctcode::CTCodeFile> ctcode_file, OmniPointer<OutputStream> header);
     void WriteInterfaceDeclaration(OmniPointer<s84::ctcode::dbnf::ctcode::InterfaceDef> interface_definition, OmniPointer<OutputStream> header);
     void WriteClassDeclaration(OmniPointer<s84::ctcode::dbnf::ctcode::ClassDef> class_definition, OmniPointer<OutputStream> header);
+    void WriteImplementationSpec(OmniPointer<s84::ctcode::dbnf::ctcode::ImplementationSpec> implementation_spec, OmniPointer<OutputStream> header);
     void GenerateImplementation(OmniPointer<s84::ctcode::dbnf::ctcode::CTCodeFile> ctcode_file, OmniPointer<OutputStream> implementation, std::string base_name, std::vector<std::string> base_name_tokens);
     void WriteFunctionDefinitions(OmniPointer<s84::ctcode::dbnf::ctcode::CTCodeFile> ctcode_file, OmniPointer<OutputStream> implementation);
     void WriteClassDefinition(OmniPointer<s84::ctcode::dbnf::ctcode::ClassDef> class_definition, OmniPointer<OutputStream> implementation);

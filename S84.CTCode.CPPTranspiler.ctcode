@@ -99,7 +99,11 @@ class CPPTranspilerCTCodeLogic {
         header.WriteLine("public:");
         header.WriteLine("    OmniPointer() { value_raw = NULL; }");
         header.WriteLine("    OmniPointer(T* value) { value_raw = value; }");
+        header.WriteLine("    template<typename U>");
+        header.WriteLine("    OmniPointer(U* value) { value_raw = value; }");
         header.WriteLine("    OmniPointer(std::shared_ptr<T> value) { value_raw = NULL; value_shared = value; }");
+        header.WriteLine("    template<typename U>");
+        header.WriteLine("    OmniPointer(std::shared_ptr<U> value) { value_raw = NULL; value_shared = value; }");
         header.WriteLine("");
         header.WriteLine("    operator bool()");
         header.WriteLine("    {");
@@ -152,9 +156,18 @@ class CPPTranspilerCTCodeLogic {
         header.WriteLine("    input.insert(std::pair<std::string, T>(key, element));");
         header.WriteLine("}");
         header.WriteLine("template<typename T>");
+        header.WriteLine("inline std::vector<std::string> Keys(const std::unordered_map<std::string, T>& input)");
+        header.WriteLine("{");
+        header.WriteLine("    std::vector<std::string> result;");
+        header.WriteLine("    for(typename std::unordered_map<std::string, T>::const_iterator index = input.begin();index != input.end();index++) {");
+        header.WriteLine("        result.push_back(index->first);");
+        header.WriteLine("    }");
+        header.WriteLine("    return result;");
+        header.WriteLine("}");
+        header.WriteLine("template<typename T>");
         header.WriteLine("inline bool HasKV(const std::unordered_map<std::string, T>& input, const std::string& key)");
         header.WriteLine("{");
-        header.WriteLine("    typename std::unordered_map<std::string, T>::iterator beginning = input.find(key);");
+        header.WriteLine("    typename std::unordered_map<std::string, T>::const_iterator beginning = input.find(key);");
         header.WriteLine("    return beginning != input.end();");
         header.WriteLine("}");
         header.WriteLine("template<typename T>");
@@ -252,6 +265,7 @@ class CPPTranspilerCTCodeLogic {
         class_name = GenerateClassName(classDefinition.GetName());
         header.WriteLine("");
         header.WriteLine(Concat("class ", class_name));
+        WriteImplementationSpec(classDefinition.GetImplementing(), header);
         header.WriteLine("{");
         header.WriteLine("public:");
         header.WriteLine(Concat("    inline ", Concat(class_name, "() {};")));
@@ -307,6 +321,14 @@ class CPPTranspilerCTCodeLogic {
         }
 
         header.WriteLine("};");
+    }
+
+    function void WriteImplementationSpec(s84.ctcode.dbnf.ctcode.ImplementationSpec implementationSpec, OutputStream header)
+    {
+        if (implementationSpec) {
+            s84.ctcode.dbnf.ctcode.QualfiedName qualified_name = implementationSpec.GetInterface();
+            header.WriteLine(Concat(": public ", GetRawDefinedType(qualified_name)));
+        }
     }
 
     function void GenerateImplementation(s84.ctcode.dbnf.ctcode.CTCodeFile ctcodeFile, OutputStream implementation, string base_name, string[] base_name_tokens)

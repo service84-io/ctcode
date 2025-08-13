@@ -280,6 +280,11 @@ namespace ctcode
         return class_def_parser_field;
     }
 
+    OmniPointer<ImplementationSpecParser> ParserNetwork::GetImplementationSpecParser()
+    {
+        return implementation_spec_parser_field;
+    }
+
     OmniPointer<ContentDeclarationParser> ParserNetwork::GetContentDeclarationParser()
     {
         return content_declaration_parser_field;
@@ -529,6 +534,8 @@ namespace ctcode
         interface_def_parser_field->SetParserNetwork(this);
         class_def_parser_field = std::shared_ptr<ClassDefParser>(new ClassDefParser());
         class_def_parser_field->SetParserNetwork(this);
+        implementation_spec_parser_field = std::shared_ptr<ImplementationSpecParser>(new ImplementationSpecParser());
+        implementation_spec_parser_field->SetParserNetwork(this);
         content_declaration_parser_field = std::shared_ptr<ContentDeclarationParser>(new ContentDeclarationParser());
         content_declaration_parser_field->SetParserNetwork(this);
         content_definition_parser_field = std::shared_ptr<ContentDefinitionParser>(new ContentDefinitionParser());
@@ -679,6 +686,16 @@ namespace ctcode
     OmniPointer<ClassDef> DBNFOmniType::GetClassDef()
     {
         return class_def_field;
+    }
+
+    void DBNFOmniType::SetImplementationSpec(OmniPointer<ImplementationSpec> input_value)
+    {
+        implementation_spec_field = input_value;
+    }
+
+    OmniPointer<ImplementationSpec> DBNFOmniType::GetImplementationSpec()
+    {
+        return implementation_spec_field;
     }
 
     void DBNFOmniType::SetContentDeclaration(OmniPointer<ContentDeclaration> input_value)
@@ -1177,6 +1194,12 @@ namespace ctcode
         value->SetClassDef(input_value);
     }
 
+    void DBNFOmniTypeResult::SetImplementationSpec(OmniPointer<ImplementationSpec> input_value)
+    {
+        value = std::shared_ptr<DBNFOmniType>(new DBNFOmniType());
+        value->SetImplementationSpec(input_value);
+    }
+
     void DBNFOmniTypeResult::SetContentDeclaration(OmniPointer<ContentDeclaration> input_value)
     {
         value = std::shared_ptr<DBNFOmniType>(new DBNFOmniType());
@@ -1523,6 +1546,17 @@ namespace ctcode
         {
             OmniPointer<DBNFOmniType> value = std::shared_ptr<DBNFOmniType>(new DBNFOmniType());
             value->SetClassDef(Element(input_value, index));
+            index = index + 1;
+        }
+    }
+
+    void DBNFOmniTypeListResult::SetImplementationSpec(std::vector<OmniPointer<ImplementationSpec>> input_value)
+    {
+        int index = 0;
+        while (index < Size(input_value))
+        {
+            OmniPointer<DBNFOmniType> value = std::shared_ptr<DBNFOmniType>(new DBNFOmniType());
+            value->SetImplementationSpec(Element(input_value, index));
             index = index + 1;
         }
     }
@@ -2099,6 +2133,7 @@ namespace ctcode
         OmniPointer<DefinitionParser> definition_parser_instance = parser_network->GetDefinitionParser();
         OmniPointer<InterfaceDefParser> interface_def_parser_instance = parser_network->GetInterfaceDefParser();
         OmniPointer<ClassDefParser> class_def_parser_instance = parser_network->GetClassDefParser();
+        OmniPointer<ImplementationSpecParser> implementation_spec_parser_instance = parser_network->GetImplementationSpecParser();
         OmniPointer<ContentDeclarationParser> content_declaration_parser_instance = parser_network->GetContentDeclarationParser();
         OmniPointer<ContentDefinitionParser> content_definition_parser_instance = parser_network->GetContentDefinitionParser();
         OmniPointer<PrimativeTypeParser> primative_type_parser_instance = parser_network->GetPrimativeTypeParser();
@@ -2344,6 +2379,7 @@ namespace ctcode
         OmniPointer<DefinitionParser> definition_parser_instance = parser_network->GetDefinitionParser();
         OmniPointer<InterfaceDefParser> interface_def_parser_instance = parser_network->GetInterfaceDefParser();
         OmniPointer<ClassDefParser> class_def_parser_instance = parser_network->GetClassDefParser();
+        OmniPointer<ImplementationSpecParser> implementation_spec_parser_instance = parser_network->GetImplementationSpecParser();
         OmniPointer<ContentDeclarationParser> content_declaration_parser_instance = parser_network->GetContentDeclarationParser();
         OmniPointer<ContentDefinitionParser> content_definition_parser_instance = parser_network->GetContentDefinitionParser();
         OmniPointer<PrimativeTypeParser> primative_type_parser_instance = parser_network->GetPrimativeTypeParser();
@@ -2565,6 +2601,7 @@ namespace ctcode
         OmniPointer<DefinitionParser> definition_parser_instance = parser_network->GetDefinitionParser();
         OmniPointer<InterfaceDefParser> interface_def_parser_instance = parser_network->GetInterfaceDefParser();
         OmniPointer<ClassDefParser> class_def_parser_instance = parser_network->GetClassDefParser();
+        OmniPointer<ImplementationSpecParser> implementation_spec_parser_instance = parser_network->GetImplementationSpecParser();
         OmniPointer<ContentDeclarationParser> content_declaration_parser_instance = parser_network->GetContentDeclarationParser();
         OmniPointer<ContentDefinitionParser> content_definition_parser_instance = parser_network->GetContentDefinitionParser();
         OmniPointer<PrimativeTypeParser> primative_type_parser_instance = parser_network->GetPrimativeTypeParser();
@@ -2787,6 +2824,7 @@ namespace ctcode
         OmniPointer<DefinitionParser> definition_parser_instance = parser_network->GetDefinitionParser();
         OmniPointer<InterfaceDefParser> interface_def_parser_instance = parser_network->GetInterfaceDefParser();
         OmniPointer<ClassDefParser> class_def_parser_instance = parser_network->GetClassDefParser();
+        OmniPointer<ImplementationSpecParser> implementation_spec_parser_instance = parser_network->GetImplementationSpecParser();
         OmniPointer<ContentDeclarationParser> content_declaration_parser_instance = parser_network->GetContentDeclarationParser();
         OmniPointer<ContentDefinitionParser> content_definition_parser_instance = parser_network->GetContentDefinitionParser();
         OmniPointer<PrimativeTypeParser> primative_type_parser_instance = parser_network->GetPrimativeTypeParser();
@@ -3040,6 +3078,7 @@ namespace ctcode
         OmniPointer<DefinitionParser> definition_parser_instance = parser_network->GetDefinitionParser();
         OmniPointer<InterfaceDefParser> interface_def_parser_instance = parser_network->GetInterfaceDefParser();
         OmniPointer<ClassDefParser> class_def_parser_instance = parser_network->GetClassDefParser();
+        OmniPointer<ImplementationSpecParser> implementation_spec_parser_instance = parser_network->GetImplementationSpecParser();
         OmniPointer<ContentDeclarationParser> content_declaration_parser_instance = parser_network->GetContentDeclarationParser();
         OmniPointer<ContentDefinitionParser> content_definition_parser_instance = parser_network->GetContentDefinitionParser();
         OmniPointer<PrimativeTypeParser> primative_type_parser_instance = parser_network->GetPrimativeTypeParser();
@@ -3280,6 +3319,7 @@ namespace ctcode
         OmniPointer<ClassDef> instance = std::shared_ptr<ClassDef>(new ClassDef());
         OmniPointer<CommentResult> comment_field = std::shared_ptr<CommentResult>(new CommentResult());
         OmniPointer<ContentDefinitionListResult> definitions_field = std::shared_ptr<ContentDefinitionListResult>(new ContentDefinitionListResult());
+        OmniPointer<ImplementationSpecResult> implementing_field = std::shared_ptr<ImplementationSpecResult>(new ImplementationSpecResult());
         OmniPointer<NameResult> name_field = std::shared_ptr<NameResult>(new NameResult());
         OmniPointer<CTCodeFileParser> c_t_code_file_parser_instance = parser_network->GetCTCodeFileParser();
         OmniPointer<ExternalDefinitionParser> external_definition_parser_instance = parser_network->GetExternalDefinitionParser();
@@ -3287,6 +3327,7 @@ namespace ctcode
         OmniPointer<DefinitionParser> definition_parser_instance = parser_network->GetDefinitionParser();
         OmniPointer<InterfaceDefParser> interface_def_parser_instance = parser_network->GetInterfaceDefParser();
         OmniPointer<ClassDefParser> class_def_parser_instance = parser_network->GetClassDefParser();
+        OmniPointer<ImplementationSpecParser> implementation_spec_parser_instance = parser_network->GetImplementationSpecParser();
         OmniPointer<ContentDeclarationParser> content_declaration_parser_instance = parser_network->GetContentDeclarationParser();
         OmniPointer<ContentDefinitionParser> content_definition_parser_instance = parser_network->GetContentDefinitionParser();
         OmniPointer<PrimativeTypeParser> primative_type_parser_instance = parser_network->GetPrimativeTypeParser();
@@ -3334,10 +3375,11 @@ namespace ctcode
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
         OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
-        if (true && whitespace_parser_instance->ParseMany(index, 0, -1) && comment_parser_instance->ParseOptionalSave(index, comment_field) && whitespace_parser_instance->ParseMany(index, 0, -1) && string_parser_instance->ParseSingle(index, std::string("class")) && whitespace_parser_instance->ParseMany(index, 1, -1) && name_parser_instance->ParseSingleSave(index, name_field) && whitespace_parser_instance->ParseMany(index, 0, -1) && string_parser_instance->ParseSingle(index, std::string("{")) && whitespace_parser_instance->ParseMany(index, 0, -1) && content_definition_parser_instance->ParseManySave(index, definitions_field, 0, -1) && whitespace_parser_instance->ParseMany(index, 0, -1) && string_parser_instance->ParseSingle(index, std::string("}")) && whitespace_parser_instance->ParseMany(index, 0, -1))
+        if (true && whitespace_parser_instance->ParseMany(index, 0, -1) && comment_parser_instance->ParseOptionalSave(index, comment_field) && whitespace_parser_instance->ParseMany(index, 0, -1) && string_parser_instance->ParseSingle(index, std::string("class")) && whitespace_parser_instance->ParseMany(index, 1, -1) && name_parser_instance->ParseSingleSave(index, name_field) && implementation_spec_parser_instance->ParseOptionalSave(index, implementing_field) && whitespace_parser_instance->ParseMany(index, 0, -1) && string_parser_instance->ParseSingle(index, std::string("{")) && whitespace_parser_instance->ParseMany(index, 0, -1) && content_definition_parser_instance->ParseManySave(index, definitions_field, 0, -1) && whitespace_parser_instance->ParseMany(index, 0, -1) && string_parser_instance->ParseSingle(index, std::string("}")) && whitespace_parser_instance->ParseMany(index, 0, -1))
         {
             instance->SetComment(comment_field->GetValue());
             instance->SetDefinitions(definitions_field->GetValue());
+            instance->SetImplementing(implementing_field->GetValue());
             instance->SetName(name_field->GetValue());
             consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
@@ -3351,6 +3393,7 @@ namespace ctcode
             index->SetLength(index_length);
             comment_field = std::shared_ptr<CommentResult>(new CommentResult());
             definitions_field = std::shared_ptr<ContentDefinitionListResult>(new ContentDefinitionListResult());
+            implementing_field = std::shared_ptr<ImplementationSpecResult>(new ImplementationSpecResult());
             name_field = std::shared_ptr<NameResult>(new NameResult());
         }
 
@@ -3501,6 +3544,16 @@ namespace ctcode
         return definitions_field;
     }
 
+    void ClassDef::SetImplementing(OmniPointer<ImplementationSpec> input_value)
+    {
+        implementing_field = input_value;
+    }
+
+    OmniPointer<ImplementationSpec> ClassDef::GetImplementing()
+    {
+        return implementing_field;
+    }
+
     void ClassDef::SetName(OmniPointer<Name> input_value)
     {
         name_field = input_value;
@@ -3509,6 +3562,228 @@ namespace ctcode
     OmniPointer<Name> ClassDef::GetName()
     {
         return name_field;
+    }
+
+    void ImplementationSpecParser::SetParserNetwork(OmniPointer<ParserNetwork> input)
+    {
+        parser_network = input;
+    }
+
+    bool ImplementationSpecParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<ImplementationSpecResult> result)
+    {
+        int index_start = index->GetStart();
+        int index_length = index->GetLength();
+        OmniPointer<LengthString> consumed_string = std::shared_ptr<LengthString>(new LengthString());
+        consumed_string->SetData(index->GetData());
+        consumed_string->SetStart(index->GetStart());
+        consumed_string->SetLength(0);
+        OmniPointer<ImplementationSpec> instance = std::shared_ptr<ImplementationSpec>(new ImplementationSpec());
+        OmniPointer<QualfiedNameResult> interface_field = std::shared_ptr<QualfiedNameResult>(new QualfiedNameResult());
+        OmniPointer<CTCodeFileParser> c_t_code_file_parser_instance = parser_network->GetCTCodeFileParser();
+        OmniPointer<ExternalDefinitionParser> external_definition_parser_instance = parser_network->GetExternalDefinitionParser();
+        OmniPointer<UnmanagedTypeParser> unmanaged_type_parser_instance = parser_network->GetUnmanagedTypeParser();
+        OmniPointer<DefinitionParser> definition_parser_instance = parser_network->GetDefinitionParser();
+        OmniPointer<InterfaceDefParser> interface_def_parser_instance = parser_network->GetInterfaceDefParser();
+        OmniPointer<ClassDefParser> class_def_parser_instance = parser_network->GetClassDefParser();
+        OmniPointer<ImplementationSpecParser> implementation_spec_parser_instance = parser_network->GetImplementationSpecParser();
+        OmniPointer<ContentDeclarationParser> content_declaration_parser_instance = parser_network->GetContentDeclarationParser();
+        OmniPointer<ContentDefinitionParser> content_definition_parser_instance = parser_network->GetContentDefinitionParser();
+        OmniPointer<PrimativeTypeParser> primative_type_parser_instance = parser_network->GetPrimativeTypeParser();
+        OmniPointer<DefinedTypeParser> defined_type_parser_instance = parser_network->GetDefinedTypeParser();
+        OmniPointer<SingletonTypeParser> singleton_type_parser_instance = parser_network->GetSingletonTypeParser();
+        OmniPointer<DimensionalNoteParser> dimensional_note_parser_instance = parser_network->GetDimensionalNoteParser();
+        OmniPointer<DimensionalTypeParser> dimensional_type_parser_instance = parser_network->GetDimensionalTypeParser();
+        OmniPointer<MapNoteParser> map_note_parser_instance = parser_network->GetMapNoteParser();
+        OmniPointer<MapTypeParser> map_type_parser_instance = parser_network->GetMapTypeParser();
+        OmniPointer<ValueTypeParser> value_type_parser_instance = parser_network->GetValueTypeParser();
+        OmniPointer<ParameterListDefParser> parameter_list_def_parser_instance = parser_network->GetParameterListDefParser();
+        OmniPointer<ParameterListParser> parameter_list_parser_instance = parser_network->GetParameterListParser();
+        OmniPointer<CodeBlockParser> code_block_parser_instance = parser_network->GetCodeBlockParser();
+        OmniPointer<DeclarationAssignParser> declaration_assign_parser_instance = parser_network->GetDeclarationAssignParser();
+        OmniPointer<DeclarationParser> declaration_parser_instance = parser_network->GetDeclarationParser();
+        OmniPointer<AssignmentParser> assignment_parser_instance = parser_network->GetAssignmentParser();
+        OmniPointer<ReturnParser> return_parser_instance = parser_network->GetReturnParser();
+        OmniPointer<ElseTailParser> else_tail_parser_instance = parser_network->GetElseTailParser();
+        OmniPointer<ConditionalParser> conditional_parser_instance = parser_network->GetConditionalParser();
+        OmniPointer<LoopParser> loop_parser_instance = parser_network->GetLoopParser();
+        OmniPointer<CallParser> call_parser_instance = parser_network->GetCallParser();
+        OmniPointer<AllocateParser> allocate_parser_instance = parser_network->GetAllocateParser();
+        OmniPointer<InstructionParser> instruction_parser_instance = parser_network->GetInstructionParser();
+        OmniPointer<RValueSingleParser> r_value_single_parser_instance = parser_network->GetRValueSingleParser();
+        OmniPointer<RValueTailParser> r_value_tail_parser_instance = parser_network->GetRValueTailParser();
+        OmniPointer<RValueParser> r_value_parser_instance = parser_network->GetRValueParser();
+        OmniPointer<BinaryOperatorParser> binary_operator_parser_instance = parser_network->GetBinaryOperatorParser();
+        OmniPointer<UnaryOperatorParser> unary_operator_parser_instance = parser_network->GetUnaryOperatorParser();
+        OmniPointer<CommentParser> comment_parser_instance = parser_network->GetCommentParser();
+        OmniPointer<CommentCharacterParser> comment_character_parser_instance = parser_network->GetCommentCharacterParser();
+        OmniPointer<QualfiedNameParser> qualfied_name_parser_instance = parser_network->GetQualfiedNameParser();
+        OmniPointer<NameTailParser> name_tail_parser_instance = parser_network->GetNameTailParser();
+        OmniPointer<NameParser> name_parser_instance = parser_network->GetNameParser();
+        OmniPointer<NameCharacterParser> name_character_parser_instance = parser_network->GetNameCharacterParser();
+        OmniPointer<BooleanParser> boolean_parser_instance = parser_network->GetBooleanParser();
+        OmniPointer<ByteParser> byte_parser_instance = parser_network->GetByteParser();
+        OmniPointer<ByteDigitParser> byte_digit_parser_instance = parser_network->GetByteDigitParser();
+        OmniPointer<NegativeParser> negative_parser_instance = parser_network->GetNegativeParser();
+        OmniPointer<DecimalParser> decimal_parser_instance = parser_network->GetDecimalParser();
+        OmniPointer<NumberParser> number_parser_instance = parser_network->GetNumberParser();
+        OmniPointer<DigitParser> digit_parser_instance = parser_network->GetDigitParser();
+        OmniPointer<LiteralParser> literal_parser_instance = parser_network->GetLiteralParser();
+        OmniPointer<LiteralCharacterParser> literal_character_parser_instance = parser_network->GetLiteralCharacterParser();
+        OmniPointer<WhitespaceParser> whitespace_parser_instance = parser_network->GetWhitespaceParser();
+        OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
+        OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
+        if (true && whitespace_parser_instance->ParseMany(index, 1, -1) && string_parser_instance->ParseSingle(index, std::string("implements")) && whitespace_parser_instance->ParseMany(index, 1, -1) && qualfied_name_parser_instance->ParseSingleSave(index, interface_field) && whitespace_parser_instance->ParseMany(index, 0, -1))
+        {
+            instance->SetInterface(interface_field->GetValue());
+            consumed_string->SetLength(index->GetStart() - index_start);
+            instance->SetLengthString(consumed_string);
+            result->SetValue(instance);
+            result->SetResult(true);
+            return result->GetResult();
+        }
+        else
+        {
+            index->SetStart(index_start);
+            index->SetLength(index_length);
+            interface_field = std::shared_ptr<QualfiedNameResult>(new QualfiedNameResult());
+        }
+
+        result->SetResult(false);
+        return result->GetResult();
+    }
+
+    bool ImplementationSpecParser::ParseSingle(OmniPointer<LengthString> index)
+    {
+        OmniPointer<ImplementationSpecResult> result = std::shared_ptr<ImplementationSpecResult>(new ImplementationSpecResult());
+        return ParseSingleSave(index, result);
+    }
+
+    bool ImplementationSpecParser::ParseOptionalSave(OmniPointer<LengthString> index, OmniPointer<ImplementationSpecResult> result)
+    {
+        ParseSingleSave(index, result);
+        result->SetResult(true);
+        return true;
+    }
+
+    bool ImplementationSpecParser::ParseOptional(OmniPointer<LengthString> index)
+    {
+        OmniPointer<ImplementationSpecResult> result = std::shared_ptr<ImplementationSpecResult>(new ImplementationSpecResult());
+        return ParseOptionalSave(index, result);
+    }
+
+    bool ImplementationSpecParser::ParseManySave(OmniPointer<LengthString> index, OmniPointer<ImplementationSpecListResult> list_result, int minimum, int maximum)
+    {
+        int index_start = index->GetStart();
+        int index_length = index->GetLength();
+        std::vector<OmniPointer<ImplementationSpec>> results;
+        int count = 0;
+        int max_check = maximum;
+        bool check_next = true;
+        if (maximum < 0)
+        {
+            max_check = count + 1;
+        }
+
+        while (check_next && count < max_check)
+        {
+            OmniPointer<ImplementationSpecResult> result = std::shared_ptr<ImplementationSpecResult>(new ImplementationSpecResult());
+            ParseSingleSave(index, result);
+            check_next = result->GetResult();
+            if (result->GetResult())
+            {
+                count = count + 1;
+                Append(results, result->GetValue());
+            }
+
+            if (maximum < 0)
+            {
+                max_check = count + 1;
+            }
+        }
+
+        if (count >= minimum && count <= max_check)
+        {
+            list_result->SetValue(results);
+            list_result->SetResult(true);
+        }
+        else
+        {
+            index->SetStart(index_start);
+            index->SetLength(index_length);
+            list_result->SetResult(false);
+        }
+
+        return list_result->GetResult();
+    }
+
+    bool ImplementationSpecParser::ParseMany(OmniPointer<LengthString> index, int minimum, int maximum)
+    {
+        OmniPointer<ImplementationSpecListResult> result = std::shared_ptr<ImplementationSpecListResult>(new ImplementationSpecListResult());
+        return ParseManySave(index, result, minimum, maximum);
+    }
+
+    void ImplementationSpecResult::SetValue(OmniPointer<ImplementationSpec> new_value)
+    {
+        value = new_value;
+    }
+
+    OmniPointer<ImplementationSpec> ImplementationSpecResult::GetValue()
+    {
+        return value;
+    }
+
+    void ImplementationSpecResult::SetResult(bool new_result)
+    {
+        result = new_result;
+    }
+
+    bool ImplementationSpecResult::GetResult()
+    {
+        return result;
+    }
+
+    void ImplementationSpecListResult::SetValue(std::vector<OmniPointer<ImplementationSpec>> new_value)
+    {
+        value = new_value;
+    }
+
+    std::vector<OmniPointer<ImplementationSpec>> ImplementationSpecListResult::GetValue()
+    {
+        return value;
+    }
+
+    void ImplementationSpecListResult::SetResult(bool new_result)
+    {
+        result = new_result;
+    }
+
+    bool ImplementationSpecListResult::GetResult()
+    {
+        return result;
+    }
+
+    void ImplementationSpec::SetLengthString(OmniPointer<LengthString> new_value)
+    {
+        length_string = std::shared_ptr<LengthString>(new LengthString());
+        length_string->SetData(new_value->GetData());
+        length_string->SetStart(new_value->GetStart());
+        length_string->SetLength(new_value->GetLength());
+    }
+
+    std::string ImplementationSpec::UnParse()
+    {
+        return length_string->GetString();
+    }
+
+    void ImplementationSpec::SetInterface(OmniPointer<QualfiedName> input_value)
+    {
+        interface_field = input_value;
+    }
+
+    OmniPointer<QualfiedName> ImplementationSpec::GetInterface()
+    {
+        return interface_field;
     }
 
     void ContentDeclarationParser::SetParserNetwork(OmniPointer<ParserNetwork> input)
@@ -3535,6 +3810,7 @@ namespace ctcode
         OmniPointer<DefinitionParser> definition_parser_instance = parser_network->GetDefinitionParser();
         OmniPointer<InterfaceDefParser> interface_def_parser_instance = parser_network->GetInterfaceDefParser();
         OmniPointer<ClassDefParser> class_def_parser_instance = parser_network->GetClassDefParser();
+        OmniPointer<ImplementationSpecParser> implementation_spec_parser_instance = parser_network->GetImplementationSpecParser();
         OmniPointer<ContentDeclarationParser> content_declaration_parser_instance = parser_network->GetContentDeclarationParser();
         OmniPointer<ContentDefinitionParser> content_definition_parser_instance = parser_network->GetContentDefinitionParser();
         OmniPointer<PrimativeTypeParser> primative_type_parser_instance = parser_network->GetPrimativeTypeParser();
@@ -3796,6 +4072,7 @@ namespace ctcode
         OmniPointer<DefinitionParser> definition_parser_instance = parser_network->GetDefinitionParser();
         OmniPointer<InterfaceDefParser> interface_def_parser_instance = parser_network->GetInterfaceDefParser();
         OmniPointer<ClassDefParser> class_def_parser_instance = parser_network->GetClassDefParser();
+        OmniPointer<ImplementationSpecParser> implementation_spec_parser_instance = parser_network->GetImplementationSpecParser();
         OmniPointer<ContentDeclarationParser> content_declaration_parser_instance = parser_network->GetContentDeclarationParser();
         OmniPointer<ContentDefinitionParser> content_definition_parser_instance = parser_network->GetContentDefinitionParser();
         OmniPointer<PrimativeTypeParser> primative_type_parser_instance = parser_network->GetPrimativeTypeParser();
@@ -4088,6 +4365,7 @@ namespace ctcode
         OmniPointer<DefinitionParser> definition_parser_instance = parser_network->GetDefinitionParser();
         OmniPointer<InterfaceDefParser> interface_def_parser_instance = parser_network->GetInterfaceDefParser();
         OmniPointer<ClassDefParser> class_def_parser_instance = parser_network->GetClassDefParser();
+        OmniPointer<ImplementationSpecParser> implementation_spec_parser_instance = parser_network->GetImplementationSpecParser();
         OmniPointer<ContentDeclarationParser> content_declaration_parser_instance = parser_network->GetContentDeclarationParser();
         OmniPointer<ContentDefinitionParser> content_definition_parser_instance = parser_network->GetContentDefinitionParser();
         OmniPointer<PrimativeTypeParser> primative_type_parser_instance = parser_network->GetPrimativeTypeParser();
@@ -4353,6 +4631,7 @@ namespace ctcode
         OmniPointer<DefinitionParser> definition_parser_instance = parser_network->GetDefinitionParser();
         OmniPointer<InterfaceDefParser> interface_def_parser_instance = parser_network->GetInterfaceDefParser();
         OmniPointer<ClassDefParser> class_def_parser_instance = parser_network->GetClassDefParser();
+        OmniPointer<ImplementationSpecParser> implementation_spec_parser_instance = parser_network->GetImplementationSpecParser();
         OmniPointer<ContentDeclarationParser> content_declaration_parser_instance = parser_network->GetContentDeclarationParser();
         OmniPointer<ContentDefinitionParser> content_definition_parser_instance = parser_network->GetContentDefinitionParser();
         OmniPointer<PrimativeTypeParser> primative_type_parser_instance = parser_network->GetPrimativeTypeParser();
@@ -4575,6 +4854,7 @@ namespace ctcode
         OmniPointer<DefinitionParser> definition_parser_instance = parser_network->GetDefinitionParser();
         OmniPointer<InterfaceDefParser> interface_def_parser_instance = parser_network->GetInterfaceDefParser();
         OmniPointer<ClassDefParser> class_def_parser_instance = parser_network->GetClassDefParser();
+        OmniPointer<ImplementationSpecParser> implementation_spec_parser_instance = parser_network->GetImplementationSpecParser();
         OmniPointer<ContentDeclarationParser> content_declaration_parser_instance = parser_network->GetContentDeclarationParser();
         OmniPointer<ContentDefinitionParser> content_definition_parser_instance = parser_network->GetContentDefinitionParser();
         OmniPointer<PrimativeTypeParser> primative_type_parser_instance = parser_network->GetPrimativeTypeParser();
@@ -4825,6 +5105,7 @@ namespace ctcode
         OmniPointer<DefinitionParser> definition_parser_instance = parser_network->GetDefinitionParser();
         OmniPointer<InterfaceDefParser> interface_def_parser_instance = parser_network->GetInterfaceDefParser();
         OmniPointer<ClassDefParser> class_def_parser_instance = parser_network->GetClassDefParser();
+        OmniPointer<ImplementationSpecParser> implementation_spec_parser_instance = parser_network->GetImplementationSpecParser();
         OmniPointer<ContentDeclarationParser> content_declaration_parser_instance = parser_network->GetContentDeclarationParser();
         OmniPointer<ContentDefinitionParser> content_definition_parser_instance = parser_network->GetContentDefinitionParser();
         OmniPointer<PrimativeTypeParser> primative_type_parser_instance = parser_network->GetPrimativeTypeParser();
@@ -5035,6 +5316,7 @@ namespace ctcode
         OmniPointer<DefinitionParser> definition_parser_instance = parser_network->GetDefinitionParser();
         OmniPointer<InterfaceDefParser> interface_def_parser_instance = parser_network->GetInterfaceDefParser();
         OmniPointer<ClassDefParser> class_def_parser_instance = parser_network->GetClassDefParser();
+        OmniPointer<ImplementationSpecParser> implementation_spec_parser_instance = parser_network->GetImplementationSpecParser();
         OmniPointer<ContentDeclarationParser> content_declaration_parser_instance = parser_network->GetContentDeclarationParser();
         OmniPointer<ContentDefinitionParser> content_definition_parser_instance = parser_network->GetContentDefinitionParser();
         OmniPointer<PrimativeTypeParser> primative_type_parser_instance = parser_network->GetPrimativeTypeParser();
@@ -5267,6 +5549,7 @@ namespace ctcode
         OmniPointer<DefinitionParser> definition_parser_instance = parser_network->GetDefinitionParser();
         OmniPointer<InterfaceDefParser> interface_def_parser_instance = parser_network->GetInterfaceDefParser();
         OmniPointer<ClassDefParser> class_def_parser_instance = parser_network->GetClassDefParser();
+        OmniPointer<ImplementationSpecParser> implementation_spec_parser_instance = parser_network->GetImplementationSpecParser();
         OmniPointer<ContentDeclarationParser> content_declaration_parser_instance = parser_network->GetContentDeclarationParser();
         OmniPointer<ContentDefinitionParser> content_definition_parser_instance = parser_network->GetContentDefinitionParser();
         OmniPointer<PrimativeTypeParser> primative_type_parser_instance = parser_network->GetPrimativeTypeParser();
@@ -5477,6 +5760,7 @@ namespace ctcode
         OmniPointer<DefinitionParser> definition_parser_instance = parser_network->GetDefinitionParser();
         OmniPointer<InterfaceDefParser> interface_def_parser_instance = parser_network->GetInterfaceDefParser();
         OmniPointer<ClassDefParser> class_def_parser_instance = parser_network->GetClassDefParser();
+        OmniPointer<ImplementationSpecParser> implementation_spec_parser_instance = parser_network->GetImplementationSpecParser();
         OmniPointer<ContentDeclarationParser> content_declaration_parser_instance = parser_network->GetContentDeclarationParser();
         OmniPointer<ContentDefinitionParser> content_definition_parser_instance = parser_network->GetContentDefinitionParser();
         OmniPointer<PrimativeTypeParser> primative_type_parser_instance = parser_network->GetPrimativeTypeParser();
@@ -5712,6 +5996,7 @@ namespace ctcode
         OmniPointer<DefinitionParser> definition_parser_instance = parser_network->GetDefinitionParser();
         OmniPointer<InterfaceDefParser> interface_def_parser_instance = parser_network->GetInterfaceDefParser();
         OmniPointer<ClassDefParser> class_def_parser_instance = parser_network->GetClassDefParser();
+        OmniPointer<ImplementationSpecParser> implementation_spec_parser_instance = parser_network->GetImplementationSpecParser();
         OmniPointer<ContentDeclarationParser> content_declaration_parser_instance = parser_network->GetContentDeclarationParser();
         OmniPointer<ContentDefinitionParser> content_definition_parser_instance = parser_network->GetContentDefinitionParser();
         OmniPointer<PrimativeTypeParser> primative_type_parser_instance = parser_network->GetPrimativeTypeParser();
@@ -5999,6 +6284,7 @@ namespace ctcode
         OmniPointer<DefinitionParser> definition_parser_instance = parser_network->GetDefinitionParser();
         OmniPointer<InterfaceDefParser> interface_def_parser_instance = parser_network->GetInterfaceDefParser();
         OmniPointer<ClassDefParser> class_def_parser_instance = parser_network->GetClassDefParser();
+        OmniPointer<ImplementationSpecParser> implementation_spec_parser_instance = parser_network->GetImplementationSpecParser();
         OmniPointer<ContentDeclarationParser> content_declaration_parser_instance = parser_network->GetContentDeclarationParser();
         OmniPointer<ContentDefinitionParser> content_definition_parser_instance = parser_network->GetContentDefinitionParser();
         OmniPointer<PrimativeTypeParser> primative_type_parser_instance = parser_network->GetPrimativeTypeParser();
@@ -6265,6 +6551,7 @@ namespace ctcode
         OmniPointer<DefinitionParser> definition_parser_instance = parser_network->GetDefinitionParser();
         OmniPointer<InterfaceDefParser> interface_def_parser_instance = parser_network->GetInterfaceDefParser();
         OmniPointer<ClassDefParser> class_def_parser_instance = parser_network->GetClassDefParser();
+        OmniPointer<ImplementationSpecParser> implementation_spec_parser_instance = parser_network->GetImplementationSpecParser();
         OmniPointer<ContentDeclarationParser> content_declaration_parser_instance = parser_network->GetContentDeclarationParser();
         OmniPointer<ContentDefinitionParser> content_definition_parser_instance = parser_network->GetContentDefinitionParser();
         OmniPointer<PrimativeTypeParser> primative_type_parser_instance = parser_network->GetPrimativeTypeParser();
@@ -6516,6 +6803,7 @@ namespace ctcode
         OmniPointer<DefinitionParser> definition_parser_instance = parser_network->GetDefinitionParser();
         OmniPointer<InterfaceDefParser> interface_def_parser_instance = parser_network->GetInterfaceDefParser();
         OmniPointer<ClassDefParser> class_def_parser_instance = parser_network->GetClassDefParser();
+        OmniPointer<ImplementationSpecParser> implementation_spec_parser_instance = parser_network->GetImplementationSpecParser();
         OmniPointer<ContentDeclarationParser> content_declaration_parser_instance = parser_network->GetContentDeclarationParser();
         OmniPointer<ContentDefinitionParser> content_definition_parser_instance = parser_network->GetContentDefinitionParser();
         OmniPointer<PrimativeTypeParser> primative_type_parser_instance = parser_network->GetPrimativeTypeParser();
@@ -6737,6 +7025,7 @@ namespace ctcode
         OmniPointer<DefinitionParser> definition_parser_instance = parser_network->GetDefinitionParser();
         OmniPointer<InterfaceDefParser> interface_def_parser_instance = parser_network->GetInterfaceDefParser();
         OmniPointer<ClassDefParser> class_def_parser_instance = parser_network->GetClassDefParser();
+        OmniPointer<ImplementationSpecParser> implementation_spec_parser_instance = parser_network->GetImplementationSpecParser();
         OmniPointer<ContentDeclarationParser> content_declaration_parser_instance = parser_network->GetContentDeclarationParser();
         OmniPointer<ContentDefinitionParser> content_definition_parser_instance = parser_network->GetContentDefinitionParser();
         OmniPointer<PrimativeTypeParser> primative_type_parser_instance = parser_network->GetPrimativeTypeParser();
@@ -6960,6 +7249,7 @@ namespace ctcode
         OmniPointer<DefinitionParser> definition_parser_instance = parser_network->GetDefinitionParser();
         OmniPointer<InterfaceDefParser> interface_def_parser_instance = parser_network->GetInterfaceDefParser();
         OmniPointer<ClassDefParser> class_def_parser_instance = parser_network->GetClassDefParser();
+        OmniPointer<ImplementationSpecParser> implementation_spec_parser_instance = parser_network->GetImplementationSpecParser();
         OmniPointer<ContentDeclarationParser> content_declaration_parser_instance = parser_network->GetContentDeclarationParser();
         OmniPointer<ContentDefinitionParser> content_definition_parser_instance = parser_network->GetContentDefinitionParser();
         OmniPointer<PrimativeTypeParser> primative_type_parser_instance = parser_network->GetPrimativeTypeParser();
@@ -7206,6 +7496,7 @@ namespace ctcode
         OmniPointer<DefinitionParser> definition_parser_instance = parser_network->GetDefinitionParser();
         OmniPointer<InterfaceDefParser> interface_def_parser_instance = parser_network->GetInterfaceDefParser();
         OmniPointer<ClassDefParser> class_def_parser_instance = parser_network->GetClassDefParser();
+        OmniPointer<ImplementationSpecParser> implementation_spec_parser_instance = parser_network->GetImplementationSpecParser();
         OmniPointer<ContentDeclarationParser> content_declaration_parser_instance = parser_network->GetContentDeclarationParser();
         OmniPointer<ContentDefinitionParser> content_definition_parser_instance = parser_network->GetContentDefinitionParser();
         OmniPointer<PrimativeTypeParser> primative_type_parser_instance = parser_network->GetPrimativeTypeParser();
@@ -7440,6 +7731,7 @@ namespace ctcode
         OmniPointer<DefinitionParser> definition_parser_instance = parser_network->GetDefinitionParser();
         OmniPointer<InterfaceDefParser> interface_def_parser_instance = parser_network->GetInterfaceDefParser();
         OmniPointer<ClassDefParser> class_def_parser_instance = parser_network->GetClassDefParser();
+        OmniPointer<ImplementationSpecParser> implementation_spec_parser_instance = parser_network->GetImplementationSpecParser();
         OmniPointer<ContentDeclarationParser> content_declaration_parser_instance = parser_network->GetContentDeclarationParser();
         OmniPointer<ContentDefinitionParser> content_definition_parser_instance = parser_network->GetContentDefinitionParser();
         OmniPointer<PrimativeTypeParser> primative_type_parser_instance = parser_network->GetPrimativeTypeParser();
@@ -7674,6 +7966,7 @@ namespace ctcode
         OmniPointer<DefinitionParser> definition_parser_instance = parser_network->GetDefinitionParser();
         OmniPointer<InterfaceDefParser> interface_def_parser_instance = parser_network->GetInterfaceDefParser();
         OmniPointer<ClassDefParser> class_def_parser_instance = parser_network->GetClassDefParser();
+        OmniPointer<ImplementationSpecParser> implementation_spec_parser_instance = parser_network->GetImplementationSpecParser();
         OmniPointer<ContentDeclarationParser> content_declaration_parser_instance = parser_network->GetContentDeclarationParser();
         OmniPointer<ContentDefinitionParser> content_definition_parser_instance = parser_network->GetContentDefinitionParser();
         OmniPointer<PrimativeTypeParser> primative_type_parser_instance = parser_network->GetPrimativeTypeParser();
@@ -7910,6 +8203,7 @@ namespace ctcode
         OmniPointer<DefinitionParser> definition_parser_instance = parser_network->GetDefinitionParser();
         OmniPointer<InterfaceDefParser> interface_def_parser_instance = parser_network->GetInterfaceDefParser();
         OmniPointer<ClassDefParser> class_def_parser_instance = parser_network->GetClassDefParser();
+        OmniPointer<ImplementationSpecParser> implementation_spec_parser_instance = parser_network->GetImplementationSpecParser();
         OmniPointer<ContentDeclarationParser> content_declaration_parser_instance = parser_network->GetContentDeclarationParser();
         OmniPointer<ContentDefinitionParser> content_definition_parser_instance = parser_network->GetContentDefinitionParser();
         OmniPointer<PrimativeTypeParser> primative_type_parser_instance = parser_network->GetPrimativeTypeParser();
@@ -8169,6 +8463,7 @@ namespace ctcode
         OmniPointer<DefinitionParser> definition_parser_instance = parser_network->GetDefinitionParser();
         OmniPointer<InterfaceDefParser> interface_def_parser_instance = parser_network->GetInterfaceDefParser();
         OmniPointer<ClassDefParser> class_def_parser_instance = parser_network->GetClassDefParser();
+        OmniPointer<ImplementationSpecParser> implementation_spec_parser_instance = parser_network->GetImplementationSpecParser();
         OmniPointer<ContentDeclarationParser> content_declaration_parser_instance = parser_network->GetContentDeclarationParser();
         OmniPointer<ContentDefinitionParser> content_definition_parser_instance = parser_network->GetContentDefinitionParser();
         OmniPointer<PrimativeTypeParser> primative_type_parser_instance = parser_network->GetPrimativeTypeParser();
@@ -8416,6 +8711,7 @@ namespace ctcode
         OmniPointer<DefinitionParser> definition_parser_instance = parser_network->GetDefinitionParser();
         OmniPointer<InterfaceDefParser> interface_def_parser_instance = parser_network->GetInterfaceDefParser();
         OmniPointer<ClassDefParser> class_def_parser_instance = parser_network->GetClassDefParser();
+        OmniPointer<ImplementationSpecParser> implementation_spec_parser_instance = parser_network->GetImplementationSpecParser();
         OmniPointer<ContentDeclarationParser> content_declaration_parser_instance = parser_network->GetContentDeclarationParser();
         OmniPointer<ContentDefinitionParser> content_definition_parser_instance = parser_network->GetContentDefinitionParser();
         OmniPointer<PrimativeTypeParser> primative_type_parser_instance = parser_network->GetPrimativeTypeParser();
@@ -8681,6 +8977,7 @@ namespace ctcode
         OmniPointer<DefinitionParser> definition_parser_instance = parser_network->GetDefinitionParser();
         OmniPointer<InterfaceDefParser> interface_def_parser_instance = parser_network->GetInterfaceDefParser();
         OmniPointer<ClassDefParser> class_def_parser_instance = parser_network->GetClassDefParser();
+        OmniPointer<ImplementationSpecParser> implementation_spec_parser_instance = parser_network->GetImplementationSpecParser();
         OmniPointer<ContentDeclarationParser> content_declaration_parser_instance = parser_network->GetContentDeclarationParser();
         OmniPointer<ContentDefinitionParser> content_definition_parser_instance = parser_network->GetContentDefinitionParser();
         OmniPointer<PrimativeTypeParser> primative_type_parser_instance = parser_network->GetPrimativeTypeParser();
@@ -8909,6 +9206,7 @@ namespace ctcode
         OmniPointer<DefinitionParser> definition_parser_instance = parser_network->GetDefinitionParser();
         OmniPointer<InterfaceDefParser> interface_def_parser_instance = parser_network->GetInterfaceDefParser();
         OmniPointer<ClassDefParser> class_def_parser_instance = parser_network->GetClassDefParser();
+        OmniPointer<ImplementationSpecParser> implementation_spec_parser_instance = parser_network->GetImplementationSpecParser();
         OmniPointer<ContentDeclarationParser> content_declaration_parser_instance = parser_network->GetContentDeclarationParser();
         OmniPointer<ContentDefinitionParser> content_definition_parser_instance = parser_network->GetContentDefinitionParser();
         OmniPointer<PrimativeTypeParser> primative_type_parser_instance = parser_network->GetPrimativeTypeParser();
@@ -9402,6 +9700,7 @@ namespace ctcode
         OmniPointer<DefinitionParser> definition_parser_instance = parser_network->GetDefinitionParser();
         OmniPointer<InterfaceDefParser> interface_def_parser_instance = parser_network->GetInterfaceDefParser();
         OmniPointer<ClassDefParser> class_def_parser_instance = parser_network->GetClassDefParser();
+        OmniPointer<ImplementationSpecParser> implementation_spec_parser_instance = parser_network->GetImplementationSpecParser();
         OmniPointer<ContentDeclarationParser> content_declaration_parser_instance = parser_network->GetContentDeclarationParser();
         OmniPointer<ContentDefinitionParser> content_definition_parser_instance = parser_network->GetContentDefinitionParser();
         OmniPointer<PrimativeTypeParser> primative_type_parser_instance = parser_network->GetPrimativeTypeParser();
@@ -9945,6 +10244,7 @@ namespace ctcode
         OmniPointer<DefinitionParser> definition_parser_instance = parser_network->GetDefinitionParser();
         OmniPointer<InterfaceDefParser> interface_def_parser_instance = parser_network->GetInterfaceDefParser();
         OmniPointer<ClassDefParser> class_def_parser_instance = parser_network->GetClassDefParser();
+        OmniPointer<ImplementationSpecParser> implementation_spec_parser_instance = parser_network->GetImplementationSpecParser();
         OmniPointer<ContentDeclarationParser> content_declaration_parser_instance = parser_network->GetContentDeclarationParser();
         OmniPointer<ContentDefinitionParser> content_definition_parser_instance = parser_network->GetContentDefinitionParser();
         OmniPointer<PrimativeTypeParser> primative_type_parser_instance = parser_network->GetPrimativeTypeParser();
@@ -10191,6 +10491,7 @@ namespace ctcode
         OmniPointer<DefinitionParser> definition_parser_instance = parser_network->GetDefinitionParser();
         OmniPointer<InterfaceDefParser> interface_def_parser_instance = parser_network->GetInterfaceDefParser();
         OmniPointer<ClassDefParser> class_def_parser_instance = parser_network->GetClassDefParser();
+        OmniPointer<ImplementationSpecParser> implementation_spec_parser_instance = parser_network->GetImplementationSpecParser();
         OmniPointer<ContentDeclarationParser> content_declaration_parser_instance = parser_network->GetContentDeclarationParser();
         OmniPointer<ContentDefinitionParser> content_definition_parser_instance = parser_network->GetContentDefinitionParser();
         OmniPointer<PrimativeTypeParser> primative_type_parser_instance = parser_network->GetPrimativeTypeParser();
@@ -10433,6 +10734,7 @@ namespace ctcode
         OmniPointer<DefinitionParser> definition_parser_instance = parser_network->GetDefinitionParser();
         OmniPointer<InterfaceDefParser> interface_def_parser_instance = parser_network->GetInterfaceDefParser();
         OmniPointer<ClassDefParser> class_def_parser_instance = parser_network->GetClassDefParser();
+        OmniPointer<ImplementationSpecParser> implementation_spec_parser_instance = parser_network->GetImplementationSpecParser();
         OmniPointer<ContentDeclarationParser> content_declaration_parser_instance = parser_network->GetContentDeclarationParser();
         OmniPointer<ContentDefinitionParser> content_definition_parser_instance = parser_network->GetContentDefinitionParser();
         OmniPointer<PrimativeTypeParser> primative_type_parser_instance = parser_network->GetPrimativeTypeParser();
@@ -11068,6 +11370,7 @@ namespace ctcode
         OmniPointer<DefinitionParser> definition_parser_instance = parser_network->GetDefinitionParser();
         OmniPointer<InterfaceDefParser> interface_def_parser_instance = parser_network->GetInterfaceDefParser();
         OmniPointer<ClassDefParser> class_def_parser_instance = parser_network->GetClassDefParser();
+        OmniPointer<ImplementationSpecParser> implementation_spec_parser_instance = parser_network->GetImplementationSpecParser();
         OmniPointer<ContentDeclarationParser> content_declaration_parser_instance = parser_network->GetContentDeclarationParser();
         OmniPointer<ContentDefinitionParser> content_definition_parser_instance = parser_network->GetContentDefinitionParser();
         OmniPointer<PrimativeTypeParser> primative_type_parser_instance = parser_network->GetPrimativeTypeParser();
@@ -11289,6 +11592,7 @@ namespace ctcode
         OmniPointer<DefinitionParser> definition_parser_instance = parser_network->GetDefinitionParser();
         OmniPointer<InterfaceDefParser> interface_def_parser_instance = parser_network->GetInterfaceDefParser();
         OmniPointer<ClassDefParser> class_def_parser_instance = parser_network->GetClassDefParser();
+        OmniPointer<ImplementationSpecParser> implementation_spec_parser_instance = parser_network->GetImplementationSpecParser();
         OmniPointer<ContentDeclarationParser> content_declaration_parser_instance = parser_network->GetContentDeclarationParser();
         OmniPointer<ContentDefinitionParser> content_definition_parser_instance = parser_network->GetContentDefinitionParser();
         OmniPointer<PrimativeTypeParser> primative_type_parser_instance = parser_network->GetPrimativeTypeParser();
@@ -11509,6 +11813,7 @@ namespace ctcode
         OmniPointer<DefinitionParser> definition_parser_instance = parser_network->GetDefinitionParser();
         OmniPointer<InterfaceDefParser> interface_def_parser_instance = parser_network->GetInterfaceDefParser();
         OmniPointer<ClassDefParser> class_def_parser_instance = parser_network->GetClassDefParser();
+        OmniPointer<ImplementationSpecParser> implementation_spec_parser_instance = parser_network->GetImplementationSpecParser();
         OmniPointer<ContentDeclarationParser> content_declaration_parser_instance = parser_network->GetContentDeclarationParser();
         OmniPointer<ContentDefinitionParser> content_definition_parser_instance = parser_network->GetContentDefinitionParser();
         OmniPointer<PrimativeTypeParser> primative_type_parser_instance = parser_network->GetPrimativeTypeParser();
@@ -12139,6 +12444,7 @@ namespace ctcode
         OmniPointer<DefinitionParser> definition_parser_instance = parser_network->GetDefinitionParser();
         OmniPointer<InterfaceDefParser> interface_def_parser_instance = parser_network->GetInterfaceDefParser();
         OmniPointer<ClassDefParser> class_def_parser_instance = parser_network->GetClassDefParser();
+        OmniPointer<ImplementationSpecParser> implementation_spec_parser_instance = parser_network->GetImplementationSpecParser();
         OmniPointer<ContentDeclarationParser> content_declaration_parser_instance = parser_network->GetContentDeclarationParser();
         OmniPointer<ContentDefinitionParser> content_definition_parser_instance = parser_network->GetContentDefinitionParser();
         OmniPointer<PrimativeTypeParser> primative_type_parser_instance = parser_network->GetPrimativeTypeParser();
@@ -12373,6 +12679,7 @@ namespace ctcode
         OmniPointer<DefinitionParser> definition_parser_instance = parser_network->GetDefinitionParser();
         OmniPointer<InterfaceDefParser> interface_def_parser_instance = parser_network->GetInterfaceDefParser();
         OmniPointer<ClassDefParser> class_def_parser_instance = parser_network->GetClassDefParser();
+        OmniPointer<ImplementationSpecParser> implementation_spec_parser_instance = parser_network->GetImplementationSpecParser();
         OmniPointer<ContentDeclarationParser> content_declaration_parser_instance = parser_network->GetContentDeclarationParser();
         OmniPointer<ContentDefinitionParser> content_definition_parser_instance = parser_network->GetContentDefinitionParser();
         OmniPointer<PrimativeTypeParser> primative_type_parser_instance = parser_network->GetPrimativeTypeParser();
@@ -12605,6 +12912,7 @@ namespace ctcode
         OmniPointer<DefinitionParser> definition_parser_instance = parser_network->GetDefinitionParser();
         OmniPointer<InterfaceDefParser> interface_def_parser_instance = parser_network->GetInterfaceDefParser();
         OmniPointer<ClassDefParser> class_def_parser_instance = parser_network->GetClassDefParser();
+        OmniPointer<ImplementationSpecParser> implementation_spec_parser_instance = parser_network->GetImplementationSpecParser();
         OmniPointer<ContentDeclarationParser> content_declaration_parser_instance = parser_network->GetContentDeclarationParser();
         OmniPointer<ContentDefinitionParser> content_definition_parser_instance = parser_network->GetContentDefinitionParser();
         OmniPointer<PrimativeTypeParser> primative_type_parser_instance = parser_network->GetPrimativeTypeParser();
@@ -12813,6 +13121,7 @@ namespace ctcode
         OmniPointer<DefinitionParser> definition_parser_instance = parser_network->GetDefinitionParser();
         OmniPointer<InterfaceDefParser> interface_def_parser_instance = parser_network->GetInterfaceDefParser();
         OmniPointer<ClassDefParser> class_def_parser_instance = parser_network->GetClassDefParser();
+        OmniPointer<ImplementationSpecParser> implementation_spec_parser_instance = parser_network->GetImplementationSpecParser();
         OmniPointer<ContentDeclarationParser> content_declaration_parser_instance = parser_network->GetContentDeclarationParser();
         OmniPointer<ContentDefinitionParser> content_definition_parser_instance = parser_network->GetContentDefinitionParser();
         OmniPointer<PrimativeTypeParser> primative_type_parser_instance = parser_network->GetPrimativeTypeParser();
@@ -13063,6 +13372,7 @@ namespace ctcode
         OmniPointer<DefinitionParser> definition_parser_instance = parser_network->GetDefinitionParser();
         OmniPointer<InterfaceDefParser> interface_def_parser_instance = parser_network->GetInterfaceDefParser();
         OmniPointer<ClassDefParser> class_def_parser_instance = parser_network->GetClassDefParser();
+        OmniPointer<ImplementationSpecParser> implementation_spec_parser_instance = parser_network->GetImplementationSpecParser();
         OmniPointer<ContentDeclarationParser> content_declaration_parser_instance = parser_network->GetContentDeclarationParser();
         OmniPointer<ContentDefinitionParser> content_definition_parser_instance = parser_network->GetContentDefinitionParser();
         OmniPointer<PrimativeTypeParser> primative_type_parser_instance = parser_network->GetPrimativeTypeParser();
@@ -13287,6 +13597,7 @@ namespace ctcode
         OmniPointer<DefinitionParser> definition_parser_instance = parser_network->GetDefinitionParser();
         OmniPointer<InterfaceDefParser> interface_def_parser_instance = parser_network->GetInterfaceDefParser();
         OmniPointer<ClassDefParser> class_def_parser_instance = parser_network->GetClassDefParser();
+        OmniPointer<ImplementationSpecParser> implementation_spec_parser_instance = parser_network->GetImplementationSpecParser();
         OmniPointer<ContentDeclarationParser> content_declaration_parser_instance = parser_network->GetContentDeclarationParser();
         OmniPointer<ContentDefinitionParser> content_definition_parser_instance = parser_network->GetContentDefinitionParser();
         OmniPointer<PrimativeTypeParser> primative_type_parser_instance = parser_network->GetPrimativeTypeParser();
@@ -13519,6 +13830,7 @@ namespace ctcode
         OmniPointer<DefinitionParser> definition_parser_instance = parser_network->GetDefinitionParser();
         OmniPointer<InterfaceDefParser> interface_def_parser_instance = parser_network->GetInterfaceDefParser();
         OmniPointer<ClassDefParser> class_def_parser_instance = parser_network->GetClassDefParser();
+        OmniPointer<ImplementationSpecParser> implementation_spec_parser_instance = parser_network->GetImplementationSpecParser();
         OmniPointer<ContentDeclarationParser> content_declaration_parser_instance = parser_network->GetContentDeclarationParser();
         OmniPointer<ContentDefinitionParser> content_definition_parser_instance = parser_network->GetContentDefinitionParser();
         OmniPointer<PrimativeTypeParser> primative_type_parser_instance = parser_network->GetPrimativeTypeParser();
@@ -13741,6 +14053,7 @@ namespace ctcode
         OmniPointer<DefinitionParser> definition_parser_instance = parser_network->GetDefinitionParser();
         OmniPointer<InterfaceDefParser> interface_def_parser_instance = parser_network->GetInterfaceDefParser();
         OmniPointer<ClassDefParser> class_def_parser_instance = parser_network->GetClassDefParser();
+        OmniPointer<ImplementationSpecParser> implementation_spec_parser_instance = parser_network->GetImplementationSpecParser();
         OmniPointer<ContentDeclarationParser> content_declaration_parser_instance = parser_network->GetContentDeclarationParser();
         OmniPointer<ContentDefinitionParser> content_definition_parser_instance = parser_network->GetContentDefinitionParser();
         OmniPointer<PrimativeTypeParser> primative_type_parser_instance = parser_network->GetPrimativeTypeParser();
@@ -13949,6 +14262,7 @@ namespace ctcode
         OmniPointer<DefinitionParser> definition_parser_instance = parser_network->GetDefinitionParser();
         OmniPointer<InterfaceDefParser> interface_def_parser_instance = parser_network->GetInterfaceDefParser();
         OmniPointer<ClassDefParser> class_def_parser_instance = parser_network->GetClassDefParser();
+        OmniPointer<ImplementationSpecParser> implementation_spec_parser_instance = parser_network->GetImplementationSpecParser();
         OmniPointer<ContentDeclarationParser> content_declaration_parser_instance = parser_network->GetContentDeclarationParser();
         OmniPointer<ContentDefinitionParser> content_definition_parser_instance = parser_network->GetContentDefinitionParser();
         OmniPointer<PrimativeTypeParser> primative_type_parser_instance = parser_network->GetPrimativeTypeParser();
@@ -14157,6 +14471,7 @@ namespace ctcode
         OmniPointer<DefinitionParser> definition_parser_instance = parser_network->GetDefinitionParser();
         OmniPointer<InterfaceDefParser> interface_def_parser_instance = parser_network->GetInterfaceDefParser();
         OmniPointer<ClassDefParser> class_def_parser_instance = parser_network->GetClassDefParser();
+        OmniPointer<ImplementationSpecParser> implementation_spec_parser_instance = parser_network->GetImplementationSpecParser();
         OmniPointer<ContentDeclarationParser> content_declaration_parser_instance = parser_network->GetContentDeclarationParser();
         OmniPointer<ContentDefinitionParser> content_definition_parser_instance = parser_network->GetContentDefinitionParser();
         OmniPointer<PrimativeTypeParser> primative_type_parser_instance = parser_network->GetPrimativeTypeParser();
@@ -14365,6 +14680,7 @@ namespace ctcode
         OmniPointer<DefinitionParser> definition_parser_instance = parser_network->GetDefinitionParser();
         OmniPointer<InterfaceDefParser> interface_def_parser_instance = parser_network->GetInterfaceDefParser();
         OmniPointer<ClassDefParser> class_def_parser_instance = parser_network->GetClassDefParser();
+        OmniPointer<ImplementationSpecParser> implementation_spec_parser_instance = parser_network->GetImplementationSpecParser();
         OmniPointer<ContentDeclarationParser> content_declaration_parser_instance = parser_network->GetContentDeclarationParser();
         OmniPointer<ContentDefinitionParser> content_definition_parser_instance = parser_network->GetContentDefinitionParser();
         OmniPointer<PrimativeTypeParser> primative_type_parser_instance = parser_network->GetPrimativeTypeParser();
@@ -14573,6 +14889,7 @@ namespace ctcode
         OmniPointer<DefinitionParser> definition_parser_instance = parser_network->GetDefinitionParser();
         OmniPointer<InterfaceDefParser> interface_def_parser_instance = parser_network->GetInterfaceDefParser();
         OmniPointer<ClassDefParser> class_def_parser_instance = parser_network->GetClassDefParser();
+        OmniPointer<ImplementationSpecParser> implementation_spec_parser_instance = parser_network->GetImplementationSpecParser();
         OmniPointer<ContentDeclarationParser> content_declaration_parser_instance = parser_network->GetContentDeclarationParser();
         OmniPointer<ContentDefinitionParser> content_definition_parser_instance = parser_network->GetContentDefinitionParser();
         OmniPointer<PrimativeTypeParser> primative_type_parser_instance = parser_network->GetPrimativeTypeParser();
@@ -14781,6 +15098,7 @@ namespace ctcode
         OmniPointer<DefinitionParser> definition_parser_instance = parser_network->GetDefinitionParser();
         OmniPointer<InterfaceDefParser> interface_def_parser_instance = parser_network->GetInterfaceDefParser();
         OmniPointer<ClassDefParser> class_def_parser_instance = parser_network->GetClassDefParser();
+        OmniPointer<ImplementationSpecParser> implementation_spec_parser_instance = parser_network->GetImplementationSpecParser();
         OmniPointer<ContentDeclarationParser> content_declaration_parser_instance = parser_network->GetContentDeclarationParser();
         OmniPointer<ContentDefinitionParser> content_definition_parser_instance = parser_network->GetContentDefinitionParser();
         OmniPointer<PrimativeTypeParser> primative_type_parser_instance = parser_network->GetPrimativeTypeParser();
@@ -15045,6 +15363,7 @@ namespace ctcode
         OmniPointer<DefinitionParser> definition_parser_instance = parser_network->GetDefinitionParser();
         OmniPointer<InterfaceDefParser> interface_def_parser_instance = parser_network->GetInterfaceDefParser();
         OmniPointer<ClassDefParser> class_def_parser_instance = parser_network->GetClassDefParser();
+        OmniPointer<ImplementationSpecParser> implementation_spec_parser_instance = parser_network->GetImplementationSpecParser();
         OmniPointer<ContentDeclarationParser> content_declaration_parser_instance = parser_network->GetContentDeclarationParser();
         OmniPointer<ContentDefinitionParser> content_definition_parser_instance = parser_network->GetContentDefinitionParser();
         OmniPointer<PrimativeTypeParser> primative_type_parser_instance = parser_network->GetPrimativeTypeParser();

@@ -217,6 +217,8 @@ class ParserNetwork
     function InterfaceDefParser GetInterfaceDefParser() { return interface_def_parser_field; }
     ClassDefParser class_def_parser_field;
     function ClassDefParser GetClassDefParser() { return class_def_parser_field; }
+    ImplementationSpecParser implementation_spec_parser_field;
+    function ImplementationSpecParser GetImplementationSpecParser() { return implementation_spec_parser_field; }
     ContentDeclarationParser content_declaration_parser_field;
     function ContentDeclarationParser GetContentDeclarationParser() { return content_declaration_parser_field; }
     ContentDefinitionParser content_definition_parser_field;
@@ -324,6 +326,8 @@ class ParserNetwork
         interface_def_parser_field.SetParserNetwork(myself);
         class_def_parser_field = new ClassDefParser;
         class_def_parser_field.SetParserNetwork(myself);
+        implementation_spec_parser_field = new ImplementationSpecParser;
+        implementation_spec_parser_field.SetParserNetwork(myself);
         content_declaration_parser_field = new ContentDeclarationParser;
         content_declaration_parser_field.SetParserNetwork(myself);
         content_definition_parser_field = new ContentDefinitionParser;
@@ -437,6 +441,9 @@ class DBNFOmniType
     ClassDef class_def_field;
     function void SetClassDef(ClassDef input_value) { class_def_field = input_value; }
     function ClassDef GetClassDef() { return class_def_field; }
+    ImplementationSpec implementation_spec_field;
+    function void SetImplementationSpec(ImplementationSpec input_value) { implementation_spec_field = input_value; }
+    function ImplementationSpec GetImplementationSpec() { return implementation_spec_field; }
     ContentDeclaration content_declaration_field;
     function void SetContentDeclaration(ContentDeclaration input_value) { content_declaration_field = input_value; }
     function ContentDeclaration GetContentDeclaration() { return content_declaration_field; }
@@ -606,6 +613,11 @@ class DBNFOmniTypeResult
     {
         value = new DBNFOmniType;
         value.SetClassDef(input_value);
+    }
+    function void SetImplementationSpec(ImplementationSpec input_value)
+    {
+        value = new DBNFOmniType;
+        value.SetImplementationSpec(input_value);
     }
     function void SetContentDeclaration(ContentDeclaration input_value)
     {
@@ -900,6 +912,17 @@ class DBNFOmniTypeListResult
         {
             DBNFOmniType value = new DBNFOmniType;
             value.SetClassDef(Element(input_value, index));
+            index = index + 1;
+        }
+    }
+
+    function void SetImplementationSpec(ImplementationSpec[] input_value)
+    {
+        int index = 0;
+        while (index < Size(input_value))
+        {
+            DBNFOmniType value = new DBNFOmniType;
+            value.SetImplementationSpec(Element(input_value, index));
             index = index + 1;
         }
     }
@@ -1454,6 +1477,7 @@ class CTCodeFileParser
         DefinitionParser definition_parser_instance = parser_network.GetDefinitionParser();
         InterfaceDefParser interface_def_parser_instance = parser_network.GetInterfaceDefParser();
         ClassDefParser class_def_parser_instance = parser_network.GetClassDefParser();
+        ImplementationSpecParser implementation_spec_parser_instance = parser_network.GetImplementationSpecParser();
         ContentDeclarationParser content_declaration_parser_instance = parser_network.GetContentDeclarationParser();
         ContentDefinitionParser content_definition_parser_instance = parser_network.GetContentDefinitionParser();
         PrimativeTypeParser primative_type_parser_instance = parser_network.GetPrimativeTypeParser();
@@ -1661,6 +1685,7 @@ class ExternalDefinitionParser
         DefinitionParser definition_parser_instance = parser_network.GetDefinitionParser();
         InterfaceDefParser interface_def_parser_instance = parser_network.GetInterfaceDefParser();
         ClassDefParser class_def_parser_instance = parser_network.GetClassDefParser();
+        ImplementationSpecParser implementation_spec_parser_instance = parser_network.GetImplementationSpecParser();
         ContentDeclarationParser content_declaration_parser_instance = parser_network.GetContentDeclarationParser();
         ContentDefinitionParser content_definition_parser_instance = parser_network.GetContentDefinitionParser();
         PrimativeTypeParser primative_type_parser_instance = parser_network.GetPrimativeTypeParser();
@@ -1858,6 +1883,7 @@ class UnmanagedTypeParser
         DefinitionParser definition_parser_instance = parser_network.GetDefinitionParser();
         InterfaceDefParser interface_def_parser_instance = parser_network.GetInterfaceDefParser();
         ClassDefParser class_def_parser_instance = parser_network.GetClassDefParser();
+        ImplementationSpecParser implementation_spec_parser_instance = parser_network.GetImplementationSpecParser();
         ContentDeclarationParser content_declaration_parser_instance = parser_network.GetContentDeclarationParser();
         ContentDefinitionParser content_definition_parser_instance = parser_network.GetContentDefinitionParser();
         PrimativeTypeParser primative_type_parser_instance = parser_network.GetPrimativeTypeParser();
@@ -2056,6 +2082,7 @@ class DefinitionParser
         DefinitionParser definition_parser_instance = parser_network.GetDefinitionParser();
         InterfaceDefParser interface_def_parser_instance = parser_network.GetInterfaceDefParser();
         ClassDefParser class_def_parser_instance = parser_network.GetClassDefParser();
+        ImplementationSpecParser implementation_spec_parser_instance = parser_network.GetImplementationSpecParser();
         ContentDeclarationParser content_declaration_parser_instance = parser_network.GetContentDeclarationParser();
         ContentDefinitionParser content_definition_parser_instance = parser_network.GetContentDefinitionParser();
         PrimativeTypeParser primative_type_parser_instance = parser_network.GetPrimativeTypeParser();
@@ -2275,6 +2302,7 @@ class InterfaceDefParser
         DefinitionParser definition_parser_instance = parser_network.GetDefinitionParser();
         InterfaceDefParser interface_def_parser_instance = parser_network.GetInterfaceDefParser();
         ClassDefParser class_def_parser_instance = parser_network.GetClassDefParser();
+        ImplementationSpecParser implementation_spec_parser_instance = parser_network.GetImplementationSpecParser();
         ContentDeclarationParser content_declaration_parser_instance = parser_network.GetContentDeclarationParser();
         ContentDefinitionParser content_definition_parser_instance = parser_network.GetContentDefinitionParser();
         PrimativeTypeParser primative_type_parser_instance = parser_network.GetPrimativeTypeParser();
@@ -2476,6 +2504,7 @@ class ClassDefParser
         ClassDef instance = new ClassDef;
         CommentResult comment_field = new CommentResult;
         ContentDefinitionListResult definitions_field = new ContentDefinitionListResult;
+        ImplementationSpecResult implementing_field = new ImplementationSpecResult;
         NameResult name_field = new NameResult;
 
         CTCodeFileParser c_t_code_file_parser_instance = parser_network.GetCTCodeFileParser();
@@ -2484,6 +2513,7 @@ class ClassDefParser
         DefinitionParser definition_parser_instance = parser_network.GetDefinitionParser();
         InterfaceDefParser interface_def_parser_instance = parser_network.GetInterfaceDefParser();
         ClassDefParser class_def_parser_instance = parser_network.GetClassDefParser();
+        ImplementationSpecParser implementation_spec_parser_instance = parser_network.GetImplementationSpecParser();
         ContentDeclarationParser content_declaration_parser_instance = parser_network.GetContentDeclarationParser();
         ContentDefinitionParser content_definition_parser_instance = parser_network.GetContentDefinitionParser();
         PrimativeTypeParser primative_type_parser_instance = parser_network.GetPrimativeTypeParser();
@@ -2532,9 +2562,10 @@ class ClassDefParser
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
         CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
-        if (true && whitespace_parser_instance.ParseMany(index, 0, -1) && comment_parser_instance.ParseOptionalSave(index, comment_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, "class") && whitespace_parser_instance.ParseMany(index, 1, -1) && name_parser_instance.ParseSingleSave(index, name_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, "{") && whitespace_parser_instance.ParseMany(index, 0, -1) && content_definition_parser_instance.ParseManySave(index, definitions_field, 0, -1) && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, "}") && whitespace_parser_instance.ParseMany(index, 0, -1)) {
+        if (true && whitespace_parser_instance.ParseMany(index, 0, -1) && comment_parser_instance.ParseOptionalSave(index, comment_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, "class") && whitespace_parser_instance.ParseMany(index, 1, -1) && name_parser_instance.ParseSingleSave(index, name_field) && implementation_spec_parser_instance.ParseOptionalSave(index, implementing_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, "{") && whitespace_parser_instance.ParseMany(index, 0, -1) && content_definition_parser_instance.ParseManySave(index, definitions_field, 0, -1) && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, "}") && whitespace_parser_instance.ParseMany(index, 0, -1)) {
             instance.SetComment(comment_field.GetValue());
             instance.SetDefinitions(definitions_field.GetValue());
+            instance.SetImplementing(implementing_field.GetValue());
             instance.SetName(name_field.GetValue());
             consumed_string.SetLength(index.GetStart() - index_start);
             instance.SetLengthString(consumed_string);
@@ -2546,6 +2577,7 @@ class ClassDefParser
             index.SetLength(index_length);
             comment_field = new CommentResult;
             definitions_field = new ContentDefinitionListResult;
+            implementing_field = new ImplementationSpecResult;
             name_field = new NameResult;
         }
 
@@ -2661,13 +2693,214 @@ class ClassDef
     function Comment GetComment() { return comment_field; }
     function void SetDefinitions(ContentDefinition[] input_value) { definitions_field = input_value; }
     function ContentDefinition[] GetDefinitions() { return definitions_field; }
+    function void SetImplementing(ImplementationSpec input_value) { implementing_field = input_value; }
+    function ImplementationSpec GetImplementing() { return implementing_field; }
     function void SetName(Name input_value) { name_field = input_value; }
     function Name GetName() { return name_field; }
 
     LengthString length_string;
     Comment comment_field;
     ContentDefinition[] definitions_field;
+    ImplementationSpec implementing_field;
     Name name_field;
+}
+
+class ImplementationSpecParser
+{
+    ParserNetwork parser_network;
+    function void SetParserNetwork(ParserNetwork input) { parser_network = input; }
+    function bool ParseSingleSave(LengthString index, ImplementationSpecResult result)
+    {
+        int index_start = index.GetStart();
+        int index_length = index.GetLength();
+        LengthString consumed_string = new LengthString;
+        consumed_string.SetData(index.GetData());
+        consumed_string.SetStart(index.GetStart());
+        consumed_string.SetLength(0);
+        ImplementationSpec instance = new ImplementationSpec;
+        QualfiedNameResult interface_field = new QualfiedNameResult;
+
+        CTCodeFileParser c_t_code_file_parser_instance = parser_network.GetCTCodeFileParser();
+        ExternalDefinitionParser external_definition_parser_instance = parser_network.GetExternalDefinitionParser();
+        UnmanagedTypeParser unmanaged_type_parser_instance = parser_network.GetUnmanagedTypeParser();
+        DefinitionParser definition_parser_instance = parser_network.GetDefinitionParser();
+        InterfaceDefParser interface_def_parser_instance = parser_network.GetInterfaceDefParser();
+        ClassDefParser class_def_parser_instance = parser_network.GetClassDefParser();
+        ImplementationSpecParser implementation_spec_parser_instance = parser_network.GetImplementationSpecParser();
+        ContentDeclarationParser content_declaration_parser_instance = parser_network.GetContentDeclarationParser();
+        ContentDefinitionParser content_definition_parser_instance = parser_network.GetContentDefinitionParser();
+        PrimativeTypeParser primative_type_parser_instance = parser_network.GetPrimativeTypeParser();
+        DefinedTypeParser defined_type_parser_instance = parser_network.GetDefinedTypeParser();
+        SingletonTypeParser singleton_type_parser_instance = parser_network.GetSingletonTypeParser();
+        DimensionalNoteParser dimensional_note_parser_instance = parser_network.GetDimensionalNoteParser();
+        DimensionalTypeParser dimensional_type_parser_instance = parser_network.GetDimensionalTypeParser();
+        MapNoteParser map_note_parser_instance = parser_network.GetMapNoteParser();
+        MapTypeParser map_type_parser_instance = parser_network.GetMapTypeParser();
+        ValueTypeParser value_type_parser_instance = parser_network.GetValueTypeParser();
+        ParameterListDefParser parameter_list_def_parser_instance = parser_network.GetParameterListDefParser();
+        ParameterListParser parameter_list_parser_instance = parser_network.GetParameterListParser();
+        CodeBlockParser code_block_parser_instance = parser_network.GetCodeBlockParser();
+        DeclarationAssignParser declaration_assign_parser_instance = parser_network.GetDeclarationAssignParser();
+        DeclarationParser declaration_parser_instance = parser_network.GetDeclarationParser();
+        AssignmentParser assignment_parser_instance = parser_network.GetAssignmentParser();
+        ReturnParser return_parser_instance = parser_network.GetReturnParser();
+        ElseTailParser else_tail_parser_instance = parser_network.GetElseTailParser();
+        ConditionalParser conditional_parser_instance = parser_network.GetConditionalParser();
+        LoopParser loop_parser_instance = parser_network.GetLoopParser();
+        CallParser call_parser_instance = parser_network.GetCallParser();
+        AllocateParser allocate_parser_instance = parser_network.GetAllocateParser();
+        InstructionParser instruction_parser_instance = parser_network.GetInstructionParser();
+        RValueSingleParser r_value_single_parser_instance = parser_network.GetRValueSingleParser();
+        RValueTailParser r_value_tail_parser_instance = parser_network.GetRValueTailParser();
+        RValueParser r_value_parser_instance = parser_network.GetRValueParser();
+        BinaryOperatorParser binary_operator_parser_instance = parser_network.GetBinaryOperatorParser();
+        UnaryOperatorParser unary_operator_parser_instance = parser_network.GetUnaryOperatorParser();
+        CommentParser comment_parser_instance = parser_network.GetCommentParser();
+        CommentCharacterParser comment_character_parser_instance = parser_network.GetCommentCharacterParser();
+        QualfiedNameParser qualfied_name_parser_instance = parser_network.GetQualfiedNameParser();
+        NameTailParser name_tail_parser_instance = parser_network.GetNameTailParser();
+        NameParser name_parser_instance = parser_network.GetNameParser();
+        NameCharacterParser name_character_parser_instance = parser_network.GetNameCharacterParser();
+        BooleanParser boolean_parser_instance = parser_network.GetBooleanParser();
+        ByteParser byte_parser_instance = parser_network.GetByteParser();
+        ByteDigitParser byte_digit_parser_instance = parser_network.GetByteDigitParser();
+        NegativeParser negative_parser_instance = parser_network.GetNegativeParser();
+        DecimalParser decimal_parser_instance = parser_network.GetDecimalParser();
+        NumberParser number_parser_instance = parser_network.GetNumberParser();
+        DigitParser digit_parser_instance = parser_network.GetDigitParser();
+        LiteralParser literal_parser_instance = parser_network.GetLiteralParser();
+        LiteralCharacterParser literal_character_parser_instance = parser_network.GetLiteralCharacterParser();
+        WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
+        StringParser string_parser_instance = parser_network.GetStringParser();
+        CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
+
+        if (true && whitespace_parser_instance.ParseMany(index, 1, -1) && string_parser_instance.ParseSingle(index, "implements") && whitespace_parser_instance.ParseMany(index, 1, -1) && qualfied_name_parser_instance.ParseSingleSave(index, interface_field) && whitespace_parser_instance.ParseMany(index, 0, -1)) {
+            instance.SetInterface(interface_field.GetValue());
+            consumed_string.SetLength(index.GetStart() - index_start);
+            instance.SetLengthString(consumed_string);
+            result.SetValue(instance);
+            result.SetResult(true);
+            return result.GetResult();
+        } else {
+            index.SetStart(index_start);
+            index.SetLength(index_length);
+            interface_field = new QualfiedNameResult;
+        }
+
+        result.SetResult(false);
+        return result.GetResult();
+    }
+
+    function bool ParseSingle(LengthString index)
+    {
+        ImplementationSpecResult result = new ImplementationSpecResult;
+        return ParseSingleSave(index, result);
+    }
+
+    function bool ParseOptionalSave(LengthString index, ImplementationSpecResult result)
+    {
+        ParseSingleSave(index, result);
+        result.SetResult(true);
+        return true;
+    }
+
+    function bool ParseOptional(LengthString index)
+    {
+        ImplementationSpecResult result = new ImplementationSpecResult;
+        return ParseOptionalSave(index, result);
+    }
+
+    function bool ParseManySave(LengthString index, ImplementationSpecListResult list_result, int minimum, int maximum)
+    {
+        int index_start = index.GetStart();
+        int index_length = index.GetLength();
+        ImplementationSpec[] results;
+        int count = 0;
+        int max_check = maximum;
+        bool check_next = true;
+
+        if (maximum < 0)
+        {
+            max_check = count + 1;
+        }
+
+        while (check_next && count < max_check)
+        {
+            ImplementationSpecResult result = new ImplementationSpecResult;
+            ParseSingleSave(index, result);
+            check_next = result.GetResult();
+
+            if (result.GetResult())
+            {
+                count = count + 1;
+                Append(results, result.GetValue());
+            }
+
+            if (maximum < 0)
+            {
+                max_check = count + 1;
+            }
+        }
+
+        if (count >= minimum && count <= max_check)
+        {
+            list_result.SetValue(results);
+            list_result.SetResult(true);
+        } else {
+            index.SetStart(index_start);
+            index.SetLength(index_length);
+            list_result.SetResult(false);
+        }
+
+        return list_result.GetResult();
+    }
+
+    function bool ParseMany(LengthString index, int minimum, int maximum)
+    {
+        ImplementationSpecListResult result = new ImplementationSpecListResult;
+        return ParseManySave(index, result, minimum, maximum);
+    }
+}
+
+class ImplementationSpecResult
+{
+    function void SetValue(ImplementationSpec new_value) { value = new_value; }
+    function ImplementationSpec GetValue() { return value; }
+    function void SetResult(bool new_result) { result = new_result; }
+    function bool GetResult() { return result; }
+
+    ImplementationSpec value;
+    bool result;
+}
+
+class ImplementationSpecListResult
+{
+    function void SetValue(ImplementationSpec[] new_value) { value = new_value; }
+    function ImplementationSpec[] GetValue() { return value; }
+    function void SetResult(bool new_result) { result = new_result; }
+    function bool GetResult() { return result; }
+
+    ImplementationSpec[] value;
+    bool result;
+}
+
+class ImplementationSpec
+{
+    function void SetLengthString(LengthString new_value)
+    {
+        length_string = new LengthString;
+        length_string.SetData(new_value.GetData());
+        length_string.SetStart(new_value.GetStart());
+        length_string.SetLength(new_value.GetLength());
+    }
+
+    function string UnParse() { return length_string.GetString(); }
+    function void SetInterface(QualfiedName input_value) { interface_field = input_value; }
+    function QualfiedName GetInterface() { return interface_field; }
+
+    LengthString length_string;
+    QualfiedName interface_field;
 }
 
 class ContentDeclarationParser
@@ -2694,6 +2927,7 @@ class ContentDeclarationParser
         DefinitionParser definition_parser_instance = parser_network.GetDefinitionParser();
         InterfaceDefParser interface_def_parser_instance = parser_network.GetInterfaceDefParser();
         ClassDefParser class_def_parser_instance = parser_network.GetClassDefParser();
+        ImplementationSpecParser implementation_spec_parser_instance = parser_network.GetImplementationSpecParser();
         ContentDeclarationParser content_declaration_parser_instance = parser_network.GetContentDeclarationParser();
         ContentDefinitionParser content_definition_parser_instance = parser_network.GetContentDefinitionParser();
         PrimativeTypeParser primative_type_parser_instance = parser_network.GetPrimativeTypeParser();
@@ -2910,6 +3144,7 @@ class ContentDefinitionParser
         DefinitionParser definition_parser_instance = parser_network.GetDefinitionParser();
         InterfaceDefParser interface_def_parser_instance = parser_network.GetInterfaceDefParser();
         ClassDefParser class_def_parser_instance = parser_network.GetClassDefParser();
+        ImplementationSpecParser implementation_spec_parser_instance = parser_network.GetImplementationSpecParser();
         ContentDeclarationParser content_declaration_parser_instance = parser_network.GetContentDeclarationParser();
         ContentDefinitionParser content_definition_parser_instance = parser_network.GetContentDefinitionParser();
         PrimativeTypeParser primative_type_parser_instance = parser_network.GetPrimativeTypeParser();
@@ -3147,6 +3382,7 @@ class PrimativeTypeParser
         DefinitionParser definition_parser_instance = parser_network.GetDefinitionParser();
         InterfaceDefParser interface_def_parser_instance = parser_network.GetInterfaceDefParser();
         ClassDefParser class_def_parser_instance = parser_network.GetClassDefParser();
+        ImplementationSpecParser implementation_spec_parser_instance = parser_network.GetImplementationSpecParser();
         ContentDeclarationParser content_declaration_parser_instance = parser_network.GetContentDeclarationParser();
         ContentDefinitionParser content_definition_parser_instance = parser_network.GetContentDefinitionParser();
         PrimativeTypeParser primative_type_parser_instance = parser_network.GetPrimativeTypeParser();
@@ -3383,6 +3619,7 @@ class DefinedTypeParser
         DefinitionParser definition_parser_instance = parser_network.GetDefinitionParser();
         InterfaceDefParser interface_def_parser_instance = parser_network.GetInterfaceDefParser();
         ClassDefParser class_def_parser_instance = parser_network.GetClassDefParser();
+        ImplementationSpecParser implementation_spec_parser_instance = parser_network.GetImplementationSpecParser();
         ContentDeclarationParser content_declaration_parser_instance = parser_network.GetContentDeclarationParser();
         ContentDefinitionParser content_definition_parser_instance = parser_network.GetContentDefinitionParser();
         PrimativeTypeParser primative_type_parser_instance = parser_network.GetPrimativeTypeParser();
@@ -3581,6 +3818,7 @@ class SingletonTypeParser
         DefinitionParser definition_parser_instance = parser_network.GetDefinitionParser();
         InterfaceDefParser interface_def_parser_instance = parser_network.GetInterfaceDefParser();
         ClassDefParser class_def_parser_instance = parser_network.GetClassDefParser();
+        ImplementationSpecParser implementation_spec_parser_instance = parser_network.GetImplementationSpecParser();
         ContentDeclarationParser content_declaration_parser_instance = parser_network.GetContentDeclarationParser();
         ContentDefinitionParser content_definition_parser_instance = parser_network.GetContentDefinitionParser();
         PrimativeTypeParser primative_type_parser_instance = parser_network.GetPrimativeTypeParser();
@@ -3797,6 +4035,7 @@ class DimensionalNoteParser
         DefinitionParser definition_parser_instance = parser_network.GetDefinitionParser();
         InterfaceDefParser interface_def_parser_instance = parser_network.GetInterfaceDefParser();
         ClassDefParser class_def_parser_instance = parser_network.GetClassDefParser();
+        ImplementationSpecParser implementation_spec_parser_instance = parser_network.GetImplementationSpecParser();
         ContentDeclarationParser content_declaration_parser_instance = parser_network.GetContentDeclarationParser();
         ContentDefinitionParser content_definition_parser_instance = parser_network.GetContentDefinitionParser();
         PrimativeTypeParser primative_type_parser_instance = parser_network.GetPrimativeTypeParser();
@@ -3990,6 +4229,7 @@ class DimensionalTypeParser
         DefinitionParser definition_parser_instance = parser_network.GetDefinitionParser();
         InterfaceDefParser interface_def_parser_instance = parser_network.GetInterfaceDefParser();
         ClassDefParser class_def_parser_instance = parser_network.GetClassDefParser();
+        ImplementationSpecParser implementation_spec_parser_instance = parser_network.GetImplementationSpecParser();
         ContentDeclarationParser content_declaration_parser_instance = parser_network.GetContentDeclarationParser();
         ContentDefinitionParser content_definition_parser_instance = parser_network.GetContentDefinitionParser();
         PrimativeTypeParser primative_type_parser_instance = parser_network.GetPrimativeTypeParser();
@@ -4191,6 +4431,7 @@ class MapNoteParser
         DefinitionParser definition_parser_instance = parser_network.GetDefinitionParser();
         InterfaceDefParser interface_def_parser_instance = parser_network.GetInterfaceDefParser();
         ClassDefParser class_def_parser_instance = parser_network.GetClassDefParser();
+        ImplementationSpecParser implementation_spec_parser_instance = parser_network.GetImplementationSpecParser();
         ContentDeclarationParser content_declaration_parser_instance = parser_network.GetContentDeclarationParser();
         ContentDefinitionParser content_definition_parser_instance = parser_network.GetContentDefinitionParser();
         PrimativeTypeParser primative_type_parser_instance = parser_network.GetPrimativeTypeParser();
@@ -4384,6 +4625,7 @@ class MapTypeParser
         DefinitionParser definition_parser_instance = parser_network.GetDefinitionParser();
         InterfaceDefParser interface_def_parser_instance = parser_network.GetInterfaceDefParser();
         ClassDefParser class_def_parser_instance = parser_network.GetClassDefParser();
+        ImplementationSpecParser implementation_spec_parser_instance = parser_network.GetImplementationSpecParser();
         ContentDeclarationParser content_declaration_parser_instance = parser_network.GetContentDeclarationParser();
         ContentDefinitionParser content_definition_parser_instance = parser_network.GetContentDefinitionParser();
         PrimativeTypeParser primative_type_parser_instance = parser_network.GetPrimativeTypeParser();
@@ -4588,6 +4830,7 @@ class ValueTypeParser
         DefinitionParser definition_parser_instance = parser_network.GetDefinitionParser();
         InterfaceDefParser interface_def_parser_instance = parser_network.GetInterfaceDefParser();
         ClassDefParser class_def_parser_instance = parser_network.GetClassDefParser();
+        ImplementationSpecParser implementation_spec_parser_instance = parser_network.GetImplementationSpecParser();
         ContentDeclarationParser content_declaration_parser_instance = parser_network.GetContentDeclarationParser();
         ContentDefinitionParser content_definition_parser_instance = parser_network.GetContentDefinitionParser();
         PrimativeTypeParser primative_type_parser_instance = parser_network.GetPrimativeTypeParser();
@@ -4831,6 +5074,7 @@ class ParameterListDefParser
         DefinitionParser definition_parser_instance = parser_network.GetDefinitionParser();
         InterfaceDefParser interface_def_parser_instance = parser_network.GetInterfaceDefParser();
         ClassDefParser class_def_parser_instance = parser_network.GetClassDefParser();
+        ImplementationSpecParser implementation_spec_parser_instance = parser_network.GetImplementationSpecParser();
         ContentDeclarationParser content_declaration_parser_instance = parser_network.GetContentDeclarationParser();
         ContentDefinitionParser content_definition_parser_instance = parser_network.GetContentDefinitionParser();
         PrimativeTypeParser primative_type_parser_instance = parser_network.GetPrimativeTypeParser();
@@ -5056,6 +5300,7 @@ class ParameterListParser
         DefinitionParser definition_parser_instance = parser_network.GetDefinitionParser();
         InterfaceDefParser interface_def_parser_instance = parser_network.GetInterfaceDefParser();
         ClassDefParser class_def_parser_instance = parser_network.GetClassDefParser();
+        ImplementationSpecParser implementation_spec_parser_instance = parser_network.GetImplementationSpecParser();
         ContentDeclarationParser content_declaration_parser_instance = parser_network.GetContentDeclarationParser();
         ContentDefinitionParser content_definition_parser_instance = parser_network.GetContentDefinitionParser();
         PrimativeTypeParser primative_type_parser_instance = parser_network.GetPrimativeTypeParser();
@@ -5273,6 +5518,7 @@ class CodeBlockParser
         DefinitionParser definition_parser_instance = parser_network.GetDefinitionParser();
         InterfaceDefParser interface_def_parser_instance = parser_network.GetInterfaceDefParser();
         ClassDefParser class_def_parser_instance = parser_network.GetClassDefParser();
+        ImplementationSpecParser implementation_spec_parser_instance = parser_network.GetImplementationSpecParser();
         ContentDeclarationParser content_declaration_parser_instance = parser_network.GetContentDeclarationParser();
         ContentDefinitionParser content_definition_parser_instance = parser_network.GetContentDefinitionParser();
         PrimativeTypeParser primative_type_parser_instance = parser_network.GetPrimativeTypeParser();
@@ -5470,6 +5716,7 @@ class DeclarationAssignParser
         DefinitionParser definition_parser_instance = parser_network.GetDefinitionParser();
         InterfaceDefParser interface_def_parser_instance = parser_network.GetInterfaceDefParser();
         ClassDefParser class_def_parser_instance = parser_network.GetClassDefParser();
+        ImplementationSpecParser implementation_spec_parser_instance = parser_network.GetImplementationSpecParser();
         ContentDeclarationParser content_declaration_parser_instance = parser_network.GetContentDeclarationParser();
         ContentDefinitionParser content_definition_parser_instance = parser_network.GetContentDefinitionParser();
         PrimativeTypeParser primative_type_parser_instance = parser_network.GetPrimativeTypeParser();
@@ -5669,6 +5916,7 @@ class DeclarationParser
         DefinitionParser definition_parser_instance = parser_network.GetDefinitionParser();
         InterfaceDefParser interface_def_parser_instance = parser_network.GetInterfaceDefParser();
         ClassDefParser class_def_parser_instance = parser_network.GetClassDefParser();
+        ImplementationSpecParser implementation_spec_parser_instance = parser_network.GetImplementationSpecParser();
         ContentDeclarationParser content_declaration_parser_instance = parser_network.GetContentDeclarationParser();
         ContentDefinitionParser content_definition_parser_instance = parser_network.GetContentDefinitionParser();
         PrimativeTypeParser primative_type_parser_instance = parser_network.GetPrimativeTypeParser();
@@ -5877,6 +6125,7 @@ class AssignmentParser
         DefinitionParser definition_parser_instance = parser_network.GetDefinitionParser();
         InterfaceDefParser interface_def_parser_instance = parser_network.GetInterfaceDefParser();
         ClassDefParser class_def_parser_instance = parser_network.GetClassDefParser();
+        ImplementationSpecParser implementation_spec_parser_instance = parser_network.GetImplementationSpecParser();
         ContentDeclarationParser content_declaration_parser_instance = parser_network.GetContentDeclarationParser();
         ContentDefinitionParser content_definition_parser_instance = parser_network.GetContentDefinitionParser();
         PrimativeTypeParser primative_type_parser_instance = parser_network.GetPrimativeTypeParser();
@@ -6080,6 +6329,7 @@ class ReturnParser
         DefinitionParser definition_parser_instance = parser_network.GetDefinitionParser();
         InterfaceDefParser interface_def_parser_instance = parser_network.GetInterfaceDefParser();
         ClassDefParser class_def_parser_instance = parser_network.GetClassDefParser();
+        ImplementationSpecParser implementation_spec_parser_instance = parser_network.GetImplementationSpecParser();
         ContentDeclarationParser content_declaration_parser_instance = parser_network.GetContentDeclarationParser();
         ContentDefinitionParser content_definition_parser_instance = parser_network.GetContentDefinitionParser();
         PrimativeTypeParser primative_type_parser_instance = parser_network.GetPrimativeTypeParser();
@@ -6283,6 +6533,7 @@ class ElseTailParser
         DefinitionParser definition_parser_instance = parser_network.GetDefinitionParser();
         InterfaceDefParser interface_def_parser_instance = parser_network.GetInterfaceDefParser();
         ClassDefParser class_def_parser_instance = parser_network.GetClassDefParser();
+        ImplementationSpecParser implementation_spec_parser_instance = parser_network.GetImplementationSpecParser();
         ContentDeclarationParser content_declaration_parser_instance = parser_network.GetContentDeclarationParser();
         ContentDefinitionParser content_definition_parser_instance = parser_network.GetContentDefinitionParser();
         PrimativeTypeParser primative_type_parser_instance = parser_network.GetPrimativeTypeParser();
@@ -6488,6 +6739,7 @@ class ConditionalParser
         DefinitionParser definition_parser_instance = parser_network.GetDefinitionParser();
         InterfaceDefParser interface_def_parser_instance = parser_network.GetInterfaceDefParser();
         ClassDefParser class_def_parser_instance = parser_network.GetClassDefParser();
+        ImplementationSpecParser implementation_spec_parser_instance = parser_network.GetImplementationSpecParser();
         ContentDeclarationParser content_declaration_parser_instance = parser_network.GetContentDeclarationParser();
         ContentDefinitionParser content_definition_parser_instance = parser_network.GetContentDefinitionParser();
         PrimativeTypeParser primative_type_parser_instance = parser_network.GetPrimativeTypeParser();
@@ -6702,6 +6954,7 @@ class LoopParser
         DefinitionParser definition_parser_instance = parser_network.GetDefinitionParser();
         InterfaceDefParser interface_def_parser_instance = parser_network.GetInterfaceDefParser();
         ClassDefParser class_def_parser_instance = parser_network.GetClassDefParser();
+        ImplementationSpecParser implementation_spec_parser_instance = parser_network.GetImplementationSpecParser();
         ContentDeclarationParser content_declaration_parser_instance = parser_network.GetContentDeclarationParser();
         ContentDefinitionParser content_definition_parser_instance = parser_network.GetContentDefinitionParser();
         PrimativeTypeParser primative_type_parser_instance = parser_network.GetPrimativeTypeParser();
@@ -6911,6 +7164,7 @@ class CallParser
         DefinitionParser definition_parser_instance = parser_network.GetDefinitionParser();
         InterfaceDefParser interface_def_parser_instance = parser_network.GetInterfaceDefParser();
         ClassDefParser class_def_parser_instance = parser_network.GetClassDefParser();
+        ImplementationSpecParser implementation_spec_parser_instance = parser_network.GetImplementationSpecParser();
         ContentDeclarationParser content_declaration_parser_instance = parser_network.GetContentDeclarationParser();
         ContentDefinitionParser content_definition_parser_instance = parser_network.GetContentDefinitionParser();
         PrimativeTypeParser primative_type_parser_instance = parser_network.GetPrimativeTypeParser();
@@ -7135,6 +7389,7 @@ class AllocateParser
         DefinitionParser definition_parser_instance = parser_network.GetDefinitionParser();
         InterfaceDefParser interface_def_parser_instance = parser_network.GetInterfaceDefParser();
         ClassDefParser class_def_parser_instance = parser_network.GetClassDefParser();
+        ImplementationSpecParser implementation_spec_parser_instance = parser_network.GetImplementationSpecParser();
         ContentDeclarationParser content_declaration_parser_instance = parser_network.GetContentDeclarationParser();
         ContentDefinitionParser content_definition_parser_instance = parser_network.GetContentDefinitionParser();
         PrimativeTypeParser primative_type_parser_instance = parser_network.GetPrimativeTypeParser();
@@ -7339,6 +7594,7 @@ class InstructionParser
         DefinitionParser definition_parser_instance = parser_network.GetDefinitionParser();
         InterfaceDefParser interface_def_parser_instance = parser_network.GetInterfaceDefParser();
         ClassDefParser class_def_parser_instance = parser_network.GetClassDefParser();
+        ImplementationSpecParser implementation_spec_parser_instance = parser_network.GetImplementationSpecParser();
         ContentDeclarationParser content_declaration_parser_instance = parser_network.GetContentDeclarationParser();
         ContentDefinitionParser content_definition_parser_instance = parser_network.GetContentDefinitionParser();
         PrimativeTypeParser primative_type_parser_instance = parser_network.GetPrimativeTypeParser();
@@ -7741,6 +7997,7 @@ class RValueSingleParser
         DefinitionParser definition_parser_instance = parser_network.GetDefinitionParser();
         InterfaceDefParser interface_def_parser_instance = parser_network.GetInterfaceDefParser();
         ClassDefParser class_def_parser_instance = parser_network.GetClassDefParser();
+        ImplementationSpecParser implementation_spec_parser_instance = parser_network.GetImplementationSpecParser();
         ContentDeclarationParser content_declaration_parser_instance = parser_network.GetContentDeclarationParser();
         ContentDefinitionParser content_definition_parser_instance = parser_network.GetContentDefinitionParser();
         PrimativeTypeParser primative_type_parser_instance = parser_network.GetPrimativeTypeParser();
@@ -8183,6 +8440,7 @@ class RValueTailParser
         DefinitionParser definition_parser_instance = parser_network.GetDefinitionParser();
         InterfaceDefParser interface_def_parser_instance = parser_network.GetInterfaceDefParser();
         ClassDefParser class_def_parser_instance = parser_network.GetClassDefParser();
+        ImplementationSpecParser implementation_spec_parser_instance = parser_network.GetImplementationSpecParser();
         ContentDeclarationParser content_declaration_parser_instance = parser_network.GetContentDeclarationParser();
         ContentDefinitionParser content_definition_parser_instance = parser_network.GetContentDefinitionParser();
         PrimativeTypeParser primative_type_parser_instance = parser_network.GetPrimativeTypeParser();
@@ -8391,6 +8649,7 @@ class RValueParser
         DefinitionParser definition_parser_instance = parser_network.GetDefinitionParser();
         InterfaceDefParser interface_def_parser_instance = parser_network.GetInterfaceDefParser();
         ClassDefParser class_def_parser_instance = parser_network.GetClassDefParser();
+        ImplementationSpecParser implementation_spec_parser_instance = parser_network.GetImplementationSpecParser();
         ContentDeclarationParser content_declaration_parser_instance = parser_network.GetContentDeclarationParser();
         ContentDefinitionParser content_definition_parser_instance = parser_network.GetContentDefinitionParser();
         PrimativeTypeParser primative_type_parser_instance = parser_network.GetPrimativeTypeParser();
@@ -8602,6 +8861,7 @@ class BinaryOperatorParser
         DefinitionParser definition_parser_instance = parser_network.GetDefinitionParser();
         InterfaceDefParser interface_def_parser_instance = parser_network.GetInterfaceDefParser();
         ClassDefParser class_def_parser_instance = parser_network.GetClassDefParser();
+        ImplementationSpecParser implementation_spec_parser_instance = parser_network.GetImplementationSpecParser();
         ContentDeclarationParser content_declaration_parser_instance = parser_network.GetContentDeclarationParser();
         ContentDefinitionParser content_definition_parser_instance = parser_network.GetContentDefinitionParser();
         PrimativeTypeParser primative_type_parser_instance = parser_network.GetPrimativeTypeParser();
@@ -9123,6 +9383,7 @@ class UnaryOperatorParser
         DefinitionParser definition_parser_instance = parser_network.GetDefinitionParser();
         InterfaceDefParser interface_def_parser_instance = parser_network.GetInterfaceDefParser();
         ClassDefParser class_def_parser_instance = parser_network.GetClassDefParser();
+        ImplementationSpecParser implementation_spec_parser_instance = parser_network.GetImplementationSpecParser();
         ContentDeclarationParser content_declaration_parser_instance = parser_network.GetContentDeclarationParser();
         ContentDefinitionParser content_definition_parser_instance = parser_network.GetContentDefinitionParser();
         PrimativeTypeParser primative_type_parser_instance = parser_network.GetPrimativeTypeParser();
@@ -9320,6 +9581,7 @@ class CommentParser
         DefinitionParser definition_parser_instance = parser_network.GetDefinitionParser();
         InterfaceDefParser interface_def_parser_instance = parser_network.GetInterfaceDefParser();
         ClassDefParser class_def_parser_instance = parser_network.GetClassDefParser();
+        ImplementationSpecParser implementation_spec_parser_instance = parser_network.GetImplementationSpecParser();
         ContentDeclarationParser content_declaration_parser_instance = parser_network.GetContentDeclarationParser();
         ContentDefinitionParser content_definition_parser_instance = parser_network.GetContentDefinitionParser();
         PrimativeTypeParser primative_type_parser_instance = parser_network.GetPrimativeTypeParser();
@@ -9516,6 +9778,7 @@ class CommentCharacterParser
         DefinitionParser definition_parser_instance = parser_network.GetDefinitionParser();
         InterfaceDefParser interface_def_parser_instance = parser_network.GetInterfaceDefParser();
         ClassDefParser class_def_parser_instance = parser_network.GetClassDefParser();
+        ImplementationSpecParser implementation_spec_parser_instance = parser_network.GetImplementationSpecParser();
         ContentDeclarationParser content_declaration_parser_instance = parser_network.GetContentDeclarationParser();
         ContentDefinitionParser content_definition_parser_instance = parser_network.GetContentDefinitionParser();
         PrimativeTypeParser primative_type_parser_instance = parser_network.GetPrimativeTypeParser();
@@ -10039,6 +10302,7 @@ class QualfiedNameParser
         DefinitionParser definition_parser_instance = parser_network.GetDefinitionParser();
         InterfaceDefParser interface_def_parser_instance = parser_network.GetInterfaceDefParser();
         ClassDefParser class_def_parser_instance = parser_network.GetClassDefParser();
+        ImplementationSpecParser implementation_spec_parser_instance = parser_network.GetImplementationSpecParser();
         ContentDeclarationParser content_declaration_parser_instance = parser_network.GetContentDeclarationParser();
         ContentDefinitionParser content_definition_parser_instance = parser_network.GetContentDefinitionParser();
         PrimativeTypeParser primative_type_parser_instance = parser_network.GetPrimativeTypeParser();
@@ -10242,6 +10506,7 @@ class NameTailParser
         DefinitionParser definition_parser_instance = parser_network.GetDefinitionParser();
         InterfaceDefParser interface_def_parser_instance = parser_network.GetInterfaceDefParser();
         ClassDefParser class_def_parser_instance = parser_network.GetClassDefParser();
+        ImplementationSpecParser implementation_spec_parser_instance = parser_network.GetImplementationSpecParser();
         ContentDeclarationParser content_declaration_parser_instance = parser_network.GetContentDeclarationParser();
         ContentDefinitionParser content_definition_parser_instance = parser_network.GetContentDefinitionParser();
         PrimativeTypeParser primative_type_parser_instance = parser_network.GetPrimativeTypeParser();
@@ -10443,6 +10708,7 @@ class NameParser
         DefinitionParser definition_parser_instance = parser_network.GetDefinitionParser();
         InterfaceDefParser interface_def_parser_instance = parser_network.GetInterfaceDefParser();
         ClassDefParser class_def_parser_instance = parser_network.GetClassDefParser();
+        ImplementationSpecParser implementation_spec_parser_instance = parser_network.GetImplementationSpecParser();
         ContentDeclarationParser content_declaration_parser_instance = parser_network.GetContentDeclarationParser();
         ContentDefinitionParser content_definition_parser_instance = parser_network.GetContentDefinitionParser();
         PrimativeTypeParser primative_type_parser_instance = parser_network.GetPrimativeTypeParser();
@@ -10634,6 +10900,7 @@ class NameCharacterParser
         DefinitionParser definition_parser_instance = parser_network.GetDefinitionParser();
         InterfaceDefParser interface_def_parser_instance = parser_network.GetInterfaceDefParser();
         ClassDefParser class_def_parser_instance = parser_network.GetClassDefParser();
+        ImplementationSpecParser implementation_spec_parser_instance = parser_network.GetImplementationSpecParser();
         ContentDeclarationParser content_declaration_parser_instance = parser_network.GetContentDeclarationParser();
         ContentDefinitionParser content_definition_parser_instance = parser_network.GetContentDefinitionParser();
         PrimativeTypeParser primative_type_parser_instance = parser_network.GetPrimativeTypeParser();
@@ -10858,6 +11125,7 @@ class BooleanParser
         DefinitionParser definition_parser_instance = parser_network.GetDefinitionParser();
         InterfaceDefParser interface_def_parser_instance = parser_network.GetInterfaceDefParser();
         ClassDefParser class_def_parser_instance = parser_network.GetClassDefParser();
+        ImplementationSpecParser implementation_spec_parser_instance = parser_network.GetImplementationSpecParser();
         ContentDeclarationParser content_declaration_parser_instance = parser_network.GetContentDeclarationParser();
         ContentDefinitionParser content_definition_parser_instance = parser_network.GetContentDefinitionParser();
         PrimativeTypeParser primative_type_parser_instance = parser_network.GetPrimativeTypeParser();
@@ -11062,6 +11330,7 @@ class ByteParser
         DefinitionParser definition_parser_instance = parser_network.GetDefinitionParser();
         InterfaceDefParser interface_def_parser_instance = parser_network.GetInterfaceDefParser();
         ClassDefParser class_def_parser_instance = parser_network.GetClassDefParser();
+        ImplementationSpecParser implementation_spec_parser_instance = parser_network.GetImplementationSpecParser();
         ContentDeclarationParser content_declaration_parser_instance = parser_network.GetContentDeclarationParser();
         ContentDefinitionParser content_definition_parser_instance = parser_network.GetContentDefinitionParser();
         PrimativeTypeParser primative_type_parser_instance = parser_network.GetPrimativeTypeParser();
@@ -11263,6 +11532,7 @@ class ByteDigitParser
         DefinitionParser definition_parser_instance = parser_network.GetDefinitionParser();
         InterfaceDefParser interface_def_parser_instance = parser_network.GetInterfaceDefParser();
         ClassDefParser class_def_parser_instance = parser_network.GetClassDefParser();
+        ImplementationSpecParser implementation_spec_parser_instance = parser_network.GetImplementationSpecParser();
         ContentDeclarationParser content_declaration_parser_instance = parser_network.GetContentDeclarationParser();
         ContentDefinitionParser content_definition_parser_instance = parser_network.GetContentDefinitionParser();
         PrimativeTypeParser primative_type_parser_instance = parser_network.GetPrimativeTypeParser();
@@ -11465,6 +11735,7 @@ class NegativeParser
         DefinitionParser definition_parser_instance = parser_network.GetDefinitionParser();
         InterfaceDefParser interface_def_parser_instance = parser_network.GetInterfaceDefParser();
         ClassDefParser class_def_parser_instance = parser_network.GetClassDefParser();
+        ImplementationSpecParser implementation_spec_parser_instance = parser_network.GetImplementationSpecParser();
         ContentDeclarationParser content_declaration_parser_instance = parser_network.GetContentDeclarationParser();
         ContentDefinitionParser content_definition_parser_instance = parser_network.GetContentDefinitionParser();
         PrimativeTypeParser primative_type_parser_instance = parser_network.GetPrimativeTypeParser();
@@ -11656,6 +11927,7 @@ class DecimalParser
         DefinitionParser definition_parser_instance = parser_network.GetDefinitionParser();
         InterfaceDefParser interface_def_parser_instance = parser_network.GetInterfaceDefParser();
         ClassDefParser class_def_parser_instance = parser_network.GetClassDefParser();
+        ImplementationSpecParser implementation_spec_parser_instance = parser_network.GetImplementationSpecParser();
         ContentDeclarationParser content_declaration_parser_instance = parser_network.GetContentDeclarationParser();
         ContentDefinitionParser content_definition_parser_instance = parser_network.GetContentDefinitionParser();
         PrimativeTypeParser primative_type_parser_instance = parser_network.GetPrimativeTypeParser();
@@ -11847,6 +12119,7 @@ class NumberParser
         DefinitionParser definition_parser_instance = parser_network.GetDefinitionParser();
         InterfaceDefParser interface_def_parser_instance = parser_network.GetInterfaceDefParser();
         ClassDefParser class_def_parser_instance = parser_network.GetClassDefParser();
+        ImplementationSpecParser implementation_spec_parser_instance = parser_network.GetImplementationSpecParser();
         ContentDeclarationParser content_declaration_parser_instance = parser_network.GetContentDeclarationParser();
         ContentDefinitionParser content_definition_parser_instance = parser_network.GetContentDefinitionParser();
         PrimativeTypeParser primative_type_parser_instance = parser_network.GetPrimativeTypeParser();
@@ -12038,6 +12311,7 @@ class DigitParser
         DefinitionParser definition_parser_instance = parser_network.GetDefinitionParser();
         InterfaceDefParser interface_def_parser_instance = parser_network.GetInterfaceDefParser();
         ClassDefParser class_def_parser_instance = parser_network.GetClassDefParser();
+        ImplementationSpecParser implementation_spec_parser_instance = parser_network.GetImplementationSpecParser();
         ContentDeclarationParser content_declaration_parser_instance = parser_network.GetContentDeclarationParser();
         ContentDefinitionParser content_definition_parser_instance = parser_network.GetContentDefinitionParser();
         PrimativeTypeParser primative_type_parser_instance = parser_network.GetPrimativeTypeParser();
@@ -12229,6 +12503,7 @@ class LiteralParser
         DefinitionParser definition_parser_instance = parser_network.GetDefinitionParser();
         InterfaceDefParser interface_def_parser_instance = parser_network.GetInterfaceDefParser();
         ClassDefParser class_def_parser_instance = parser_network.GetClassDefParser();
+        ImplementationSpecParser implementation_spec_parser_instance = parser_network.GetImplementationSpecParser();
         ContentDeclarationParser content_declaration_parser_instance = parser_network.GetContentDeclarationParser();
         ContentDefinitionParser content_definition_parser_instance = parser_network.GetContentDefinitionParser();
         PrimativeTypeParser primative_type_parser_instance = parser_network.GetPrimativeTypeParser();
@@ -12420,6 +12695,7 @@ class LiteralCharacterParser
         DefinitionParser definition_parser_instance = parser_network.GetDefinitionParser();
         InterfaceDefParser interface_def_parser_instance = parser_network.GetInterfaceDefParser();
         ClassDefParser class_def_parser_instance = parser_network.GetClassDefParser();
+        ImplementationSpecParser implementation_spec_parser_instance = parser_network.GetImplementationSpecParser();
         ContentDeclarationParser content_declaration_parser_instance = parser_network.GetContentDeclarationParser();
         ContentDefinitionParser content_definition_parser_instance = parser_network.GetContentDefinitionParser();
         PrimativeTypeParser primative_type_parser_instance = parser_network.GetPrimativeTypeParser();
@@ -12655,6 +12931,7 @@ class WhitespaceParser
         DefinitionParser definition_parser_instance = parser_network.GetDefinitionParser();
         InterfaceDefParser interface_def_parser_instance = parser_network.GetInterfaceDefParser();
         ClassDefParser class_def_parser_instance = parser_network.GetClassDefParser();
+        ImplementationSpecParser implementation_spec_parser_instance = parser_network.GetImplementationSpecParser();
         ContentDeclarationParser content_declaration_parser_instance = parser_network.GetContentDeclarationParser();
         ContentDefinitionParser content_definition_parser_instance = parser_network.GetContentDefinitionParser();
         PrimativeTypeParser primative_type_parser_instance = parser_network.GetPrimativeTypeParser();

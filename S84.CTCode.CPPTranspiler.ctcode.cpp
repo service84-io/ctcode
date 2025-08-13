@@ -95,7 +95,11 @@ namespace ctcode
         header->WriteLine(std::string("public:"));
         header->WriteLine(std::string("    OmniPointer() { value_raw = NULL; }"));
         header->WriteLine(std::string("    OmniPointer(T* value) { value_raw = value; }"));
+        header->WriteLine(std::string("    template<typename U>"));
+        header->WriteLine(std::string("    OmniPointer(U* value) { value_raw = value; }"));
         header->WriteLine(std::string("    OmniPointer(std::shared_ptr<T> value) { value_raw = NULL; value_shared = value; }"));
+        header->WriteLine(std::string("    template<typename U>"));
+        header->WriteLine(std::string("    OmniPointer(std::shared_ptr<U> value) { value_raw = NULL; value_shared = value; }"));
         header->WriteLine(std::string(""));
         header->WriteLine(std::string("    operator bool()"));
         header->WriteLine(std::string("    {"));
@@ -148,9 +152,18 @@ namespace ctcode
         header->WriteLine(std::string("    input.insert(std::pair<std::string, T>(key, element));"));
         header->WriteLine(std::string("}"));
         header->WriteLine(std::string("template<typename T>"));
+        header->WriteLine(std::string("inline std::vector<std::string> Keys(const std::unordered_map<std::string, T>& input)"));
+        header->WriteLine(std::string("{"));
+        header->WriteLine(std::string("    std::vector<std::string> result;"));
+        header->WriteLine(std::string("    for(typename std::unordered_map<std::string, T>::const_iterator index = input.begin();index != input.end();index++) {"));
+        header->WriteLine(std::string("        result.push_back(index->first);"));
+        header->WriteLine(std::string("    }"));
+        header->WriteLine(std::string("    return result;"));
+        header->WriteLine(std::string("}"));
+        header->WriteLine(std::string("template<typename T>"));
         header->WriteLine(std::string("inline bool HasKV(const std::unordered_map<std::string, T>& input, const std::string& key)"));
         header->WriteLine(std::string("{"));
-        header->WriteLine(std::string("    typename std::unordered_map<std::string, T>::iterator beginning = input.find(key);"));
+        header->WriteLine(std::string("    typename std::unordered_map<std::string, T>::const_iterator beginning = input.find(key);"));
         header->WriteLine(std::string("    return beginning != input.end();"));
         header->WriteLine(std::string("}"));
         header->WriteLine(std::string("template<typename T>"));
@@ -244,6 +257,7 @@ namespace ctcode
         class_name = GenerateClassName(class_definition->GetName());
         header->WriteLine(std::string(""));
         header->WriteLine(Concat(std::string("class "), class_name));
+        WriteImplementationSpec(class_definition->GetImplementing(), header);
         header->WriteLine(std::string("{"));
         header->WriteLine(std::string("public:"));
         header->WriteLine(Concat(std::string("    inline "), Concat(class_name, std::string("() {};"))));
@@ -297,6 +311,15 @@ namespace ctcode
         }
 
         header->WriteLine(std::string("};"));
+    }
+
+    void CPPTranspilerCTCodeLogic::WriteImplementationSpec(OmniPointer<s84::ctcode::dbnf::ctcode::ImplementationSpec> implementation_spec, OmniPointer<OutputStream> header)
+    {
+        if (implementation_spec)
+        {
+            OmniPointer<s84::ctcode::dbnf::ctcode::QualfiedName> qualified_name = implementation_spec->GetInterface();
+            header->WriteLine(Concat(std::string(": public "), GetRawDefinedType(qualified_name)));
+        }
     }
 
     void CPPTranspilerCTCodeLogic::GenerateImplementation(OmniPointer<s84::ctcode::dbnf::ctcode::CTCodeFile> ctcode_file, OmniPointer<OutputStream> implementation, std::string base_name, std::vector<std::string> base_name_tokens)

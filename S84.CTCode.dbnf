@@ -7,7 +7,8 @@
 <Definition>        ::= attribute(interfaceDef <InterfaceDef>)
                     ::= attribute(classDef <ClassDef>)
 <InterfaceDef>      ::= <whitespace>* attribute(comment <Comment>?) <whitespace>* "interface" <whitespace>+ attribute(name <name>) <whitespace>* "{" <whitespace>* attribute(declarations <ContentDeclaration>*) <whitespace>* "}" <whitespace>*
-<ClassDef>          ::= <whitespace>* attribute(comment <Comment>?) <whitespace>* "class" <whitespace>+ attribute(name <name>) <whitespace>* "{" <whitespace>* attribute(definitions <ContentDefinition>*) <whitespace>* "}" <whitespace>*
+<ClassDef>          ::= <whitespace>* attribute(comment <Comment>?) <whitespace>* "class" <whitespace>+ attribute(name <name>) attribute(implementing <ImplementationSpec>?) <whitespace>* "{" <whitespace>* attribute(definitions <ContentDefinition>*) <whitespace>* "}" <whitespace>*
+<ImplementationSpec>::= <whitespace>+ "implements" <whitespace>+ attribute(interface <qualfied_name>) <whitespace>*
 <ContentDeclaration>::= <whitespace>* attribute(comment <Comment>?) <whitespace>* "function" <whitespace>+ attribute(type <ValueType>) <whitespace>+ attribute(name <name>) <whitespace>* "(" <whitespace>* attribute(parameters <ParameterListDef>?) <whitespace>* ")" <whitespace>* ";" <whitespace>*
 <ContentDefinition> ::= <whitespace>* attribute(comment <Comment>?) <whitespace>* "function" <whitespace>+ attribute(type <ValueType>) <whitespace>+ attribute(name <name>) <whitespace>* "(" <whitespace>* attribute(parameters <ParameterListDef>?) <whitespace>* ")" <whitespace>* attribute(functionBody <CodeBlock>) <whitespace>*
                     ::= <whitespace>* attribute(comment <Comment>?) <whitespace>* attribute(type <ValueType>) <whitespace>+ attribute(name <name>) <whitespace>* ";" <whitespace>*

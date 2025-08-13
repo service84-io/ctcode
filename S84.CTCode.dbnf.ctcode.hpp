@@ -17,7 +17,11 @@ class OmniPointer
 public:
     OmniPointer() { value_raw = NULL; }
     OmniPointer(T* value) { value_raw = value; }
+    template<typename U>
+    OmniPointer(U* value) { value_raw = value; }
     OmniPointer(std::shared_ptr<T> value) { value_raw = NULL; value_shared = value; }
+    template<typename U>
+    OmniPointer(std::shared_ptr<U> value) { value_raw = NULL; value_shared = value; }
 
     operator bool()
     {
@@ -70,9 +74,18 @@ inline void SetKV(std::unordered_map<std::string, T>& input, const std::string& 
     input.insert(std::pair<std::string, T>(key, element));
 }
 template<typename T>
+inline std::vector<std::string> Keys(const std::unordered_map<std::string, T>& input)
+{
+    std::vector<std::string> result;
+    for(typename std::unordered_map<std::string, T>::const_iterator index = input.begin();index != input.end();index++) {
+        result.push_back(index->first);
+    }
+    return result;
+}
+template<typename T>
 inline bool HasKV(const std::unordered_map<std::string, T>& input, const std::string& key)
 {
-    typename std::unordered_map<std::string, T>::iterator beginning = input.find(key);
+    typename std::unordered_map<std::string, T>::const_iterator beginning = input.find(key);
     return beginning != input.end();
 }
 template<typename T>
@@ -133,6 +146,10 @@ class ClassDefParser;
 class ClassDefResult;
 class ClassDefListResult;
 class ClassDef;
+class ImplementationSpecParser;
+class ImplementationSpecResult;
+class ImplementationSpecListResult;
+class ImplementationSpec;
 class ContentDeclarationParser;
 class ContentDeclarationResult;
 class ContentDeclarationListResult;
@@ -486,6 +503,7 @@ public:
     OmniPointer<DefinitionParser> GetDefinitionParser();
     OmniPointer<InterfaceDefParser> GetInterfaceDefParser();
     OmniPointer<ClassDefParser> GetClassDefParser();
+    OmniPointer<ImplementationSpecParser> GetImplementationSpecParser();
     OmniPointer<ContentDeclarationParser> GetContentDeclarationParser();
     OmniPointer<ContentDefinitionParser> GetContentDefinitionParser();
     OmniPointer<PrimativeTypeParser> GetPrimativeTypeParser();
@@ -542,6 +560,7 @@ private:
     OmniPointer<DefinitionParser> definition_parser_field;
     OmniPointer<InterfaceDefParser> interface_def_parser_field;
     OmniPointer<ClassDefParser> class_def_parser_field;
+    OmniPointer<ImplementationSpecParser> implementation_spec_parser_field;
     OmniPointer<ContentDeclarationParser> content_declaration_parser_field;
     OmniPointer<ContentDefinitionParser> content_definition_parser_field;
     OmniPointer<PrimativeTypeParser> primative_type_parser_field;
@@ -609,6 +628,8 @@ public:
     OmniPointer<InterfaceDef> GetInterfaceDef();
     void SetClassDef(OmniPointer<ClassDef> input_value);
     OmniPointer<ClassDef> GetClassDef();
+    void SetImplementationSpec(OmniPointer<ImplementationSpec> input_value);
+    OmniPointer<ImplementationSpec> GetImplementationSpec();
     void SetContentDeclaration(OmniPointer<ContentDeclaration> input_value);
     OmniPointer<ContentDeclaration> GetContentDeclaration();
     void SetContentDefinition(OmniPointer<ContentDefinition> input_value);
@@ -705,6 +726,7 @@ private:
     OmniPointer<Definition> definition_field;
     OmniPointer<InterfaceDef> interface_def_field;
     OmniPointer<ClassDef> class_def_field;
+    OmniPointer<ImplementationSpec> implementation_spec_field;
     OmniPointer<ContentDeclaration> content_declaration_field;
     OmniPointer<ContentDefinition> content_definition_field;
     OmniPointer<PrimativeType> primative_type_field;
@@ -767,6 +789,7 @@ public:
     void SetDefinition(OmniPointer<Definition> input_value);
     void SetInterfaceDef(OmniPointer<InterfaceDef> input_value);
     void SetClassDef(OmniPointer<ClassDef> input_value);
+    void SetImplementationSpec(OmniPointer<ImplementationSpec> input_value);
     void SetContentDeclaration(OmniPointer<ContentDeclaration> input_value);
     void SetContentDefinition(OmniPointer<ContentDefinition> input_value);
     void SetPrimativeType(OmniPointer<PrimativeType> input_value);
@@ -833,6 +856,7 @@ public:
     void SetDefinition(std::vector<OmniPointer<Definition>> input_value);
     void SetInterfaceDef(std::vector<OmniPointer<InterfaceDef>> input_value);
     void SetClassDef(std::vector<OmniPointer<ClassDef>> input_value);
+    void SetImplementationSpec(std::vector<OmniPointer<ImplementationSpec>> input_value);
     void SetContentDeclaration(std::vector<OmniPointer<ContentDeclaration>> input_value);
     void SetContentDefinition(std::vector<OmniPointer<ContentDefinition>> input_value);
     void SetPrimativeType(std::vector<OmniPointer<PrimativeType>> input_value);
@@ -1325,6 +1349,8 @@ public:
     OmniPointer<Comment> GetComment();
     void SetDefinitions(std::vector<OmniPointer<ContentDefinition>> input_value);
     std::vector<OmniPointer<ContentDefinition>> GetDefinitions();
+    void SetImplementing(OmniPointer<ImplementationSpec> input_value);
+    OmniPointer<ImplementationSpec> GetImplementing();
     void SetName(OmniPointer<Name> input_value);
     OmniPointer<Name> GetName();
 
@@ -1332,7 +1358,74 @@ private:
     OmniPointer<LengthString> length_string;
     OmniPointer<Comment> comment_field;
     std::vector<OmniPointer<ContentDefinition>> definitions_field;
+    OmniPointer<ImplementationSpec> implementing_field;
     OmniPointer<Name> name_field;
+};
+
+class ImplementationSpecParser
+{
+public:
+    inline ImplementationSpecParser() {};
+    inline ~ImplementationSpecParser() {};
+
+    void SetParserNetwork(OmniPointer<ParserNetwork> input);
+    bool ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<ImplementationSpecResult> result);
+    bool ParseSingle(OmniPointer<LengthString> index);
+    bool ParseOptionalSave(OmniPointer<LengthString> index, OmniPointer<ImplementationSpecResult> result);
+    bool ParseOptional(OmniPointer<LengthString> index);
+    bool ParseManySave(OmniPointer<LengthString> index, OmniPointer<ImplementationSpecListResult> list_result, int minimum, int maximum);
+    bool ParseMany(OmniPointer<LengthString> index, int minimum, int maximum);
+
+private:
+    OmniPointer<ParserNetwork> parser_network;
+};
+
+class ImplementationSpecResult
+{
+public:
+    inline ImplementationSpecResult() {};
+    inline ~ImplementationSpecResult() {};
+
+    void SetValue(OmniPointer<ImplementationSpec> new_value);
+    OmniPointer<ImplementationSpec> GetValue();
+    void SetResult(bool new_result);
+    bool GetResult();
+
+private:
+    OmniPointer<ImplementationSpec> value;
+    bool result;
+};
+
+class ImplementationSpecListResult
+{
+public:
+    inline ImplementationSpecListResult() {};
+    inline ~ImplementationSpecListResult() {};
+
+    void SetValue(std::vector<OmniPointer<ImplementationSpec>> new_value);
+    std::vector<OmniPointer<ImplementationSpec>> GetValue();
+    void SetResult(bool new_result);
+    bool GetResult();
+
+private:
+    std::vector<OmniPointer<ImplementationSpec>> value;
+    bool result;
+};
+
+class ImplementationSpec
+{
+public:
+    inline ImplementationSpec() {};
+    inline ~ImplementationSpec() {};
+
+    void SetLengthString(OmniPointer<LengthString> new_value);
+    std::string UnParse();
+    void SetInterface(OmniPointer<QualfiedName> input_value);
+    OmniPointer<QualfiedName> GetInterface();
+
+private:
+    OmniPointer<LengthString> length_string;
+    OmniPointer<QualfiedName> interface_field;
 };
 
 class ContentDeclarationParser
