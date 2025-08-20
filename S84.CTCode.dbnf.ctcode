@@ -1467,9 +1467,9 @@ class CTCodeFileParser
         consumed_string.SetStart(index.GetStart());
         consumed_string.SetLength(0);
         CTCodeFile instance = new CTCodeFile;
-        ExternalDefinitionListResult declarations_field = new ExternalDefinitionListResult;
         DefinitionListResult definitions_field = new DefinitionListResult;
         UnmanagedTypeListResult unmanaged_types_field = new UnmanagedTypeListResult;
+        ExternalDefinitionListResult declarations_field = new ExternalDefinitionListResult;
 
         CTCodeFileParser c_t_code_file_parser_instance = parser_network.GetCTCodeFileParser();
         ExternalDefinitionParser external_definition_parser_instance = parser_network.GetExternalDefinitionParser();
@@ -1527,9 +1527,9 @@ class CTCodeFileParser
         CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && external_definition_parser_instance.ParseManySave(index, declarations_field, 0, -1) && unmanaged_type_parser_instance.ParseManySave(index, unmanaged_types_field, 0, -1) && definition_parser_instance.ParseManySave(index, definitions_field, 0, -1)) {
-            instance.SetDeclarations(declarations_field.GetValue());
             instance.SetDefinitions(definitions_field.GetValue());
             instance.SetUnmanagedTypes(unmanaged_types_field.GetValue());
+            instance.SetDeclarations(declarations_field.GetValue());
             consumed_string.SetLength(index.GetStart() - index_start);
             instance.SetLengthString(consumed_string);
             result.SetValue(instance);
@@ -1538,9 +1538,9 @@ class CTCodeFileParser
         } else {
             index.SetStart(index_start);
             index.SetLength(index_length);
-            declarations_field = new ExternalDefinitionListResult;
             definitions_field = new DefinitionListResult;
             unmanaged_types_field = new UnmanagedTypeListResult;
+            declarations_field = new ExternalDefinitionListResult;
         }
 
         result.SetResult(false);
@@ -1651,17 +1651,17 @@ class CTCodeFile
     }
 
     function string UnParse() { return length_string.GetString(); }
-    function void SetDeclarations(ExternalDefinition[] input_value) { declarations_field = input_value; }
-    function ExternalDefinition[] GetDeclarations() { return declarations_field; }
     function void SetDefinitions(Definition[] input_value) { definitions_field = input_value; }
     function Definition[] GetDefinitions() { return definitions_field; }
     function void SetUnmanagedTypes(UnmanagedType[] input_value) { unmanaged_types_field = input_value; }
     function UnmanagedType[] GetUnmanagedTypes() { return unmanaged_types_field; }
+    function void SetDeclarations(ExternalDefinition[] input_value) { declarations_field = input_value; }
+    function ExternalDefinition[] GetDeclarations() { return declarations_field; }
 
     LengthString length_string;
-    ExternalDefinition[] declarations_field;
     Definition[] definitions_field;
     UnmanagedType[] unmanaged_types_field;
+    ExternalDefinition[] declarations_field;
 }
 
 class ExternalDefinitionParser
@@ -2292,9 +2292,9 @@ class InterfaceDefParser
         consumed_string.SetStart(index.GetStart());
         consumed_string.SetLength(0);
         InterfaceDef instance = new InterfaceDef;
-        CommentResult comment_field = new CommentResult;
         ContentDeclarationListResult declarations_field = new ContentDeclarationListResult;
         NameResult name_field = new NameResult;
+        CommentResult comment_field = new CommentResult;
 
         CTCodeFileParser c_t_code_file_parser_instance = parser_network.GetCTCodeFileParser();
         ExternalDefinitionParser external_definition_parser_instance = parser_network.GetExternalDefinitionParser();
@@ -2352,9 +2352,9 @@ class InterfaceDefParser
         CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && whitespace_parser_instance.ParseMany(index, 0, -1) && comment_parser_instance.ParseOptionalSave(index, comment_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, "interface") && whitespace_parser_instance.ParseMany(index, 1, -1) && name_parser_instance.ParseSingleSave(index, name_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, "{") && whitespace_parser_instance.ParseMany(index, 0, -1) && content_declaration_parser_instance.ParseManySave(index, declarations_field, 0, -1) && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, "}") && whitespace_parser_instance.ParseMany(index, 0, -1)) {
-            instance.SetComment(comment_field.GetValue());
             instance.SetDeclarations(declarations_field.GetValue());
             instance.SetName(name_field.GetValue());
+            instance.SetComment(comment_field.GetValue());
             consumed_string.SetLength(index.GetStart() - index_start);
             instance.SetLengthString(consumed_string);
             result.SetValue(instance);
@@ -2363,9 +2363,9 @@ class InterfaceDefParser
         } else {
             index.SetStart(index_start);
             index.SetLength(index_length);
-            comment_field = new CommentResult;
             declarations_field = new ContentDeclarationListResult;
             name_field = new NameResult;
+            comment_field = new CommentResult;
         }
 
         result.SetResult(false);
@@ -2476,17 +2476,17 @@ class InterfaceDef
     }
 
     function string UnParse() { return length_string.GetString(); }
-    function void SetComment(Comment input_value) { comment_field = input_value; }
-    function Comment GetComment() { return comment_field; }
     function void SetDeclarations(ContentDeclaration[] input_value) { declarations_field = input_value; }
     function ContentDeclaration[] GetDeclarations() { return declarations_field; }
     function void SetName(Name input_value) { name_field = input_value; }
     function Name GetName() { return name_field; }
+    function void SetComment(Comment input_value) { comment_field = input_value; }
+    function Comment GetComment() { return comment_field; }
 
     LengthString length_string;
-    Comment comment_field;
     ContentDeclaration[] declarations_field;
     Name name_field;
+    Comment comment_field;
 }
 
 class ClassDefParser
@@ -2502,10 +2502,10 @@ class ClassDefParser
         consumed_string.SetStart(index.GetStart());
         consumed_string.SetLength(0);
         ClassDef instance = new ClassDef;
-        CommentResult comment_field = new CommentResult;
-        ContentDefinitionListResult definitions_field = new ContentDefinitionListResult;
         ImplementationSpecResult implementing_field = new ImplementationSpecResult;
         NameResult name_field = new NameResult;
+        ContentDefinitionListResult definitions_field = new ContentDefinitionListResult;
+        CommentResult comment_field = new CommentResult;
 
         CTCodeFileParser c_t_code_file_parser_instance = parser_network.GetCTCodeFileParser();
         ExternalDefinitionParser external_definition_parser_instance = parser_network.GetExternalDefinitionParser();
@@ -2563,10 +2563,10 @@ class ClassDefParser
         CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && whitespace_parser_instance.ParseMany(index, 0, -1) && comment_parser_instance.ParseOptionalSave(index, comment_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, "class") && whitespace_parser_instance.ParseMany(index, 1, -1) && name_parser_instance.ParseSingleSave(index, name_field) && implementation_spec_parser_instance.ParseOptionalSave(index, implementing_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, "{") && whitespace_parser_instance.ParseMany(index, 0, -1) && content_definition_parser_instance.ParseManySave(index, definitions_field, 0, -1) && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, "}") && whitespace_parser_instance.ParseMany(index, 0, -1)) {
-            instance.SetComment(comment_field.GetValue());
-            instance.SetDefinitions(definitions_field.GetValue());
             instance.SetImplementing(implementing_field.GetValue());
             instance.SetName(name_field.GetValue());
+            instance.SetDefinitions(definitions_field.GetValue());
+            instance.SetComment(comment_field.GetValue());
             consumed_string.SetLength(index.GetStart() - index_start);
             instance.SetLengthString(consumed_string);
             result.SetValue(instance);
@@ -2575,10 +2575,10 @@ class ClassDefParser
         } else {
             index.SetStart(index_start);
             index.SetLength(index_length);
-            comment_field = new CommentResult;
-            definitions_field = new ContentDefinitionListResult;
             implementing_field = new ImplementationSpecResult;
             name_field = new NameResult;
+            definitions_field = new ContentDefinitionListResult;
+            comment_field = new CommentResult;
         }
 
         result.SetResult(false);
@@ -2689,20 +2689,20 @@ class ClassDef
     }
 
     function string UnParse() { return length_string.GetString(); }
-    function void SetComment(Comment input_value) { comment_field = input_value; }
-    function Comment GetComment() { return comment_field; }
-    function void SetDefinitions(ContentDefinition[] input_value) { definitions_field = input_value; }
-    function ContentDefinition[] GetDefinitions() { return definitions_field; }
     function void SetImplementing(ImplementationSpec input_value) { implementing_field = input_value; }
     function ImplementationSpec GetImplementing() { return implementing_field; }
     function void SetName(Name input_value) { name_field = input_value; }
     function Name GetName() { return name_field; }
+    function void SetDefinitions(ContentDefinition[] input_value) { definitions_field = input_value; }
+    function ContentDefinition[] GetDefinitions() { return definitions_field; }
+    function void SetComment(Comment input_value) { comment_field = input_value; }
+    function Comment GetComment() { return comment_field; }
 
     LengthString length_string;
-    Comment comment_field;
-    ContentDefinition[] definitions_field;
     ImplementationSpec implementing_field;
     Name name_field;
+    ContentDefinition[] definitions_field;
+    Comment comment_field;
 }
 
 class ImplementationSpecParser
@@ -2916,10 +2916,10 @@ class ContentDeclarationParser
         consumed_string.SetStart(index.GetStart());
         consumed_string.SetLength(0);
         ContentDeclaration instance = new ContentDeclaration;
-        CommentResult comment_field = new CommentResult;
-        NameResult name_field = new NameResult;
         ParameterListDefResult parameters_field = new ParameterListDefResult;
+        NameResult name_field = new NameResult;
         ValueTypeResult type_field = new ValueTypeResult;
+        CommentResult comment_field = new CommentResult;
 
         CTCodeFileParser c_t_code_file_parser_instance = parser_network.GetCTCodeFileParser();
         ExternalDefinitionParser external_definition_parser_instance = parser_network.GetExternalDefinitionParser();
@@ -2977,10 +2977,10 @@ class ContentDeclarationParser
         CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && whitespace_parser_instance.ParseMany(index, 0, -1) && comment_parser_instance.ParseOptionalSave(index, comment_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, "function") && whitespace_parser_instance.ParseMany(index, 1, -1) && value_type_parser_instance.ParseSingleSave(index, type_field) && whitespace_parser_instance.ParseMany(index, 1, -1) && name_parser_instance.ParseSingleSave(index, name_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, "(") && whitespace_parser_instance.ParseMany(index, 0, -1) && parameter_list_def_parser_instance.ParseOptionalSave(index, parameters_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, ")") && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, ";") && whitespace_parser_instance.ParseMany(index, 0, -1)) {
-            instance.SetComment(comment_field.GetValue());
-            instance.SetName(name_field.GetValue());
             instance.SetParameters(parameters_field.GetValue());
+            instance.SetName(name_field.GetValue());
             instance.SetType(type_field.GetValue());
+            instance.SetComment(comment_field.GetValue());
             consumed_string.SetLength(index.GetStart() - index_start);
             instance.SetLengthString(consumed_string);
             result.SetValue(instance);
@@ -2989,10 +2989,10 @@ class ContentDeclarationParser
         } else {
             index.SetStart(index_start);
             index.SetLength(index_length);
-            comment_field = new CommentResult;
-            name_field = new NameResult;
             parameters_field = new ParameterListDefResult;
+            name_field = new NameResult;
             type_field = new ValueTypeResult;
+            comment_field = new CommentResult;
         }
 
         result.SetResult(false);
@@ -3103,20 +3103,20 @@ class ContentDeclaration
     }
 
     function string UnParse() { return length_string.GetString(); }
-    function void SetComment(Comment input_value) { comment_field = input_value; }
-    function Comment GetComment() { return comment_field; }
-    function void SetName(Name input_value) { name_field = input_value; }
-    function Name GetName() { return name_field; }
     function void SetParameters(ParameterListDef input_value) { parameters_field = input_value; }
     function ParameterListDef GetParameters() { return parameters_field; }
+    function void SetName(Name input_value) { name_field = input_value; }
+    function Name GetName() { return name_field; }
     function void SetType(ValueType input_value) { type_field = input_value; }
     function ValueType GetType() { return type_field; }
+    function void SetComment(Comment input_value) { comment_field = input_value; }
+    function Comment GetComment() { return comment_field; }
 
     LengthString length_string;
-    Comment comment_field;
-    Name name_field;
     ParameterListDef parameters_field;
+    Name name_field;
     ValueType type_field;
+    Comment comment_field;
 }
 
 class ContentDefinitionParser
@@ -3132,11 +3132,11 @@ class ContentDefinitionParser
         consumed_string.SetStart(index.GetStart());
         consumed_string.SetLength(0);
         ContentDefinition instance = new ContentDefinition;
-        CommentResult comment_field = new CommentResult;
         CodeBlockResult functionBody_field = new CodeBlockResult;
-        NameResult name_field = new NameResult;
         ParameterListDefResult parameters_field = new ParameterListDefResult;
+        NameResult name_field = new NameResult;
         ValueTypeResult type_field = new ValueTypeResult;
+        CommentResult comment_field = new CommentResult;
 
         CTCodeFileParser c_t_code_file_parser_instance = parser_network.GetCTCodeFileParser();
         ExternalDefinitionParser external_definition_parser_instance = parser_network.GetExternalDefinitionParser();
@@ -3194,11 +3194,11 @@ class ContentDefinitionParser
         CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && whitespace_parser_instance.ParseMany(index, 0, -1) && comment_parser_instance.ParseOptionalSave(index, comment_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, "function") && whitespace_parser_instance.ParseMany(index, 1, -1) && value_type_parser_instance.ParseSingleSave(index, type_field) && whitespace_parser_instance.ParseMany(index, 1, -1) && name_parser_instance.ParseSingleSave(index, name_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, "(") && whitespace_parser_instance.ParseMany(index, 0, -1) && parameter_list_def_parser_instance.ParseOptionalSave(index, parameters_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, ")") && whitespace_parser_instance.ParseMany(index, 0, -1) && code_block_parser_instance.ParseSingleSave(index, functionBody_field) && whitespace_parser_instance.ParseMany(index, 0, -1)) {
-            instance.SetComment(comment_field.GetValue());
             instance.SetFunctionBody(functionBody_field.GetValue());
-            instance.SetName(name_field.GetValue());
             instance.SetParameters(parameters_field.GetValue());
+            instance.SetName(name_field.GetValue());
             instance.SetType(type_field.GetValue());
+            instance.SetComment(comment_field.GetValue());
             consumed_string.SetLength(index.GetStart() - index_start);
             instance.SetLengthString(consumed_string);
             result.SetValue(instance);
@@ -3207,19 +3207,19 @@ class ContentDefinitionParser
         } else {
             index.SetStart(index_start);
             index.SetLength(index_length);
-            comment_field = new CommentResult;
             functionBody_field = new CodeBlockResult;
-            name_field = new NameResult;
             parameters_field = new ParameterListDefResult;
+            name_field = new NameResult;
             type_field = new ValueTypeResult;
+            comment_field = new CommentResult;
         }
 
         if (true && whitespace_parser_instance.ParseMany(index, 0, -1) && comment_parser_instance.ParseOptionalSave(index, comment_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && value_type_parser_instance.ParseSingleSave(index, type_field) && whitespace_parser_instance.ParseMany(index, 1, -1) && name_parser_instance.ParseSingleSave(index, name_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, ";") && whitespace_parser_instance.ParseMany(index, 0, -1)) {
-            instance.SetComment(comment_field.GetValue());
             instance.SetFunctionBody(functionBody_field.GetValue());
-            instance.SetName(name_field.GetValue());
             instance.SetParameters(parameters_field.GetValue());
+            instance.SetName(name_field.GetValue());
             instance.SetType(type_field.GetValue());
+            instance.SetComment(comment_field.GetValue());
             consumed_string.SetLength(index.GetStart() - index_start);
             instance.SetLengthString(consumed_string);
             result.SetValue(instance);
@@ -3228,11 +3228,11 @@ class ContentDefinitionParser
         } else {
             index.SetStart(index_start);
             index.SetLength(index_length);
-            comment_field = new CommentResult;
             functionBody_field = new CodeBlockResult;
-            name_field = new NameResult;
             parameters_field = new ParameterListDefResult;
+            name_field = new NameResult;
             type_field = new ValueTypeResult;
+            comment_field = new CommentResult;
         }
 
         result.SetResult(false);
@@ -3343,23 +3343,23 @@ class ContentDefinition
     }
 
     function string UnParse() { return length_string.GetString(); }
-    function void SetComment(Comment input_value) { comment_field = input_value; }
-    function Comment GetComment() { return comment_field; }
     function void SetFunctionBody(CodeBlock input_value) { functionBody_field = input_value; }
     function CodeBlock GetFunctionBody() { return functionBody_field; }
-    function void SetName(Name input_value) { name_field = input_value; }
-    function Name GetName() { return name_field; }
     function void SetParameters(ParameterListDef input_value) { parameters_field = input_value; }
     function ParameterListDef GetParameters() { return parameters_field; }
+    function void SetName(Name input_value) { name_field = input_value; }
+    function Name GetName() { return name_field; }
     function void SetType(ValueType input_value) { type_field = input_value; }
     function ValueType GetType() { return type_field; }
+    function void SetComment(Comment input_value) { comment_field = input_value; }
+    function Comment GetComment() { return comment_field; }
 
     LengthString length_string;
-    Comment comment_field;
     CodeBlock functionBody_field;
-    Name name_field;
     ParameterListDef parameters_field;
+    Name name_field;
     ValueType type_field;
+    Comment comment_field;
 }
 
 class PrimativeTypeParser
@@ -4820,9 +4820,9 @@ class ValueTypeParser
         consumed_string.SetStart(index.GetStart());
         consumed_string.SetLength(0);
         ValueType instance = new ValueType;
-        DimensionalTypeResult dimensionalType_field = new DimensionalTypeResult;
-        MapTypeResult mapType_field = new MapTypeResult;
         SingletonTypeResult singletonType_field = new SingletonTypeResult;
+        MapTypeResult mapType_field = new MapTypeResult;
+        DimensionalTypeResult dimensionalType_field = new DimensionalTypeResult;
 
         CTCodeFileParser c_t_code_file_parser_instance = parser_network.GetCTCodeFileParser();
         ExternalDefinitionParser external_definition_parser_instance = parser_network.GetExternalDefinitionParser();
@@ -4880,9 +4880,9 @@ class ValueTypeParser
         CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && dimensional_type_parser_instance.ParseSingleSave(index, dimensionalType_field)) {
-            instance.SetDimensionalType(dimensionalType_field.GetValue());
-            instance.SetMapType(mapType_field.GetValue());
             instance.SetSingletonType(singletonType_field.GetValue());
+            instance.SetMapType(mapType_field.GetValue());
+            instance.SetDimensionalType(dimensionalType_field.GetValue());
             consumed_string.SetLength(index.GetStart() - index_start);
             instance.SetLengthString(consumed_string);
             result.SetValue(instance);
@@ -4891,15 +4891,15 @@ class ValueTypeParser
         } else {
             index.SetStart(index_start);
             index.SetLength(index_length);
-            dimensionalType_field = new DimensionalTypeResult;
-            mapType_field = new MapTypeResult;
             singletonType_field = new SingletonTypeResult;
+            mapType_field = new MapTypeResult;
+            dimensionalType_field = new DimensionalTypeResult;
         }
 
         if (true && map_type_parser_instance.ParseSingleSave(index, mapType_field)) {
-            instance.SetDimensionalType(dimensionalType_field.GetValue());
-            instance.SetMapType(mapType_field.GetValue());
             instance.SetSingletonType(singletonType_field.GetValue());
+            instance.SetMapType(mapType_field.GetValue());
+            instance.SetDimensionalType(dimensionalType_field.GetValue());
             consumed_string.SetLength(index.GetStart() - index_start);
             instance.SetLengthString(consumed_string);
             result.SetValue(instance);
@@ -4908,15 +4908,15 @@ class ValueTypeParser
         } else {
             index.SetStart(index_start);
             index.SetLength(index_length);
-            dimensionalType_field = new DimensionalTypeResult;
-            mapType_field = new MapTypeResult;
             singletonType_field = new SingletonTypeResult;
+            mapType_field = new MapTypeResult;
+            dimensionalType_field = new DimensionalTypeResult;
         }
 
         if (true && singleton_type_parser_instance.ParseSingleSave(index, singletonType_field)) {
-            instance.SetDimensionalType(dimensionalType_field.GetValue());
-            instance.SetMapType(mapType_field.GetValue());
             instance.SetSingletonType(singletonType_field.GetValue());
+            instance.SetMapType(mapType_field.GetValue());
+            instance.SetDimensionalType(dimensionalType_field.GetValue());
             consumed_string.SetLength(index.GetStart() - index_start);
             instance.SetLengthString(consumed_string);
             result.SetValue(instance);
@@ -4925,9 +4925,9 @@ class ValueTypeParser
         } else {
             index.SetStart(index_start);
             index.SetLength(index_length);
-            dimensionalType_field = new DimensionalTypeResult;
-            mapType_field = new MapTypeResult;
             singletonType_field = new SingletonTypeResult;
+            mapType_field = new MapTypeResult;
+            dimensionalType_field = new DimensionalTypeResult;
         }
 
         result.SetResult(false);
@@ -5038,17 +5038,17 @@ class ValueType
     }
 
     function string UnParse() { return length_string.GetString(); }
-    function void SetDimensionalType(DimensionalType input_value) { dimensionalType_field = input_value; }
-    function DimensionalType GetDimensionalType() { return dimensionalType_field; }
-    function void SetMapType(MapType input_value) { mapType_field = input_value; }
-    function MapType GetMapType() { return mapType_field; }
     function void SetSingletonType(SingletonType input_value) { singletonType_field = input_value; }
     function SingletonType GetSingletonType() { return singletonType_field; }
+    function void SetMapType(MapType input_value) { mapType_field = input_value; }
+    function MapType GetMapType() { return mapType_field; }
+    function void SetDimensionalType(DimensionalType input_value) { dimensionalType_field = input_value; }
+    function DimensionalType GetDimensionalType() { return dimensionalType_field; }
 
     LengthString length_string;
-    DimensionalType dimensionalType_field;
-    MapType mapType_field;
     SingletonType singletonType_field;
+    MapType mapType_field;
+    DimensionalType dimensionalType_field;
 }
 
 class ParameterListDefParser
@@ -5064,8 +5064,8 @@ class ParameterListDefParser
         consumed_string.SetStart(index.GetStart());
         consumed_string.SetLength(0);
         ParameterListDef instance = new ParameterListDef;
-        NameResult name_field = new NameResult;
         ParameterListDefResult parameterTail_field = new ParameterListDefResult;
+        NameResult name_field = new NameResult;
         ValueTypeResult type_field = new ValueTypeResult;
 
         CTCodeFileParser c_t_code_file_parser_instance = parser_network.GetCTCodeFileParser();
@@ -5124,8 +5124,8 @@ class ParameterListDefParser
         CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && whitespace_parser_instance.ParseMany(index, 0, -1) && value_type_parser_instance.ParseSingleSave(index, type_field) && whitespace_parser_instance.ParseMany(index, 1, -1) && name_parser_instance.ParseSingleSave(index, name_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, ",") && whitespace_parser_instance.ParseMany(index, 0, -1) && parameter_list_def_parser_instance.ParseSingleSave(index, parameterTail_field)) {
-            instance.SetName(name_field.GetValue());
             instance.SetParameterTail(parameterTail_field.GetValue());
+            instance.SetName(name_field.GetValue());
             instance.SetType(type_field.GetValue());
             consumed_string.SetLength(index.GetStart() - index_start);
             instance.SetLengthString(consumed_string);
@@ -5135,14 +5135,14 @@ class ParameterListDefParser
         } else {
             index.SetStart(index_start);
             index.SetLength(index_length);
-            name_field = new NameResult;
             parameterTail_field = new ParameterListDefResult;
+            name_field = new NameResult;
             type_field = new ValueTypeResult;
         }
 
         if (true && whitespace_parser_instance.ParseMany(index, 0, -1) && value_type_parser_instance.ParseSingleSave(index, type_field) && whitespace_parser_instance.ParseMany(index, 1, -1) && name_parser_instance.ParseSingleSave(index, name_field) && whitespace_parser_instance.ParseMany(index, 0, -1)) {
-            instance.SetName(name_field.GetValue());
             instance.SetParameterTail(parameterTail_field.GetValue());
+            instance.SetName(name_field.GetValue());
             instance.SetType(type_field.GetValue());
             consumed_string.SetLength(index.GetStart() - index_start);
             instance.SetLengthString(consumed_string);
@@ -5152,8 +5152,8 @@ class ParameterListDefParser
         } else {
             index.SetStart(index_start);
             index.SetLength(index_length);
-            name_field = new NameResult;
             parameterTail_field = new ParameterListDefResult;
+            name_field = new NameResult;
             type_field = new ValueTypeResult;
         }
 
@@ -5265,16 +5265,16 @@ class ParameterListDef
     }
 
     function string UnParse() { return length_string.GetString(); }
-    function void SetName(Name input_value) { name_field = input_value; }
-    function Name GetName() { return name_field; }
     function void SetParameterTail(ParameterListDef input_value) { parameterTail_field = input_value; }
     function ParameterListDef GetParameterTail() { return parameterTail_field; }
+    function void SetName(Name input_value) { name_field = input_value; }
+    function Name GetName() { return name_field; }
     function void SetType(ValueType input_value) { type_field = input_value; }
     function ValueType GetType() { return type_field; }
 
     LengthString length_string;
-    Name name_field;
     ParameterListDef parameterTail_field;
+    Name name_field;
     ValueType type_field;
 }
 
@@ -5906,8 +5906,8 @@ class DeclarationParser
         consumed_string.SetStart(index.GetStart());
         consumed_string.SetLength(0);
         Declaration instance = new Declaration;
-        DeclarationAssignResult assignment_field = new DeclarationAssignResult;
         NameResult name_field = new NameResult;
+        DeclarationAssignResult assignment_field = new DeclarationAssignResult;
         ValueTypeResult type_field = new ValueTypeResult;
 
         CTCodeFileParser c_t_code_file_parser_instance = parser_network.GetCTCodeFileParser();
@@ -5966,8 +5966,8 @@ class DeclarationParser
         CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && whitespace_parser_instance.ParseMany(index, 0, -1) && value_type_parser_instance.ParseSingleSave(index, type_field) && whitespace_parser_instance.ParseMany(index, 1, -1) && name_parser_instance.ParseSingleSave(index, name_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && declaration_assign_parser_instance.ParseOptionalSave(index, assignment_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, ";") && whitespace_parser_instance.ParseMany(index, 0, -1)) {
-            instance.SetAssignment(assignment_field.GetValue());
             instance.SetName(name_field.GetValue());
+            instance.SetAssignment(assignment_field.GetValue());
             instance.SetType(type_field.GetValue());
             consumed_string.SetLength(index.GetStart() - index_start);
             instance.SetLengthString(consumed_string);
@@ -5977,8 +5977,8 @@ class DeclarationParser
         } else {
             index.SetStart(index_start);
             index.SetLength(index_length);
-            assignment_field = new DeclarationAssignResult;
             name_field = new NameResult;
+            assignment_field = new DeclarationAssignResult;
             type_field = new ValueTypeResult;
         }
 
@@ -6090,16 +6090,16 @@ class Declaration
     }
 
     function string UnParse() { return length_string.GetString(); }
-    function void SetAssignment(DeclarationAssign input_value) { assignment_field = input_value; }
-    function DeclarationAssign GetAssignment() { return assignment_field; }
     function void SetName(Name input_value) { name_field = input_value; }
     function Name GetName() { return name_field; }
+    function void SetAssignment(DeclarationAssign input_value) { assignment_field = input_value; }
+    function DeclarationAssign GetAssignment() { return assignment_field; }
     function void SetType(ValueType input_value) { type_field = input_value; }
     function ValueType GetType() { return type_field; }
 
     LengthString length_string;
-    DeclarationAssign assignment_field;
     Name name_field;
+    DeclarationAssign assignment_field;
     ValueType type_field;
 }
 
@@ -6116,8 +6116,8 @@ class AssignmentParser
         consumed_string.SetStart(index.GetStart());
         consumed_string.SetLength(0);
         Assignment instance = new Assignment;
-        NameResult lvalue_field = new NameResult;
         RValueResult rvalue_field = new RValueResult;
+        NameResult lvalue_field = new NameResult;
 
         CTCodeFileParser c_t_code_file_parser_instance = parser_network.GetCTCodeFileParser();
         ExternalDefinitionParser external_definition_parser_instance = parser_network.GetExternalDefinitionParser();
@@ -6175,8 +6175,8 @@ class AssignmentParser
         CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && whitespace_parser_instance.ParseMany(index, 0, -1) && name_parser_instance.ParseSingleSave(index, lvalue_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, "=") && whitespace_parser_instance.ParseMany(index, 0, -1) && r_value_parser_instance.ParseSingleSave(index, rvalue_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, ";") && whitespace_parser_instance.ParseMany(index, 0, -1)) {
-            instance.SetLvalue(lvalue_field.GetValue());
             instance.SetRvalue(rvalue_field.GetValue());
+            instance.SetLvalue(lvalue_field.GetValue());
             consumed_string.SetLength(index.GetStart() - index_start);
             instance.SetLengthString(consumed_string);
             result.SetValue(instance);
@@ -6185,8 +6185,8 @@ class AssignmentParser
         } else {
             index.SetStart(index_start);
             index.SetLength(index_length);
-            lvalue_field = new NameResult;
             rvalue_field = new RValueResult;
+            lvalue_field = new NameResult;
         }
 
         result.SetResult(false);
@@ -6297,14 +6297,14 @@ class Assignment
     }
 
     function string UnParse() { return length_string.GetString(); }
-    function void SetLvalue(Name input_value) { lvalue_field = input_value; }
-    function Name GetLvalue() { return lvalue_field; }
     function void SetRvalue(RValue input_value) { rvalue_field = input_value; }
     function RValue GetRvalue() { return rvalue_field; }
+    function void SetLvalue(Name input_value) { lvalue_field = input_value; }
+    function Name GetLvalue() { return lvalue_field; }
 
     LengthString length_string;
-    Name lvalue_field;
     RValue rvalue_field;
+    Name lvalue_field;
 }
 
 class ReturnParser
@@ -6320,8 +6320,8 @@ class ReturnParser
         consumed_string.SetStart(index.GetStart());
         consumed_string.SetLength(0);
         Return instance = new Return;
-        StringResult rtn_field = new StringResult;
         RValueResult rvalue_field = new RValueResult;
+        StringResult rtn_field = new StringResult;
 
         CTCodeFileParser c_t_code_file_parser_instance = parser_network.GetCTCodeFileParser();
         ExternalDefinitionParser external_definition_parser_instance = parser_network.GetExternalDefinitionParser();
@@ -6379,8 +6379,8 @@ class ReturnParser
         CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingleSave(index, "return", rtn_field) && whitespace_parser_instance.ParseMany(index, 1, -1) && r_value_parser_instance.ParseSingleSave(index, rvalue_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, ";") && whitespace_parser_instance.ParseMany(index, 0, -1)) {
-            instance.SetRtn(rtn_field.GetValue());
             instance.SetRvalue(rvalue_field.GetValue());
+            instance.SetRtn(rtn_field.GetValue());
             consumed_string.SetLength(index.GetStart() - index_start);
             instance.SetLengthString(consumed_string);
             result.SetValue(instance);
@@ -6389,8 +6389,8 @@ class ReturnParser
         } else {
             index.SetStart(index_start);
             index.SetLength(index_length);
-            rtn_field = new StringResult;
             rvalue_field = new RValueResult;
+            rtn_field = new StringResult;
         }
 
         result.SetResult(false);
@@ -6501,14 +6501,14 @@ class Return
     }
 
     function string UnParse() { return length_string.GetString(); }
-    function void SetRtn(String input_value) { rtn_field = input_value; }
-    function String GetRtn() { return rtn_field; }
     function void SetRvalue(RValue input_value) { rvalue_field = input_value; }
     function RValue GetRvalue() { return rvalue_field; }
+    function void SetRtn(String input_value) { rtn_field = input_value; }
+    function String GetRtn() { return rtn_field; }
 
     LengthString length_string;
-    String rtn_field;
     RValue rvalue_field;
+    String rtn_field;
 }
 
 class ElseTailParser
@@ -6728,10 +6728,10 @@ class ConditionalParser
         consumed_string.SetStart(index.GetStart());
         consumed_string.SetLength(0);
         Conditional instance = new Conditional;
-        CodeBlockResult codeBlock_field = new CodeBlockResult;
-        StringResult conditionalKey_field = new StringResult;
         ElseTailResult elseTail_field = new ElseTailResult;
+        CodeBlockResult codeBlock_field = new CodeBlockResult;
         RValueResult rvalue_field = new RValueResult;
+        StringResult conditionalKey_field = new StringResult;
 
         CTCodeFileParser c_t_code_file_parser_instance = parser_network.GetCTCodeFileParser();
         ExternalDefinitionParser external_definition_parser_instance = parser_network.GetExternalDefinitionParser();
@@ -6789,10 +6789,10 @@ class ConditionalParser
         CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingleSave(index, "if", conditionalKey_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, "(") && whitespace_parser_instance.ParseMany(index, 0, -1) && r_value_parser_instance.ParseSingleSave(index, rvalue_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, ")") && whitespace_parser_instance.ParseMany(index, 0, -1) && code_block_parser_instance.ParseSingleSave(index, codeBlock_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && else_tail_parser_instance.ParseOptionalSave(index, elseTail_field)) {
-            instance.SetCodeBlock(codeBlock_field.GetValue());
-            instance.SetConditionalKey(conditionalKey_field.GetValue());
             instance.SetElseTail(elseTail_field.GetValue());
+            instance.SetCodeBlock(codeBlock_field.GetValue());
             instance.SetRvalue(rvalue_field.GetValue());
+            instance.SetConditionalKey(conditionalKey_field.GetValue());
             consumed_string.SetLength(index.GetStart() - index_start);
             instance.SetLengthString(consumed_string);
             result.SetValue(instance);
@@ -6801,10 +6801,10 @@ class ConditionalParser
         } else {
             index.SetStart(index_start);
             index.SetLength(index_length);
-            codeBlock_field = new CodeBlockResult;
-            conditionalKey_field = new StringResult;
             elseTail_field = new ElseTailResult;
+            codeBlock_field = new CodeBlockResult;
             rvalue_field = new RValueResult;
+            conditionalKey_field = new StringResult;
         }
 
         result.SetResult(false);
@@ -6915,20 +6915,20 @@ class Conditional
     }
 
     function string UnParse() { return length_string.GetString(); }
-    function void SetCodeBlock(CodeBlock input_value) { codeBlock_field = input_value; }
-    function CodeBlock GetCodeBlock() { return codeBlock_field; }
-    function void SetConditionalKey(String input_value) { conditionalKey_field = input_value; }
-    function String GetConditionalKey() { return conditionalKey_field; }
     function void SetElseTail(ElseTail input_value) { elseTail_field = input_value; }
     function ElseTail GetElseTail() { return elseTail_field; }
+    function void SetCodeBlock(CodeBlock input_value) { codeBlock_field = input_value; }
+    function CodeBlock GetCodeBlock() { return codeBlock_field; }
     function void SetRvalue(RValue input_value) { rvalue_field = input_value; }
     function RValue GetRvalue() { return rvalue_field; }
+    function void SetConditionalKey(String input_value) { conditionalKey_field = input_value; }
+    function String GetConditionalKey() { return conditionalKey_field; }
 
     LengthString length_string;
-    CodeBlock codeBlock_field;
-    String conditionalKey_field;
     ElseTail elseTail_field;
+    CodeBlock codeBlock_field;
     RValue rvalue_field;
+    String conditionalKey_field;
 }
 
 class LoopParser
@@ -6945,8 +6945,8 @@ class LoopParser
         consumed_string.SetLength(0);
         Loop instance = new Loop;
         CodeBlockResult codeBlock_field = new CodeBlockResult;
-        StringResult loopKey_field = new StringResult;
         RValueResult rvalue_field = new RValueResult;
+        StringResult loopKey_field = new StringResult;
 
         CTCodeFileParser c_t_code_file_parser_instance = parser_network.GetCTCodeFileParser();
         ExternalDefinitionParser external_definition_parser_instance = parser_network.GetExternalDefinitionParser();
@@ -7005,8 +7005,8 @@ class LoopParser
 
         if (true && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingleSave(index, "while", loopKey_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, "(") && whitespace_parser_instance.ParseMany(index, 0, -1) && r_value_parser_instance.ParseSingleSave(index, rvalue_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, ")") && whitespace_parser_instance.ParseMany(index, 0, -1) && code_block_parser_instance.ParseSingleSave(index, codeBlock_field) && whitespace_parser_instance.ParseMany(index, 0, -1)) {
             instance.SetCodeBlock(codeBlock_field.GetValue());
-            instance.SetLoopKey(loopKey_field.GetValue());
             instance.SetRvalue(rvalue_field.GetValue());
+            instance.SetLoopKey(loopKey_field.GetValue());
             consumed_string.SetLength(index.GetStart() - index_start);
             instance.SetLengthString(consumed_string);
             result.SetValue(instance);
@@ -7016,8 +7016,8 @@ class LoopParser
             index.SetStart(index_start);
             index.SetLength(index_length);
             codeBlock_field = new CodeBlockResult;
-            loopKey_field = new StringResult;
             rvalue_field = new RValueResult;
+            loopKey_field = new StringResult;
         }
 
         result.SetResult(false);
@@ -7130,15 +7130,15 @@ class Loop
     function string UnParse() { return length_string.GetString(); }
     function void SetCodeBlock(CodeBlock input_value) { codeBlock_field = input_value; }
     function CodeBlock GetCodeBlock() { return codeBlock_field; }
-    function void SetLoopKey(String input_value) { loopKey_field = input_value; }
-    function String GetLoopKey() { return loopKey_field; }
     function void SetRvalue(RValue input_value) { rvalue_field = input_value; }
     function RValue GetRvalue() { return rvalue_field; }
+    function void SetLoopKey(String input_value) { loopKey_field = input_value; }
+    function String GetLoopKey() { return loopKey_field; }
 
     LengthString length_string;
     CodeBlock codeBlock_field;
-    String loopKey_field;
     RValue rvalue_field;
+    String loopKey_field;
 }
 
 class CallParser
@@ -7154,8 +7154,8 @@ class CallParser
         consumed_string.SetStart(index.GetStart());
         consumed_string.SetLength(0);
         Call instance = new Call;
-        NameResult function_field = new NameResult;
         ParameterListResult parameters_field = new ParameterListResult;
+        NameResult function_field = new NameResult;
         NameResult variable_field = new NameResult;
 
         CTCodeFileParser c_t_code_file_parser_instance = parser_network.GetCTCodeFileParser();
@@ -7214,8 +7214,8 @@ class CallParser
         CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && name_parser_instance.ParseSingleSave(index, variable_field) && string_parser_instance.ParseSingle(index, ".") && name_parser_instance.ParseSingleSave(index, function_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, "(") && whitespace_parser_instance.ParseMany(index, 0, -1) && parameter_list_parser_instance.ParseOptionalSave(index, parameters_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, ")") && whitespace_parser_instance.ParseMany(index, 0, -1)) {
-            instance.SetFunction(function_field.GetValue());
             instance.SetParameters(parameters_field.GetValue());
+            instance.SetFunction(function_field.GetValue());
             instance.SetVariable(variable_field.GetValue());
             consumed_string.SetLength(index.GetStart() - index_start);
             instance.SetLengthString(consumed_string);
@@ -7225,14 +7225,14 @@ class CallParser
         } else {
             index.SetStart(index_start);
             index.SetLength(index_length);
-            function_field = new NameResult;
             parameters_field = new ParameterListResult;
+            function_field = new NameResult;
             variable_field = new NameResult;
         }
 
         if (true && name_parser_instance.ParseSingleSave(index, function_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, "(") && whitespace_parser_instance.ParseMany(index, 0, -1) && parameter_list_parser_instance.ParseOptionalSave(index, parameters_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, ")") && whitespace_parser_instance.ParseMany(index, 0, -1)) {
-            instance.SetFunction(function_field.GetValue());
             instance.SetParameters(parameters_field.GetValue());
+            instance.SetFunction(function_field.GetValue());
             instance.SetVariable(variable_field.GetValue());
             consumed_string.SetLength(index.GetStart() - index_start);
             instance.SetLengthString(consumed_string);
@@ -7242,8 +7242,8 @@ class CallParser
         } else {
             index.SetStart(index_start);
             index.SetLength(index_length);
-            function_field = new NameResult;
             parameters_field = new ParameterListResult;
+            function_field = new NameResult;
             variable_field = new NameResult;
         }
 
@@ -7355,16 +7355,16 @@ class Call
     }
 
     function string UnParse() { return length_string.GetString(); }
-    function void SetFunction(Name input_value) { function_field = input_value; }
-    function Name GetFunction() { return function_field; }
     function void SetParameters(ParameterList input_value) { parameters_field = input_value; }
     function ParameterList GetParameters() { return parameters_field; }
+    function void SetFunction(Name input_value) { function_field = input_value; }
+    function Name GetFunction() { return function_field; }
     function void SetVariable(Name input_value) { variable_field = input_value; }
     function Name GetVariable() { return variable_field; }
 
     LengthString length_string;
-    Name function_field;
     ParameterList parameters_field;
+    Name function_field;
     Name variable_field;
 }
 
@@ -7579,14 +7579,14 @@ class InstructionParser
         consumed_string.SetStart(index.GetStart());
         consumed_string.SetLength(0);
         Instruction instance = new Instruction;
-        AssignmentResult assignment_field = new AssignmentResult;
-        CallResult call_field = new CallResult;
-        CodeBlockResult codeBlock_field = new CodeBlockResult;
-        CommentResult comment_field = new CommentResult;
-        ConditionalResult conditional_field = new ConditionalResult;
-        DeclarationResult declaration_field = new DeclarationResult;
         LoopResult loop_field = new LoopResult;
+        ConditionalResult conditional_field = new ConditionalResult;
+        CallResult call_field = new CallResult;
         ReturnResult rtn_field = new ReturnResult;
+        CodeBlockResult codeBlock_field = new CodeBlockResult;
+        AssignmentResult assignment_field = new AssignmentResult;
+        DeclarationResult declaration_field = new DeclarationResult;
+        CommentResult comment_field = new CommentResult;
 
         CTCodeFileParser c_t_code_file_parser_instance = parser_network.GetCTCodeFileParser();
         ExternalDefinitionParser external_definition_parser_instance = parser_network.GetExternalDefinitionParser();
@@ -7644,14 +7644,14 @@ class InstructionParser
         CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && whitespace_parser_instance.ParseMany(index, 0, -1) && comment_parser_instance.ParseOptionalSave(index, comment_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && code_block_parser_instance.ParseSingleSave(index, codeBlock_field)) {
-            instance.SetAssignment(assignment_field.GetValue());
-            instance.SetCall(call_field.GetValue());
-            instance.SetCodeBlock(codeBlock_field.GetValue());
-            instance.SetComment(comment_field.GetValue());
-            instance.SetConditional(conditional_field.GetValue());
-            instance.SetDeclaration(declaration_field.GetValue());
             instance.SetLoop(loop_field.GetValue());
+            instance.SetConditional(conditional_field.GetValue());
+            instance.SetCall(call_field.GetValue());
             instance.SetRtn(rtn_field.GetValue());
+            instance.SetCodeBlock(codeBlock_field.GetValue());
+            instance.SetAssignment(assignment_field.GetValue());
+            instance.SetDeclaration(declaration_field.GetValue());
+            instance.SetComment(comment_field.GetValue());
             consumed_string.SetLength(index.GetStart() - index_start);
             instance.SetLengthString(consumed_string);
             result.SetValue(instance);
@@ -7660,25 +7660,25 @@ class InstructionParser
         } else {
             index.SetStart(index_start);
             index.SetLength(index_length);
-            assignment_field = new AssignmentResult;
-            call_field = new CallResult;
-            codeBlock_field = new CodeBlockResult;
-            comment_field = new CommentResult;
-            conditional_field = new ConditionalResult;
-            declaration_field = new DeclarationResult;
             loop_field = new LoopResult;
+            conditional_field = new ConditionalResult;
+            call_field = new CallResult;
             rtn_field = new ReturnResult;
+            codeBlock_field = new CodeBlockResult;
+            assignment_field = new AssignmentResult;
+            declaration_field = new DeclarationResult;
+            comment_field = new CommentResult;
         }
 
         if (true && whitespace_parser_instance.ParseMany(index, 0, -1) && comment_parser_instance.ParseOptionalSave(index, comment_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && return_parser_instance.ParseSingleSave(index, rtn_field)) {
-            instance.SetAssignment(assignment_field.GetValue());
-            instance.SetCall(call_field.GetValue());
-            instance.SetCodeBlock(codeBlock_field.GetValue());
-            instance.SetComment(comment_field.GetValue());
-            instance.SetConditional(conditional_field.GetValue());
-            instance.SetDeclaration(declaration_field.GetValue());
             instance.SetLoop(loop_field.GetValue());
+            instance.SetConditional(conditional_field.GetValue());
+            instance.SetCall(call_field.GetValue());
             instance.SetRtn(rtn_field.GetValue());
+            instance.SetCodeBlock(codeBlock_field.GetValue());
+            instance.SetAssignment(assignment_field.GetValue());
+            instance.SetDeclaration(declaration_field.GetValue());
+            instance.SetComment(comment_field.GetValue());
             consumed_string.SetLength(index.GetStart() - index_start);
             instance.SetLengthString(consumed_string);
             result.SetValue(instance);
@@ -7687,25 +7687,25 @@ class InstructionParser
         } else {
             index.SetStart(index_start);
             index.SetLength(index_length);
-            assignment_field = new AssignmentResult;
-            call_field = new CallResult;
-            codeBlock_field = new CodeBlockResult;
-            comment_field = new CommentResult;
-            conditional_field = new ConditionalResult;
-            declaration_field = new DeclarationResult;
             loop_field = new LoopResult;
+            conditional_field = new ConditionalResult;
+            call_field = new CallResult;
             rtn_field = new ReturnResult;
+            codeBlock_field = new CodeBlockResult;
+            assignment_field = new AssignmentResult;
+            declaration_field = new DeclarationResult;
+            comment_field = new CommentResult;
         }
 
         if (true && whitespace_parser_instance.ParseMany(index, 0, -1) && comment_parser_instance.ParseOptionalSave(index, comment_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && declaration_parser_instance.ParseSingleSave(index, declaration_field)) {
-            instance.SetAssignment(assignment_field.GetValue());
-            instance.SetCall(call_field.GetValue());
-            instance.SetCodeBlock(codeBlock_field.GetValue());
-            instance.SetComment(comment_field.GetValue());
-            instance.SetConditional(conditional_field.GetValue());
-            instance.SetDeclaration(declaration_field.GetValue());
             instance.SetLoop(loop_field.GetValue());
+            instance.SetConditional(conditional_field.GetValue());
+            instance.SetCall(call_field.GetValue());
             instance.SetRtn(rtn_field.GetValue());
+            instance.SetCodeBlock(codeBlock_field.GetValue());
+            instance.SetAssignment(assignment_field.GetValue());
+            instance.SetDeclaration(declaration_field.GetValue());
+            instance.SetComment(comment_field.GetValue());
             consumed_string.SetLength(index.GetStart() - index_start);
             instance.SetLengthString(consumed_string);
             result.SetValue(instance);
@@ -7714,25 +7714,25 @@ class InstructionParser
         } else {
             index.SetStart(index_start);
             index.SetLength(index_length);
-            assignment_field = new AssignmentResult;
-            call_field = new CallResult;
-            codeBlock_field = new CodeBlockResult;
-            comment_field = new CommentResult;
-            conditional_field = new ConditionalResult;
-            declaration_field = new DeclarationResult;
             loop_field = new LoopResult;
+            conditional_field = new ConditionalResult;
+            call_field = new CallResult;
             rtn_field = new ReturnResult;
+            codeBlock_field = new CodeBlockResult;
+            assignment_field = new AssignmentResult;
+            declaration_field = new DeclarationResult;
+            comment_field = new CommentResult;
         }
 
         if (true && whitespace_parser_instance.ParseMany(index, 0, -1) && comment_parser_instance.ParseOptionalSave(index, comment_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && assignment_parser_instance.ParseSingleSave(index, assignment_field)) {
-            instance.SetAssignment(assignment_field.GetValue());
-            instance.SetCall(call_field.GetValue());
-            instance.SetCodeBlock(codeBlock_field.GetValue());
-            instance.SetComment(comment_field.GetValue());
-            instance.SetConditional(conditional_field.GetValue());
-            instance.SetDeclaration(declaration_field.GetValue());
             instance.SetLoop(loop_field.GetValue());
+            instance.SetConditional(conditional_field.GetValue());
+            instance.SetCall(call_field.GetValue());
             instance.SetRtn(rtn_field.GetValue());
+            instance.SetCodeBlock(codeBlock_field.GetValue());
+            instance.SetAssignment(assignment_field.GetValue());
+            instance.SetDeclaration(declaration_field.GetValue());
+            instance.SetComment(comment_field.GetValue());
             consumed_string.SetLength(index.GetStart() - index_start);
             instance.SetLengthString(consumed_string);
             result.SetValue(instance);
@@ -7741,25 +7741,25 @@ class InstructionParser
         } else {
             index.SetStart(index_start);
             index.SetLength(index_length);
-            assignment_field = new AssignmentResult;
-            call_field = new CallResult;
-            codeBlock_field = new CodeBlockResult;
-            comment_field = new CommentResult;
-            conditional_field = new ConditionalResult;
-            declaration_field = new DeclarationResult;
             loop_field = new LoopResult;
+            conditional_field = new ConditionalResult;
+            call_field = new CallResult;
             rtn_field = new ReturnResult;
+            codeBlock_field = new CodeBlockResult;
+            assignment_field = new AssignmentResult;
+            declaration_field = new DeclarationResult;
+            comment_field = new CommentResult;
         }
 
         if (true && whitespace_parser_instance.ParseMany(index, 0, -1) && comment_parser_instance.ParseOptionalSave(index, comment_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && call_parser_instance.ParseSingleSave(index, call_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, ";") && whitespace_parser_instance.ParseMany(index, 0, -1)) {
-            instance.SetAssignment(assignment_field.GetValue());
-            instance.SetCall(call_field.GetValue());
-            instance.SetCodeBlock(codeBlock_field.GetValue());
-            instance.SetComment(comment_field.GetValue());
-            instance.SetConditional(conditional_field.GetValue());
-            instance.SetDeclaration(declaration_field.GetValue());
             instance.SetLoop(loop_field.GetValue());
+            instance.SetConditional(conditional_field.GetValue());
+            instance.SetCall(call_field.GetValue());
             instance.SetRtn(rtn_field.GetValue());
+            instance.SetCodeBlock(codeBlock_field.GetValue());
+            instance.SetAssignment(assignment_field.GetValue());
+            instance.SetDeclaration(declaration_field.GetValue());
+            instance.SetComment(comment_field.GetValue());
             consumed_string.SetLength(index.GetStart() - index_start);
             instance.SetLengthString(consumed_string);
             result.SetValue(instance);
@@ -7768,25 +7768,25 @@ class InstructionParser
         } else {
             index.SetStart(index_start);
             index.SetLength(index_length);
-            assignment_field = new AssignmentResult;
-            call_field = new CallResult;
-            codeBlock_field = new CodeBlockResult;
-            comment_field = new CommentResult;
-            conditional_field = new ConditionalResult;
-            declaration_field = new DeclarationResult;
             loop_field = new LoopResult;
+            conditional_field = new ConditionalResult;
+            call_field = new CallResult;
             rtn_field = new ReturnResult;
+            codeBlock_field = new CodeBlockResult;
+            assignment_field = new AssignmentResult;
+            declaration_field = new DeclarationResult;
+            comment_field = new CommentResult;
         }
 
         if (true && whitespace_parser_instance.ParseMany(index, 0, -1) && comment_parser_instance.ParseOptionalSave(index, comment_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && conditional_parser_instance.ParseSingleSave(index, conditional_field)) {
-            instance.SetAssignment(assignment_field.GetValue());
-            instance.SetCall(call_field.GetValue());
-            instance.SetCodeBlock(codeBlock_field.GetValue());
-            instance.SetComment(comment_field.GetValue());
-            instance.SetConditional(conditional_field.GetValue());
-            instance.SetDeclaration(declaration_field.GetValue());
             instance.SetLoop(loop_field.GetValue());
+            instance.SetConditional(conditional_field.GetValue());
+            instance.SetCall(call_field.GetValue());
             instance.SetRtn(rtn_field.GetValue());
+            instance.SetCodeBlock(codeBlock_field.GetValue());
+            instance.SetAssignment(assignment_field.GetValue());
+            instance.SetDeclaration(declaration_field.GetValue());
+            instance.SetComment(comment_field.GetValue());
             consumed_string.SetLength(index.GetStart() - index_start);
             instance.SetLengthString(consumed_string);
             result.SetValue(instance);
@@ -7795,25 +7795,25 @@ class InstructionParser
         } else {
             index.SetStart(index_start);
             index.SetLength(index_length);
-            assignment_field = new AssignmentResult;
-            call_field = new CallResult;
-            codeBlock_field = new CodeBlockResult;
-            comment_field = new CommentResult;
-            conditional_field = new ConditionalResult;
-            declaration_field = new DeclarationResult;
             loop_field = new LoopResult;
+            conditional_field = new ConditionalResult;
+            call_field = new CallResult;
             rtn_field = new ReturnResult;
+            codeBlock_field = new CodeBlockResult;
+            assignment_field = new AssignmentResult;
+            declaration_field = new DeclarationResult;
+            comment_field = new CommentResult;
         }
 
         if (true && whitespace_parser_instance.ParseMany(index, 0, -1) && comment_parser_instance.ParseOptionalSave(index, comment_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && loop_parser_instance.ParseSingleSave(index, loop_field)) {
-            instance.SetAssignment(assignment_field.GetValue());
-            instance.SetCall(call_field.GetValue());
-            instance.SetCodeBlock(codeBlock_field.GetValue());
-            instance.SetComment(comment_field.GetValue());
-            instance.SetConditional(conditional_field.GetValue());
-            instance.SetDeclaration(declaration_field.GetValue());
             instance.SetLoop(loop_field.GetValue());
+            instance.SetConditional(conditional_field.GetValue());
+            instance.SetCall(call_field.GetValue());
             instance.SetRtn(rtn_field.GetValue());
+            instance.SetCodeBlock(codeBlock_field.GetValue());
+            instance.SetAssignment(assignment_field.GetValue());
+            instance.SetDeclaration(declaration_field.GetValue());
+            instance.SetComment(comment_field.GetValue());
             consumed_string.SetLength(index.GetStart() - index_start);
             instance.SetLengthString(consumed_string);
             result.SetValue(instance);
@@ -7822,14 +7822,14 @@ class InstructionParser
         } else {
             index.SetStart(index_start);
             index.SetLength(index_length);
-            assignment_field = new AssignmentResult;
-            call_field = new CallResult;
-            codeBlock_field = new CodeBlockResult;
-            comment_field = new CommentResult;
-            conditional_field = new ConditionalResult;
-            declaration_field = new DeclarationResult;
             loop_field = new LoopResult;
+            conditional_field = new ConditionalResult;
+            call_field = new CallResult;
             rtn_field = new ReturnResult;
+            codeBlock_field = new CodeBlockResult;
+            assignment_field = new AssignmentResult;
+            declaration_field = new DeclarationResult;
+            comment_field = new CommentResult;
         }
 
         result.SetResult(false);
@@ -7940,32 +7940,32 @@ class Instruction
     }
 
     function string UnParse() { return length_string.GetString(); }
-    function void SetAssignment(Assignment input_value) { assignment_field = input_value; }
-    function Assignment GetAssignment() { return assignment_field; }
-    function void SetCall(Call input_value) { call_field = input_value; }
-    function Call GetCall() { return call_field; }
-    function void SetCodeBlock(CodeBlock input_value) { codeBlock_field = input_value; }
-    function CodeBlock GetCodeBlock() { return codeBlock_field; }
-    function void SetComment(Comment input_value) { comment_field = input_value; }
-    function Comment GetComment() { return comment_field; }
-    function void SetConditional(Conditional input_value) { conditional_field = input_value; }
-    function Conditional GetConditional() { return conditional_field; }
-    function void SetDeclaration(Declaration input_value) { declaration_field = input_value; }
-    function Declaration GetDeclaration() { return declaration_field; }
     function void SetLoop(Loop input_value) { loop_field = input_value; }
     function Loop GetLoop() { return loop_field; }
+    function void SetConditional(Conditional input_value) { conditional_field = input_value; }
+    function Conditional GetConditional() { return conditional_field; }
+    function void SetCall(Call input_value) { call_field = input_value; }
+    function Call GetCall() { return call_field; }
     function void SetRtn(Return input_value) { rtn_field = input_value; }
     function Return GetRtn() { return rtn_field; }
+    function void SetCodeBlock(CodeBlock input_value) { codeBlock_field = input_value; }
+    function CodeBlock GetCodeBlock() { return codeBlock_field; }
+    function void SetAssignment(Assignment input_value) { assignment_field = input_value; }
+    function Assignment GetAssignment() { return assignment_field; }
+    function void SetDeclaration(Declaration input_value) { declaration_field = input_value; }
+    function Declaration GetDeclaration() { return declaration_field; }
+    function void SetComment(Comment input_value) { comment_field = input_value; }
+    function Comment GetComment() { return comment_field; }
 
     LengthString length_string;
-    Assignment assignment_field;
-    Call call_field;
-    CodeBlock codeBlock_field;
-    Comment comment_field;
-    Conditional conditional_field;
-    Declaration declaration_field;
     Loop loop_field;
+    Conditional conditional_field;
+    Call call_field;
     Return rtn_field;
+    CodeBlock codeBlock_field;
+    Assignment assignment_field;
+    Declaration declaration_field;
+    Comment comment_field;
 }
 
 class RValueSingleParser
@@ -7981,15 +7981,15 @@ class RValueSingleParser
         consumed_string.SetStart(index.GetStart());
         consumed_string.SetLength(0);
         RValueSingle instance = new RValueSingle;
-        AllocateResult allocate_field = new AllocateResult;
-        BooleanResult booleanLiteral_field = new BooleanResult;
-        ByteResult byteLiteral_field = new ByteResult;
-        CallResult call_field = new CallResult;
-        DecimalResult decimalLiteral_field = new DecimalResult;
-        NumberResult integerLiteral_field = new NumberResult;
         LiteralResult stringLiteral_field = new LiteralResult;
-        UnaryOperatorResult unary_operator_field = new UnaryOperatorResult;
         NameResult variable_field = new NameResult;
+        BooleanResult booleanLiteral_field = new BooleanResult;
+        NumberResult integerLiteral_field = new NumberResult;
+        DecimalResult decimalLiteral_field = new DecimalResult;
+        ByteResult byteLiteral_field = new ByteResult;
+        AllocateResult allocate_field = new AllocateResult;
+        CallResult call_field = new CallResult;
+        UnaryOperatorResult unary_operator_field = new UnaryOperatorResult;
 
         CTCodeFileParser c_t_code_file_parser_instance = parser_network.GetCTCodeFileParser();
         ExternalDefinitionParser external_definition_parser_instance = parser_network.GetExternalDefinitionParser();
@@ -8047,15 +8047,15 @@ class RValueSingleParser
         CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && whitespace_parser_instance.ParseMany(index, 0, -1) && unary_operator_parser_instance.ParseOptionalSave(index, unary_operator_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && call_parser_instance.ParseSingleSave(index, call_field)) {
-            instance.SetAllocate(allocate_field.GetValue());
-            instance.SetBooleanLiteral(booleanLiteral_field.GetValue());
-            instance.SetByteLiteral(byteLiteral_field.GetValue());
-            instance.SetCall(call_field.GetValue());
-            instance.SetDecimalLiteral(decimalLiteral_field.GetValue());
-            instance.SetIntegerLiteral(integerLiteral_field.GetValue());
             instance.SetStringLiteral(stringLiteral_field.GetValue());
-            instance.SetUnaryOperator(unary_operator_field.GetValue());
             instance.SetVariable(variable_field.GetValue());
+            instance.SetBooleanLiteral(booleanLiteral_field.GetValue());
+            instance.SetIntegerLiteral(integerLiteral_field.GetValue());
+            instance.SetDecimalLiteral(decimalLiteral_field.GetValue());
+            instance.SetByteLiteral(byteLiteral_field.GetValue());
+            instance.SetAllocate(allocate_field.GetValue());
+            instance.SetCall(call_field.GetValue());
+            instance.SetUnaryOperator(unary_operator_field.GetValue());
             consumed_string.SetLength(index.GetStart() - index_start);
             instance.SetLengthString(consumed_string);
             result.SetValue(instance);
@@ -8064,27 +8064,27 @@ class RValueSingleParser
         } else {
             index.SetStart(index_start);
             index.SetLength(index_length);
-            allocate_field = new AllocateResult;
-            booleanLiteral_field = new BooleanResult;
-            byteLiteral_field = new ByteResult;
-            call_field = new CallResult;
-            decimalLiteral_field = new DecimalResult;
-            integerLiteral_field = new NumberResult;
             stringLiteral_field = new LiteralResult;
-            unary_operator_field = new UnaryOperatorResult;
             variable_field = new NameResult;
+            booleanLiteral_field = new BooleanResult;
+            integerLiteral_field = new NumberResult;
+            decimalLiteral_field = new DecimalResult;
+            byteLiteral_field = new ByteResult;
+            allocate_field = new AllocateResult;
+            call_field = new CallResult;
+            unary_operator_field = new UnaryOperatorResult;
         }
 
         if (true && whitespace_parser_instance.ParseMany(index, 0, -1) && unary_operator_parser_instance.ParseOptionalSave(index, unary_operator_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && allocate_parser_instance.ParseSingleSave(index, allocate_field)) {
-            instance.SetAllocate(allocate_field.GetValue());
-            instance.SetBooleanLiteral(booleanLiteral_field.GetValue());
-            instance.SetByteLiteral(byteLiteral_field.GetValue());
-            instance.SetCall(call_field.GetValue());
-            instance.SetDecimalLiteral(decimalLiteral_field.GetValue());
-            instance.SetIntegerLiteral(integerLiteral_field.GetValue());
             instance.SetStringLiteral(stringLiteral_field.GetValue());
-            instance.SetUnaryOperator(unary_operator_field.GetValue());
             instance.SetVariable(variable_field.GetValue());
+            instance.SetBooleanLiteral(booleanLiteral_field.GetValue());
+            instance.SetIntegerLiteral(integerLiteral_field.GetValue());
+            instance.SetDecimalLiteral(decimalLiteral_field.GetValue());
+            instance.SetByteLiteral(byteLiteral_field.GetValue());
+            instance.SetAllocate(allocate_field.GetValue());
+            instance.SetCall(call_field.GetValue());
+            instance.SetUnaryOperator(unary_operator_field.GetValue());
             consumed_string.SetLength(index.GetStart() - index_start);
             instance.SetLengthString(consumed_string);
             result.SetValue(instance);
@@ -8093,27 +8093,27 @@ class RValueSingleParser
         } else {
             index.SetStart(index_start);
             index.SetLength(index_length);
-            allocate_field = new AllocateResult;
-            booleanLiteral_field = new BooleanResult;
-            byteLiteral_field = new ByteResult;
-            call_field = new CallResult;
-            decimalLiteral_field = new DecimalResult;
-            integerLiteral_field = new NumberResult;
             stringLiteral_field = new LiteralResult;
-            unary_operator_field = new UnaryOperatorResult;
             variable_field = new NameResult;
+            booleanLiteral_field = new BooleanResult;
+            integerLiteral_field = new NumberResult;
+            decimalLiteral_field = new DecimalResult;
+            byteLiteral_field = new ByteResult;
+            allocate_field = new AllocateResult;
+            call_field = new CallResult;
+            unary_operator_field = new UnaryOperatorResult;
         }
 
         if (true && whitespace_parser_instance.ParseMany(index, 0, -1) && unary_operator_parser_instance.ParseOptionalSave(index, unary_operator_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && byte_parser_instance.ParseSingleSave(index, byteLiteral_field)) {
-            instance.SetAllocate(allocate_field.GetValue());
-            instance.SetBooleanLiteral(booleanLiteral_field.GetValue());
-            instance.SetByteLiteral(byteLiteral_field.GetValue());
-            instance.SetCall(call_field.GetValue());
-            instance.SetDecimalLiteral(decimalLiteral_field.GetValue());
-            instance.SetIntegerLiteral(integerLiteral_field.GetValue());
             instance.SetStringLiteral(stringLiteral_field.GetValue());
-            instance.SetUnaryOperator(unary_operator_field.GetValue());
             instance.SetVariable(variable_field.GetValue());
+            instance.SetBooleanLiteral(booleanLiteral_field.GetValue());
+            instance.SetIntegerLiteral(integerLiteral_field.GetValue());
+            instance.SetDecimalLiteral(decimalLiteral_field.GetValue());
+            instance.SetByteLiteral(byteLiteral_field.GetValue());
+            instance.SetAllocate(allocate_field.GetValue());
+            instance.SetCall(call_field.GetValue());
+            instance.SetUnaryOperator(unary_operator_field.GetValue());
             consumed_string.SetLength(index.GetStart() - index_start);
             instance.SetLengthString(consumed_string);
             result.SetValue(instance);
@@ -8122,27 +8122,27 @@ class RValueSingleParser
         } else {
             index.SetStart(index_start);
             index.SetLength(index_length);
-            allocate_field = new AllocateResult;
-            booleanLiteral_field = new BooleanResult;
-            byteLiteral_field = new ByteResult;
-            call_field = new CallResult;
-            decimalLiteral_field = new DecimalResult;
-            integerLiteral_field = new NumberResult;
             stringLiteral_field = new LiteralResult;
-            unary_operator_field = new UnaryOperatorResult;
             variable_field = new NameResult;
+            booleanLiteral_field = new BooleanResult;
+            integerLiteral_field = new NumberResult;
+            decimalLiteral_field = new DecimalResult;
+            byteLiteral_field = new ByteResult;
+            allocate_field = new AllocateResult;
+            call_field = new CallResult;
+            unary_operator_field = new UnaryOperatorResult;
         }
 
         if (true && whitespace_parser_instance.ParseMany(index, 0, -1) && unary_operator_parser_instance.ParseOptionalSave(index, unary_operator_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && decimal_parser_instance.ParseSingleSave(index, decimalLiteral_field)) {
-            instance.SetAllocate(allocate_field.GetValue());
-            instance.SetBooleanLiteral(booleanLiteral_field.GetValue());
-            instance.SetByteLiteral(byteLiteral_field.GetValue());
-            instance.SetCall(call_field.GetValue());
-            instance.SetDecimalLiteral(decimalLiteral_field.GetValue());
-            instance.SetIntegerLiteral(integerLiteral_field.GetValue());
             instance.SetStringLiteral(stringLiteral_field.GetValue());
-            instance.SetUnaryOperator(unary_operator_field.GetValue());
             instance.SetVariable(variable_field.GetValue());
+            instance.SetBooleanLiteral(booleanLiteral_field.GetValue());
+            instance.SetIntegerLiteral(integerLiteral_field.GetValue());
+            instance.SetDecimalLiteral(decimalLiteral_field.GetValue());
+            instance.SetByteLiteral(byteLiteral_field.GetValue());
+            instance.SetAllocate(allocate_field.GetValue());
+            instance.SetCall(call_field.GetValue());
+            instance.SetUnaryOperator(unary_operator_field.GetValue());
             consumed_string.SetLength(index.GetStart() - index_start);
             instance.SetLengthString(consumed_string);
             result.SetValue(instance);
@@ -8151,27 +8151,27 @@ class RValueSingleParser
         } else {
             index.SetStart(index_start);
             index.SetLength(index_length);
-            allocate_field = new AllocateResult;
-            booleanLiteral_field = new BooleanResult;
-            byteLiteral_field = new ByteResult;
-            call_field = new CallResult;
-            decimalLiteral_field = new DecimalResult;
-            integerLiteral_field = new NumberResult;
             stringLiteral_field = new LiteralResult;
-            unary_operator_field = new UnaryOperatorResult;
             variable_field = new NameResult;
+            booleanLiteral_field = new BooleanResult;
+            integerLiteral_field = new NumberResult;
+            decimalLiteral_field = new DecimalResult;
+            byteLiteral_field = new ByteResult;
+            allocate_field = new AllocateResult;
+            call_field = new CallResult;
+            unary_operator_field = new UnaryOperatorResult;
         }
 
         if (true && whitespace_parser_instance.ParseMany(index, 0, -1) && unary_operator_parser_instance.ParseOptionalSave(index, unary_operator_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && number_parser_instance.ParseSingleSave(index, integerLiteral_field)) {
-            instance.SetAllocate(allocate_field.GetValue());
-            instance.SetBooleanLiteral(booleanLiteral_field.GetValue());
-            instance.SetByteLiteral(byteLiteral_field.GetValue());
-            instance.SetCall(call_field.GetValue());
-            instance.SetDecimalLiteral(decimalLiteral_field.GetValue());
-            instance.SetIntegerLiteral(integerLiteral_field.GetValue());
             instance.SetStringLiteral(stringLiteral_field.GetValue());
-            instance.SetUnaryOperator(unary_operator_field.GetValue());
             instance.SetVariable(variable_field.GetValue());
+            instance.SetBooleanLiteral(booleanLiteral_field.GetValue());
+            instance.SetIntegerLiteral(integerLiteral_field.GetValue());
+            instance.SetDecimalLiteral(decimalLiteral_field.GetValue());
+            instance.SetByteLiteral(byteLiteral_field.GetValue());
+            instance.SetAllocate(allocate_field.GetValue());
+            instance.SetCall(call_field.GetValue());
+            instance.SetUnaryOperator(unary_operator_field.GetValue());
             consumed_string.SetLength(index.GetStart() - index_start);
             instance.SetLengthString(consumed_string);
             result.SetValue(instance);
@@ -8180,27 +8180,27 @@ class RValueSingleParser
         } else {
             index.SetStart(index_start);
             index.SetLength(index_length);
-            allocate_field = new AllocateResult;
-            booleanLiteral_field = new BooleanResult;
-            byteLiteral_field = new ByteResult;
-            call_field = new CallResult;
-            decimalLiteral_field = new DecimalResult;
-            integerLiteral_field = new NumberResult;
             stringLiteral_field = new LiteralResult;
-            unary_operator_field = new UnaryOperatorResult;
             variable_field = new NameResult;
+            booleanLiteral_field = new BooleanResult;
+            integerLiteral_field = new NumberResult;
+            decimalLiteral_field = new DecimalResult;
+            byteLiteral_field = new ByteResult;
+            allocate_field = new AllocateResult;
+            call_field = new CallResult;
+            unary_operator_field = new UnaryOperatorResult;
         }
 
         if (true && whitespace_parser_instance.ParseMany(index, 0, -1) && unary_operator_parser_instance.ParseOptionalSave(index, unary_operator_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && boolean_parser_instance.ParseSingleSave(index, booleanLiteral_field)) {
-            instance.SetAllocate(allocate_field.GetValue());
-            instance.SetBooleanLiteral(booleanLiteral_field.GetValue());
-            instance.SetByteLiteral(byteLiteral_field.GetValue());
-            instance.SetCall(call_field.GetValue());
-            instance.SetDecimalLiteral(decimalLiteral_field.GetValue());
-            instance.SetIntegerLiteral(integerLiteral_field.GetValue());
             instance.SetStringLiteral(stringLiteral_field.GetValue());
-            instance.SetUnaryOperator(unary_operator_field.GetValue());
             instance.SetVariable(variable_field.GetValue());
+            instance.SetBooleanLiteral(booleanLiteral_field.GetValue());
+            instance.SetIntegerLiteral(integerLiteral_field.GetValue());
+            instance.SetDecimalLiteral(decimalLiteral_field.GetValue());
+            instance.SetByteLiteral(byteLiteral_field.GetValue());
+            instance.SetAllocate(allocate_field.GetValue());
+            instance.SetCall(call_field.GetValue());
+            instance.SetUnaryOperator(unary_operator_field.GetValue());
             consumed_string.SetLength(index.GetStart() - index_start);
             instance.SetLengthString(consumed_string);
             result.SetValue(instance);
@@ -8209,27 +8209,27 @@ class RValueSingleParser
         } else {
             index.SetStart(index_start);
             index.SetLength(index_length);
-            allocate_field = new AllocateResult;
-            booleanLiteral_field = new BooleanResult;
-            byteLiteral_field = new ByteResult;
-            call_field = new CallResult;
-            decimalLiteral_field = new DecimalResult;
-            integerLiteral_field = new NumberResult;
             stringLiteral_field = new LiteralResult;
-            unary_operator_field = new UnaryOperatorResult;
             variable_field = new NameResult;
+            booleanLiteral_field = new BooleanResult;
+            integerLiteral_field = new NumberResult;
+            decimalLiteral_field = new DecimalResult;
+            byteLiteral_field = new ByteResult;
+            allocate_field = new AllocateResult;
+            call_field = new CallResult;
+            unary_operator_field = new UnaryOperatorResult;
         }
 
         if (true && whitespace_parser_instance.ParseMany(index, 0, -1) && unary_operator_parser_instance.ParseOptionalSave(index, unary_operator_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && name_parser_instance.ParseSingleSave(index, variable_field)) {
-            instance.SetAllocate(allocate_field.GetValue());
-            instance.SetBooleanLiteral(booleanLiteral_field.GetValue());
-            instance.SetByteLiteral(byteLiteral_field.GetValue());
-            instance.SetCall(call_field.GetValue());
-            instance.SetDecimalLiteral(decimalLiteral_field.GetValue());
-            instance.SetIntegerLiteral(integerLiteral_field.GetValue());
             instance.SetStringLiteral(stringLiteral_field.GetValue());
-            instance.SetUnaryOperator(unary_operator_field.GetValue());
             instance.SetVariable(variable_field.GetValue());
+            instance.SetBooleanLiteral(booleanLiteral_field.GetValue());
+            instance.SetIntegerLiteral(integerLiteral_field.GetValue());
+            instance.SetDecimalLiteral(decimalLiteral_field.GetValue());
+            instance.SetByteLiteral(byteLiteral_field.GetValue());
+            instance.SetAllocate(allocate_field.GetValue());
+            instance.SetCall(call_field.GetValue());
+            instance.SetUnaryOperator(unary_operator_field.GetValue());
             consumed_string.SetLength(index.GetStart() - index_start);
             instance.SetLengthString(consumed_string);
             result.SetValue(instance);
@@ -8238,27 +8238,27 @@ class RValueSingleParser
         } else {
             index.SetStart(index_start);
             index.SetLength(index_length);
-            allocate_field = new AllocateResult;
-            booleanLiteral_field = new BooleanResult;
-            byteLiteral_field = new ByteResult;
-            call_field = new CallResult;
-            decimalLiteral_field = new DecimalResult;
-            integerLiteral_field = new NumberResult;
             stringLiteral_field = new LiteralResult;
-            unary_operator_field = new UnaryOperatorResult;
             variable_field = new NameResult;
+            booleanLiteral_field = new BooleanResult;
+            integerLiteral_field = new NumberResult;
+            decimalLiteral_field = new DecimalResult;
+            byteLiteral_field = new ByteResult;
+            allocate_field = new AllocateResult;
+            call_field = new CallResult;
+            unary_operator_field = new UnaryOperatorResult;
         }
 
         if (true && whitespace_parser_instance.ParseMany(index, 0, -1) && unary_operator_parser_instance.ParseOptionalSave(index, unary_operator_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, "\"") && literal_parser_instance.ParseSingleSave(index, stringLiteral_field) && string_parser_instance.ParseSingle(index, "\"")) {
-            instance.SetAllocate(allocate_field.GetValue());
-            instance.SetBooleanLiteral(booleanLiteral_field.GetValue());
-            instance.SetByteLiteral(byteLiteral_field.GetValue());
-            instance.SetCall(call_field.GetValue());
-            instance.SetDecimalLiteral(decimalLiteral_field.GetValue());
-            instance.SetIntegerLiteral(integerLiteral_field.GetValue());
             instance.SetStringLiteral(stringLiteral_field.GetValue());
-            instance.SetUnaryOperator(unary_operator_field.GetValue());
             instance.SetVariable(variable_field.GetValue());
+            instance.SetBooleanLiteral(booleanLiteral_field.GetValue());
+            instance.SetIntegerLiteral(integerLiteral_field.GetValue());
+            instance.SetDecimalLiteral(decimalLiteral_field.GetValue());
+            instance.SetByteLiteral(byteLiteral_field.GetValue());
+            instance.SetAllocate(allocate_field.GetValue());
+            instance.SetCall(call_field.GetValue());
+            instance.SetUnaryOperator(unary_operator_field.GetValue());
             consumed_string.SetLength(index.GetStart() - index_start);
             instance.SetLengthString(consumed_string);
             result.SetValue(instance);
@@ -8267,15 +8267,15 @@ class RValueSingleParser
         } else {
             index.SetStart(index_start);
             index.SetLength(index_length);
-            allocate_field = new AllocateResult;
-            booleanLiteral_field = new BooleanResult;
-            byteLiteral_field = new ByteResult;
-            call_field = new CallResult;
-            decimalLiteral_field = new DecimalResult;
-            integerLiteral_field = new NumberResult;
             stringLiteral_field = new LiteralResult;
-            unary_operator_field = new UnaryOperatorResult;
             variable_field = new NameResult;
+            booleanLiteral_field = new BooleanResult;
+            integerLiteral_field = new NumberResult;
+            decimalLiteral_field = new DecimalResult;
+            byteLiteral_field = new ByteResult;
+            allocate_field = new AllocateResult;
+            call_field = new CallResult;
+            unary_operator_field = new UnaryOperatorResult;
         }
 
         result.SetResult(false);
@@ -8386,35 +8386,35 @@ class RValueSingle
     }
 
     function string UnParse() { return length_string.GetString(); }
-    function void SetAllocate(Allocate input_value) { allocate_field = input_value; }
-    function Allocate GetAllocate() { return allocate_field; }
-    function void SetBooleanLiteral(Boolean input_value) { booleanLiteral_field = input_value; }
-    function Boolean GetBooleanLiteral() { return booleanLiteral_field; }
-    function void SetByteLiteral(Byte input_value) { byteLiteral_field = input_value; }
-    function Byte GetByteLiteral() { return byteLiteral_field; }
-    function void SetCall(Call input_value) { call_field = input_value; }
-    function Call GetCall() { return call_field; }
-    function void SetDecimalLiteral(Decimal input_value) { decimalLiteral_field = input_value; }
-    function Decimal GetDecimalLiteral() { return decimalLiteral_field; }
-    function void SetIntegerLiteral(Number input_value) { integerLiteral_field = input_value; }
-    function Number GetIntegerLiteral() { return integerLiteral_field; }
     function void SetStringLiteral(Literal input_value) { stringLiteral_field = input_value; }
     function Literal GetStringLiteral() { return stringLiteral_field; }
-    function void SetUnaryOperator(UnaryOperator input_value) { unary_operator_field = input_value; }
-    function UnaryOperator GetUnaryOperator() { return unary_operator_field; }
     function void SetVariable(Name input_value) { variable_field = input_value; }
     function Name GetVariable() { return variable_field; }
+    function void SetBooleanLiteral(Boolean input_value) { booleanLiteral_field = input_value; }
+    function Boolean GetBooleanLiteral() { return booleanLiteral_field; }
+    function void SetIntegerLiteral(Number input_value) { integerLiteral_field = input_value; }
+    function Number GetIntegerLiteral() { return integerLiteral_field; }
+    function void SetDecimalLiteral(Decimal input_value) { decimalLiteral_field = input_value; }
+    function Decimal GetDecimalLiteral() { return decimalLiteral_field; }
+    function void SetByteLiteral(Byte input_value) { byteLiteral_field = input_value; }
+    function Byte GetByteLiteral() { return byteLiteral_field; }
+    function void SetAllocate(Allocate input_value) { allocate_field = input_value; }
+    function Allocate GetAllocate() { return allocate_field; }
+    function void SetCall(Call input_value) { call_field = input_value; }
+    function Call GetCall() { return call_field; }
+    function void SetUnaryOperator(UnaryOperator input_value) { unary_operator_field = input_value; }
+    function UnaryOperator GetUnaryOperator() { return unary_operator_field; }
 
     LengthString length_string;
-    Allocate allocate_field;
-    Boolean booleanLiteral_field;
-    Byte byteLiteral_field;
-    Call call_field;
-    Decimal decimalLiteral_field;
-    Number integerLiteral_field;
     Literal stringLiteral_field;
-    UnaryOperator unary_operator_field;
     Name variable_field;
+    Boolean booleanLiteral_field;
+    Number integerLiteral_field;
+    Decimal decimalLiteral_field;
+    Byte byteLiteral_field;
+    Allocate allocate_field;
+    Call call_field;
+    UnaryOperator unary_operator_field;
 }
 
 class RValueTailParser
@@ -8430,9 +8430,9 @@ class RValueTailParser
         consumed_string.SetStart(index.GetStart());
         consumed_string.SetLength(0);
         RValueTail instance = new RValueTail;
-        BinaryOperatorResult binary_operator_field = new BinaryOperatorResult;
         RValueTailResult tail_field = new RValueTailResult;
         RValueSingleResult value_field = new RValueSingleResult;
+        BinaryOperatorResult binary_operator_field = new BinaryOperatorResult;
 
         CTCodeFileParser c_t_code_file_parser_instance = parser_network.GetCTCodeFileParser();
         ExternalDefinitionParser external_definition_parser_instance = parser_network.GetExternalDefinitionParser();
@@ -8490,9 +8490,9 @@ class RValueTailParser
         CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && whitespace_parser_instance.ParseMany(index, 0, -1) && binary_operator_parser_instance.ParseSingleSave(index, binary_operator_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && r_value_single_parser_instance.ParseSingleSave(index, value_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && r_value_tail_parser_instance.ParseOptionalSave(index, tail_field)) {
-            instance.SetBinaryOperator(binary_operator_field.GetValue());
             instance.SetTail(tail_field.GetValue());
             instance.SetValue(value_field.GetValue());
+            instance.SetBinaryOperator(binary_operator_field.GetValue());
             consumed_string.SetLength(index.GetStart() - index_start);
             instance.SetLengthString(consumed_string);
             result.SetValue(instance);
@@ -8501,9 +8501,9 @@ class RValueTailParser
         } else {
             index.SetStart(index_start);
             index.SetLength(index_length);
-            binary_operator_field = new BinaryOperatorResult;
             tail_field = new RValueTailResult;
             value_field = new RValueSingleResult;
+            binary_operator_field = new BinaryOperatorResult;
         }
 
         result.SetResult(false);
@@ -8614,17 +8614,17 @@ class RValueTail
     }
 
     function string UnParse() { return length_string.GetString(); }
-    function void SetBinaryOperator(BinaryOperator input_value) { binary_operator_field = input_value; }
-    function BinaryOperator GetBinaryOperator() { return binary_operator_field; }
     function void SetTail(RValueTail input_value) { tail_field = input_value; }
     function RValueTail GetTail() { return tail_field; }
     function void SetValue(RValueSingle input_value) { value_field = input_value; }
     function RValueSingle GetValue() { return value_field; }
+    function void SetBinaryOperator(BinaryOperator input_value) { binary_operator_field = input_value; }
+    function BinaryOperator GetBinaryOperator() { return binary_operator_field; }
 
     LengthString length_string;
-    BinaryOperator binary_operator_field;
     RValueTail tail_field;
     RValueSingle value_field;
+    BinaryOperator binary_operator_field;
 }
 
 class RValueParser
@@ -8844,16 +8844,16 @@ class BinaryOperatorParser
         consumed_string.SetStart(index.GetStart());
         consumed_string.SetLength(0);
         BinaryOperator instance = new BinaryOperator;
-        StringResult addition_field = new StringResult;
         StringResult andOp_field = new StringResult;
-        StringResult equality_field = new StringResult;
-        StringResult greaterThanEq_field = new StringResult;
+        StringResult orOp_field = new StringResult;
         StringResult greaterThan_field = new StringResult;
-        StringResult lessThanEq_field = new StringResult;
         StringResult lessThan_field = new StringResult;
         StringResult notEquality_field = new StringResult;
-        StringResult orOp_field = new StringResult;
+        StringResult equality_field = new StringResult;
+        StringResult greaterThanEq_field = new StringResult;
+        StringResult lessThanEq_field = new StringResult;
         StringResult subtraction_field = new StringResult;
+        StringResult addition_field = new StringResult;
 
         CTCodeFileParser c_t_code_file_parser_instance = parser_network.GetCTCodeFileParser();
         ExternalDefinitionParser external_definition_parser_instance = parser_network.GetExternalDefinitionParser();
@@ -8911,16 +8911,16 @@ class BinaryOperatorParser
         CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && string_parser_instance.ParseSingleSave(index, "+", addition_field)) {
-            instance.SetAddition(addition_field.GetValue());
             instance.SetAndOp(andOp_field.GetValue());
-            instance.SetEquality(equality_field.GetValue());
-            instance.SetGreaterThanEq(greaterThanEq_field.GetValue());
+            instance.SetOrOp(orOp_field.GetValue());
             instance.SetGreaterThan(greaterThan_field.GetValue());
-            instance.SetLessThanEq(lessThanEq_field.GetValue());
             instance.SetLessThan(lessThan_field.GetValue());
             instance.SetNotEquality(notEquality_field.GetValue());
-            instance.SetOrOp(orOp_field.GetValue());
+            instance.SetEquality(equality_field.GetValue());
+            instance.SetGreaterThanEq(greaterThanEq_field.GetValue());
+            instance.SetLessThanEq(lessThanEq_field.GetValue());
             instance.SetSubtraction(subtraction_field.GetValue());
+            instance.SetAddition(addition_field.GetValue());
             consumed_string.SetLength(index.GetStart() - index_start);
             instance.SetLengthString(consumed_string);
             result.SetValue(instance);
@@ -8929,29 +8929,29 @@ class BinaryOperatorParser
         } else {
             index.SetStart(index_start);
             index.SetLength(index_length);
-            addition_field = new StringResult;
             andOp_field = new StringResult;
-            equality_field = new StringResult;
-            greaterThanEq_field = new StringResult;
+            orOp_field = new StringResult;
             greaterThan_field = new StringResult;
-            lessThanEq_field = new StringResult;
             lessThan_field = new StringResult;
             notEquality_field = new StringResult;
-            orOp_field = new StringResult;
+            equality_field = new StringResult;
+            greaterThanEq_field = new StringResult;
+            lessThanEq_field = new StringResult;
             subtraction_field = new StringResult;
+            addition_field = new StringResult;
         }
 
         if (true && string_parser_instance.ParseSingleSave(index, "-", subtraction_field)) {
-            instance.SetAddition(addition_field.GetValue());
             instance.SetAndOp(andOp_field.GetValue());
-            instance.SetEquality(equality_field.GetValue());
-            instance.SetGreaterThanEq(greaterThanEq_field.GetValue());
+            instance.SetOrOp(orOp_field.GetValue());
             instance.SetGreaterThan(greaterThan_field.GetValue());
-            instance.SetLessThanEq(lessThanEq_field.GetValue());
             instance.SetLessThan(lessThan_field.GetValue());
             instance.SetNotEquality(notEquality_field.GetValue());
-            instance.SetOrOp(orOp_field.GetValue());
+            instance.SetEquality(equality_field.GetValue());
+            instance.SetGreaterThanEq(greaterThanEq_field.GetValue());
+            instance.SetLessThanEq(lessThanEq_field.GetValue());
             instance.SetSubtraction(subtraction_field.GetValue());
+            instance.SetAddition(addition_field.GetValue());
             consumed_string.SetLength(index.GetStart() - index_start);
             instance.SetLengthString(consumed_string);
             result.SetValue(instance);
@@ -8960,29 +8960,29 @@ class BinaryOperatorParser
         } else {
             index.SetStart(index_start);
             index.SetLength(index_length);
-            addition_field = new StringResult;
             andOp_field = new StringResult;
-            equality_field = new StringResult;
-            greaterThanEq_field = new StringResult;
+            orOp_field = new StringResult;
             greaterThan_field = new StringResult;
-            lessThanEq_field = new StringResult;
             lessThan_field = new StringResult;
             notEquality_field = new StringResult;
-            orOp_field = new StringResult;
+            equality_field = new StringResult;
+            greaterThanEq_field = new StringResult;
+            lessThanEq_field = new StringResult;
             subtraction_field = new StringResult;
+            addition_field = new StringResult;
         }
 
         if (true && string_parser_instance.ParseSingleSave(index, "<=", lessThanEq_field)) {
-            instance.SetAddition(addition_field.GetValue());
             instance.SetAndOp(andOp_field.GetValue());
-            instance.SetEquality(equality_field.GetValue());
-            instance.SetGreaterThanEq(greaterThanEq_field.GetValue());
+            instance.SetOrOp(orOp_field.GetValue());
             instance.SetGreaterThan(greaterThan_field.GetValue());
-            instance.SetLessThanEq(lessThanEq_field.GetValue());
             instance.SetLessThan(lessThan_field.GetValue());
             instance.SetNotEquality(notEquality_field.GetValue());
-            instance.SetOrOp(orOp_field.GetValue());
+            instance.SetEquality(equality_field.GetValue());
+            instance.SetGreaterThanEq(greaterThanEq_field.GetValue());
+            instance.SetLessThanEq(lessThanEq_field.GetValue());
             instance.SetSubtraction(subtraction_field.GetValue());
+            instance.SetAddition(addition_field.GetValue());
             consumed_string.SetLength(index.GetStart() - index_start);
             instance.SetLengthString(consumed_string);
             result.SetValue(instance);
@@ -8991,29 +8991,29 @@ class BinaryOperatorParser
         } else {
             index.SetStart(index_start);
             index.SetLength(index_length);
-            addition_field = new StringResult;
             andOp_field = new StringResult;
-            equality_field = new StringResult;
-            greaterThanEq_field = new StringResult;
+            orOp_field = new StringResult;
             greaterThan_field = new StringResult;
-            lessThanEq_field = new StringResult;
             lessThan_field = new StringResult;
             notEquality_field = new StringResult;
-            orOp_field = new StringResult;
+            equality_field = new StringResult;
+            greaterThanEq_field = new StringResult;
+            lessThanEq_field = new StringResult;
             subtraction_field = new StringResult;
+            addition_field = new StringResult;
         }
 
         if (true && string_parser_instance.ParseSingleSave(index, ">=", greaterThanEq_field)) {
-            instance.SetAddition(addition_field.GetValue());
             instance.SetAndOp(andOp_field.GetValue());
-            instance.SetEquality(equality_field.GetValue());
-            instance.SetGreaterThanEq(greaterThanEq_field.GetValue());
+            instance.SetOrOp(orOp_field.GetValue());
             instance.SetGreaterThan(greaterThan_field.GetValue());
-            instance.SetLessThanEq(lessThanEq_field.GetValue());
             instance.SetLessThan(lessThan_field.GetValue());
             instance.SetNotEquality(notEquality_field.GetValue());
-            instance.SetOrOp(orOp_field.GetValue());
+            instance.SetEquality(equality_field.GetValue());
+            instance.SetGreaterThanEq(greaterThanEq_field.GetValue());
+            instance.SetLessThanEq(lessThanEq_field.GetValue());
             instance.SetSubtraction(subtraction_field.GetValue());
+            instance.SetAddition(addition_field.GetValue());
             consumed_string.SetLength(index.GetStart() - index_start);
             instance.SetLengthString(consumed_string);
             result.SetValue(instance);
@@ -9022,29 +9022,29 @@ class BinaryOperatorParser
         } else {
             index.SetStart(index_start);
             index.SetLength(index_length);
-            addition_field = new StringResult;
             andOp_field = new StringResult;
-            equality_field = new StringResult;
-            greaterThanEq_field = new StringResult;
+            orOp_field = new StringResult;
             greaterThan_field = new StringResult;
-            lessThanEq_field = new StringResult;
             lessThan_field = new StringResult;
             notEquality_field = new StringResult;
-            orOp_field = new StringResult;
+            equality_field = new StringResult;
+            greaterThanEq_field = new StringResult;
+            lessThanEq_field = new StringResult;
             subtraction_field = new StringResult;
+            addition_field = new StringResult;
         }
 
         if (true && string_parser_instance.ParseSingleSave(index, "==", equality_field)) {
-            instance.SetAddition(addition_field.GetValue());
             instance.SetAndOp(andOp_field.GetValue());
-            instance.SetEquality(equality_field.GetValue());
-            instance.SetGreaterThanEq(greaterThanEq_field.GetValue());
+            instance.SetOrOp(orOp_field.GetValue());
             instance.SetGreaterThan(greaterThan_field.GetValue());
-            instance.SetLessThanEq(lessThanEq_field.GetValue());
             instance.SetLessThan(lessThan_field.GetValue());
             instance.SetNotEquality(notEquality_field.GetValue());
-            instance.SetOrOp(orOp_field.GetValue());
+            instance.SetEquality(equality_field.GetValue());
+            instance.SetGreaterThanEq(greaterThanEq_field.GetValue());
+            instance.SetLessThanEq(lessThanEq_field.GetValue());
             instance.SetSubtraction(subtraction_field.GetValue());
+            instance.SetAddition(addition_field.GetValue());
             consumed_string.SetLength(index.GetStart() - index_start);
             instance.SetLengthString(consumed_string);
             result.SetValue(instance);
@@ -9053,29 +9053,29 @@ class BinaryOperatorParser
         } else {
             index.SetStart(index_start);
             index.SetLength(index_length);
-            addition_field = new StringResult;
             andOp_field = new StringResult;
-            equality_field = new StringResult;
-            greaterThanEq_field = new StringResult;
+            orOp_field = new StringResult;
             greaterThan_field = new StringResult;
-            lessThanEq_field = new StringResult;
             lessThan_field = new StringResult;
             notEquality_field = new StringResult;
-            orOp_field = new StringResult;
+            equality_field = new StringResult;
+            greaterThanEq_field = new StringResult;
+            lessThanEq_field = new StringResult;
             subtraction_field = new StringResult;
+            addition_field = new StringResult;
         }
 
         if (true && string_parser_instance.ParseSingleSave(index, "!=", notEquality_field)) {
-            instance.SetAddition(addition_field.GetValue());
             instance.SetAndOp(andOp_field.GetValue());
-            instance.SetEquality(equality_field.GetValue());
-            instance.SetGreaterThanEq(greaterThanEq_field.GetValue());
+            instance.SetOrOp(orOp_field.GetValue());
             instance.SetGreaterThan(greaterThan_field.GetValue());
-            instance.SetLessThanEq(lessThanEq_field.GetValue());
             instance.SetLessThan(lessThan_field.GetValue());
             instance.SetNotEquality(notEquality_field.GetValue());
-            instance.SetOrOp(orOp_field.GetValue());
+            instance.SetEquality(equality_field.GetValue());
+            instance.SetGreaterThanEq(greaterThanEq_field.GetValue());
+            instance.SetLessThanEq(lessThanEq_field.GetValue());
             instance.SetSubtraction(subtraction_field.GetValue());
+            instance.SetAddition(addition_field.GetValue());
             consumed_string.SetLength(index.GetStart() - index_start);
             instance.SetLengthString(consumed_string);
             result.SetValue(instance);
@@ -9084,29 +9084,29 @@ class BinaryOperatorParser
         } else {
             index.SetStart(index_start);
             index.SetLength(index_length);
-            addition_field = new StringResult;
             andOp_field = new StringResult;
-            equality_field = new StringResult;
-            greaterThanEq_field = new StringResult;
+            orOp_field = new StringResult;
             greaterThan_field = new StringResult;
-            lessThanEq_field = new StringResult;
             lessThan_field = new StringResult;
             notEquality_field = new StringResult;
-            orOp_field = new StringResult;
+            equality_field = new StringResult;
+            greaterThanEq_field = new StringResult;
+            lessThanEq_field = new StringResult;
             subtraction_field = new StringResult;
+            addition_field = new StringResult;
         }
 
         if (true && string_parser_instance.ParseSingleSave(index, "<", lessThan_field)) {
-            instance.SetAddition(addition_field.GetValue());
             instance.SetAndOp(andOp_field.GetValue());
-            instance.SetEquality(equality_field.GetValue());
-            instance.SetGreaterThanEq(greaterThanEq_field.GetValue());
+            instance.SetOrOp(orOp_field.GetValue());
             instance.SetGreaterThan(greaterThan_field.GetValue());
-            instance.SetLessThanEq(lessThanEq_field.GetValue());
             instance.SetLessThan(lessThan_field.GetValue());
             instance.SetNotEquality(notEquality_field.GetValue());
-            instance.SetOrOp(orOp_field.GetValue());
+            instance.SetEquality(equality_field.GetValue());
+            instance.SetGreaterThanEq(greaterThanEq_field.GetValue());
+            instance.SetLessThanEq(lessThanEq_field.GetValue());
             instance.SetSubtraction(subtraction_field.GetValue());
+            instance.SetAddition(addition_field.GetValue());
             consumed_string.SetLength(index.GetStart() - index_start);
             instance.SetLengthString(consumed_string);
             result.SetValue(instance);
@@ -9115,29 +9115,29 @@ class BinaryOperatorParser
         } else {
             index.SetStart(index_start);
             index.SetLength(index_length);
-            addition_field = new StringResult;
             andOp_field = new StringResult;
-            equality_field = new StringResult;
-            greaterThanEq_field = new StringResult;
+            orOp_field = new StringResult;
             greaterThan_field = new StringResult;
-            lessThanEq_field = new StringResult;
             lessThan_field = new StringResult;
             notEquality_field = new StringResult;
-            orOp_field = new StringResult;
+            equality_field = new StringResult;
+            greaterThanEq_field = new StringResult;
+            lessThanEq_field = new StringResult;
             subtraction_field = new StringResult;
+            addition_field = new StringResult;
         }
 
         if (true && string_parser_instance.ParseSingleSave(index, ">", greaterThan_field)) {
-            instance.SetAddition(addition_field.GetValue());
             instance.SetAndOp(andOp_field.GetValue());
-            instance.SetEquality(equality_field.GetValue());
-            instance.SetGreaterThanEq(greaterThanEq_field.GetValue());
+            instance.SetOrOp(orOp_field.GetValue());
             instance.SetGreaterThan(greaterThan_field.GetValue());
-            instance.SetLessThanEq(lessThanEq_field.GetValue());
             instance.SetLessThan(lessThan_field.GetValue());
             instance.SetNotEquality(notEquality_field.GetValue());
-            instance.SetOrOp(orOp_field.GetValue());
+            instance.SetEquality(equality_field.GetValue());
+            instance.SetGreaterThanEq(greaterThanEq_field.GetValue());
+            instance.SetLessThanEq(lessThanEq_field.GetValue());
             instance.SetSubtraction(subtraction_field.GetValue());
+            instance.SetAddition(addition_field.GetValue());
             consumed_string.SetLength(index.GetStart() - index_start);
             instance.SetLengthString(consumed_string);
             result.SetValue(instance);
@@ -9146,29 +9146,29 @@ class BinaryOperatorParser
         } else {
             index.SetStart(index_start);
             index.SetLength(index_length);
-            addition_field = new StringResult;
             andOp_field = new StringResult;
-            equality_field = new StringResult;
-            greaterThanEq_field = new StringResult;
+            orOp_field = new StringResult;
             greaterThan_field = new StringResult;
-            lessThanEq_field = new StringResult;
             lessThan_field = new StringResult;
             notEquality_field = new StringResult;
-            orOp_field = new StringResult;
+            equality_field = new StringResult;
+            greaterThanEq_field = new StringResult;
+            lessThanEq_field = new StringResult;
             subtraction_field = new StringResult;
+            addition_field = new StringResult;
         }
 
         if (true && string_parser_instance.ParseSingleSave(index, "||", orOp_field)) {
-            instance.SetAddition(addition_field.GetValue());
             instance.SetAndOp(andOp_field.GetValue());
-            instance.SetEquality(equality_field.GetValue());
-            instance.SetGreaterThanEq(greaterThanEq_field.GetValue());
+            instance.SetOrOp(orOp_field.GetValue());
             instance.SetGreaterThan(greaterThan_field.GetValue());
-            instance.SetLessThanEq(lessThanEq_field.GetValue());
             instance.SetLessThan(lessThan_field.GetValue());
             instance.SetNotEquality(notEquality_field.GetValue());
-            instance.SetOrOp(orOp_field.GetValue());
+            instance.SetEquality(equality_field.GetValue());
+            instance.SetGreaterThanEq(greaterThanEq_field.GetValue());
+            instance.SetLessThanEq(lessThanEq_field.GetValue());
             instance.SetSubtraction(subtraction_field.GetValue());
+            instance.SetAddition(addition_field.GetValue());
             consumed_string.SetLength(index.GetStart() - index_start);
             instance.SetLengthString(consumed_string);
             result.SetValue(instance);
@@ -9177,29 +9177,29 @@ class BinaryOperatorParser
         } else {
             index.SetStart(index_start);
             index.SetLength(index_length);
-            addition_field = new StringResult;
             andOp_field = new StringResult;
-            equality_field = new StringResult;
-            greaterThanEq_field = new StringResult;
+            orOp_field = new StringResult;
             greaterThan_field = new StringResult;
-            lessThanEq_field = new StringResult;
             lessThan_field = new StringResult;
             notEquality_field = new StringResult;
-            orOp_field = new StringResult;
+            equality_field = new StringResult;
+            greaterThanEq_field = new StringResult;
+            lessThanEq_field = new StringResult;
             subtraction_field = new StringResult;
+            addition_field = new StringResult;
         }
 
         if (true && string_parser_instance.ParseSingleSave(index, "&&", andOp_field)) {
-            instance.SetAddition(addition_field.GetValue());
             instance.SetAndOp(andOp_field.GetValue());
-            instance.SetEquality(equality_field.GetValue());
-            instance.SetGreaterThanEq(greaterThanEq_field.GetValue());
+            instance.SetOrOp(orOp_field.GetValue());
             instance.SetGreaterThan(greaterThan_field.GetValue());
-            instance.SetLessThanEq(lessThanEq_field.GetValue());
             instance.SetLessThan(lessThan_field.GetValue());
             instance.SetNotEquality(notEquality_field.GetValue());
-            instance.SetOrOp(orOp_field.GetValue());
+            instance.SetEquality(equality_field.GetValue());
+            instance.SetGreaterThanEq(greaterThanEq_field.GetValue());
+            instance.SetLessThanEq(lessThanEq_field.GetValue());
             instance.SetSubtraction(subtraction_field.GetValue());
+            instance.SetAddition(addition_field.GetValue());
             consumed_string.SetLength(index.GetStart() - index_start);
             instance.SetLengthString(consumed_string);
             result.SetValue(instance);
@@ -9208,16 +9208,16 @@ class BinaryOperatorParser
         } else {
             index.SetStart(index_start);
             index.SetLength(index_length);
-            addition_field = new StringResult;
             andOp_field = new StringResult;
-            equality_field = new StringResult;
-            greaterThanEq_field = new StringResult;
+            orOp_field = new StringResult;
             greaterThan_field = new StringResult;
-            lessThanEq_field = new StringResult;
             lessThan_field = new StringResult;
             notEquality_field = new StringResult;
-            orOp_field = new StringResult;
+            equality_field = new StringResult;
+            greaterThanEq_field = new StringResult;
+            lessThanEq_field = new StringResult;
             subtraction_field = new StringResult;
+            addition_field = new StringResult;
         }
 
         result.SetResult(false);
@@ -9328,38 +9328,38 @@ class BinaryOperator
     }
 
     function string UnParse() { return length_string.GetString(); }
-    function void SetAddition(String input_value) { addition_field = input_value; }
-    function String GetAddition() { return addition_field; }
     function void SetAndOp(String input_value) { andOp_field = input_value; }
     function String GetAndOp() { return andOp_field; }
-    function void SetEquality(String input_value) { equality_field = input_value; }
-    function String GetEquality() { return equality_field; }
-    function void SetGreaterThanEq(String input_value) { greaterThanEq_field = input_value; }
-    function String GetGreaterThanEq() { return greaterThanEq_field; }
+    function void SetOrOp(String input_value) { orOp_field = input_value; }
+    function String GetOrOp() { return orOp_field; }
     function void SetGreaterThan(String input_value) { greaterThan_field = input_value; }
     function String GetGreaterThan() { return greaterThan_field; }
-    function void SetLessThanEq(String input_value) { lessThanEq_field = input_value; }
-    function String GetLessThanEq() { return lessThanEq_field; }
     function void SetLessThan(String input_value) { lessThan_field = input_value; }
     function String GetLessThan() { return lessThan_field; }
     function void SetNotEquality(String input_value) { notEquality_field = input_value; }
     function String GetNotEquality() { return notEquality_field; }
-    function void SetOrOp(String input_value) { orOp_field = input_value; }
-    function String GetOrOp() { return orOp_field; }
+    function void SetEquality(String input_value) { equality_field = input_value; }
+    function String GetEquality() { return equality_field; }
+    function void SetGreaterThanEq(String input_value) { greaterThanEq_field = input_value; }
+    function String GetGreaterThanEq() { return greaterThanEq_field; }
+    function void SetLessThanEq(String input_value) { lessThanEq_field = input_value; }
+    function String GetLessThanEq() { return lessThanEq_field; }
     function void SetSubtraction(String input_value) { subtraction_field = input_value; }
     function String GetSubtraction() { return subtraction_field; }
+    function void SetAddition(String input_value) { addition_field = input_value; }
+    function String GetAddition() { return addition_field; }
 
     LengthString length_string;
-    String addition_field;
     String andOp_field;
-    String equality_field;
-    String greaterThanEq_field;
+    String orOp_field;
     String greaterThan_field;
-    String lessThanEq_field;
     String lessThan_field;
     String notEquality_field;
-    String orOp_field;
+    String equality_field;
+    String greaterThanEq_field;
+    String lessThanEq_field;
     String subtraction_field;
+    String addition_field;
 }
 
 class UnaryOperatorParser
@@ -10293,8 +10293,8 @@ class QualfiedNameParser
         consumed_string.SetStart(index.GetStart());
         consumed_string.SetLength(0);
         QualfiedName instance = new QualfiedName;
-        NameResult name_field = new NameResult;
         NameTailResult tail_field = new NameTailResult;
+        NameResult name_field = new NameResult;
 
         CTCodeFileParser c_t_code_file_parser_instance = parser_network.GetCTCodeFileParser();
         ExternalDefinitionParser external_definition_parser_instance = parser_network.GetExternalDefinitionParser();
@@ -10352,8 +10352,8 @@ class QualfiedNameParser
         CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && name_parser_instance.ParseSingleSave(index, name_field) && name_tail_parser_instance.ParseOptionalSave(index, tail_field)) {
-            instance.SetName(name_field.GetValue());
             instance.SetTail(tail_field.GetValue());
+            instance.SetName(name_field.GetValue());
             consumed_string.SetLength(index.GetStart() - index_start);
             instance.SetLengthString(consumed_string);
             result.SetValue(instance);
@@ -10362,8 +10362,8 @@ class QualfiedNameParser
         } else {
             index.SetStart(index_start);
             index.SetLength(index_length);
-            name_field = new NameResult;
             tail_field = new NameTailResult;
+            name_field = new NameResult;
         }
 
         result.SetResult(false);
@@ -10474,14 +10474,14 @@ class QualfiedName
     }
 
     function string UnParse() { return length_string.GetString(); }
-    function void SetName(Name input_value) { name_field = input_value; }
-    function Name GetName() { return name_field; }
     function void SetTail(NameTail input_value) { tail_field = input_value; }
     function NameTail GetTail() { return tail_field; }
+    function void SetName(Name input_value) { name_field = input_value; }
+    function Name GetName() { return name_field; }
 
     LengthString length_string;
-    Name name_field;
     NameTail tail_field;
+    Name name_field;
 }
 
 class NameTailParser
@@ -10497,8 +10497,8 @@ class NameTailParser
         consumed_string.SetStart(index.GetStart());
         consumed_string.SetLength(0);
         NameTail instance = new NameTail;
-        NameResult name_field = new NameResult;
         NameTailResult tail_field = new NameTailResult;
+        NameResult name_field = new NameResult;
 
         CTCodeFileParser c_t_code_file_parser_instance = parser_network.GetCTCodeFileParser();
         ExternalDefinitionParser external_definition_parser_instance = parser_network.GetExternalDefinitionParser();
@@ -10556,8 +10556,8 @@ class NameTailParser
         CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && string_parser_instance.ParseSingle(index, ".") && name_parser_instance.ParseSingleSave(index, name_field) && name_tail_parser_instance.ParseOptionalSave(index, tail_field)) {
-            instance.SetName(name_field.GetValue());
             instance.SetTail(tail_field.GetValue());
+            instance.SetName(name_field.GetValue());
             consumed_string.SetLength(index.GetStart() - index_start);
             instance.SetLengthString(consumed_string);
             result.SetValue(instance);
@@ -10566,8 +10566,8 @@ class NameTailParser
         } else {
             index.SetStart(index_start);
             index.SetLength(index_length);
-            name_field = new NameResult;
             tail_field = new NameTailResult;
+            name_field = new NameResult;
         }
 
         result.SetResult(false);
@@ -10678,14 +10678,14 @@ class NameTail
     }
 
     function string UnParse() { return length_string.GetString(); }
-    function void SetName(Name input_value) { name_field = input_value; }
-    function Name GetName() { return name_field; }
     function void SetTail(NameTail input_value) { tail_field = input_value; }
     function NameTail GetTail() { return tail_field; }
+    function void SetName(Name input_value) { name_field = input_value; }
+    function Name GetName() { return name_field; }
 
     LengthString length_string;
-    Name name_field;
     NameTail tail_field;
+    Name name_field;
 }
 
 class NameParser
@@ -11321,8 +11321,8 @@ class ByteParser
         consumed_string.SetStart(index.GetStart());
         consumed_string.SetLength(0);
         Byte instance = new Byte;
-        ByteDigitResult high_field = new ByteDigitResult;
         ByteDigitResult low_field = new ByteDigitResult;
+        ByteDigitResult high_field = new ByteDigitResult;
 
         CTCodeFileParser c_t_code_file_parser_instance = parser_network.GetCTCodeFileParser();
         ExternalDefinitionParser external_definition_parser_instance = parser_network.GetExternalDefinitionParser();
@@ -11380,8 +11380,8 @@ class ByteParser
         CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && string_parser_instance.ParseSingle(index, "0x") && byte_digit_parser_instance.ParseSingleSave(index, high_field) && byte_digit_parser_instance.ParseSingleSave(index, low_field)) {
-            instance.SetHigh(high_field.GetValue());
             instance.SetLow(low_field.GetValue());
+            instance.SetHigh(high_field.GetValue());
             consumed_string.SetLength(index.GetStart() - index_start);
             instance.SetLengthString(consumed_string);
             result.SetValue(instance);
@@ -11390,8 +11390,8 @@ class ByteParser
         } else {
             index.SetStart(index_start);
             index.SetLength(index_length);
-            high_field = new ByteDigitResult;
             low_field = new ByteDigitResult;
+            high_field = new ByteDigitResult;
         }
 
         result.SetResult(false);
@@ -11502,14 +11502,14 @@ class Byte
     }
 
     function string UnParse() { return length_string.GetString(); }
-    function void SetHigh(ByteDigit input_value) { high_field = input_value; }
-    function ByteDigit GetHigh() { return high_field; }
     function void SetLow(ByteDigit input_value) { low_field = input_value; }
     function ByteDigit GetLow() { return low_field; }
+    function void SetHigh(ByteDigit input_value) { high_field = input_value; }
+    function ByteDigit GetHigh() { return high_field; }
 
     LengthString length_string;
-    ByteDigit high_field;
     ByteDigit low_field;
+    ByteDigit high_field;
 }
 
 class ByteDigitParser
