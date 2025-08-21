@@ -2,7 +2,8 @@
 #include <iostream>
 #include <string>
 
-#include "transpiler.hpp"
+#include "S84.CTCode.System.ctcode.hpp"
+#include "S84.CTCode.Main.ctcode.hpp"
 
 char* ReadFileIntoBuffer(std::string file)
 {
@@ -29,53 +30,60 @@ char* ReadFileIntoBuffer(std::string file)
 	return buffer;
 }
 
+class FileWriter : public s84::ctcode::system::ctcode::OutputStream {
+public:
+	FileWriter(std::string file_name) : destination(file_name, std::ofstream::trunc | std::ofstream::out) {}
+
+    virtual void WriteLine(std::string line) {
+		destination << line << std::endl;
+	}
+
+private:
+	std::ofstream destination;
+};
+
+class LoggerClass : public s84::ctcode::system::ctcode::OutputStream
+{
+	void WriteLine(std::string line) {
+		std::cout << line << std::endl;
+	}
+};
+
+class System : public s84::ctcode::system::ctcode::System
+{
+public:
+    std::string ReadFileToString(std::string file_name)
+	{
+		char* buffer = ReadFileIntoBuffer(file_name);
+		std::string buffer_string = buffer ? std::string(buffer) : "";
+		delete[] buffer;
+		return buffer_string;
+	}
+    OmniPointer<s84::ctcode::system::ctcode::OutputStream> OpenFileWriter(std::string file_name)
+	{
+		return std::shared_ptr<s84::ctcode::system::ctcode::OutputStream>(new FileWriter(file_name));
+	}
+    OmniPointer<s84::ctcode::system::ctcode::OutputStream> GetLoggerDestination()
+	{
+		static OmniPointer<s84::ctcode::system::ctcode::OutputStream> logger =
+			std::shared_ptr<s84::ctcode::system::ctcode::OutputStream>(new LoggerClass());
+		return logger;
+	}
+};
+
 int main(int argc, char* argv[])
 {
-	if (argc != 3)
-	{
-		std::cout << argv[0] << " <CTCodeFile> <Transpiler>" << std::endl;
-		std::cout << "Known transpilers:" << std::endl;
-		std::list<std::string> transpilers = s84::ctcode::Transpiler::GetTranspilerList();
-		
-		for(std::list<std::string>::iterator index = transpilers.begin();index != transpilers.end();++index)
-		{
-			std::cout<< "    " << (*index) << std::endl;
-		}
-		
-		return 1;
-	}
-	
-	std::string ctcode_file_name = argv[1];
-	std::string transpiler_name = argv[2];
-	s84::ctcode::Transpiler* transpiler = s84::ctcode::Transpiler::GetTranspiler(transpiler_name);
-    char* buffer = ReadFileIntoBuffer(ctcode_file_name);
+	System system;
+	s84::ctcode::main::ctcode::Main main;
+	std::string ctcode_file_name;
+	std::string transpiler_name;
 
-	if(buffer)
+	if (argc == 3)
 	{
-		if(transpiler)
-		{
-			int value = transpiler->Transpile(buffer, ctcode_file_name);
-			delete[] buffer;
-			return value;
-		}
-		else
-		{
-			std::cout << "The transpiler " << transpiler_name << " is unknown." << std::endl;
-			std::cout << "Known transpilers:" << std::endl;
-			std::list<std::string> transpilers = s84::ctcode::Transpiler::GetTranspilerList();
-			
-			for(std::list<std::string>::iterator index = transpilers.begin();index != transpilers.end();++index)
-			{
-				std::cout<< "    " << (*index) << std::endl;
-			}
-			
-			return 1;
-		}
+		ctcode_file_name = argv[1];
+		transpiler_name = argv[2];
 	}
-	else
-	{
-		std::cout << "The file " << ctcode_file_name << " is empty or does not exist." << std::endl;
-		return 1;
-	}
+
+	return main.RunMain(&system, ctcode_file_name, transpiler_name);
 }
 

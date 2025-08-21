@@ -1,0 +1,11 @@
+interface OutputStream
+{
+    function void WriteLine(string line);
+}
+
+interface System
+{
+    function string ReadFileToString(string file_name);
+    function OutputStream OpenFileWriter(string file_name);
+    function OutputStream GetLoggerDestination();
+}

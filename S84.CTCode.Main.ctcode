@@ -1,0 +1,72 @@
+exdef S84.CTCode.System.ctcode;
+exdef S84.CTCode.Transpiler.ctcode;
+exdef S84.CTCode.Transpiler.CPPTranspiler.ctcode;
+exdef S84.CTCode.Transpiler.LogToConsole.ctcode;
+exdef S84.CTCode.dbnf.ctcode;
+
+class Main
+{
+    function S84.CTCode.Transpiler.ctcode.Transpiler GetCPPTranspiler() {
+        return new S84.CTCode.Transpiler.CPPTranspiler.ctcode.CPPTranspiler;
+    }
+
+    function S84.CTCode.Transpiler.ctcode.Transpiler GetLogToConsole() {
+        return new S84.CTCode.Transpiler.LogToConsole.ctcode.LogToConsole;
+    }
+
+    function int RunMain(S84.CTCode.System.ctcode.System system, string ctcode_file_name, string transpiler) {
+        S84.CTCode.System.ctcode.OutputStream logger = system.GetLoggerDestination();
+
+        S84.CTCode.Transpiler.ctcode.Transpiler{} transpilers;
+
+        SetKV(transpilers, "CPPTranspiler", GetCPPTranspiler());
+        SetKV(transpilers, "S84::CTCode::CPPTranspiler", GetCPPTranspiler());
+        SetKV(transpilers, "s84::ctcode::CPPTranspiler", GetCPPTranspiler());
+        SetKV(transpilers, "LogToConsole", GetLogToConsole());
+
+        if (ctcode_file_name == "" || !HasKV(transpilers, transpiler)) {
+            logger.WriteLine("ctcode <CTCodeFile> <Transpiler>");
+            logger.WriteLine("Known transpilers:");
+
+            string[] registered_transpilers = Keys(transpilers);
+
+            int index = 0;
+
+            while (index < Size(registered_transpilers)) {
+                logger.WriteLine(Concat("    ", Element(registered_transpilers, index)));
+                index = index + 1;
+            }
+
+            return 1;
+        }
+
+        string dbnf = system.ReadFileToString(ctcode_file_name);
+
+        if (dbnf == "") {
+            logger.WriteLine(Concat("The file ", Concat(ctcode_file_name, " is empty or does not exist.")));
+            return 1;
+        }
+
+        S84.CTCode.dbnf.ctcode.LargeString dbnf_large_string = new S84.CTCode.dbnf.ctcode.LargeString;
+        dbnf_large_string.SetData(dbnf);
+        S84.CTCode.dbnf.ctcode.LengthString index = new S84.CTCode.dbnf.ctcode.LengthString;
+        index.SetData(dbnf_large_string);
+        index.SetStart(0);
+        index.SetLength(Length(dbnf));
+        S84.CTCode.dbnf.ctcode.ParserNetwork parser_network = new S84.CTCode.dbnf.ctcode.ParserNetwork;
+        parser_network.Initialize();
+        S84.CTCode.dbnf.ctcode.CTCodeFileResult ctcode_file_result = new S84.CTCode.dbnf.ctcode.CTCodeFileResult;
+        S84.CTCode.dbnf.ctcode.CTCodeFileParser ctcode_file_parser = parser_network.GetCTCodeFileParser();
+        logger.WriteLine("Parsing CTCodeFile...");
+        ctcode_file_parser.ParseSingleSave(index, ctcode_file_result);
+
+        if (ctcode_file_result.GetResult() && index.GetLength() == 0) {
+            logger.WriteLine("Done Parsing CTCodeFile!");
+            S84.CTCode.Transpiler.ctcode.Transpiler target_transpiler = GetKV(transpilers, transpiler);
+            return target_transpiler.Transpile(system, ctcode_file_result.GetValue(), ctcode_file_name);
+        } else {
+            logger.WriteLine(Concat("Failed to parse ", Concat(ctcode_file_name, ".")));
+            return 1;
+        }
+    }
+}

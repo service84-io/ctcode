@@ -1,0 +1,12 @@
+exdef S84.CTCode.System.ctcode;
+exdef S84.CTCode.dbnf.ctcode;
+
+interface OutputStream
+{
+    function void WriteLine(string line);
+}
+
+interface Transpiler
+{
+    function int Transpile(S84.CTCode.System.ctcode.System system, S84.CTCode.dbnf.ctcode.CTCodeFile ct_code_file, string base_name);
+}

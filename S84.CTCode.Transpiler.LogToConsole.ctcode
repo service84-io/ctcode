@@ -1,0 +1,12 @@
+exdef S84.CTCode.System.ctcode;
+exdef S84.CTCode.Transpiler.ctcode;
+exdef S84.CTCode.dbnf.ctcode;
+
+class LogToConsole implements S84.CTCode.Transpiler.ctcode.Transpiler
+{
+    function int Transpile(S84.CTCode.System.ctcode.System system, S84.CTCode.dbnf.ctcode.CTCodeFile ct_code_file, string base_name) {
+        S84.CTCode.System.ctcode.OutputStream logger = system.GetLoggerDestination();
+        logger.WriteLine(ct_code_file.UnParse());
+        return 0;
+    }
+}

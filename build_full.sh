@@ -1,8 +1,29 @@
 #!/bin/bash
 
-tower S84.CTCode.dbnf DSA::Vent::Tower::CTCodeGenerator
+echo Processing DBNF files...
+echo
 
-ctcode S84.CTCode.CPPTranspiler.ctcode s84::ctcode::CPPTranspiler
-ctcode S84.CTCode.dbnf.ctcode s84::ctcode::CPPTranspiler
+for DBNFFile in *.dbnf; do
+  echo Processing ${DBNFFile}...
+  tower ${DBNFFile} S84::Tower::CTCodeGenerator
+  echo Done processing ${DBNFFile}!
+  echo
+done
+
+echo Done processing DBNF files!
+echo
+
+echo Processing CTCode files...
+echo
+
+for CTCodeFile in *.ctcode; do
+  echo Processing ${CTCodeFile}...
+  ctcode ${CTCodeFile} s84::ctcode::CPPTranspiler
+  echo Done processing ${CTCodeFile}!
+  echo
+done
+
+echo Done processing CTCode files!
+echo
 
 $(dirname $0)/build_source.sh
