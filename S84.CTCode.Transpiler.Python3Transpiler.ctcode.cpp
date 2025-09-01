@@ -501,8 +501,8 @@ namespace ctcode
         destination_file->WriteLine(std::string("def HasKV(input: dict, key: str) -> bool: return key in input"));
         destination_file->WriteLine(std::string("def GetKV(input: dict, key: str) -> any: return input[key]"));
         destination_file->WriteLine(std::string("def Length(input: str) -> int: return len(input)"));
-        destination_file->WriteLine(std::string("def At(input: str, index: int) -> str: return input[index]"));
-        destination_file->WriteLine(std::string("def IntAt(input: str, index: int) -> int: return ord(input[index])"));
+        destination_file->WriteLine(std::string("def At(input: str, index: int) -> str: return input[index:index+1]"));
+        destination_file->WriteLine(std::string("def IntAt(input: str, index: int) -> int: return ord(input[index:index+1])"));
         destination_file->WriteLine(std::string("def Concat(left: str, right: str) -> str: return left + right"));
     }
 

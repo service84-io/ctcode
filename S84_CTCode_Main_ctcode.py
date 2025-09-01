@@ -19,8 +19,8 @@ def Keys(input: dict) -> list[str]:
 def HasKV(input: dict, key: str) -> bool: return key in input
 def GetKV(input: dict, key: str) -> any: return input[key]
 def Length(input: str) -> int: return len(input)
-def At(input: str, index: int) -> str: return input[index]
-def IntAt(input: str, index: int) -> int: return ord(input[index])
+def At(input: str, index: int) -> str: return input[index:index+1]
+def IntAt(input: str, index: int) -> int: return ord(input[index:index+1])
 def Concat(left: str, right: str) -> str: return left + right
 
 class Main:

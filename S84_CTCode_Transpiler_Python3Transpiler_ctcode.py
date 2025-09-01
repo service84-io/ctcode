@@ -16,8 +16,8 @@ def Keys(input: dict) -> list[str]:
 def HasKV(input: dict, key: str) -> bool: return key in input
 def GetKV(input: dict, key: str) -> any: return input[key]
 def Length(input: str) -> int: return len(input)
-def At(input: str, index: int) -> str: return input[index]
-def IntAt(input: str, index: int) -> int: return ord(input[index])
+def At(input: str, index: int) -> str: return input[index:index+1]
+def IntAt(input: str, index: int) -> int: return ord(input[index:index+1])
 def Concat(left: str, right: str) -> str: return left + right
 
 class ParameterDeclaration:
@@ -318,8 +318,8 @@ class Python3Transpiler(S84_CTCode_Transpiler_ctcode.Transpiler):
         destination_file.WriteLine("def HasKV(input: dict, key: str) -> bool: return key in input")
         destination_file.WriteLine("def GetKV(input: dict, key: str) -> any: return input[key]")
         destination_file.WriteLine("def Length(input: str) -> int: return len(input)")
-        destination_file.WriteLine("def At(input: str, index: int) -> str: return input[index]")
-        destination_file.WriteLine("def IntAt(input: str, index: int) -> int: return ord(input[index])")
+        destination_file.WriteLine("def At(input: str, index: int) -> str: return input[index:index+1]")
+        destination_file.WriteLine("def IntAt(input: str, index: int) -> int: return ord(input[index:index+1])")
         destination_file.WriteLine("def Concat(left: str, right: str) -> str: return left + right")
 
     def FinishProcessingCTCodeFile(self: 'Python3Transpiler') -> 'None':
