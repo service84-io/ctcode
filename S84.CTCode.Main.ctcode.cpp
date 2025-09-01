@@ -35,11 +35,7 @@ namespace ctcode
         OmniPointer<s84::ctcode::system::ctcode::OutputStream> logger = system->GetLoggerDestination();
         std::unordered_map<std::string, OmniPointer<s84::ctcode::transpiler::ctcode::Transpiler>> transpilers;
         SetKV(transpilers, std::string("CPPTranspiler"), this->GetCPPTranspiler());
-        SetKV(transpilers, std::string("S84::CTCode::CPPTranspiler"), this->GetCPPTranspiler());
-        SetKV(transpilers, std::string("s84::ctcode::CPPTranspiler"), this->GetCPPTranspiler());
         SetKV(transpilers, std::string("Python3Transpiler"), this->GetPython3Transpiler());
-        SetKV(transpilers, std::string("S84::CTCode::Python3Transpiler"), this->GetPython3Transpiler());
-        SetKV(transpilers, std::string("s84::ctcode::Python3Transpiler"), this->GetPython3Transpiler());
         SetKV(transpilers, std::string("LogToConsole"), this->GetLogToConsole());
         if (ctcode_file_name == std::string("") || !HasKV(transpilers, transpiler))
         {

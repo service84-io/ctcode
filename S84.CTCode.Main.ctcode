@@ -25,11 +25,7 @@ class Main
         S84.CTCode.Transpiler.ctcode.Transpiler{} transpilers;
 
         SetKV(transpilers, "CPPTranspiler", myself.GetCPPTranspiler());
-        SetKV(transpilers, "S84::CTCode::CPPTranspiler", myself.GetCPPTranspiler());
-        SetKV(transpilers, "s84::ctcode::CPPTranspiler", myself.GetCPPTranspiler());
         SetKV(transpilers, "Python3Transpiler", myself.GetPython3Transpiler());
-        SetKV(transpilers, "S84::CTCode::Python3Transpiler", myself.GetPython3Transpiler());
-        SetKV(transpilers, "s84::ctcode::Python3Transpiler", myself.GetPython3Transpiler());
         SetKV(transpilers, "LogToConsole", myself.GetLogToConsole());
 
         if (ctcode_file_name == "" || !HasKV(transpilers, transpiler)) {

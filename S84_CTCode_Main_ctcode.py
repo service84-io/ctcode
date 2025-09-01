@@ -40,11 +40,7 @@ class Main:
         logger: 'S84_CTCode_System_ctcode.OutputStream' = system.GetLoggerDestination()
         transpilers: 'dict[str, S84_CTCode_Transpiler_ctcode.Transpiler]' = {}
         SetKV(transpilers,"CPPTranspiler",self.GetCPPTranspiler())
-        SetKV(transpilers,"S84::CTCode::CPPTranspiler",self.GetCPPTranspiler())
-        SetKV(transpilers,"s84::ctcode::CPPTranspiler",self.GetCPPTranspiler())
         SetKV(transpilers,"Python3Transpiler",self.GetPython3Transpiler())
-        SetKV(transpilers,"S84::CTCode::Python3Transpiler",self.GetPython3Transpiler())
-        SetKV(transpilers,"s84::ctcode::Python3Transpiler",self.GetPython3Transpiler())
         SetKV(transpilers,"LogToConsole",self.GetLogToConsole())
         if ctcode_file_name=="" or not HasKV(transpilers,transpiler):
             logger.WriteLine("ctcode <CTCodeFile> <Transpiler>")
