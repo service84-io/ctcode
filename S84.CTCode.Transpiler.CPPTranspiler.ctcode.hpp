@@ -167,6 +167,8 @@ public:
     std::string GetRawDefinedType(OmniPointer<s84::ctcode::dbnf::ctcode::QualfiedName> qualified_name);
     std::string GetRawDefinedTypeTail(OmniPointer<s84::ctcode::dbnf::ctcode::NameTail> name_tail);
     std::string GenerateClassName(OmniPointer<s84::ctcode::dbnf::ctcode::Name> name_node);
+    std::string GenerateVariableChainNameTail(OmniPointer<s84::ctcode::dbnf::ctcode::NameTail> name_tail);
+    std::string GenerateVariableChain(OmniPointer<s84::ctcode::dbnf::ctcode::QualfiedName> qualified_name_node);
     std::string GenerateVariableName(OmniPointer<s84::ctcode::dbnf::ctcode::Name> name_node);
     std::string GenerateCallName(OmniPointer<s84::ctcode::dbnf::ctcode::Name> name_node);
     std::vector<std::string> TokenizeBaseName(std::string name);

@@ -9,25 +9,25 @@ class CPPTranspiler implements S84.CTCode.Transpiler.ctcode.Transpiler {
         S84.CTCode.System.ctcode.OutputStream logger = system.GetLoggerDestination();
         S84.CTCode.System.ctcode.OutputStream header = system.OpenFileWriter(Concat(base_name, ".hpp"));
         S84.CTCode.System.ctcode.OutputStream implementation = system.OpenFileWriter(Concat(base_name, ".cpp"));
-		string[] base_name_tokens = TokenizeBaseName(base_name);
-	    SetSavedUnmanagedTypes(GetUnmanagedTypes(ct_code_file.GetUnmanagedTypes()));
-		GenerateHeader(ct_code_file, header, base_name_tokens);
-		GenerateImplementation(ct_code_file, implementation, base_name, base_name_tokens);
+		string[] base_name_tokens = myself.TokenizeBaseName(base_name);
+	    myself.SetSavedUnmanagedTypes(myself.GetUnmanagedTypes(ct_code_file.GetUnmanagedTypes()));
+		myself.GenerateHeader(ct_code_file, header, base_name_tokens);
+		myself.GenerateImplementation(ct_code_file, implementation, base_name, base_name_tokens);
         return 0;
     }
 
     function void SetSavedUnmanagedTypes(string[] value)
     {
-        saved_unmanaged_types = value;
+        myself.saved_unmanaged_types = value;
     }
 
     function bool IsUnmanagedType(string type_name)
     {
         int index = 0;
 
-        while (index < Size(saved_unmanaged_types))
+        while (index < Size(myself.saved_unmanaged_types))
         {
-            if (type_name == Element(saved_unmanaged_types, index))
+            if (type_name == Element(myself.saved_unmanaged_types, index))
             {
                 return true;
             }
@@ -38,23 +38,23 @@ class CPPTranspiler implements S84.CTCode.Transpiler.ctcode.Transpiler {
         return false;
     }
 
-    function void GenerateHeader(s84.ctcode.dbnf.ctcode.CTCodeFile ctcodeFile, S84.CTCode.System.ctcode.OutputStream header, string[] base_name_tokens)
+    function void GenerateHeader(S84.CTCode.dbnf.ctcode.CTCodeFile ctcodeFile, S84.CTCode.System.ctcode.OutputStream header, string[] base_name_tokens)
     {
-        string guard_name = GenerateGuardName(base_name_tokens);
+        string guard_name = myself.GenerateGuardName(base_name_tokens);
         header.WriteLine(Concat("#ifndef ", guard_name));
         header.WriteLine(Concat("#define ", guard_name));
         header.WriteLine("");
 
-        s84.ctcode.dbnf.ctcode.ExternalDefinition[] exdefs = ctcodeFile.GetDeclarations();
+        S84.CTCode.dbnf.ctcode.ExternalDefinition[] exdefs = ctcodeFile.GetDeclarations();
 
         int index = 0;
 
         while (index < Size(exdefs)) {
-            s84.ctcode.dbnf.ctcode.ExternalDefinition exdef;
+            S84.CTCode.dbnf.ctcode.ExternalDefinition exdef;
             exdef = Element(exdefs, index);
-            s84.ctcode.dbnf.ctcode.QualfiedName exdef_name;
+            S84.CTCode.dbnf.ctcode.QualfiedName exdef_name;
             exdef_name = exdef.GetExdef();
-            header.WriteLine(Concat("#include \"", Concat(GetExdefHeaderString(exdef_name), "\"")));
+            header.WriteLine(Concat("#include \"", Concat(myself.GetExdefHeaderString(exdef_name), "\"")));
             index = index + 1;
         }
 
@@ -66,7 +66,7 @@ class CPPTranspiler implements S84.CTCode.Transpiler.ctcode.Transpiler {
         header.WriteLine("#include <string>");
         header.WriteLine("#include <vector>");
 
-        WriteCTCodeCommonFunctions(header);
+        myself.WriteCTCodeCommonFunctions(header);
 
         header.WriteLine("");
 
@@ -75,15 +75,15 @@ class CPPTranspiler implements S84.CTCode.Transpiler.ctcode.Transpiler {
         while (index < Size(base_name_tokens)) {
             string base_name_token;
             base_name_token = Element(base_name_tokens, index);
-            header.WriteLine(Concat("namespace ", ToLower(base_name_token)));
+            header.WriteLine(Concat("namespace ", myself.ToLower(base_name_token)));
             header.WriteLine("{");
             index = index + 1;
         }
 
         header.WriteLine("namespace ctcode");
         header.WriteLine("{");
-        WriteForwardDeclaration(ctcodeFile, header);
-        WriteClassDeclarations(ctcodeFile, header);
+        myself.WriteForwardDeclaration(ctcodeFile, header);
+        myself.WriteClassDeclarations(ctcodeFile, header);
 
         index = 0;
 
@@ -188,58 +188,58 @@ class CPPTranspiler implements S84.CTCode.Transpiler.ctcode.Transpiler {
         header.WriteLine("#endif");
     }
 
-    function void WriteForwardDeclaration(s84.ctcode.dbnf.ctcode.CTCodeFile ctcodeFile, S84.CTCode.System.ctcode.OutputStream header)
+    function void WriteForwardDeclaration(S84.CTCode.dbnf.ctcode.CTCodeFile ctcodeFile, S84.CTCode.System.ctcode.OutputStream header)
     {
-        s84.ctcode.dbnf.ctcode.Definition[] definitions = ctcodeFile.GetDefinitions();
+        S84.CTCode.dbnf.ctcode.Definition[] definitions = ctcodeFile.GetDefinitions();
 
         int index = 0;
 
         while(index < Size(definitions)) {
-            s84.ctcode.dbnf.ctcode.Definition definition;
+            S84.CTCode.dbnf.ctcode.Definition definition;
             definition = Element(definitions, index);
-            s84.ctcode.dbnf.ctcode.InterfaceDef interfaceDefinition = definition.GetInterfaceDef();
-            s84.ctcode.dbnf.ctcode.ClassDef classDefinition = definition.GetClassDef();
+            S84.CTCode.dbnf.ctcode.InterfaceDef interfaceDefinition = definition.GetInterfaceDef();
+            S84.CTCode.dbnf.ctcode.ClassDef classDefinition = definition.GetClassDef();
 
             if (interfaceDefinition) {
-                header.WriteLine(Concat("class ", Concat(GenerateClassName(interfaceDefinition.GetName()), ";")));
+                header.WriteLine(Concat("class ", Concat(myself.GenerateClassName(interfaceDefinition.GetName()), ";")));
             }
 
             if (classDefinition) {
-                header.WriteLine(Concat("class ", Concat(GenerateClassName(classDefinition.GetName()), ";")));
+                header.WriteLine(Concat("class ", Concat(myself.GenerateClassName(classDefinition.GetName()), ";")));
             }
 
             index = index + 1;
         }
     }
 
-    function void WriteClassDeclarations(s84.ctcode.dbnf.ctcode.CTCodeFile ctcodeFile, S84.CTCode.System.ctcode.OutputStream header)
+    function void WriteClassDeclarations(S84.CTCode.dbnf.ctcode.CTCodeFile ctcodeFile, S84.CTCode.System.ctcode.OutputStream header)
     {
-        s84.ctcode.dbnf.ctcode.Definition[] definitions = ctcodeFile.GetDefinitions();
+        S84.CTCode.dbnf.ctcode.Definition[] definitions = ctcodeFile.GetDefinitions();
 
         header.WriteLine("");
         int index;
         index = 0;
 
         while(index < Size(definitions)) {
-            s84.ctcode.dbnf.ctcode.Definition definition;
+            S84.CTCode.dbnf.ctcode.Definition definition;
             definition = Element(definitions, index);
 
             if (definition.GetInterfaceDef()) {
-                WriteInterfaceDeclaration(definition.GetInterfaceDef(), header);
+                myself.WriteInterfaceDeclaration(definition.GetInterfaceDef(), header);
             }
 
             if (definition.GetClassDef()) {
-                WriteClassDeclaration(definition.GetClassDef(), header);
+                myself.WriteClassDeclaration(definition.GetClassDef(), header);
             }
 
             index = index + 1;
         }
     }
 
-    function void WriteInterfaceDeclaration(s84.ctcode.dbnf.ctcode.InterfaceDef interfaceDefinition, S84.CTCode.System.ctcode.OutputStream header)
+    function void WriteInterfaceDeclaration(S84.CTCode.dbnf.ctcode.InterfaceDef interfaceDefinition, S84.CTCode.System.ctcode.OutputStream header)
     {
         string class_name = "";
-        class_name = GenerateClassName(interfaceDefinition.GetName());
+        class_name = myself.GenerateClassName(interfaceDefinition.GetName());
         header.WriteLine("");
         header.WriteLine(Concat("class ", class_name));
         header.WriteLine("{");
@@ -247,7 +247,7 @@ class CPPTranspiler implements S84.CTCode.Transpiler.ctcode.Transpiler {
         header.WriteLine(Concat("    inline ", Concat(class_name, "() {};")));
         header.WriteLine(Concat("    inline ~", Concat(class_name, "() {};")));
 
-        s84.ctcode.dbnf.ctcode.ContentDeclaration[] declarations = interfaceDefinition.GetDeclarations();
+        S84.CTCode.dbnf.ctcode.ContentDeclaration[] declarations = interfaceDefinition.GetDeclarations();
 
         int index;
         index = 0;
@@ -256,10 +256,10 @@ class CPPTranspiler implements S84.CTCode.Transpiler.ctcode.Transpiler {
             header.WriteLine("");
 
             while(index < Size(declarations)) {
-                s84.ctcode.dbnf.ctcode.ContentDeclaration declaration;
+                S84.CTCode.dbnf.ctcode.ContentDeclaration declaration;
                 declaration = Element(declarations, index);
 
-                header.WriteLine(Concat("    virtual ", Concat(GetType(declaration.GetType()), Concat(" ", Concat(GenerateCallName(declaration.GetName()), Concat("(", Concat(GenerateParameterList(declaration.GetParameters()), ") = 0;")))))));
+                header.WriteLine(Concat("    virtual ", Concat(myself.GetType(declaration.GetType()), Concat(" ", Concat(myself.GenerateCallName(declaration.GetName()), Concat("(", Concat(myself.GenerateParameterList(declaration.GetParameters()), ") = 0;")))))));
 
                 index = index + 1;
             }
@@ -268,27 +268,27 @@ class CPPTranspiler implements S84.CTCode.Transpiler.ctcode.Transpiler {
         header.WriteLine("};");
     }
 
-    function void WriteClassDeclaration(s84.ctcode.dbnf.ctcode.ClassDef classDefinition, S84.CTCode.System.ctcode.OutputStream header)
+    function void WriteClassDeclaration(S84.CTCode.dbnf.ctcode.ClassDef classDefinition, S84.CTCode.System.ctcode.OutputStream header)
     {
         string class_name;
-        class_name = GenerateClassName(classDefinition.GetName());
+        class_name = myself.GenerateClassName(classDefinition.GetName());
         header.WriteLine("");
         header.WriteLine(Concat("class ", class_name));
-        WriteImplementationSpec(classDefinition.GetImplementing(), header);
+        myself.WriteImplementationSpec(classDefinition.GetImplementing(), header);
         header.WriteLine("{");
         header.WriteLine("public:");
         header.WriteLine(Concat("    inline ", Concat(class_name, "() {};")));
         header.WriteLine(Concat("    inline ~", Concat(class_name, "() {};")));
 
-        s84.ctcode.dbnf.ctcode.ContentDefinition[] definitions = classDefinition.GetDefinitions();
-        s84.ctcode.dbnf.ctcode.ContentDefinition[] functionDefinitions;
-        s84.ctcode.dbnf.ctcode.ContentDefinition[] memberDefinitions;
+        S84.CTCode.dbnf.ctcode.ContentDefinition[] definitions = classDefinition.GetDefinitions();
+        S84.CTCode.dbnf.ctcode.ContentDefinition[] functionDefinitions;
+        S84.CTCode.dbnf.ctcode.ContentDefinition[] memberDefinitions;
 
         int index;
         index = 0;
 
         while(index < Size(definitions)) {
-            s84.ctcode.dbnf.ctcode.ContentDefinition definition;
+            S84.CTCode.dbnf.ctcode.ContentDefinition definition;
             definition = Element(definitions, index);
 
             if (definition.GetFunctionBody()) {
@@ -307,9 +307,9 @@ class CPPTranspiler implements S84.CTCode.Transpiler.ctcode.Transpiler {
             index = 0;
 
             while (index < Size(functionDefinitions)) {
-                s84.ctcode.dbnf.ctcode.ContentDefinition definition;
+                S84.CTCode.dbnf.ctcode.ContentDefinition definition;
                 definition = Element(functionDefinitions, index);
-                header.WriteLine(Concat("    ", Concat(GetType(definition.GetType()), Concat(" ", Concat(GenerateCallName(definition.GetName()), Concat("(", Concat(GenerateParameterList(definition.GetParameters()), ");")))))));
+                header.WriteLine(Concat("    ", Concat(myself.GetType(definition.GetType()), Concat(" ", Concat(myself.GenerateCallName(definition.GetName()), Concat("(", Concat(myself.GenerateParameterList(definition.GetParameters()), ");")))))));
                 index = index + 1;
             }
         }
@@ -322,9 +322,9 @@ class CPPTranspiler implements S84.CTCode.Transpiler.ctcode.Transpiler {
             index = 0;
 
             while (index < Size(memberDefinitions)) {
-                s84.ctcode.dbnf.ctcode.ContentDefinition definition;
+                S84.CTCode.dbnf.ctcode.ContentDefinition definition;
                 definition = Element(memberDefinitions, index);
-                header.WriteLine(Concat("    ", Concat(GetType(definition.GetType()), Concat(" ", Concat(GenerateVariableName(definition.GetName()), ";")))));
+                header.WriteLine(Concat("    ", Concat(myself.GetType(definition.GetType()), Concat(" ", Concat(myself.GenerateVariableName(definition.GetName()), ";")))));
                 index = index + 1;
             }
         }
@@ -332,30 +332,30 @@ class CPPTranspiler implements S84.CTCode.Transpiler.ctcode.Transpiler {
         header.WriteLine("};");
     }
 
-    function void WriteImplementationSpec(s84.ctcode.dbnf.ctcode.ImplementationSpec implementationSpec, S84.CTCode.System.ctcode.OutputStream header)
+    function void WriteImplementationSpec(S84.CTCode.dbnf.ctcode.ImplementationSpec implementationSpec, S84.CTCode.System.ctcode.OutputStream header)
     {
         if (implementationSpec) {
-            s84.ctcode.dbnf.ctcode.QualfiedName qualified_name = implementationSpec.GetInterface();
-            header.WriteLine(Concat(": public ", GetRawDefinedType(qualified_name)));
+            S84.CTCode.dbnf.ctcode.QualfiedName qualified_name = implementationSpec.GetInterface();
+            header.WriteLine(Concat(": public ", myself.GetRawDefinedType(qualified_name)));
         }
     }
 
-    function void GenerateImplementation(s84.ctcode.dbnf.ctcode.CTCodeFile ctcodeFile, S84.CTCode.System.ctcode.OutputStream implementation, string base_name, string[] base_name_tokens)
+    function void GenerateImplementation(S84.CTCode.dbnf.ctcode.CTCodeFile ctcodeFile, S84.CTCode.System.ctcode.OutputStream implementation, string base_name, string[] base_name_tokens)
     {
         implementation.WriteLine(Concat("#include \"", Concat(base_name, ".hpp\"")));
         implementation.WriteLine("");
 
-        s84.ctcode.dbnf.ctcode.ExternalDefinition[] exdefs = ctcodeFile.GetDeclarations();
+        S84.CTCode.dbnf.ctcode.ExternalDefinition[] exdefs = ctcodeFile.GetDeclarations();
 
         int index;
         index = 0;
 
         while (index < Size(exdefs)) {
-            s84.ctcode.dbnf.ctcode.ExternalDefinition exdef;
+            S84.CTCode.dbnf.ctcode.ExternalDefinition exdef;
             exdef = Element(exdefs, index);
-            s84.ctcode.dbnf.ctcode.QualfiedName exdef_name;
+            S84.CTCode.dbnf.ctcode.QualfiedName exdef_name;
             exdef_name = exdef.GetExdef();
-            implementation.WriteLine(Concat("#include \"", Concat(GetExdefHeaderString(exdef_name), "\"")));
+            implementation.WriteLine(Concat("#include \"", Concat(myself.GetExdefHeaderString(exdef_name), "\"")));
             index = index + 1;
         }
 
@@ -366,7 +366,7 @@ class CPPTranspiler implements S84.CTCode.Transpiler.ctcode.Transpiler {
         while (index < Size(base_name_tokens)) {
             string base_name_token;
             base_name_token = Element(base_name_tokens, index);
-            implementation.WriteLine(Concat("namespace ", ToLower(base_name_token)));
+            implementation.WriteLine(Concat("namespace ", myself.ToLower(base_name_token)));
             implementation.WriteLine("{");
             index = index + 1;
         }
@@ -374,7 +374,7 @@ class CPPTranspiler implements S84.CTCode.Transpiler.ctcode.Transpiler {
         implementation.WriteLine("namespace ctcode");
         implementation.WriteLine("{");
 
-        WriteFunctionDefinitions(ctcodeFile, implementation);
+        myself.WriteFunctionDefinitions(ctcodeFile, implementation);
 
         index = 0;
 
@@ -386,18 +386,18 @@ class CPPTranspiler implements S84.CTCode.Transpiler.ctcode.Transpiler {
         implementation.WriteLine("};");
     }
 
-    function void WriteFunctionDefinitions(s84.ctcode.dbnf.ctcode.CTCodeFile ctcodeFile, S84.CTCode.System.ctcode.OutputStream implementation)
+    function void WriteFunctionDefinitions(S84.CTCode.dbnf.ctcode.CTCodeFile ctcodeFile, S84.CTCode.System.ctcode.OutputStream implementation)
     {
-        s84.ctcode.dbnf.ctcode.Definition[] definitions = ctcodeFile.GetDefinitions();
-        s84.ctcode.dbnf.ctcode.ClassDef[] classDefinitions;
+        S84.CTCode.dbnf.ctcode.Definition[] definitions = ctcodeFile.GetDefinitions();
+        S84.CTCode.dbnf.ctcode.ClassDef[] classDefinitions;
 
         int index;
         index = 0;
 
         while (index < Size(definitions)) {
-            s84.ctcode.dbnf.ctcode.Definition definition;
+            S84.CTCode.dbnf.ctcode.Definition definition;
             definition = Element(definitions, index);
-            s84.ctcode.dbnf.ctcode.ClassDef classDefinition;
+            S84.CTCode.dbnf.ctcode.ClassDef classDefinition;
             classDefinition = definition.GetClassDef();
 
             if (classDefinition) {
@@ -410,27 +410,27 @@ class CPPTranspiler implements S84.CTCode.Transpiler.ctcode.Transpiler {
         index = 0;
 
         while (index < Size(classDefinitions)) {
-            s84.ctcode.dbnf.ctcode.ClassDef classDefinition;
+            S84.CTCode.dbnf.ctcode.ClassDef classDefinition;
             classDefinition = Element(classDefinitions, index);
-            WriteClassDefinition(classDefinition, implementation);
+            myself.WriteClassDefinition(classDefinition, implementation);
             index = index + 1;
         }
     }
 
-    function void WriteClassDefinition(s84.ctcode.dbnf.ctcode.ClassDef classDefinition, S84.CTCode.System.ctcode.OutputStream implementation)
+    function void WriteClassDefinition(S84.CTCode.dbnf.ctcode.ClassDef classDefinition, S84.CTCode.System.ctcode.OutputStream implementation)
     {
         string class_name;
-        class_name = GenerateClassName(classDefinition.GetName());
+        class_name = myself.GenerateClassName(classDefinition.GetName());
 
-        s84.ctcode.dbnf.ctcode.ContentDefinition[] definitions = classDefinition.GetDefinitions();
+        S84.CTCode.dbnf.ctcode.ContentDefinition[] definitions = classDefinition.GetDefinitions();
 
-        s84.ctcode.dbnf.ctcode.ContentDefinition[] functionDefinitions;
+        S84.CTCode.dbnf.ctcode.ContentDefinition[] functionDefinitions;
 
         int index;
         index = 0;
 
         while (index < Size(definitions)) {
-            s84.ctcode.dbnf.ctcode.ContentDefinition definition;
+            S84.CTCode.dbnf.ctcode.ContentDefinition definition;
             definition = Element(definitions, index);
 
             if (definition.GetFunctionBody()) {
@@ -445,123 +445,123 @@ class CPPTranspiler implements S84.CTCode.Transpiler.ctcode.Transpiler {
             index = 0;
 
             while (index < Size(functionDefinitions)) {
-                s84.ctcode.dbnf.ctcode.ContentDefinition definition;
+                S84.CTCode.dbnf.ctcode.ContentDefinition definition;
                 definition = Element(functionDefinitions, index);
-                implementation.WriteLine(Concat("    ", Concat(GetType(definition.GetType()), Concat(" ", Concat(class_name, Concat("::", Concat(GenerateCallName(definition.GetName()), Concat("(", Concat(GenerateParameterList(definition.GetParameters()), ")")))))))));
-                WriteCodeBlock(1, implementation, definition.GetFunctionBody(), true);
+                implementation.WriteLine(Concat("    ", Concat(myself.GetType(definition.GetType()), Concat(" ", Concat(class_name, Concat("::", Concat(myself.GenerateCallName(definition.GetName()), Concat("(", Concat(myself.GenerateParameterList(definition.GetParameters()), ")")))))))));
+                myself.WriteCodeBlock(1, implementation, definition.GetFunctionBody(), true);
                 index = index + 1;
             }
         }
     }
 
-    function void WriteInstruction(int indent, S84.CTCode.System.ctcode.OutputStream implementation, s84.ctcode.dbnf.ctcode.Instruction instruction, bool add_newline_after_code_block) {
+    function void WriteInstruction(int indent, S84.CTCode.System.ctcode.OutputStream implementation, S84.CTCode.dbnf.ctcode.Instruction instruction, bool add_newline_after_code_block) {
         if (instruction.GetCodeBlock()) {
-            WriteCodeBlock(indent, implementation, instruction.GetCodeBlock(), add_newline_after_code_block);
+            myself.WriteCodeBlock(indent, implementation, instruction.GetCodeBlock(), add_newline_after_code_block);
         }
 
         if (instruction.GetRtn()) {
-            WriteRtn(indent, implementation, instruction.GetRtn());
+            myself.WriteRtn(indent, implementation, instruction.GetRtn());
         }
 
         if (instruction.GetDeclaration()) {
-            WriteDeclaration(indent, implementation, instruction.GetDeclaration());
+            myself.WriteDeclaration(indent, implementation, instruction.GetDeclaration());
         }
 
         if (instruction.GetAssignment()) {
-            WriteAssignment(indent, implementation, instruction.GetAssignment());
+            myself.WriteAssignment(indent, implementation, instruction.GetAssignment());
         }
 
         if (instruction.GetCall()) {
-            WriteCall(indent, implementation, instruction.GetCall());
+            myself.WriteCall(indent, implementation, instruction.GetCall());
         }
 
         if (instruction.GetConditional()) {
-            WriteConditional(indent, implementation, instruction.GetConditional(), add_newline_after_code_block);
+            myself.WriteConditional(indent, implementation, instruction.GetConditional(), add_newline_after_code_block);
         }
 
         if (instruction.GetLoop()) {
-            WriteLoop(indent, implementation, instruction.GetLoop(), add_newline_after_code_block);
+            myself.WriteLoop(indent, implementation, instruction.GetLoop(), add_newline_after_code_block);
         }
     }
 
-    function void WriteCodeBlock(int indent, S84.CTCode.System.ctcode.OutputStream implementation, s84.ctcode.dbnf.ctcode.CodeBlock code_block, bool add_newline_after_code_block) {
-        implementation.WriteLine(Concat(indentation(indent), "{"));
+    function void WriteCodeBlock(int indent, S84.CTCode.System.ctcode.OutputStream implementation, S84.CTCode.dbnf.ctcode.CodeBlock code_block, bool add_newline_after_code_block) {
+        implementation.WriteLine(Concat(myself.Indentation(indent), "{"));
 
-        s84.ctcode.dbnf.ctcode.Instruction[] instructions = code_block.GetInstructions();
+        S84.CTCode.dbnf.ctcode.Instruction[] instructions = code_block.GetInstructions();
         int index;
         index = 0;
         int last;
         last = Size(instructions) - 1;
 
         while (index < Size(instructions)) {
-            WriteInstruction(indent + 1, implementation, Element(instructions, index), index != last);
+            myself.WriteInstruction(indent + 1, implementation, Element(instructions, index), index != last);
             index = index + 1;
         }
 
-        implementation.WriteLine(Concat(indentation(indent), "}"));
+        implementation.WriteLine(Concat(myself.Indentation(indent), "}"));
 
         if (add_newline_after_code_block) {
             implementation.WriteLine("");
         }
     }
 
-    function void WriteConditional(int indent, S84.CTCode.System.ctcode.OutputStream implementation, s84.ctcode.dbnf.ctcode.Conditional conditional, bool add_newline_after_code_block) {
-        implementation.WriteLine(Concat(indentation(indent), Concat("if (", Concat(GetRValueString(conditional.GetRvalue()), ")"))));
+    function void WriteConditional(int indent, S84.CTCode.System.ctcode.OutputStream implementation, S84.CTCode.dbnf.ctcode.Conditional conditional, bool add_newline_after_code_block) {
+        implementation.WriteLine(Concat(myself.Indentation(indent), Concat("if (", Concat(myself.GetRValueString(conditional.GetRValue()), ")"))));
 
         if (conditional.GetElseTail()) {
-            s84.ctcode.dbnf.ctcode.ElseTail else_tail;
+            S84.CTCode.dbnf.ctcode.ElseTail else_tail;
             else_tail = conditional.GetElseTail();
-            WriteCodeBlock(indent, implementation, conditional.GetCodeBlock(), false);
-            implementation.WriteLine(Concat(indentation(indent), "else"));
-            WriteCodeBlock(indent, implementation, else_tail.GetCodeBlock(), add_newline_after_code_block);
+            myself.WriteCodeBlock(indent, implementation, conditional.GetCodeBlock(), false);
+            implementation.WriteLine(Concat(myself.Indentation(indent), "else"));
+            myself.WriteCodeBlock(indent, implementation, else_tail.GetCodeBlock(), add_newline_after_code_block);
         } else {
-            WriteCodeBlock(indent, implementation, conditional.GetCodeBlock(), add_newline_after_code_block);
+            myself.WriteCodeBlock(indent, implementation, conditional.GetCodeBlock(), add_newline_after_code_block);
         }
     }
 
-    function void WriteLoop(int indent, S84.CTCode.System.ctcode.OutputStream implementation, s84.ctcode.dbnf.ctcode.Loop loop, bool add_newline_after_code_block) {
-        implementation.WriteLine(Concat(indentation(indent), Concat("while (", Concat(GetRValueString(loop.GetRvalue()), ")"))));
-        WriteCodeBlock(indent, implementation, loop.GetCodeBlock(), add_newline_after_code_block);
+    function void WriteLoop(int indent, S84.CTCode.System.ctcode.OutputStream implementation, S84.CTCode.dbnf.ctcode.Loop loop, bool add_newline_after_code_block) {
+        implementation.WriteLine(Concat(myself.Indentation(indent), Concat("while (", Concat(myself.GetRValueString(loop.GetRValue()), ")"))));
+        myself.WriteCodeBlock(indent, implementation, loop.GetCodeBlock(), add_newline_after_code_block);
     }
 
-    function void WriteRtn(int indent, S84.CTCode.System.ctcode.OutputStream implementation, s84.ctcode.dbnf.ctcode.Return rtn) {
-        implementation.WriteLine(Concat(indentation(indent), Concat("return ", Concat(GetRValueString(rtn.GetRvalue()), ";"))));
+    function void WriteRtn(int indent, S84.CTCode.System.ctcode.OutputStream implementation, S84.CTCode.dbnf.ctcode.Return rtn) {
+        implementation.WriteLine(Concat(myself.Indentation(indent), Concat("return ", Concat(myself.GetRValueString(rtn.GetRValue()), ";"))));
     }
 
-    function void WriteDeclaration(int indent, S84.CTCode.System.ctcode.OutputStream implementation, s84.ctcode.dbnf.ctcode.Declaration declaration) {
+    function void WriteDeclaration(int indent, S84.CTCode.System.ctcode.OutputStream implementation, S84.CTCode.dbnf.ctcode.Declaration declaration) {
         string assignment_suffix;
         assignment_suffix = "";
 
         if (declaration.GetAssignment()) {
-            s84.ctcode.dbnf.ctcode.DeclarationAssign assignment;
+            S84.CTCode.dbnf.ctcode.DeclarationAssign assignment;
             assignment = declaration.GetAssignment();
-            assignment_suffix = Concat(" = ", GetRValueString(assignment.GetRvalue()));
+            assignment_suffix = Concat(" = ", myself.GetRValueString(assignment.GetRValue()));
         }
 
-        implementation.WriteLine(Concat(indentation(indent), Concat(GetVariableDefinition(declaration.GetType(), declaration.GetName()), Concat(assignment_suffix, ";"))));
+        implementation.WriteLine(Concat(myself.Indentation(indent), Concat(myself.GetVariableDefinition(declaration.GetType(), declaration.GetName()), Concat(assignment_suffix, ";"))));
     }
 
-    function void WriteAssignment(int indent, S84.CTCode.System.ctcode.OutputStream implementation, s84.ctcode.dbnf.ctcode.Assignment assignment) {
-        implementation.WriteLine(Concat(Indentation(indent), Concat(GenerateVariableName(assignment.GetLvalue()), Concat(" = ", Concat(GetRValueString(assignment.GetRvalue()), ";")))));
+    function void WriteAssignment(int indent, S84.CTCode.System.ctcode.OutputStream implementation, S84.CTCode.dbnf.ctcode.Assignment assignment) {
+        implementation.WriteLine(Concat(myself.Indentation(indent), Concat(myself.GenerateVariableChain(assignment.GetLValue()), Concat(" = ", Concat(myself.GetRValueString(assignment.GetRValue()), ";")))));
     }
 
-    function void WriteCall(int indent, S84.CTCode.System.ctcode.OutputStream implementation, s84.ctcode.dbnf.ctcode.Call call) {
-        implementation.WriteLine(Concat(Indentation(indent), Concat(GetCallString(call), ";")));
+    function void WriteCall(int indent, S84.CTCode.System.ctcode.OutputStream implementation, S84.CTCode.dbnf.ctcode.Call call) {
+        implementation.WriteLine(Concat(myself.Indentation(indent), Concat(myself.GetCallString(call), ";")));
     }
 
-    function string GetExdefHeaderString(s84.ctcode.dbnf.ctcode.QualfiedName exdef_name) {
+    function string GetExdefHeaderString(S84.CTCode.dbnf.ctcode.QualfiedName exdef_name) {
         return Concat(exdef_name.UnParse(), ".hpp");
     }
 
-    function string[] GetUnmanagedTypes(s84.ctcode.dbnf.ctcode.UnmanagedType[] unmanaged_types)
+    function string[] GetUnmanagedTypes(S84.CTCode.dbnf.ctcode.UnmanagedType[] unmanaged_types)
     {
         string[] unmanaged_type_strings;
         int index;
         index = 0;
 
         while (index < Size(unmanaged_types)) {
-            s84.ctcode.dbnf.ctcode.UnmanagedType unmanaged_type = Element(unmanaged_types, index);
-            Append(unmanaged_type_strings, GetRawDefinedType(unmanaged_type.GetUnmanagedType()));
+            S84.CTCode.dbnf.ctcode.UnmanagedType unmanaged_type = Element(unmanaged_types, index);
+            Append(unmanaged_type_strings, myself.GetRawDefinedType(unmanaged_type.GetUnmanagedType()));
             index = index + 1;
         }
 
@@ -580,13 +580,13 @@ class CPPTranspiler implements S84.CTCode.Transpiler.ctcode.Transpiler {
         return result;
     }
 
-    function string GetRValueSingleString(s84.ctcode.dbnf.ctcode.RValueSingle rValueSingle) {
-        return Concat(GetRValueSingleUnaryString(rValueSingle), GetRValueSingleCoreString(rValueSingle));
+    function string GetRValueSingleString(S84.CTCode.dbnf.ctcode.RValueSingle rValueSingle) {
+        return Concat(myself.GetRValueSingleUnaryString(rValueSingle), myself.GetRValueSingleCoreString(rValueSingle));
     }
 
-    function string GetRValueSingleUnaryString(s84.ctcode.dbnf.ctcode.RValueSingle rValueSingle) {
+    function string GetRValueSingleUnaryString(S84.CTCode.dbnf.ctcode.RValueSingle rValueSingle) {
         if (rValueSingle.GetUnaryOperator()) {
-            s84.ctcode.dbnf.ctcode.UnaryOperator unaryOperator;
+            S84.CTCode.dbnf.ctcode.UnaryOperator unaryOperator;
             unaryOperator = rValueSingle.GetUnaryOperator();
 
             if (unaryOperator.GetNegation()) {
@@ -599,26 +599,51 @@ class CPPTranspiler implements S84.CTCode.Transpiler.ctcode.Transpiler {
         }
     }
 
-    function string GetCallString(s84.ctcode.dbnf.ctcode.Call call) {
+    function string GetCallString(S84.CTCode.dbnf.ctcode.Call call) {
         string result;
         result = "";
 
         if (call.GetVariable()) {
-            result = Concat(result, Concat(GenerateVariableName(call.GetVariable()), "->"));
+            result = Concat(result, Concat(myself.GenerateVariableName(call.GetVariable()), "->"));
         }
 
-        result = Concat(result, Concat(GenerateCallName(call.GetFunction()), Concat("(", Concat(GenerateCallingParameterList(call.GetParameters()), ")"))));
+        if (call.GetFunction()) {
+            result = Concat(result, myself.GenerateCallName(call.GetFunction()));
+        }
+
+        if (call.GetFunctionChain()) {
+            S84.CTCode.dbnf.ctcode.QualfiedName function_chain = call.GetFunctionChain();
+            S84.CTCode.dbnf.ctcode.NameTail name_tail = function_chain.GetTail();
+
+            if (function_chain.GetTail()) {
+                result = Concat(Concat(result, myself.GenerateVariableName(function_chain.GetName())), "->");
+            } else {
+                result = Concat(result, myself.GenerateCallName(function_chain.GetName()));
+            }
+
+            while (name_tail) {
+                if (name_tail.GetTail()) {
+                    result = Concat(Concat(result, myself.GenerateVariableName(name_tail.GetName())), "->");
+                } else {
+                    result = Concat(result, myself.GenerateCallName(name_tail.GetName()));
+                }
+
+                name_tail = name_tail.GetTail();
+            }
+        }
+
+        result = Concat(Concat(Concat(result, "("), myself.GenerateCallingParameterList(call.GetParameters())), ")");
         return result;
     }
 
-    function string GetRValueSingleCoreString(s84.ctcode.dbnf.ctcode.RValueSingle rValueSingle) {
+    function string GetRValueSingleCoreString(S84.CTCode.dbnf.ctcode.RValueSingle rValueSingle) {
         if (rValueSingle.GetCall()) {
-            return GetCallString(rValueSingle.GetCall());
+            return myself.GetCallString(rValueSingle.GetCall());
         }
 
         if (rValueSingle.GetAllocate()) {
-            s84.ctcode.dbnf.ctcode.Allocate allocate = rValueSingle.GetAllocate();
-            string raw_type = GetRawDefinedType(allocate.GetManagedType());
+            S84.CTCode.dbnf.ctcode.Allocate allocate = rValueSingle.GetAllocate();
+            string raw_type = myself.GetRawDefinedType(allocate.GetManagedType());
             return Concat("std::shared_ptr<", Concat(raw_type, Concat(">(new ", Concat(raw_type, "())"))));
         }
 
@@ -639,7 +664,7 @@ class CPPTranspiler implements S84.CTCode.Transpiler.ctcode.Transpiler {
         }
 
         if (rValueSingle.GetVariable()) {
-            return GenerateVariableName(rValueSingle.GetVariable());
+            return myself.GenerateVariableChain(rValueSingle.GetVariable());
         }
 
         if (rValueSingle.GetStringLiteral()) {
@@ -649,7 +674,7 @@ class CPPTranspiler implements S84.CTCode.Transpiler.ctcode.Transpiler {
         return "/*WARNING RValueSingle FALL THROUGH*/";
     }
 
-    function string GetOperator(s84.ctcode.dbnf.ctcode.BinaryOperator op) {
+    function string GetOperator(S84.CTCode.dbnf.ctcode.BinaryOperator op) {
         if (op.GetAddition()) {
             return "+";
         }
@@ -693,92 +718,92 @@ class CPPTranspiler implements S84.CTCode.Transpiler.ctcode.Transpiler {
         return "/*WARNING BinaryOperator FALL THROUGH*/";
     }
 
-    function string GetRValueTail(s84.ctcode.dbnf.ctcode.RValueTail rValueTail) {
+    function string GetRValueTail(S84.CTCode.dbnf.ctcode.RValueTail rValueTail) {
         if (rValueTail) {
-            s84.ctcode.dbnf.ctcode.BinaryOperator op;
+            S84.CTCode.dbnf.ctcode.BinaryOperator op;
             op = rValueTail.GetBinaryOperator();
 
-            return Concat(" ", Concat(GetOperator(op), Concat(" ", Concat(GetRValueSingleString(rValueTail.GetValue()), GetRValueTail(rValueTail.GetTail())))));
+            return Concat(" ", Concat(myself.GetOperator(op), Concat(" ", Concat(myself.GetRValueSingleString(rValueTail.GetValue()), myself.GetRValueTail(rValueTail.GetTail())))));
         }
 
         return "";
     }
 
-    function string GetRValueString(s84.ctcode.dbnf.ctcode.RValue rValue) {
-        return Concat(GetRValueSingleString(rValue.GetValue()), GetRValueTail(rValue.GetTail()));
+    function string GetRValueString(S84.CTCode.dbnf.ctcode.RValue rValue) {
+        return Concat(myself.GetRValueSingleString(rValue.GetValue()), myself.GetRValueTail(rValue.GetTail()));
     }
 
-    function string GetVariableDefinition(s84.ctcode.dbnf.ctcode.ValueType type, s84.ctcode.dbnf.ctcode.Name name) {
-        return Concat(GetType(type), Concat(" ", GenerateVariableName(name)));
+    function string GetVariableDefinition(S84.CTCode.dbnf.ctcode.ValueType type, S84.CTCode.dbnf.ctcode.Name name) {
+        return Concat(myself.GetType(type), Concat(" ", myself.GenerateVariableName(name)));
     }
 
-    function string GetParameterString(s84.ctcode.dbnf.ctcode.ParameterListDef parameter) {
-        return GetVariableDefinition(parameter.GetType(), parameter.GetName());
+    function string GetParameterString(S84.CTCode.dbnf.ctcode.ParameterListDef parameter) {
+        return myself.GetVariableDefinition(parameter.GetType(), parameter.GetName());
     }
 
-    function string GenerateParameterListTail(s84.ctcode.dbnf.ctcode.ParameterListDef parameters) {
+    function string GenerateParameterListTail(S84.CTCode.dbnf.ctcode.ParameterListDef parameters) {
         if (parameters) {
-            return Concat(", ", Concat(GetParameterString(parameters), GenerateParameterListTail(parameters.GetParameterTail())));
+            return Concat(", ", Concat(myself.GetParameterString(parameters), myself.GenerateParameterListTail(parameters.GetParameterTail())));
         }
 
         return "";
     }
 
-    function string GenerateParameterList(s84.ctcode.dbnf.ctcode.ParameterListDef parameters) {
+    function string GenerateParameterList(S84.CTCode.dbnf.ctcode.ParameterListDef parameters) {
         if (parameters) {
-            return Concat(GetParameterString(parameters), GenerateParameterListTail(parameters.GetParameterTail()));
+            return Concat(myself.GetParameterString(parameters), myself.GenerateParameterListTail(parameters.GetParameterTail()));
         } else {
             return "";
         }
     }
 
-    function string GenerateCallingParameterList(s84.ctcode.dbnf.ctcode.ParameterList parameters) {
+    function string GenerateCallingParameterList(S84.CTCode.dbnf.ctcode.ParameterList parameters) {
         if (parameters) {
-            return Concat(GetCallingParameterString(parameters), GenerateCallingParameterListTail(parameters.GetParameterTail()));
+            return Concat(myself.GetCallingParameterString(parameters), myself.GenerateCallingParameterListTail(parameters.GetParameterTail()));
         } else {
             return "";
         }
     }
 
-    function string GetCallingParameterString(s84.ctcode.dbnf.ctcode.ParameterList parameter) {
+    function string GetCallingParameterString(S84.CTCode.dbnf.ctcode.ParameterList parameter) {
         if (parameter) {
-            return GetRValueString(parameter.GetRvalue());
+            return myself.GetRValueString(parameter.GetRValue());
         }
         else {
             return "";
         }
     }
 
-    function string GenerateCallingParameterListTail(s84.ctcode.dbnf.ctcode.ParameterList parameters) {
+    function string GenerateCallingParameterListTail(S84.CTCode.dbnf.ctcode.ParameterList parameters) {
         if (parameters) {
-            return Concat(", ", Concat(GetCallingParameterString(parameters), GenerateCallingParameterListTail(parameters.GetParameterTail())));
+            return Concat(", ", Concat(myself.GetCallingParameterString(parameters), myself.GenerateCallingParameterListTail(parameters.GetParameterTail())));
         }
 
         return "";
     }
 
-    function string GetType(s84.ctcode.dbnf.ctcode.ValueType value_type) {
+    function string GetType(S84.CTCode.dbnf.ctcode.ValueType value_type) {
         if (value_type.GetDimensionalType()) {
-            return GetDimensionalType(value_type.GetDimensionalType());
+            return myself.GetDimensionalType(value_type.GetDimensionalType());
         }
 
         if (value_type.GetMapType()) {
-            return GetMapType(value_type.GetMapType());
+            return myself.GetMapType(value_type.GetMapType());
         }
 
         if (value_type.GetSingletonType()) {
-            return GetSingletonType(value_type.GetSingletonType());
+            return myself.GetSingletonType(value_type.GetSingletonType());
         }
 
         return "/*WARNING ValueType FALL THROUGH*/";
     }
 
-    function string GetDimensionalType(s84.ctcode.dbnf.ctcode.DimensionalType dimensional_type) {
-        s84.ctcode.dbnf.ctcode.DimensionalNote[] dimensional_note_list;
+    function string GetDimensionalType(S84.CTCode.dbnf.ctcode.DimensionalType dimensional_type) {
+        S84.CTCode.dbnf.ctcode.DimensionalNote[] dimensional_note_list;
         dimensional_note_list = dimensional_type.GetDimensionalNote();
         int dimensionalNotes;
         dimensionalNotes = Size(dimensional_note_list);
-        return Concat(GetDimensionalPrefix(dimensionalNotes), Concat(GetSingletonType(dimensional_type.GetSingletonType()), GetDimensionalSuffix(dimensionalNotes)));
+        return Concat(myself.GetDimensionalPrefix(dimensionalNotes), Concat(myself.GetSingletonType(dimensional_type.GetSingletonType()), myself.GetDimensionalSuffix(dimensionalNotes)));
     }
 
     function string GetDimensionalPrefix(int dimensionalNotes) {
@@ -805,21 +830,21 @@ class CPPTranspiler implements S84.CTCode.Transpiler.ctcode.Transpiler {
         return dimensionalSuffix;
     }
 
-    function string GetMapType(s84.ctcode.dbnf.ctcode.MapType map_type) {
-        return Concat("std::unordered_map<std::string, ", Concat(GetSingletonType(map_type.GetSingletonType()), ">"));
+    function string GetMapType(S84.CTCode.dbnf.ctcode.MapType map_type) {
+        return Concat("std::unordered_map<std::string, ", Concat(myself.GetSingletonType(map_type.GetSingletonType()), ">"));
     }
 
-    function string GetSingletonType(s84.ctcode.dbnf.ctcode.SingletonType singleton_type) {
+    function string GetSingletonType(S84.CTCode.dbnf.ctcode.SingletonType singleton_type) {
         if (singleton_type.GetDefinedType()) {
-            s84.ctcode.dbnf.ctcode.DefinedType defined_type;
+            S84.CTCode.dbnf.ctcode.DefinedType defined_type;
             defined_type = singleton_type.GetDefinedType();
-            s84.ctcode.dbnf.ctcode.QualfiedName defined_type_name;
+            S84.CTCode.dbnf.ctcode.QualfiedName defined_type_name;
             defined_type_name = defined_type.GetName();
-            return GetDefinedType(defined_type_name);
+            return myself.GetDefinedType(defined_type_name);
         }
 
         if (singleton_type.GetPrimativeType()) {
-            s84.ctcode.dbnf.ctcode.PrimativeType primative_type;
+            S84.CTCode.dbnf.ctcode.PrimativeType primative_type;
             primative_type = singleton_type.GetPrimativeType();
             string primative_type_string;
             primative_type_string = primative_type.UnParse();
@@ -850,20 +875,20 @@ class CPPTranspiler implements S84.CTCode.Transpiler.ctcode.Transpiler {
         return "/*WARNING SingletonType FALL THROUGH*/";
     }
 
-    function string GetDefinedType(s84.ctcode.dbnf.ctcode.QualfiedName qualified_name) {
-        string raw_type = GetRawDefinedType(qualified_name);
+    function string GetDefinedType(S84.CTCode.dbnf.ctcode.QualfiedName qualified_name) {
+        string raw_type = myself.GetRawDefinedType(qualified_name);
 
-        if (IsUnmanagedType(raw_type)) {
+        if (myself.IsUnmanagedType(raw_type)) {
             return Concat(raw_type, "*");
         } else {
             return Concat("OmniPointer<", Concat(raw_type, ">"));
         }
     }
 
-    function string GetRawDefinedType(s84.ctcode.dbnf.ctcode.QualfiedName qualified_name) {
-        s84.ctcode.dbnf.ctcode.NameTail name_tail;
+    function string GetRawDefinedType(S84.CTCode.dbnf.ctcode.QualfiedName qualified_name) {
+        S84.CTCode.dbnf.ctcode.NameTail name_tail;
         name_tail = qualified_name.GetTail();
-        s84.ctcode.dbnf.ctcode.Name name;
+        S84.CTCode.dbnf.ctcode.Name name;
         name = qualified_name.GetName();
         string result;
         result = "";
@@ -873,25 +898,25 @@ class CPPTranspiler implements S84.CTCode.Transpiler.ctcode.Transpiler {
             string name_string;
             name_string = name.UnParse();
             string lower_name_string;
-            lower_name_string = ToLower(name_string);
+            lower_name_string = myself.ToLower(name_string);
             string name_tail_string;
-            name_tail_string = GetRawDefinedTypeTail(name_tail);
+            name_tail_string = myself.GetRawDefinedTypeTail(name_tail);
             result = Concat(result, lower_name_string);
             result = Concat(result, name_tail_string);
         } else {
             string class_name;
-            class_name = GenerateClassName(name);
+            class_name = myself.GenerateClassName(name);
             result = Concat(result, class_name);
         }
 
        return result;
     }
 
-    function string GetRawDefinedTypeTail(s84.ctcode.dbnf.ctcode.NameTail name_tail)
+    function string GetRawDefinedTypeTail(S84.CTCode.dbnf.ctcode.NameTail name_tail)
     {
-        s84.ctcode.dbnf.ctcode.NameTail name_tail_tail;
+        S84.CTCode.dbnf.ctcode.NameTail name_tail_tail;
         name_tail_tail = name_tail.GetTail();
-        s84.ctcode.dbnf.ctcode.Name name;
+        S84.CTCode.dbnf.ctcode.Name name;
         name = name_tail.GetName();
         string result;
         result = "::";
@@ -901,27 +926,26 @@ class CPPTranspiler implements S84.CTCode.Transpiler.ctcode.Transpiler {
             string name_string;
             name_string = name.UnParse();
             string lower_name_string;
-            lower_name_string = ToLower(name_string);
+            lower_name_string = myself.ToLower(name_string);
             string name_tail_tail_string;
-            name_tail_tail_string = GetRawDefinedTypeTail(name_tail_tail);
+            name_tail_tail_string = myself.GetRawDefinedTypeTail(name_tail_tail);
             result = Concat(result, lower_name_string);
             result = Concat(result, name_tail_tail_string);
         } else {
             string class_name;
-            class_name = GenerateClassName(name);
+            class_name = myself.GenerateClassName(name);
             result = Concat(result, class_name);
         }
 
        return result;
     }
 
-    function string GenerateClassName(s84.ctcode.dbnf.ctcode.Name name_node)
+    function string GenerateClassName(S84.CTCode.dbnf.ctcode.Name name_node)
     {
         if (name_node)
         {
-            string name_node_string;
-            name_node_string = name_node.UnParse();
-            return SnakeCaseToCamelCase(name_node_string);
+            string name_node_string = name_node.UnParse();
+            return myself.SnakeCaseToCamelCase(name_node_string);
         }
         else
         {
@@ -929,18 +953,35 @@ class CPPTranspiler implements S84.CTCode.Transpiler.ctcode.Transpiler {
         }
     }
 
-    function string GenerateVariableName(s84.ctcode.dbnf.ctcode.Name name_node)
+    function string GenerateVariableChainNameTail(S84.CTCode.dbnf.ctcode.NameTail name_tail)
+    {
+        if (name_tail.GetTail()) {
+            return Concat(Concat(myself.GenerateVariableName(name_tail.GetName()), "->"), myself.GenerateVariableChainNameTail(name_tail.GetTail()));
+        } else {
+            return myself.GenerateVariableName(name_tail.GetName());
+        }
+    }
+
+    function string GenerateVariableChain(S84.CTCode.dbnf.ctcode.QualfiedName qualified_name_node)
+    {
+        if (qualified_name_node.GetTail()) {
+            return Concat(Concat(myself.GenerateVariableName(qualified_name_node.GetName()), "->"), myself.GenerateVariableChainNameTail(qualified_name_node.GetTail()));
+        } else {
+            return myself.GenerateVariableName(qualified_name_node.GetName());
+        }
+    }
+
+    function string GenerateVariableName(S84.CTCode.dbnf.ctcode.Name name_node)
     {
         if (name_node)
         {
-            string name_node_string;
-            name_node_string = name_node.UnParse();
+            string name_node_string = name_node.UnParse();
 
             if (name_node_string == "myself") {
                 return "this";
             }
 
-            return CamelCaseToSnakeCase(name_node_string);
+            return myself.CamelCaseToSnakeCase(name_node_string);
         }
         else
         {
@@ -948,13 +989,12 @@ class CPPTranspiler implements S84.CTCode.Transpiler.ctcode.Transpiler {
         }
     }
 
-    function string GenerateCallName(s84.ctcode.dbnf.ctcode.Name name_node)
+    function string GenerateCallName(S84.CTCode.dbnf.ctcode.Name name_node)
     {
         if (name_node)
         {
-            string name_node_string;
-            name_node_string = name_node.UnParse();
-            return SnakeCaseToCamelCase(name_node_string);
+            string name_node_string = name_node.UnParse();
+            return myself.SnakeCaseToCamelCase(name_node_string);
         }
         else
         {
@@ -1002,7 +1042,7 @@ class CPPTranspiler implements S84.CTCode.Transpiler.ctcode.Transpiler {
             string namespace_token;
             namespace_token = Element(base_name_tokens, index);
             string upper_namespace_token;
-            upper_namespace_token = ToUpper(namespace_token);
+            upper_namespace_token = myself.ToUpper(namespace_token);
             guard_name = Concat(guard_name, upper_namespace_token);
             guard_name = Concat(guard_name, namespace_seperator);
             index = index + 1;
@@ -1031,7 +1071,7 @@ class CPPTranspiler implements S84.CTCode.Transpiler.ctcode.Transpiler {
                 if (capitalize_this_letter == true)
                 {
                     string upper_character;
-                    upper_character = CharacterToUpper(source_character);
+                    upper_character = myself.CharacterToUpper(source_character);
                     capitalize_this_letter = false;
                     camel_case = Concat(camel_case, upper_character);
                 } else {
@@ -1060,9 +1100,9 @@ class CPPTranspiler implements S84.CTCode.Transpiler.ctcode.Transpiler {
             string source_character;
             source_character = At(camel_case, index);
             string lower_character;
-            lower_character = CharacterToLower(source_character);
+            lower_character = myself.CharacterToLower(source_character);
 
-            if (IsUpper(source_character) || IsDigit(source_character)) {
+            if (myself.IsUpper(source_character) || myself.IsDigit(source_character)) {
                 bool is_first_character;
                 is_first_character = Length(snake_case) == 0;
 
@@ -1146,7 +1186,7 @@ class CPPTranspiler implements S84.CTCode.Transpiler.ctcode.Transpiler {
             string character;
             character = At(input, index);
             string lowerCharacter;
-            lowerCharacter = CharacterToLower(character);
+            lowerCharacter = myself.CharacterToLower(character);
             result = Concat(result, lowerCharacter);
             index = index + 1;
         }
@@ -1272,7 +1312,7 @@ class CPPTranspiler implements S84.CTCode.Transpiler.ctcode.Transpiler {
             string character;
             character = At(input, index);
             string upperCharacter;
-            upperCharacter = CharacterToUpper(character);
+            upperCharacter = myself.CharacterToUpper(character);
             result = Concat(result, upperCharacter);
             index = index + 1;
         }

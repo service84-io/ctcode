@@ -1,5 +1,5 @@
-#ifndef S84_CTCODE_TRANSPILER_LOGTOCONSOLE_CTCODE_H
-#define S84_CTCODE_TRANSPILER_LOGTOCONSOLE_CTCODE_H
+#ifndef S84_CTCODE_TRANSPILER_PYTHON3TRANSPILER_CTCODE_H
+#define S84_CTCODE_TRANSPILER_PYTHON3TRANSPILER_CTCODE_H
 
 #include "S84.CTCode.dbnf.ctcode.hpp"
 #include "S84.CTCode.System.ctcode.hpp"
@@ -105,12 +105,12 @@ namespace ctcode
 {
 namespace transpiler
 {
-namespace logtoconsole
+namespace python3transpiler
 {
 namespace ctcode
 {
 class ParameterDeclaration;
-class LogToConsole;
+class Python3Transpiler;
 
 
 class ParameterDeclaration
@@ -129,12 +129,12 @@ private:
     std::string name;
 };
 
-class LogToConsole
+class Python3Transpiler
 : public s84::ctcode::transpiler::ctcode::Transpiler
 {
 public:
-    inline LogToConsole() {};
-    inline ~LogToConsole() {};
+    inline Python3Transpiler() {};
+    inline ~Python3Transpiler() {};
 
     void LogLine(std::string line);
     int GetBaseIndentation();
@@ -179,7 +179,13 @@ public:
     void FinishProcessingClassFunctionDefinition(std::string return_type, std::string function_name, std::vector<OmniPointer<ParameterDeclaration>> parameters);
     void ProcessClassMemberDeclaration(std::string member_type, std::string member_name);
     void FinishProcessingClass(std::string class_name, std::string implementing);
+    void WriteCommonFunctions(OmniPointer<s84::ctcode::system::ctcode::OutputStream> destination_file);
     void FinishProcessingCTCodeFile();
+    bool BeginsWith(std::string prefix, std::string value);
+    std::string GetDefault(std::string python_type);
+    std::string MakeParametersString(std::string self_type, std::vector<OmniPointer<ParameterDeclaration>> parameters);
+    std::string StripDot(std::string input);
+    void WriteLines(OmniPointer<s84::ctcode::system::ctcode::OutputStream> destination, std::vector<std::string> lines);
     int Transpile(OmniPointer<s84::ctcode::system::ctcode::System> system, OmniPointer<s84::ctcode::dbnf::ctcode::CTCodeFile> c_t_code_file, std::string base_name);
     void ProcessCTCodeFile(OmniPointer<s84::ctcode::dbnf::ctcode::CTCodeFile> c_t_code_file);
     void ProcessExdefs(OmniPointer<s84::ctcode::dbnf::ctcode::CTCodeFile> c_t_code_file);
@@ -219,6 +225,13 @@ private:
     OmniPointer<s84::ctcode::dbnf::ctcode::CTCodeFile> c_t_code_file;
     std::string base_name;
     OmniPointer<s84::ctcode::system::ctcode::OutputStream> logger;
+    std::vector<std::string> imports;
+    std::string current_interface;
+    std::vector<std::string> interface_definitions;
+    std::string current_class;
+    std::vector<std::string> class_definitions;
+    std::vector<std::string> class_init;
+    std::vector<std::string> class_functions;
 };
 };
 };

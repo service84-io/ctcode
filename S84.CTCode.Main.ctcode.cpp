@@ -3,6 +3,7 @@
 #include "S84.CTCode.System.ctcode.hpp"
 #include "S84.CTCode.Transpiler.ctcode.hpp"
 #include "S84.CTCode.Transpiler.CPPTranspiler.ctcode.hpp"
+#include "S84.CTCode.Transpiler.Python3Transpiler.ctcode.hpp"
 #include "S84.CTCode.Transpiler.LogToConsole.ctcode.hpp"
 #include "S84.CTCode.dbnf.ctcode.hpp"
 
@@ -19,6 +20,11 @@ namespace ctcode
         return std::shared_ptr<s84::ctcode::transpiler::cpptranspiler::ctcode::CPPTranspiler>(new s84::ctcode::transpiler::cpptranspiler::ctcode::CPPTranspiler());
     }
 
+    OmniPointer<s84::ctcode::transpiler::ctcode::Transpiler> Main::GetPython3Transpiler()
+    {
+        return std::shared_ptr<s84::ctcode::transpiler::python3transpiler::ctcode::Python3Transpiler>(new s84::ctcode::transpiler::python3transpiler::ctcode::Python3Transpiler());
+    }
+
     OmniPointer<s84::ctcode::transpiler::ctcode::Transpiler> Main::GetLogToConsole()
     {
         return std::shared_ptr<s84::ctcode::transpiler::logtoconsole::ctcode::LogToConsole>(new s84::ctcode::transpiler::logtoconsole::ctcode::LogToConsole());
@@ -28,10 +34,13 @@ namespace ctcode
     {
         OmniPointer<s84::ctcode::system::ctcode::OutputStream> logger = system->GetLoggerDestination();
         std::unordered_map<std::string, OmniPointer<s84::ctcode::transpiler::ctcode::Transpiler>> transpilers;
-        SetKV(transpilers, std::string("CPPTranspiler"), GetCPPTranspiler());
-        SetKV(transpilers, std::string("S84::CTCode::CPPTranspiler"), GetCPPTranspiler());
-        SetKV(transpilers, std::string("s84::ctcode::CPPTranspiler"), GetCPPTranspiler());
-        SetKV(transpilers, std::string("LogToConsole"), GetLogToConsole());
+        SetKV(transpilers, std::string("CPPTranspiler"), this->GetCPPTranspiler());
+        SetKV(transpilers, std::string("S84::CTCode::CPPTranspiler"), this->GetCPPTranspiler());
+        SetKV(transpilers, std::string("s84::ctcode::CPPTranspiler"), this->GetCPPTranspiler());
+        SetKV(transpilers, std::string("Python3Transpiler"), this->GetPython3Transpiler());
+        SetKV(transpilers, std::string("S84::CTCode::Python3Transpiler"), this->GetPython3Transpiler());
+        SetKV(transpilers, std::string("s84::ctcode::Python3Transpiler"), this->GetPython3Transpiler());
+        SetKV(transpilers, std::string("LogToConsole"), this->GetLogToConsole());
         if (ctcode_file_name == std::string("") || !HasKV(transpilers, transpiler))
         {
             logger->WriteLine(std::string("ctcode <CTCodeFile> <Transpiler>"));

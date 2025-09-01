@@ -1,6 +1,7 @@
 exdef S84.CTCode.System.ctcode;
 exdef S84.CTCode.Transpiler.ctcode;
 exdef S84.CTCode.Transpiler.CPPTranspiler.ctcode;
+exdef S84.CTCode.Transpiler.Python3Transpiler.ctcode;
 exdef S84.CTCode.Transpiler.LogToConsole.ctcode;
 exdef S84.CTCode.dbnf.ctcode;
 
@@ -8,6 +9,10 @@ class Main
 {
     function S84.CTCode.Transpiler.ctcode.Transpiler GetCPPTranspiler() {
         return new S84.CTCode.Transpiler.CPPTranspiler.ctcode.CPPTranspiler;
+    }
+
+    function S84.CTCode.Transpiler.ctcode.Transpiler GetPython3Transpiler() {
+        return new S84.CTCode.Transpiler.Python3Transpiler.ctcode.Python3Transpiler;
     }
 
     function S84.CTCode.Transpiler.ctcode.Transpiler GetLogToConsole() {
@@ -19,10 +24,13 @@ class Main
 
         S84.CTCode.Transpiler.ctcode.Transpiler{} transpilers;
 
-        SetKV(transpilers, "CPPTranspiler", GetCPPTranspiler());
-        SetKV(transpilers, "S84::CTCode::CPPTranspiler", GetCPPTranspiler());
-        SetKV(transpilers, "s84::ctcode::CPPTranspiler", GetCPPTranspiler());
-        SetKV(transpilers, "LogToConsole", GetLogToConsole());
+        SetKV(transpilers, "CPPTranspiler", myself.GetCPPTranspiler());
+        SetKV(transpilers, "S84::CTCode::CPPTranspiler", myself.GetCPPTranspiler());
+        SetKV(transpilers, "s84::ctcode::CPPTranspiler", myself.GetCPPTranspiler());
+        SetKV(transpilers, "Python3Transpiler", myself.GetPython3Transpiler());
+        SetKV(transpilers, "S84::CTCode::Python3Transpiler", myself.GetPython3Transpiler());
+        SetKV(transpilers, "s84::ctcode::Python3Transpiler", myself.GetPython3Transpiler());
+        SetKV(transpilers, "LogToConsole", myself.GetLogToConsole());
 
         if (ctcode_file_name == "" || !HasKV(transpilers, transpiler)) {
             logger.WriteLine("ctcode <CTCodeFile> <Transpiler>");

@@ -1,4 +1,4 @@
-#include "S84.CTCode.Transpiler.LogToConsole.ctcode.hpp"
+#include "S84.CTCode.Transpiler.Python3Transpiler.ctcode.hpp"
 
 #include "S84.CTCode.dbnf.ctcode.hpp"
 #include "S84.CTCode.System.ctcode.hpp"
@@ -10,7 +10,7 @@ namespace ctcode
 {
 namespace transpiler
 {
-namespace logtoconsole
+namespace python3transpiler
 {
 namespace ctcode
 {
@@ -34,18 +34,18 @@ namespace ctcode
         this->name = input;
     }
 
-    void LogToConsole::LogLine(std::string line)
+    void Python3Transpiler::LogLine(std::string line)
     {
         OmniPointer<s84::ctcode::system::ctcode::OutputStream> local_logger = this->logger;
         local_logger->WriteLine(line);
     }
 
-    int LogToConsole::GetBaseIndentation()
+    int Python3Transpiler::GetBaseIndentation()
     {
-        return 3;
+        return 1;
     }
 
-    std::string LogToConsole::GetCallName(OmniPointer<s84::ctcode::dbnf::ctcode::Name> name)
+    std::string Python3Transpiler::GetCallName(OmniPointer<s84::ctcode::dbnf::ctcode::Name> name)
     {
         if (name)
         {
@@ -57,7 +57,7 @@ namespace ctcode
         }
     }
 
-    std::string LogToConsole::GetVariableName(OmniPointer<s84::ctcode::dbnf::ctcode::Name> name)
+    std::string Python3Transpiler::GetVariableName(OmniPointer<s84::ctcode::dbnf::ctcode::Name> name)
     {
         if (name)
         {
@@ -75,7 +75,7 @@ namespace ctcode
         }
     }
 
-    std::string LogToConsole::GetVariableChainNameTail(OmniPointer<s84::ctcode::dbnf::ctcode::NameTail> tail)
+    std::string Python3Transpiler::GetVariableChainNameTail(OmniPointer<s84::ctcode::dbnf::ctcode::NameTail> tail)
     {
         std::string accessor = std::string(".");
         if (tail)
@@ -88,7 +88,7 @@ namespace ctcode
         }
     }
 
-    std::string LogToConsole::GetVariableChain(OmniPointer<s84::ctcode::dbnf::ctcode::QualfiedName> l_value)
+    std::string Python3Transpiler::GetVariableChain(OmniPointer<s84::ctcode::dbnf::ctcode::QualfiedName> l_value)
     {
         if (l_value)
         {
@@ -100,7 +100,7 @@ namespace ctcode
         }
     }
 
-    std::string LogToConsole::ConvertCall(std::vector<std::string> name_chain, std::vector<std::string> parameters)
+    std::string Python3Transpiler::ConvertCall(std::vector<std::string> name_chain, std::vector<std::string> parameters)
     {
         std::string result = Element(name_chain, 0);
         int name_chain_index = 1;
@@ -129,62 +129,62 @@ namespace ctcode
         return result;
     }
 
-    std::string LogToConsole::ConvertAllocate(std::string type)
+    std::string Python3Transpiler::ConvertAllocate(std::string type)
     {
-        return Concat(std::string("new "), type);
+        return Concat(type, std::string("()"));
     }
 
-    std::string LogToConsole::ConvertByte(std::string high, std::string low)
+    std::string Python3Transpiler::ConvertByte(std::string high, std::string low)
     {
         return Concat(Concat(std::string("0x"), high), low);
     }
 
-    std::string LogToConsole::ConvertDecimal(std::string decimal)
+    std::string Python3Transpiler::ConvertDecimal(std::string decimal)
     {
         return decimal;
     }
 
-    std::string LogToConsole::ConvertNumber(std::string number)
+    std::string Python3Transpiler::ConvertNumber(std::string number)
     {
         return number;
     }
 
-    std::string LogToConsole::ConvertBoolean(std::string boolean)
+    std::string Python3Transpiler::ConvertBoolean(std::string boolean)
     {
         if (boolean == std::string("true"))
         {
-            return std::string("true");
+            return std::string("True");
         }
 
         if (boolean == std::string("false"))
         {
-            return std::string("false");
+            return std::string("False");
         }
 
         return std::string("");
     }
 
-    std::string LogToConsole::ConvertVariable(std::string variable)
+    std::string Python3Transpiler::ConvertVariable(std::string variable)
     {
         return variable;
     }
 
-    std::string LogToConsole::ConvertString(std::string literal)
+    std::string Python3Transpiler::ConvertString(std::string literal)
     {
         return Concat(Concat(std::string("\""), literal), std::string("\""));
     }
 
-    std::string LogToConsole::UnaryOperator(std::string op, std::string r_value)
+    std::string Python3Transpiler::UnaryOperator(std::string op, std::string r_value)
     {
         if (op == std::string("!"))
         {
-            return Concat(std::string("!"), r_value);
+            return Concat(std::string("not "), r_value);
         }
 
         return r_value;
     }
 
-    std::string LogToConsole::BinaryOperator(std::string op, std::string r_value_l, std::string r_value_r)
+    std::string Python3Transpiler::BinaryOperator(std::string op, std::string r_value_l, std::string r_value_r)
     {
         if (op == std::string("+"))
         {
@@ -228,18 +228,18 @@ namespace ctcode
 
         if (op == std::string("||"))
         {
-            return Concat(Concat(r_value_l, std::string("||")), r_value_r);
+            return Concat(Concat(r_value_l, std::string(" or ")), r_value_r);
         }
 
         if (op == std::string("&&"))
         {
-            return Concat(Concat(r_value_l, std::string("&&")), r_value_r);
+            return Concat(Concat(r_value_l, std::string(" and ")), r_value_r);
         }
 
         return std::string("");
     }
 
-    std::string LogToConsole::GetTypeName(OmniPointer<s84::ctcode::dbnf::ctcode::Name> name)
+    std::string Python3Transpiler::GetTypeName(OmniPointer<s84::ctcode::dbnf::ctcode::Name> name)
     {
         if (name)
         {
@@ -251,24 +251,24 @@ namespace ctcode
         }
     }
 
-    std::string LogToConsole::GetDimensionalType(std::string singleton_type, int dimensions)
+    std::string Python3Transpiler::GetDimensionalType(std::string singleton_type, int dimensions)
     {
         std::string result = singleton_type;
         while (dimensions > 0)
         {
-            result = Concat(result, std::string("[]"));
+            result = Concat(Concat(std::string("list["), result), std::string("]"));
             dimensions = dimensions - 1;
         }
 
         return result;
     }
 
-    std::string LogToConsole::GetMapType(std::string singleton_type)
+    std::string Python3Transpiler::GetMapType(std::string singleton_type)
     {
-        return Concat(singleton_type, std::string("{}"));
+        return Concat(Concat(std::string("dict[str, "), singleton_type), std::string("]"));
     }
 
-    std::string LogToConsole::GetPrimativeType(std::string c_t_type)
+    std::string Python3Transpiler::GetPrimativeType(std::string c_t_type)
     {
         if (c_t_type == std::string("int"))
         {
@@ -277,7 +277,7 @@ namespace ctcode
 
         if (c_t_type == std::string("string"))
         {
-            return std::string("string");
+            return std::string("str");
         }
 
         if (c_t_type == std::string("bool"))
@@ -292,144 +292,351 @@ namespace ctcode
 
         if (c_t_type == std::string("void"))
         {
-            return std::string("void");
+            return std::string("None");
         }
 
         return std::string("");
     }
 
-    std::string LogToConsole::GetQualifiedTypeName(std::vector<OmniPointer<s84::ctcode::dbnf::ctcode::Name>> name_parts)
+    std::string Python3Transpiler::GetQualifiedTypeName(std::vector<OmniPointer<s84::ctcode::dbnf::ctcode::Name>> name_parts)
     {
-        std::string delimiter = std::string(".");
-        OmniPointer<s84::ctcode::dbnf::ctcode::Name> first_name = Element(name_parts, 0);
-        std::string result = first_name->UnParse();
-        int name_parts_index = 1;
-        while (name_parts_index < Size(name_parts))
+        std::string package_delimiter = std::string("_");
+        std::string package_name_delimiter = std::string(".");
+        int name_parts_index = Size(name_parts) - 1;
+        int last_package_index = Size(name_parts) - 2;
+        OmniPointer<s84::ctcode::dbnf::ctcode::Name> type_part = Element(name_parts, name_parts_index);
+        std::string result = this->GetTypeName(type_part);
+        if (name_parts_index > 0)
         {
-            OmniPointer<s84::ctcode::dbnf::ctcode::Name> name = Element(name_parts, name_parts_index);
-            result = Concat(Concat(result, delimiter), name->UnParse());
-            name_parts_index = name_parts_index + 1;
+            result = Concat(package_name_delimiter, result);
+            while (name_parts_index > 0)
+            {
+                name_parts_index = name_parts_index - 1;
+                OmniPointer<s84::ctcode::dbnf::ctcode::Name> name_part = Element(name_parts, name_parts_index);
+                if (name_parts_index != last_package_index)
+                {
+                    result = Concat(package_delimiter, result);
+                }
+
+                result = Concat(name_part->UnParse(), result);
+            }
         }
 
         return result;
     }
 
-    void LogToConsole::BeginProcessingCTCodeFile()
+    void Python3Transpiler::BeginProcessingCTCodeFile()
     {
-        this->LogLine(std::string("BeginProcessingCTCodeFile"));
+        ClearList(this->imports);
+        this->current_interface = std::string("");
+        ClearList(this->interface_definitions);
+        this->current_class = std::string("");
+        ClearList(this->class_definitions);
+        ClearList(this->class_init);
+        ClearList(this->class_functions);
+        ClearList(this->imports);
+        ClearList(this->interface_definitions);
+        ClearList(this->class_definitions);
     }
 
-    void LogToConsole::ProcessExdef(std::string exdef)
+    void Python3Transpiler::ProcessExdef(std::string exdef)
     {
-        this->LogLine(Concat(Concat(this->Indentation(1), std::string("ProcessExdef: ")), exdef));
+        Append(this->imports, Concat(std::string("import "), this->StripDot(exdef)));
     }
 
-    void LogToConsole::ProcessUnmanagedType(std::string unmanaged_type)
+    void Python3Transpiler::ProcessUnmanagedType(std::string unmanaged_type)
     {
-        this->LogLine(Concat(Concat(this->Indentation(1), std::string("ProcessUnmanagedType: ")), unmanaged_type));
+        int noop = 0;
     }
 
-    void LogToConsole::BeginProcessingInterface(std::string interface_name)
+    void Python3Transpiler::BeginProcessingInterface(std::string interface_name)
     {
-        this->LogLine(Concat(Concat(this->Indentation(1), std::string("BeginProcessingInterface: ")), interface_name));
+        this->current_interface = interface_name;
+        Append(this->interface_definitions, Concat(Concat(std::string("class "), interface_name), std::string(":")));
     }
 
-    void LogToConsole::ProcessInterfaceFunctionDeclaration(std::string return_type, std::string function_name, std::vector<OmniPointer<ParameterDeclaration>> parameters)
+    void Python3Transpiler::ProcessInterfaceFunctionDeclaration(std::string return_type, std::string function_name, std::vector<OmniPointer<ParameterDeclaration>> parameters)
     {
-        this->LogLine(Concat(Concat(Concat(Concat(this->Indentation(2), std::string("ProcessInterfaceFunctionDeclaration: ")), return_type), std::string(" ")), function_name));
+        Append(this->interface_definitions, Concat(Concat(Concat(Concat(Concat(Concat(this->Indentation(1), std::string("def ")), function_name), this->MakeParametersString(this->current_interface, parameters)), std::string(" -> '")), return_type), std::string("': pass")));
     }
 
-    void LogToConsole::FinishProcessingInterface(std::string interface_name)
+    void Python3Transpiler::FinishProcessingInterface(std::string interface_name)
     {
-        this->LogLine(Concat(Concat(this->Indentation(1), std::string("FinishProcessingInterface: ")), interface_name));
+        Append(this->interface_definitions, std::string(""));
+        this->current_interface = std::string("");
     }
 
-    void LogToConsole::BeginProcessingClass(std::string class_name, std::string implementing)
+    void Python3Transpiler::BeginProcessingClass(std::string class_name, std::string implementing)
     {
-        this->LogLine(Concat(Concat(Concat(Concat(this->Indentation(1), std::string("BeginProcessingClass: ")), class_name), std::string(" ")), implementing));
+        this->current_class = class_name;
+        if (implementing == std::string(""))
+        {
+            Append(this->class_definitions, Concat(Concat(std::string("class "), class_name), std::string(":")));
+        }
+        else
+        {
+            Append(this->class_definitions, Concat(Concat(Concat(Concat(std::string("class "), class_name), std::string("(")), implementing), std::string("):")));
+        }
+
+        ClearList(this->class_init);
+        ClearList(this->class_functions);
+        Append(this->class_init, Concat(Concat(Concat(this->Indentation(1), std::string("def __init__(self: '")), class_name), std::string("'):")));
     }
 
-    void LogToConsole::BeginProcessingClassFunctionDefinition(std::string return_type, std::string function_name, std::vector<OmniPointer<ParameterDeclaration>> parameters)
+    void Python3Transpiler::BeginProcessingClassFunctionDefinition(std::string return_type, std::string function_name, std::vector<OmniPointer<ParameterDeclaration>> parameters)
     {
-        this->LogLine(Concat(Concat(Concat(Concat(this->Indentation(2), std::string("BeginProcessingClassFunctionDefinition: ")), return_type), std::string(" ")), function_name));
+        Append(this->class_functions, Concat(Concat(Concat(Concat(Concat(Concat(this->Indentation(1), std::string("def ")), function_name), this->MakeParametersString(this->current_class, parameters)), std::string(" -> '")), return_type), std::string("':")));
     }
 
-    void LogToConsole::BeginProcessCodeBlock(int indent)
+    void Python3Transpiler::BeginProcessCodeBlock(int indent)
     {
-        this->LogLine(Concat(this->Indentation(indent), std::string("BeginProcessCodeBlock")));
+        int noop = 0;
     }
 
-    void LogToConsole::FinishProcessCodeBlock(int indent)
+    void Python3Transpiler::FinishProcessCodeBlock(int indent)
     {
-        this->LogLine(Concat(this->Indentation(indent), std::string("FinishProcessCodeBlock")));
+        int noop = 0;
     }
 
-    void LogToConsole::BeginProcessConditional(int indent, std::string r_value)
+    void Python3Transpiler::BeginProcessConditional(int indent, std::string r_value)
     {
-        this->LogLine(Concat(Concat(this->Indentation(indent), std::string("BeginProcessConditional: ")), r_value));
+        Append(this->class_functions, Concat(Concat(Concat(this->Indentation(indent), std::string("if ")), r_value), std::string(":")));
     }
 
-    void LogToConsole::ProcessElse(int indent)
+    void Python3Transpiler::ProcessElse(int indent)
     {
-        this->LogLine(Concat(this->Indentation(indent), std::string("ProcessElse")));
+        Append(this->class_functions, Concat(this->Indentation(indent), std::string("else:")));
     }
 
-    void LogToConsole::FinishProcessConditional(int indent, std::string r_value)
+    void Python3Transpiler::FinishProcessConditional(int indent, std::string r_value)
     {
-        this->LogLine(Concat(Concat(this->Indentation(indent), std::string("FinishProcessConditional: ")), r_value));
+        int noop = 0;
     }
 
-    void LogToConsole::BeginProcessLoop(int indent, std::string r_value)
+    void Python3Transpiler::BeginProcessLoop(int indent, std::string r_value)
     {
-        this->LogLine(Concat(Concat(this->Indentation(indent), std::string("BeginProcessLoop: ")), r_value));
+        Append(this->class_functions, Concat(Concat(Concat(this->Indentation(indent), std::string("while ")), r_value), std::string(":")));
     }
 
-    void LogToConsole::FinishProcessLoop(int indent, std::string r_value)
+    void Python3Transpiler::FinishProcessLoop(int indent, std::string r_value)
     {
-        this->LogLine(Concat(Concat(this->Indentation(indent), std::string("FinishProcessLoop: ")), r_value));
+        int noop = 0;
     }
 
-    void LogToConsole::ProcessRtn(int indent, std::string r_value)
+    void Python3Transpiler::ProcessRtn(int indent, std::string r_value)
     {
-        this->LogLine(Concat(Concat(this->Indentation(indent), std::string("ProcessRtn: ")), r_value));
+        Append(this->class_functions, Concat(Concat(this->Indentation(indent), std::string("return ")), r_value));
     }
 
-    void LogToConsole::ProcessDeclaration(int indent, std::string type, std::string l_value, std::string r_value)
+    void Python3Transpiler::ProcessDeclaration(int indent, std::string type, std::string l_value, std::string r_value)
     {
-        this->LogLine(Concat(Concat(Concat(Concat(Concat(Concat(this->Indentation(indent), std::string("ProcessDeclaration: ")), type), std::string(" ")), l_value), std::string(" ")), r_value));
+        if (r_value == std::string(""))
+        {
+            r_value = this->GetDefault(type);
+        }
+
+        Append(this->class_functions, Concat(Concat(Concat(Concat(Concat(this->Indentation(indent), l_value), std::string(": '")), type), std::string("' = ")), r_value));
     }
 
-    void LogToConsole::ProcessAssignment(int indent, std::string l_value, std::string r_value)
+    void Python3Transpiler::ProcessAssignment(int indent, std::string l_value, std::string r_value)
     {
-        this->LogLine(Concat(Concat(Concat(Concat(this->Indentation(indent), std::string("ProcessAssignment: ")), l_value), std::string(" ")), r_value));
+        Append(this->class_functions, Concat(Concat(Concat(this->Indentation(indent), l_value), std::string(" = ")), r_value));
     }
 
-    void LogToConsole::ProcessCall(int indent, std::string call)
+    void Python3Transpiler::ProcessCall(int indent, std::string call)
     {
-        this->LogLine(Concat(Concat(this->Indentation(indent), std::string("ProcessCall: ")), call));
+        Append(this->class_functions, Concat(this->Indentation(indent), call));
     }
 
-    void LogToConsole::FinishProcessingClassFunctionDefinition(std::string return_type, std::string function_name, std::vector<OmniPointer<ParameterDeclaration>> parameters)
+    void Python3Transpiler::FinishProcessingClassFunctionDefinition(std::string return_type, std::string function_name, std::vector<OmniPointer<ParameterDeclaration>> parameters)
     {
-        this->LogLine(Concat(Concat(Concat(Concat(this->Indentation(2), std::string("FinishProcessingClassFunctionDefinition: ")), return_type), std::string(" ")), function_name));
+        Append(this->class_functions, std::string(""));
     }
 
-    void LogToConsole::ProcessClassMemberDeclaration(std::string member_type, std::string member_name)
+    void Python3Transpiler::ProcessClassMemberDeclaration(std::string member_type, std::string member_name)
     {
-        this->LogLine(Concat(Concat(Concat(Concat(this->Indentation(2), std::string("ProcessClassMemberDeclaration: ")), member_type), std::string(" ")), member_name));
+        Append(this->class_init, Concat(Concat(Concat(Concat(Concat(Concat(this->Indentation(2), std::string("self.")), member_name), std::string(": ")), member_type), std::string(" = ")), this->GetDefault(member_type)));
     }
 
-    void LogToConsole::FinishProcessingClass(std::string class_name, std::string implementing)
+    void Python3Transpiler::FinishProcessingClass(std::string class_name, std::string implementing)
     {
-        this->LogLine(Concat(Concat(this->Indentation(1), std::string("FinishProcessingClass: ")), class_name));
+        if (Size(this->class_init) == 1)
+        {
+            Append(this->class_init, Concat(this->Indentation(2), std::string("pass")));
+        }
+
+        int class_init_index = 0;
+        while (class_init_index < Size(this->class_init))
+        {
+            std::string line = Element(this->class_init, class_init_index);
+            Append(this->class_definitions, line);
+            class_init_index = class_init_index + 1;
+        }
+
+        Append(this->class_definitions, std::string(""));
+        int class_functions_index = 0;
+        while (class_functions_index < Size(this->class_functions))
+        {
+            std::string line = Element(this->class_functions, class_functions_index);
+            Append(this->class_definitions, line);
+            class_functions_index = class_functions_index + 1;
+        }
+
+        this->current_class = std::string("");
     }
 
-    void LogToConsole::FinishProcessingCTCodeFile()
+    void Python3Transpiler::WriteCommonFunctions(OmniPointer<s84::ctcode::system::ctcode::OutputStream> destination_file)
     {
-        this->LogLine(std::string("FinishProcessingCTCodeFile"));
+        destination_file->WriteLine(std::string("def ClearList(input: list) -> None: input.clear()"));
+        destination_file->WriteLine(std::string("def Size(input: list) -> int: return len(input)"));
+        destination_file->WriteLine(std::string("def Element(input: list, element: int ) -> any: return input[element]"));
+        destination_file->WriteLine(std::string("def Append(input: list, element: any) -> None: input.append(element)"));
+        destination_file->WriteLine(std::string("def ClearMap(input: dict) -> None: input.clear()"));
+        destination_file->WriteLine(std::string("def SetKV(input: dict, key: str, element: any) -> None: input[key] = element"));
+        destination_file->WriteLine(std::string("def Keys(input: dict) -> list[str]:"));
+        destination_file->WriteLine(std::string("    result: list[str] = []"));
+        destination_file->WriteLine(std::string("    for key in input.keys():"));
+        destination_file->WriteLine(std::string("        result.append(key)"));
+        destination_file->WriteLine(std::string("    return result"));
+        destination_file->WriteLine(std::string("def HasKV(input: dict, key: str) -> bool: return key in input"));
+        destination_file->WriteLine(std::string("def GetKV(input: dict, key: str) -> any: return input[key]"));
+        destination_file->WriteLine(std::string("def Length(input: str) -> int: return len(input)"));
+        destination_file->WriteLine(std::string("def At(input: str, index: int) -> str: return input[index]"));
+        destination_file->WriteLine(std::string("def IntAt(input: str, index: int) -> int: return ord(input[index])"));
+        destination_file->WriteLine(std::string("def Concat(left: str, right: str) -> str: return left + right"));
     }
 
-    int LogToConsole::Transpile(OmniPointer<s84::ctcode::system::ctcode::System> system, OmniPointer<s84::ctcode::dbnf::ctcode::CTCodeFile> c_t_code_file, std::string base_name)
+    void Python3Transpiler::FinishProcessingCTCodeFile()
+    {
+        std::string destination_file_name = Concat(this->StripDot(this->base_name), std::string(".py"));
+        OmniPointer<s84::ctcode::system::ctcode::System> system = this->system;
+        OmniPointer<s84::ctcode::system::ctcode::OutputStream> destination_file = system->OpenFileWriter(destination_file_name);
+        if (Size(this->imports) > 0)
+        {
+            this->WriteLines(destination_file, this->imports);
+            destination_file->WriteLine(std::string(""));
+        }
+
+        this->WriteCommonFunctions(destination_file);
+        destination_file->WriteLine(std::string(""));
+        this->WriteLines(destination_file, this->interface_definitions);
+        this->WriteLines(destination_file, this->class_definitions);
+    }
+
+    bool Python3Transpiler::BeginsWith(std::string prefix, std::string value)
+    {
+        if (Length(prefix) > Length(value))
+        {
+            return false;
+        }
+
+        int prefix_index = 0;
+        while (prefix_index < Length(prefix))
+        {
+            if (At(prefix, prefix_index) != At(value, prefix_index))
+            {
+                return false;
+            }
+
+            prefix_index = prefix_index + 1;
+        }
+
+        return true;
+    }
+
+    std::string Python3Transpiler::GetDefault(std::string python_type)
+    {
+        if (python_type == std::string("int"))
+        {
+            return std::string("0");
+        }
+
+        if (python_type == std::string("str"))
+        {
+            return std::string("\"\"");
+        }
+
+        if (python_type == std::string("bool"))
+        {
+            return std::string("False");
+        }
+
+        if (python_type == std::string("float"))
+        {
+            return std::string("0.0");
+        }
+
+        if (python_type == std::string("None"))
+        {
+            return std::string("None");
+        }
+
+        if (this->BeginsWith(std::string("dict[str"), python_type))
+        {
+            return std::string("{}");
+        }
+
+        if (this->BeginsWith(std::string("list["), python_type))
+        {
+            return std::string("[]");
+        }
+
+        return std::string("None");
+    }
+
+    std::string Python3Transpiler::MakeParametersString(std::string self_type, std::vector<OmniPointer<ParameterDeclaration>> parameters)
+    {
+        std::string result = Concat(Concat(std::string("(self: '"), self_type), std::string("'"));
+        int parameters_index = 0;
+        while (parameters_index < Size(parameters))
+        {
+            OmniPointer<ParameterDeclaration> parameter = Element(parameters, parameters_index);
+            result = Concat(result, std::string(","));
+            result = Concat(Concat(Concat(Concat(result, parameter->GetName()), std::string(": '")), parameter->GetType()), std::string("'"));
+            parameters_index = parameters_index + 1;
+        }
+
+        result = Concat(result, std::string(")"));
+        return result;
+    }
+
+    std::string Python3Transpiler::StripDot(std::string input)
+    {
+        int index;
+        index = 0;
+        std::string result;
+        result = std::string("");
+        while (index < Length(input))
+        {
+            std::string character;
+            character = At(input, index);
+            if (character == std::string("."))
+            {
+                result = Concat(result, std::string("_"));
+            }
+            else
+            {
+                result = Concat(result, character);
+            }
+
+            index = index + 1;
+        }
+
+        return result;
+    }
+
+    void Python3Transpiler::WriteLines(OmniPointer<s84::ctcode::system::ctcode::OutputStream> destination, std::vector<std::string> lines)
+    {
+        int lines_index = 0;
+        while (lines_index < Size(lines))
+        {
+            std::string line = Element(lines, lines_index);
+            destination->WriteLine(line);
+            lines_index = lines_index + 1;
+        }
+    }
+
+    int Python3Transpiler::Transpile(OmniPointer<s84::ctcode::system::ctcode::System> system, OmniPointer<s84::ctcode::dbnf::ctcode::CTCodeFile> c_t_code_file, std::string base_name)
     {
         this->system = system;
         this->c_t_code_file = c_t_code_file;
@@ -439,7 +646,7 @@ namespace ctcode
         return 0;
     }
 
-    void LogToConsole::ProcessCTCodeFile(OmniPointer<s84::ctcode::dbnf::ctcode::CTCodeFile> c_t_code_file)
+    void Python3Transpiler::ProcessCTCodeFile(OmniPointer<s84::ctcode::dbnf::ctcode::CTCodeFile> c_t_code_file)
     {
         this->BeginProcessingCTCodeFile();
         this->ProcessExdefs(c_t_code_file);
@@ -448,7 +655,7 @@ namespace ctcode
         this->FinishProcessingCTCodeFile();
     }
 
-    void LogToConsole::ProcessExdefs(OmniPointer<s84::ctcode::dbnf::ctcode::CTCodeFile> c_t_code_file)
+    void Python3Transpiler::ProcessExdefs(OmniPointer<s84::ctcode::dbnf::ctcode::CTCodeFile> c_t_code_file)
     {
         std::vector<OmniPointer<s84::ctcode::dbnf::ctcode::ExternalDefinition>> exdefs = c_t_code_file->GetDeclarations();
         int exdefs_index = 0;
@@ -461,7 +668,7 @@ namespace ctcode
         }
     }
 
-    void LogToConsole::ProcessUnmanagedTypes(OmniPointer<s84::ctcode::dbnf::ctcode::CTCodeFile> c_t_code_file)
+    void Python3Transpiler::ProcessUnmanagedTypes(OmniPointer<s84::ctcode::dbnf::ctcode::CTCodeFile> c_t_code_file)
     {
         std::vector<OmniPointer<s84::ctcode::dbnf::ctcode::UnmanagedType>> unmanaged_types = c_t_code_file->GetUnmanagedTypes();
         int unmanaged_types_index = 0;
@@ -473,7 +680,7 @@ namespace ctcode
         }
     }
 
-    void LogToConsole::ProcessDefinitions(OmniPointer<s84::ctcode::dbnf::ctcode::CTCodeFile> c_t_code_file)
+    void Python3Transpiler::ProcessDefinitions(OmniPointer<s84::ctcode::dbnf::ctcode::CTCodeFile> c_t_code_file)
     {
         std::vector<OmniPointer<s84::ctcode::dbnf::ctcode::Definition>> definitions = c_t_code_file->GetDefinitions();
         int definitions_index = 0;
@@ -495,7 +702,7 @@ namespace ctcode
         }
     }
 
-    std::vector<OmniPointer<ParameterDeclaration>> LogToConsole::GetParameters(OmniPointer<s84::ctcode::dbnf::ctcode::ParameterListDef> parameter_list_def)
+    std::vector<OmniPointer<ParameterDeclaration>> Python3Transpiler::GetParameters(OmniPointer<s84::ctcode::dbnf::ctcode::ParameterListDef> parameter_list_def)
     {
         std::vector<OmniPointer<ParameterDeclaration>> result;
         while (parameter_list_def)
@@ -510,7 +717,7 @@ namespace ctcode
         return result;
     }
 
-    void LogToConsole::ProcessInterfaceDefinition(OmniPointer<s84::ctcode::dbnf::ctcode::InterfaceDef> interface_definition)
+    void Python3Transpiler::ProcessInterfaceDefinition(OmniPointer<s84::ctcode::dbnf::ctcode::InterfaceDef> interface_definition)
     {
         std::string interface_name = this->GetTypeName(interface_definition->GetName());
         this->BeginProcessingInterface(interface_name);
@@ -529,7 +736,7 @@ namespace ctcode
         this->FinishProcessingInterface(interface_name);
     }
 
-    void LogToConsole::ProcessClassDefinition(OmniPointer<s84::ctcode::dbnf::ctcode::ClassDef> class_definition)
+    void Python3Transpiler::ProcessClassDefinition(OmniPointer<s84::ctcode::dbnf::ctcode::ClassDef> class_definition)
     {
         std::string class_name = this->GetTypeName(class_definition->GetName());
         std::string implementing = std::string("");
@@ -567,7 +774,7 @@ namespace ctcode
         this->FinishProcessingClass(class_name, implementing);
     }
 
-    void LogToConsole::ProcessInstructionInternal(int indent, OmniPointer<s84::ctcode::dbnf::ctcode::Instruction> instruction)
+    void Python3Transpiler::ProcessInstructionInternal(int indent, OmniPointer<s84::ctcode::dbnf::ctcode::Instruction> instruction)
     {
         if (instruction->GetCodeBlock())
         {
@@ -605,7 +812,7 @@ namespace ctcode
         }
     }
 
-    void LogToConsole::ProcessCodeBlockInternal(int indent, OmniPointer<s84::ctcode::dbnf::ctcode::CodeBlock> code_block)
+    void Python3Transpiler::ProcessCodeBlockInternal(int indent, OmniPointer<s84::ctcode::dbnf::ctcode::CodeBlock> code_block)
     {
         this->BeginProcessCodeBlock(indent);
         std::vector<OmniPointer<s84::ctcode::dbnf::ctcode::Instruction>> instructions = code_block->GetInstructions();
@@ -619,7 +826,7 @@ namespace ctcode
         this->FinishProcessCodeBlock(indent);
     }
 
-    void LogToConsole::ProcessConditionalInternal(int indent, OmniPointer<s84::ctcode::dbnf::ctcode::Conditional> conditional)
+    void Python3Transpiler::ProcessConditionalInternal(int indent, OmniPointer<s84::ctcode::dbnf::ctcode::Conditional> conditional)
     {
         std::string r_value = this->GetRValueInternal(conditional->GetRValue());
         this->BeginProcessConditional(indent, r_value);
@@ -634,7 +841,7 @@ namespace ctcode
         this->FinishProcessConditional(indent, r_value);
     }
 
-    void LogToConsole::ProcessLoopInternal(int indent, OmniPointer<s84::ctcode::dbnf::ctcode::Loop> loop)
+    void Python3Transpiler::ProcessLoopInternal(int indent, OmniPointer<s84::ctcode::dbnf::ctcode::Loop> loop)
     {
         std::string r_value = this->GetRValueInternal(loop->GetRValue());
         this->BeginProcessLoop(indent, r_value);
@@ -642,13 +849,13 @@ namespace ctcode
         this->FinishProcessLoop(indent, r_value);
     }
 
-    void LogToConsole::ProcessRtnInternal(int indent, OmniPointer<s84::ctcode::dbnf::ctcode::Return> rtn)
+    void Python3Transpiler::ProcessRtnInternal(int indent, OmniPointer<s84::ctcode::dbnf::ctcode::Return> rtn)
     {
         std::string r_value = this->GetRValueInternal(rtn->GetRValue());
         this->ProcessRtn(indent, r_value);
     }
 
-    void LogToConsole::ProcessDeclarationInternal(int indent, OmniPointer<s84::ctcode::dbnf::ctcode::Declaration> declaration)
+    void Python3Transpiler::ProcessDeclarationInternal(int indent, OmniPointer<s84::ctcode::dbnf::ctcode::Declaration> declaration)
     {
         std::string type = this->GetType(declaration->GetType());
         std::string l_value = this->GetVariableName(declaration->GetName());
@@ -662,17 +869,17 @@ namespace ctcode
         this->ProcessDeclaration(indent, type, l_value, r_value);
     }
 
-    void LogToConsole::ProcessAssignmentInternal(int indent, OmniPointer<s84::ctcode::dbnf::ctcode::Assignment> assignment)
+    void Python3Transpiler::ProcessAssignmentInternal(int indent, OmniPointer<s84::ctcode::dbnf::ctcode::Assignment> assignment)
     {
         this->ProcessAssignment(indent, this->GetVariableChain(assignment->GetLValue()), this->GetRValueInternal(assignment->GetRValue()));
     }
 
-    void LogToConsole::ProcessCallInternal(int indent, OmniPointer<s84::ctcode::dbnf::ctcode::Call> call)
+    void Python3Transpiler::ProcessCallInternal(int indent, OmniPointer<s84::ctcode::dbnf::ctcode::Call> call)
     {
         this->ProcessCall(indent, this->ConvertCallInternal(call));
     }
 
-    std::string LogToConsole::ConvertCallInternal(OmniPointer<s84::ctcode::dbnf::ctcode::Call> call)
+    std::string Python3Transpiler::ConvertCallInternal(OmniPointer<s84::ctcode::dbnf::ctcode::Call> call)
     {
         std::vector<std::string> name_chain;
         std::vector<std::string> parameters;
@@ -724,7 +931,7 @@ namespace ctcode
         return this->ConvertCall(name_chain, parameters);
     }
 
-    std::string LogToConsole::GetSingletonType(OmniPointer<s84::ctcode::dbnf::ctcode::SingletonType> singleton_type)
+    std::string Python3Transpiler::GetSingletonType(OmniPointer<s84::ctcode::dbnf::ctcode::SingletonType> singleton_type)
     {
         if (singleton_type->GetPrimativeType())
         {
@@ -740,7 +947,7 @@ namespace ctcode
         return std::string("");
     }
 
-    std::string LogToConsole::GetRValueSingleBasisInternal(OmniPointer<s84::ctcode::dbnf::ctcode::RValueSingle> r_value_single)
+    std::string Python3Transpiler::GetRValueSingleBasisInternal(OmniPointer<s84::ctcode::dbnf::ctcode::RValueSingle> r_value_single)
     {
         OmniPointer<s84::ctcode::dbnf::ctcode::Call> call = r_value_single->GetCall();
         if (call)
@@ -795,7 +1002,7 @@ namespace ctcode
         return std::string("");
     }
 
-    std::string LogToConsole::GetRValueSingleInternal(OmniPointer<s84::ctcode::dbnf::ctcode::RValueSingle> r_value_single)
+    std::string Python3Transpiler::GetRValueSingleInternal(OmniPointer<s84::ctcode::dbnf::ctcode::RValueSingle> r_value_single)
     {
         OmniPointer<s84::ctcode::dbnf::ctcode::UnaryOperator> unary_operator = r_value_single->GetUnaryOperator();
         if (unary_operator)
@@ -806,7 +1013,7 @@ namespace ctcode
         return this->GetRValueSingleBasisInternal(r_value_single);
     }
 
-    std::string LogToConsole::GetRValueBinaryInternal(std::string r_value_l, OmniPointer<s84::ctcode::dbnf::ctcode::RValueTail> r_value_tail)
+    std::string Python3Transpiler::GetRValueBinaryInternal(std::string r_value_l, OmniPointer<s84::ctcode::dbnf::ctcode::RValueTail> r_value_tail)
     {
         std::string r_value_r = this->GetRValueSingleInternal(r_value_tail->GetValue());
         OmniPointer<s84::ctcode::dbnf::ctcode::BinaryOperator> binary_operator = r_value_tail->GetBinaryOperator();
@@ -819,7 +1026,7 @@ namespace ctcode
         return r_value_l;
     }
 
-    std::string LogToConsole::GetRValueInternal(OmniPointer<s84::ctcode::dbnf::ctcode::RValue> r_value)
+    std::string Python3Transpiler::GetRValueInternal(OmniPointer<s84::ctcode::dbnf::ctcode::RValue> r_value)
     {
         std::string r_value_l = this->GetRValueSingleInternal(r_value->GetValue());
         if (r_value->GetTail())
@@ -830,7 +1037,7 @@ namespace ctcode
         return r_value_l;
     }
 
-    std::string LogToConsole::GetQualifiedTypeNameInternal(OmniPointer<s84::ctcode::dbnf::ctcode::QualfiedName> qualified_name)
+    std::string Python3Transpiler::GetQualifiedTypeNameInternal(OmniPointer<s84::ctcode::dbnf::ctcode::QualfiedName> qualified_name)
     {
         std::vector<OmniPointer<s84::ctcode::dbnf::ctcode::Name>> name_parts;
         Append(name_parts, qualified_name->GetName());
@@ -844,7 +1051,7 @@ namespace ctcode
         return this->GetQualifiedTypeName(name_parts);
     }
 
-    std::string LogToConsole::GetType(OmniPointer<s84::ctcode::dbnf::ctcode::ValueType> type)
+    std::string Python3Transpiler::GetType(OmniPointer<s84::ctcode::dbnf::ctcode::ValueType> type)
     {
         if (type->GetDimensionalType())
         {
@@ -869,7 +1076,7 @@ namespace ctcode
         return std::string("");
     }
 
-    std::string LogToConsole::Indentation(int indent)
+    std::string Python3Transpiler::Indentation(int indent)
     {
         std::string result;
         result = std::string("");
@@ -882,7 +1089,7 @@ namespace ctcode
         return result;
     }
 
-    std::string LogToConsole::SnakeCaseToCamelCase(std::string snake_case)
+    std::string Python3Transpiler::SnakeCaseToCamelCase(std::string snake_case)
     {
         bool capitalize_this_letter = true;
         std::string camel_case = std::string("");
@@ -916,7 +1123,7 @@ namespace ctcode
         return camel_case;
     }
 
-    std::string LogToConsole::CamelCaseToSnakeCase(std::string camel_case)
+    std::string Python3Transpiler::CamelCaseToSnakeCase(std::string camel_case)
     {
         std::string delimiter = std::string("_");
         std::string snake_case = std::string("");
@@ -941,7 +1148,7 @@ namespace ctcode
         return snake_case;
     }
 
-    bool LogToConsole::IsUpper(std::string character)
+    bool Python3Transpiler::IsUpper(std::string character)
     {
         bool result;
         result = false;
@@ -974,7 +1181,7 @@ namespace ctcode
         return result;
     }
 
-    bool LogToConsole::IsDigit(std::string character)
+    bool Python3Transpiler::IsDigit(std::string character)
     {
         bool result;
         result = false;
@@ -991,7 +1198,7 @@ namespace ctcode
         return result;
     }
 
-    std::string LogToConsole::ToLower(std::string input)
+    std::string Python3Transpiler::ToLower(std::string input)
     {
         int index = 0;
         std::string result = std::string("");
@@ -1006,7 +1213,7 @@ namespace ctcode
         return result;
     }
 
-    std::string LogToConsole::CharacterToLower(std::string input)
+    std::string Python3Transpiler::CharacterToLower(std::string input)
     {
         if (input == std::string("A"))
         {
@@ -1141,7 +1348,7 @@ namespace ctcode
         return input;
     }
 
-    std::string LogToConsole::ToUpper(std::string input)
+    std::string Python3Transpiler::ToUpper(std::string input)
     {
         int index = 0;
         std::string result = std::string("");
@@ -1156,7 +1363,7 @@ namespace ctcode
         return result;
     }
 
-    std::string LogToConsole::CharacterToUpper(std::string input)
+    std::string Python3Transpiler::CharacterToUpper(std::string input)
     {
         if (input == std::string("a"))
         {

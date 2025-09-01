@@ -1,0 +1,81 @@
+import S84_CTCode_System_ctcode
+import S84_CTCode_Transpiler_ctcode
+import S84_CTCode_Transpiler_CPPTranspiler_ctcode
+import S84_CTCode_Transpiler_Python3Transpiler_ctcode
+import S84_CTCode_Transpiler_LogToConsole_ctcode
+import S84_CTCode_dbnf_ctcode
+
+def ClearList(input: list) -> None: input.clear()
+def Size(input: list) -> int: return len(input)
+def Element(input: list, element: int ) -> any: return input[element]
+def Append(input: list, element: any) -> None: input.append(element)
+def ClearMap(input: dict) -> None: input.clear()
+def SetKV(input: dict, key: str, element: any) -> None: input[key] = element
+def Keys(input: dict) -> list[str]:
+    result: list[str] = []
+    for key in input.keys():
+        result.append(key)
+    return result
+def HasKV(input: dict, key: str) -> bool: return key in input
+def GetKV(input: dict, key: str) -> any: return input[key]
+def Length(input: str) -> int: return len(input)
+def At(input: str, index: int) -> str: return input[index]
+def IntAt(input: str, index: int) -> int: return ord(input[index])
+def Concat(left: str, right: str) -> str: return left + right
+
+class Main:
+    def __init__(self: 'Main'):
+        pass
+
+    def GetCPPTranspiler(self: 'Main') -> 'S84_CTCode_Transpiler_ctcode.Transpiler':
+        return S84_CTCode_Transpiler_CPPTranspiler_ctcode.CPPTranspiler()
+
+    def GetPython3Transpiler(self: 'Main') -> 'S84_CTCode_Transpiler_ctcode.Transpiler':
+        return S84_CTCode_Transpiler_Python3Transpiler_ctcode.Python3Transpiler()
+
+    def GetLogToConsole(self: 'Main') -> 'S84_CTCode_Transpiler_ctcode.Transpiler':
+        return S84_CTCode_Transpiler_LogToConsole_ctcode.LogToConsole()
+
+    def RunMain(self: 'Main',system: 'S84_CTCode_System_ctcode.System',ctcode_file_name: 'str',transpiler: 'str') -> 'int':
+        logger: 'S84_CTCode_System_ctcode.OutputStream' = system.GetLoggerDestination()
+        transpilers: 'dict[str, S84_CTCode_Transpiler_ctcode.Transpiler]' = {}
+        SetKV(transpilers,"CPPTranspiler",self.GetCPPTranspiler())
+        SetKV(transpilers,"S84::CTCode::CPPTranspiler",self.GetCPPTranspiler())
+        SetKV(transpilers,"s84::ctcode::CPPTranspiler",self.GetCPPTranspiler())
+        SetKV(transpilers,"Python3Transpiler",self.GetPython3Transpiler())
+        SetKV(transpilers,"S84::CTCode::Python3Transpiler",self.GetPython3Transpiler())
+        SetKV(transpilers,"s84::ctcode::Python3Transpiler",self.GetPython3Transpiler())
+        SetKV(transpilers,"LogToConsole",self.GetLogToConsole())
+        if ctcode_file_name=="" or not HasKV(transpilers,transpiler):
+            logger.WriteLine("ctcode <CTCodeFile> <Transpiler>")
+            logger.WriteLine("Known transpilers:")
+            registered_transpilers: 'list[str]' = Keys(transpilers)
+            index: 'int' = 0
+            while index<Size(registered_transpilers):
+                logger.WriteLine(Concat("    ",Element(registered_transpilers,index)))
+                index = index+1
+            return 1
+        dbnf: 'str' = system.ReadFileToString(ctcode_file_name)
+        if dbnf=="":
+            logger.WriteLine(Concat("The file ",Concat(ctcode_file_name," is empty or does not exist.")))
+            return 1
+        dbnf_large_string: 'S84_CTCode_dbnf_ctcode.LargeString' = S84_CTCode_dbnf_ctcode.LargeString()
+        dbnf_large_string.SetData(dbnf)
+        index: 'S84_CTCode_dbnf_ctcode.LengthString' = S84_CTCode_dbnf_ctcode.LengthString()
+        index.SetData(dbnf_large_string)
+        index.SetStart(0)
+        index.SetLength(Length(dbnf))
+        parser_network: 'S84_CTCode_dbnf_ctcode.ParserNetwork' = S84_CTCode_dbnf_ctcode.ParserNetwork()
+        parser_network.Initialize()
+        ctcode_file_result: 'S84_CTCode_dbnf_ctcode.CTCodeFileResult' = S84_CTCode_dbnf_ctcode.CTCodeFileResult()
+        ctcode_file_parser: 'S84_CTCode_dbnf_ctcode.CTCodeFileParser' = parser_network.GetCTCodeFileParser()
+        logger.WriteLine("Parsing CTCodeFile...")
+        ctcode_file_parser.ParseSingleSave(index,ctcode_file_result)
+        if ctcode_file_result.GetResult() and index.GetLength()==0:
+            logger.WriteLine("Done Parsing CTCodeFile!")
+            target_transpiler: 'S84_CTCode_Transpiler_ctcode.Transpiler' = GetKV(transpilers,transpiler)
+            return target_transpiler.Transpile(system,ctcode_file_result.GetValue(),ctcode_file_name)
+        else:
+            logger.WriteLine(Concat("Failed to parse ",Concat(ctcode_file_name,".")))
+            return 1
+
