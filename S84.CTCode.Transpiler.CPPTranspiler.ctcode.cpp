@@ -305,7 +305,7 @@ std::string CPPTranspiler::GetQualifiedTypeName(std::vector<OmniPointer<s84::ctc
             {
                 result = Concat(delimiter,result);
             }
-            result = Concat(ToLower(name_part->UnParse()),result);
+            result = Concat(this->ToLower(name_part->UnParse()),result);
         }
     }
     return result;
@@ -632,7 +632,7 @@ void CPPTranspiler::WriteBeginingNamespace(OmniPointer<s84::ctcode::system::ctco
     while (base_name_tokens_index<Size(base_name_tokens))
     {
         std::string base_name_token = Element(base_name_tokens,base_name_tokens_index);
-        file->WriteLine(Concat(Concat(std::string("namespace "),ToLower(base_name_token)),std::string(" {")));
+        file->WriteLine(Concat(Concat(std::string("namespace "),this->ToLower(base_name_token)),std::string(" {")));
         base_name_tokens_index = base_name_tokens_index+1;
     }
 }
@@ -696,7 +696,7 @@ void CPPTranspiler::FinishProcessingCTCodeFile()
     this->WriteEndingNamespace(header_file);
     header_file->WriteLine(std::string(""));
     this->WriteEndingGuard(header_file);
-    source_file->WriteLine(Concat(Concat(std::string("#include \""),base_name),std::string(".hpp\"")));
+    source_file->WriteLine(Concat(Concat(std::string("#include \""),this->base_name),std::string(".hpp\"")));
     source_file->WriteLine(std::string(""));
     this->WriteBeginingNamespace(source_file);
     source_file->WriteLine(std::string(""));

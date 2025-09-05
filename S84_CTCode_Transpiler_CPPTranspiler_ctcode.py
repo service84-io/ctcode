@@ -200,7 +200,7 @@ class CPPTranspiler(S84_CTCode_Transpiler_ctcode.Transpiler):
                 name_part: 'S84_CTCode_dbnf_ctcode.Name' = Element(name_parts,name_parts_index)
                 if name_parts_index!=last_package_index:
                     result = Concat(delimiter,result)
-                result = Concat(ToLower(name_part.UnParse()),result)
+                result = Concat(self.ToLower(name_part.UnParse()),result)
         return result
 
     def BeginProcessingCTCodeFile(self: 'CPPTranspiler') -> 'None':
@@ -444,7 +444,7 @@ class CPPTranspiler(S84_CTCode_Transpiler_ctcode.Transpiler):
         base_name_tokens_index: 'int' = 0
         while base_name_tokens_index<Size(base_name_tokens):
             base_name_token: 'str' = Element(base_name_tokens,base_name_tokens_index)
-            file.WriteLine(Concat(Concat("namespace ",ToLower(base_name_token))," {"))
+            file.WriteLine(Concat(Concat("namespace ",self.ToLower(base_name_token))," {"))
             base_name_tokens_index = base_name_tokens_index+1
 
     def WriteEndingNamespace(self: 'CPPTranspiler',file: 'S84_CTCode_System_ctcode.OutputStream') -> 'None':
@@ -491,7 +491,7 @@ class CPPTranspiler(S84_CTCode_Transpiler_ctcode.Transpiler):
         self.WriteEndingNamespace(header_file)
         header_file.WriteLine("")
         self.WriteEndingGuard(header_file)
-        source_file.WriteLine(Concat(Concat("#include \"",base_name),".hpp\""))
+        source_file.WriteLine(Concat(Concat("#include \"",self.base_name),".hpp\""))
         source_file.WriteLine("")
         self.WriteBeginingNamespace(source_file)
         source_file.WriteLine("")

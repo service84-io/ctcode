@@ -280,7 +280,7 @@ class CPPTranspiler implements S84.CTCode.Transpiler.ctcode.Transpiler {
                     result = Concat(delimiter, result);
                 }
 
-                result = Concat(ToLower(name_part.UnParse()), result);
+                result = Concat(myself.ToLower(name_part.UnParse()), result);
             }
         }
 
@@ -587,7 +587,7 @@ class CPPTranspiler implements S84.CTCode.Transpiler.ctcode.Transpiler {
 
         while (base_name_tokens_index < Size(base_name_tokens)) {
             string base_name_token = Element(base_name_tokens, base_name_tokens_index);
-            file.WriteLine(Concat(Concat("namespace ", ToLower(base_name_token)), " {"));
+            file.WriteLine(Concat(Concat("namespace ", myself.ToLower(base_name_token)), " {"));
             base_name_tokens_index = base_name_tokens_index + 1;
         }
     }
@@ -654,7 +654,7 @@ class CPPTranspiler implements S84.CTCode.Transpiler.ctcode.Transpiler {
         header_file.writeLine("");
         myself.WriteEndingGuard(header_file);
 
-        source_file.WriteLine(Concat(Concat("#include \"", base_name), ".hpp\""));
+        source_file.WriteLine(Concat(Concat("#include \"", myself.base_name), ".hpp\""));
         source_file.WriteLine("");
 
         myself.WriteBeginingNamespace(source_file);
