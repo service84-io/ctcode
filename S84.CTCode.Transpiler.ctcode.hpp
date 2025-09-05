@@ -98,35 +98,24 @@ inline int IntAt(const std::string& input, int index) { return (input.at(index) 
 inline std::string Concat(const std::string& left, const std::string& right) { return left + right; };
 #endif
 
-namespace s84
-{
-namespace ctcode
-{
-namespace transpiler
-{
-namespace ctcode
-{
+namespace s84 {
+namespace ctcode {
+namespace transpiler {
+namespace ctcode {
+
 class OutputStream;
 class Transpiler;
 
-
-class OutputStream
-{
+class OutputStream {
 public:
-    inline OutputStream() {};
-    inline ~OutputStream() {};
-
     virtual void WriteLine(std::string line) = 0;
 };
 
-class Transpiler
-{
+class Transpiler {
 public:
-    inline Transpiler() {};
-    inline ~Transpiler() {};
-
     virtual int Transpile(OmniPointer<s84::ctcode::system::ctcode::System> system, OmniPointer<s84::ctcode::dbnf::ctcode::CTCodeFile> ct_code_file, std::string base_name) = 0;
 };
+
 };
 };
 };

@@ -1,7 +1,6 @@
 #ifndef S84_CTCODE_DBNF_CTCODE_H
 #define S84_CTCODE_DBNF_CTCODE_H
 
-
 #include <cstring>
 #include <list>
 #include <unordered_map>
@@ -96,14 +95,11 @@ inline int IntAt(const std::string& input, int index) { return (input.at(index) 
 inline std::string Concat(const std::string& left, const std::string& right) { return left + right; };
 #endif
 
-namespace s84
-{
-namespace ctcode
-{
-namespace dbnf
-{
-namespace ctcode
-{
+namespace s84 {
+namespace ctcode {
+namespace dbnf {
+namespace ctcode {
+
 class StringParser;
 class StringResult;
 class StringListResult;
@@ -335,22 +331,19 @@ class WhitespaceResult;
 class WhitespaceListResult;
 class Whitespace;
 
-
-class StringParser
-{
+class StringParser {
 public:
-    inline StringParser() {};
-    inline ~StringParser() {};
+    StringParser();
+    inline ~StringParser() {}
 
     bool ParseSingleSave(OmniPointer<LengthString> index, std::string value, OmniPointer<StringResult> result);
     bool ParseSingle(OmniPointer<LengthString> index, std::string value);
 };
 
-class StringResult
-{
+class StringResult {
 public:
-    inline StringResult() {};
-    inline ~StringResult() {};
+    StringResult();
+    inline ~StringResult() {}
 
     void SetValue(OmniPointer<String> new_value);
     OmniPointer<String> GetValue();
@@ -362,11 +355,10 @@ private:
     bool result;
 };
 
-class StringListResult
-{
+class StringListResult {
 public:
-    inline StringListResult() {};
-    inline ~StringListResult() {};
+    StringListResult();
+    inline ~StringListResult() {}
 
     void SetValue(std::vector<OmniPointer<String>> new_value);
     std::vector<OmniPointer<String>> GetValue();
@@ -378,11 +370,10 @@ private:
     bool result;
 };
 
-class String
-{
+class String {
 public:
-    inline String() {};
-    inline ~String() {};
+    String();
+    inline ~String() {}
 
     void SetLengthString(OmniPointer<LengthString> new_value);
     std::string UnParse();
@@ -391,20 +382,18 @@ private:
     OmniPointer<LengthString> length_string;
 };
 
-class CharacterParser
-{
+class CharacterParser {
 public:
-    inline CharacterParser() {};
-    inline ~CharacterParser() {};
+    CharacterParser();
+    inline ~CharacterParser() {}
 
     bool ParseSingle(OmniPointer<LengthString> index, int value);
 };
 
-class CharacterResult
-{
+class CharacterResult {
 public:
-    inline CharacterResult() {};
-    inline ~CharacterResult() {};
+    CharacterResult();
+    inline ~CharacterResult() {}
 
     void SetValue(OmniPointer<Character> new_value);
     OmniPointer<Character> GetValue();
@@ -416,11 +405,10 @@ private:
     bool result;
 };
 
-class CharacterListResult
-{
+class CharacterListResult {
 public:
-    inline CharacterListResult() {};
-    inline ~CharacterListResult() {};
+    CharacterListResult();
+    inline ~CharacterListResult() {}
 
     void SetValue(std::vector<OmniPointer<Character>> new_value);
     std::vector<OmniPointer<Character>> GetValue();
@@ -432,11 +420,10 @@ private:
     bool result;
 };
 
-class Character
-{
+class Character {
 public:
-    inline Character() {};
-    inline ~Character() {};
+    Character();
+    inline ~Character() {}
 
     void SetLengthString(OmniPointer<LengthString> new_value);
     std::string UnParse();
@@ -445,20 +432,18 @@ private:
     OmniPointer<LengthString> length_string;
 };
 
-class CharacterRangeParser
-{
+class CharacterRangeParser {
 public:
-    inline CharacterRangeParser() {};
-    inline ~CharacterRangeParser() {};
+    CharacterRangeParser();
+    inline ~CharacterRangeParser() {}
 
     bool ParseSingle(OmniPointer<LengthString> index, int low_value, int high_value);
 };
 
-class CharacterRangeResult
-{
+class CharacterRangeResult {
 public:
-    inline CharacterRangeResult() {};
-    inline ~CharacterRangeResult() {};
+    CharacterRangeResult();
+    inline ~CharacterRangeResult() {}
 
     void SetValue(OmniPointer<CharacterRange> new_value);
     OmniPointer<CharacterRange> GetValue();
@@ -470,11 +455,10 @@ private:
     bool result;
 };
 
-class CharacterRangeListResult
-{
+class CharacterRangeListResult {
 public:
-    inline CharacterRangeListResult() {};
-    inline ~CharacterRangeListResult() {};
+    CharacterRangeListResult();
+    inline ~CharacterRangeListResult() {}
 
     void SetValue(std::vector<OmniPointer<CharacterRange>> new_value);
     std::vector<OmniPointer<CharacterRange>> GetValue();
@@ -486,11 +470,10 @@ private:
     bool result;
 };
 
-class CharacterRange
-{
+class CharacterRange {
 public:
-    inline CharacterRange() {};
-    inline ~CharacterRange() {};
+    CharacterRange();
+    inline ~CharacterRange() {}
 
     void SetLengthString(OmniPointer<LengthString> new_value);
     std::string UnParse();
@@ -499,11 +482,10 @@ private:
     OmniPointer<LengthString> length_string;
 };
 
-class ParserNetwork
-{
+class ParserNetwork {
 public:
-    inline ParserNetwork() {};
-    inline ~ParserNetwork() {};
+    ParserNetwork();
+    inline ~ParserNetwork() {}
 
     OmniPointer<CTCodeFileParser> GetCTCodeFileParser();
     OmniPointer<ExternalDefinitionParser> GetExternalDefinitionParser();
@@ -622,11 +604,10 @@ private:
     OmniPointer<CharacterRangeParser> character_range_parser_field;
 };
 
-class DBNFOmniType
-{
+class DBNFOmniType {
 public:
-    inline DBNFOmniType() {};
-    inline ~DBNFOmniType() {};
+    DBNFOmniType();
+    inline ~DBNFOmniType() {}
 
     void SetCTCodeFile(OmniPointer<CTCodeFile> input_value);
     OmniPointer<CTCodeFile> GetCTCodeFile();
@@ -791,11 +772,10 @@ private:
     OmniPointer<Whitespace> whitespace_field;
 };
 
-class DBNFOmniTypeResult
-{
+class DBNFOmniTypeResult {
 public:
-    inline DBNFOmniTypeResult() {};
-    inline ~DBNFOmniTypeResult() {};
+    DBNFOmniTypeResult();
+    inline ~DBNFOmniTypeResult() {}
 
     void SetValue(OmniPointer<DBNFOmniType> new_value);
     OmniPointer<DBNFOmniType> GetValue();
@@ -860,11 +840,10 @@ private:
     bool result;
 };
 
-class DBNFOmniTypeListResult
-{
+class DBNFOmniTypeListResult {
 public:
-    inline DBNFOmniTypeListResult() {};
-    inline ~DBNFOmniTypeListResult() {};
+    DBNFOmniTypeListResult();
+    inline ~DBNFOmniTypeListResult() {}
 
     void SetValue(std::vector<OmniPointer<DBNFOmniType>> new_value);
     std::vector<OmniPointer<DBNFOmniType>> GetValue();
@@ -929,11 +908,10 @@ private:
     bool result;
 };
 
-class LargeString
-{
+class LargeString {
 public:
-    inline LargeString() {};
-    inline ~LargeString() {};
+    LargeString();
+    inline ~LargeString() {}
 
     void SetData(std::string new_data);
     std::string GetData();
@@ -944,11 +922,10 @@ private:
     std::string data;
 };
 
-class LengthString
-{
+class LengthString {
 public:
-    inline LengthString() {};
-    inline ~LengthString() {};
+    LengthString();
+    inline ~LengthString() {}
 
     void SetData(OmniPointer<LargeString> new_data);
     OmniPointer<LargeString> GetData();
@@ -964,11 +941,10 @@ private:
     int length;
 };
 
-class CTCodeFileParser
-{
+class CTCodeFileParser {
 public:
-    inline CTCodeFileParser() {};
-    inline ~CTCodeFileParser() {};
+    CTCodeFileParser();
+    inline ~CTCodeFileParser() {}
 
     void SetParserNetwork(OmniPointer<ParserNetwork> input);
     bool ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<CTCodeFileResult> result);
@@ -982,11 +958,10 @@ private:
     OmniPointer<ParserNetwork> parser_network;
 };
 
-class CTCodeFileResult
-{
+class CTCodeFileResult {
 public:
-    inline CTCodeFileResult() {};
-    inline ~CTCodeFileResult() {};
+    CTCodeFileResult();
+    inline ~CTCodeFileResult() {}
 
     void SetValue(OmniPointer<CTCodeFile> new_value);
     OmniPointer<CTCodeFile> GetValue();
@@ -998,11 +973,10 @@ private:
     bool result;
 };
 
-class CTCodeFileListResult
-{
+class CTCodeFileListResult {
 public:
-    inline CTCodeFileListResult() {};
-    inline ~CTCodeFileListResult() {};
+    CTCodeFileListResult();
+    inline ~CTCodeFileListResult() {}
 
     void SetValue(std::vector<OmniPointer<CTCodeFile>> new_value);
     std::vector<OmniPointer<CTCodeFile>> GetValue();
@@ -1014,11 +988,10 @@ private:
     bool result;
 };
 
-class CTCodeFile
-{
+class CTCodeFile {
 public:
-    inline CTCodeFile() {};
-    inline ~CTCodeFile() {};
+    CTCodeFile();
+    inline ~CTCodeFile() {}
 
     void SetLengthString(OmniPointer<LengthString> new_value);
     std::string UnParse();
@@ -1036,11 +1009,10 @@ private:
     std::vector<OmniPointer<ExternalDefinition>> declarations_field;
 };
 
-class ExternalDefinitionParser
-{
+class ExternalDefinitionParser {
 public:
-    inline ExternalDefinitionParser() {};
-    inline ~ExternalDefinitionParser() {};
+    ExternalDefinitionParser();
+    inline ~ExternalDefinitionParser() {}
 
     void SetParserNetwork(OmniPointer<ParserNetwork> input);
     bool ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<ExternalDefinitionResult> result);
@@ -1054,11 +1026,10 @@ private:
     OmniPointer<ParserNetwork> parser_network;
 };
 
-class ExternalDefinitionResult
-{
+class ExternalDefinitionResult {
 public:
-    inline ExternalDefinitionResult() {};
-    inline ~ExternalDefinitionResult() {};
+    ExternalDefinitionResult();
+    inline ~ExternalDefinitionResult() {}
 
     void SetValue(OmniPointer<ExternalDefinition> new_value);
     OmniPointer<ExternalDefinition> GetValue();
@@ -1070,11 +1041,10 @@ private:
     bool result;
 };
 
-class ExternalDefinitionListResult
-{
+class ExternalDefinitionListResult {
 public:
-    inline ExternalDefinitionListResult() {};
-    inline ~ExternalDefinitionListResult() {};
+    ExternalDefinitionListResult();
+    inline ~ExternalDefinitionListResult() {}
 
     void SetValue(std::vector<OmniPointer<ExternalDefinition>> new_value);
     std::vector<OmniPointer<ExternalDefinition>> GetValue();
@@ -1086,11 +1056,10 @@ private:
     bool result;
 };
 
-class ExternalDefinition
-{
+class ExternalDefinition {
 public:
-    inline ExternalDefinition() {};
-    inline ~ExternalDefinition() {};
+    ExternalDefinition();
+    inline ~ExternalDefinition() {}
 
     void SetLengthString(OmniPointer<LengthString> new_value);
     std::string UnParse();
@@ -1102,11 +1071,10 @@ private:
     OmniPointer<QualfiedName> exdef_field;
 };
 
-class UnmanagedTypeParser
-{
+class UnmanagedTypeParser {
 public:
-    inline UnmanagedTypeParser() {};
-    inline ~UnmanagedTypeParser() {};
+    UnmanagedTypeParser();
+    inline ~UnmanagedTypeParser() {}
 
     void SetParserNetwork(OmniPointer<ParserNetwork> input);
     bool ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<UnmanagedTypeResult> result);
@@ -1120,11 +1088,10 @@ private:
     OmniPointer<ParserNetwork> parser_network;
 };
 
-class UnmanagedTypeResult
-{
+class UnmanagedTypeResult {
 public:
-    inline UnmanagedTypeResult() {};
-    inline ~UnmanagedTypeResult() {};
+    UnmanagedTypeResult();
+    inline ~UnmanagedTypeResult() {}
 
     void SetValue(OmniPointer<UnmanagedType> new_value);
     OmniPointer<UnmanagedType> GetValue();
@@ -1136,11 +1103,10 @@ private:
     bool result;
 };
 
-class UnmanagedTypeListResult
-{
+class UnmanagedTypeListResult {
 public:
-    inline UnmanagedTypeListResult() {};
-    inline ~UnmanagedTypeListResult() {};
+    UnmanagedTypeListResult();
+    inline ~UnmanagedTypeListResult() {}
 
     void SetValue(std::vector<OmniPointer<UnmanagedType>> new_value);
     std::vector<OmniPointer<UnmanagedType>> GetValue();
@@ -1152,11 +1118,10 @@ private:
     bool result;
 };
 
-class UnmanagedType
-{
+class UnmanagedType {
 public:
-    inline UnmanagedType() {};
-    inline ~UnmanagedType() {};
+    UnmanagedType();
+    inline ~UnmanagedType() {}
 
     void SetLengthString(OmniPointer<LengthString> new_value);
     std::string UnParse();
@@ -1168,11 +1133,10 @@ private:
     OmniPointer<QualfiedName> unmanaged_type_field;
 };
 
-class DefinitionParser
-{
+class DefinitionParser {
 public:
-    inline DefinitionParser() {};
-    inline ~DefinitionParser() {};
+    DefinitionParser();
+    inline ~DefinitionParser() {}
 
     void SetParserNetwork(OmniPointer<ParserNetwork> input);
     bool ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<DefinitionResult> result);
@@ -1186,11 +1150,10 @@ private:
     OmniPointer<ParserNetwork> parser_network;
 };
 
-class DefinitionResult
-{
+class DefinitionResult {
 public:
-    inline DefinitionResult() {};
-    inline ~DefinitionResult() {};
+    DefinitionResult();
+    inline ~DefinitionResult() {}
 
     void SetValue(OmniPointer<Definition> new_value);
     OmniPointer<Definition> GetValue();
@@ -1202,11 +1165,10 @@ private:
     bool result;
 };
 
-class DefinitionListResult
-{
+class DefinitionListResult {
 public:
-    inline DefinitionListResult() {};
-    inline ~DefinitionListResult() {};
+    DefinitionListResult();
+    inline ~DefinitionListResult() {}
 
     void SetValue(std::vector<OmniPointer<Definition>> new_value);
     std::vector<OmniPointer<Definition>> GetValue();
@@ -1218,11 +1180,10 @@ private:
     bool result;
 };
 
-class Definition
-{
+class Definition {
 public:
-    inline Definition() {};
-    inline ~Definition() {};
+    Definition();
+    inline ~Definition() {}
 
     void SetLengthString(OmniPointer<LengthString> new_value);
     std::string UnParse();
@@ -1237,11 +1198,10 @@ private:
     OmniPointer<InterfaceDef> interface_def_field;
 };
 
-class InterfaceDefParser
-{
+class InterfaceDefParser {
 public:
-    inline InterfaceDefParser() {};
-    inline ~InterfaceDefParser() {};
+    InterfaceDefParser();
+    inline ~InterfaceDefParser() {}
 
     void SetParserNetwork(OmniPointer<ParserNetwork> input);
     bool ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<InterfaceDefResult> result);
@@ -1255,11 +1215,10 @@ private:
     OmniPointer<ParserNetwork> parser_network;
 };
 
-class InterfaceDefResult
-{
+class InterfaceDefResult {
 public:
-    inline InterfaceDefResult() {};
-    inline ~InterfaceDefResult() {};
+    InterfaceDefResult();
+    inline ~InterfaceDefResult() {}
 
     void SetValue(OmniPointer<InterfaceDef> new_value);
     OmniPointer<InterfaceDef> GetValue();
@@ -1271,11 +1230,10 @@ private:
     bool result;
 };
 
-class InterfaceDefListResult
-{
+class InterfaceDefListResult {
 public:
-    inline InterfaceDefListResult() {};
-    inline ~InterfaceDefListResult() {};
+    InterfaceDefListResult();
+    inline ~InterfaceDefListResult() {}
 
     void SetValue(std::vector<OmniPointer<InterfaceDef>> new_value);
     std::vector<OmniPointer<InterfaceDef>> GetValue();
@@ -1287,11 +1245,10 @@ private:
     bool result;
 };
 
-class InterfaceDef
-{
+class InterfaceDef {
 public:
-    inline InterfaceDef() {};
-    inline ~InterfaceDef() {};
+    InterfaceDef();
+    inline ~InterfaceDef() {}
 
     void SetLengthString(OmniPointer<LengthString> new_value);
     std::string UnParse();
@@ -1309,11 +1266,10 @@ private:
     OmniPointer<Comment> comment_field;
 };
 
-class ClassDefParser
-{
+class ClassDefParser {
 public:
-    inline ClassDefParser() {};
-    inline ~ClassDefParser() {};
+    ClassDefParser();
+    inline ~ClassDefParser() {}
 
     void SetParserNetwork(OmniPointer<ParserNetwork> input);
     bool ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<ClassDefResult> result);
@@ -1327,11 +1283,10 @@ private:
     OmniPointer<ParserNetwork> parser_network;
 };
 
-class ClassDefResult
-{
+class ClassDefResult {
 public:
-    inline ClassDefResult() {};
-    inline ~ClassDefResult() {};
+    ClassDefResult();
+    inline ~ClassDefResult() {}
 
     void SetValue(OmniPointer<ClassDef> new_value);
     OmniPointer<ClassDef> GetValue();
@@ -1343,11 +1298,10 @@ private:
     bool result;
 };
 
-class ClassDefListResult
-{
+class ClassDefListResult {
 public:
-    inline ClassDefListResult() {};
-    inline ~ClassDefListResult() {};
+    ClassDefListResult();
+    inline ~ClassDefListResult() {}
 
     void SetValue(std::vector<OmniPointer<ClassDef>> new_value);
     std::vector<OmniPointer<ClassDef>> GetValue();
@@ -1359,11 +1313,10 @@ private:
     bool result;
 };
 
-class ClassDef
-{
+class ClassDef {
 public:
-    inline ClassDef() {};
-    inline ~ClassDef() {};
+    ClassDef();
+    inline ~ClassDef() {}
 
     void SetLengthString(OmniPointer<LengthString> new_value);
     std::string UnParse();
@@ -1384,11 +1337,10 @@ private:
     OmniPointer<Comment> comment_field;
 };
 
-class ImplementationSpecParser
-{
+class ImplementationSpecParser {
 public:
-    inline ImplementationSpecParser() {};
-    inline ~ImplementationSpecParser() {};
+    ImplementationSpecParser();
+    inline ~ImplementationSpecParser() {}
 
     void SetParserNetwork(OmniPointer<ParserNetwork> input);
     bool ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<ImplementationSpecResult> result);
@@ -1402,11 +1354,10 @@ private:
     OmniPointer<ParserNetwork> parser_network;
 };
 
-class ImplementationSpecResult
-{
+class ImplementationSpecResult {
 public:
-    inline ImplementationSpecResult() {};
-    inline ~ImplementationSpecResult() {};
+    ImplementationSpecResult();
+    inline ~ImplementationSpecResult() {}
 
     void SetValue(OmniPointer<ImplementationSpec> new_value);
     OmniPointer<ImplementationSpec> GetValue();
@@ -1418,11 +1369,10 @@ private:
     bool result;
 };
 
-class ImplementationSpecListResult
-{
+class ImplementationSpecListResult {
 public:
-    inline ImplementationSpecListResult() {};
-    inline ~ImplementationSpecListResult() {};
+    ImplementationSpecListResult();
+    inline ~ImplementationSpecListResult() {}
 
     void SetValue(std::vector<OmniPointer<ImplementationSpec>> new_value);
     std::vector<OmniPointer<ImplementationSpec>> GetValue();
@@ -1434,11 +1384,10 @@ private:
     bool result;
 };
 
-class ImplementationSpec
-{
+class ImplementationSpec {
 public:
-    inline ImplementationSpec() {};
-    inline ~ImplementationSpec() {};
+    ImplementationSpec();
+    inline ~ImplementationSpec() {}
 
     void SetLengthString(OmniPointer<LengthString> new_value);
     std::string UnParse();
@@ -1450,11 +1399,10 @@ private:
     OmniPointer<QualfiedName> interface_field;
 };
 
-class ContentDeclarationParser
-{
+class ContentDeclarationParser {
 public:
-    inline ContentDeclarationParser() {};
-    inline ~ContentDeclarationParser() {};
+    ContentDeclarationParser();
+    inline ~ContentDeclarationParser() {}
 
     void SetParserNetwork(OmniPointer<ParserNetwork> input);
     bool ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<ContentDeclarationResult> result);
@@ -1468,11 +1416,10 @@ private:
     OmniPointer<ParserNetwork> parser_network;
 };
 
-class ContentDeclarationResult
-{
+class ContentDeclarationResult {
 public:
-    inline ContentDeclarationResult() {};
-    inline ~ContentDeclarationResult() {};
+    ContentDeclarationResult();
+    inline ~ContentDeclarationResult() {}
 
     void SetValue(OmniPointer<ContentDeclaration> new_value);
     OmniPointer<ContentDeclaration> GetValue();
@@ -1484,11 +1431,10 @@ private:
     bool result;
 };
 
-class ContentDeclarationListResult
-{
+class ContentDeclarationListResult {
 public:
-    inline ContentDeclarationListResult() {};
-    inline ~ContentDeclarationListResult() {};
+    ContentDeclarationListResult();
+    inline ~ContentDeclarationListResult() {}
 
     void SetValue(std::vector<OmniPointer<ContentDeclaration>> new_value);
     std::vector<OmniPointer<ContentDeclaration>> GetValue();
@@ -1500,11 +1446,10 @@ private:
     bool result;
 };
 
-class ContentDeclaration
-{
+class ContentDeclaration {
 public:
-    inline ContentDeclaration() {};
-    inline ~ContentDeclaration() {};
+    ContentDeclaration();
+    inline ~ContentDeclaration() {}
 
     void SetLengthString(OmniPointer<LengthString> new_value);
     std::string UnParse();
@@ -1525,11 +1470,10 @@ private:
     OmniPointer<Comment> comment_field;
 };
 
-class ContentDefinitionParser
-{
+class ContentDefinitionParser {
 public:
-    inline ContentDefinitionParser() {};
-    inline ~ContentDefinitionParser() {};
+    ContentDefinitionParser();
+    inline ~ContentDefinitionParser() {}
 
     void SetParserNetwork(OmniPointer<ParserNetwork> input);
     bool ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<ContentDefinitionResult> result);
@@ -1543,11 +1487,10 @@ private:
     OmniPointer<ParserNetwork> parser_network;
 };
 
-class ContentDefinitionResult
-{
+class ContentDefinitionResult {
 public:
-    inline ContentDefinitionResult() {};
-    inline ~ContentDefinitionResult() {};
+    ContentDefinitionResult();
+    inline ~ContentDefinitionResult() {}
 
     void SetValue(OmniPointer<ContentDefinition> new_value);
     OmniPointer<ContentDefinition> GetValue();
@@ -1559,11 +1502,10 @@ private:
     bool result;
 };
 
-class ContentDefinitionListResult
-{
+class ContentDefinitionListResult {
 public:
-    inline ContentDefinitionListResult() {};
-    inline ~ContentDefinitionListResult() {};
+    ContentDefinitionListResult();
+    inline ~ContentDefinitionListResult() {}
 
     void SetValue(std::vector<OmniPointer<ContentDefinition>> new_value);
     std::vector<OmniPointer<ContentDefinition>> GetValue();
@@ -1575,11 +1517,10 @@ private:
     bool result;
 };
 
-class ContentDefinition
-{
+class ContentDefinition {
 public:
-    inline ContentDefinition() {};
-    inline ~ContentDefinition() {};
+    ContentDefinition();
+    inline ~ContentDefinition() {}
 
     void SetLengthString(OmniPointer<LengthString> new_value);
     std::string UnParse();
@@ -1603,11 +1544,10 @@ private:
     OmniPointer<Comment> comment_field;
 };
 
-class PrimativeTypeParser
-{
+class PrimativeTypeParser {
 public:
-    inline PrimativeTypeParser() {};
-    inline ~PrimativeTypeParser() {};
+    PrimativeTypeParser();
+    inline ~PrimativeTypeParser() {}
 
     void SetParserNetwork(OmniPointer<ParserNetwork> input);
     bool ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<PrimativeTypeResult> result);
@@ -1621,11 +1561,10 @@ private:
     OmniPointer<ParserNetwork> parser_network;
 };
 
-class PrimativeTypeResult
-{
+class PrimativeTypeResult {
 public:
-    inline PrimativeTypeResult() {};
-    inline ~PrimativeTypeResult() {};
+    PrimativeTypeResult();
+    inline ~PrimativeTypeResult() {}
 
     void SetValue(OmniPointer<PrimativeType> new_value);
     OmniPointer<PrimativeType> GetValue();
@@ -1637,11 +1576,10 @@ private:
     bool result;
 };
 
-class PrimativeTypeListResult
-{
+class PrimativeTypeListResult {
 public:
-    inline PrimativeTypeListResult() {};
-    inline ~PrimativeTypeListResult() {};
+    PrimativeTypeListResult();
+    inline ~PrimativeTypeListResult() {}
 
     void SetValue(std::vector<OmniPointer<PrimativeType>> new_value);
     std::vector<OmniPointer<PrimativeType>> GetValue();
@@ -1653,11 +1591,10 @@ private:
     bool result;
 };
 
-class PrimativeType
-{
+class PrimativeType {
 public:
-    inline PrimativeType() {};
-    inline ~PrimativeType() {};
+    PrimativeType();
+    inline ~PrimativeType() {}
 
     void SetLengthString(OmniPointer<LengthString> new_value);
     std::string UnParse();
@@ -1666,11 +1603,10 @@ private:
     OmniPointer<LengthString> length_string;
 };
 
-class DefinedTypeParser
-{
+class DefinedTypeParser {
 public:
-    inline DefinedTypeParser() {};
-    inline ~DefinedTypeParser() {};
+    DefinedTypeParser();
+    inline ~DefinedTypeParser() {}
 
     void SetParserNetwork(OmniPointer<ParserNetwork> input);
     bool ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<DefinedTypeResult> result);
@@ -1684,11 +1620,10 @@ private:
     OmniPointer<ParserNetwork> parser_network;
 };
 
-class DefinedTypeResult
-{
+class DefinedTypeResult {
 public:
-    inline DefinedTypeResult() {};
-    inline ~DefinedTypeResult() {};
+    DefinedTypeResult();
+    inline ~DefinedTypeResult() {}
 
     void SetValue(OmniPointer<DefinedType> new_value);
     OmniPointer<DefinedType> GetValue();
@@ -1700,11 +1635,10 @@ private:
     bool result;
 };
 
-class DefinedTypeListResult
-{
+class DefinedTypeListResult {
 public:
-    inline DefinedTypeListResult() {};
-    inline ~DefinedTypeListResult() {};
+    DefinedTypeListResult();
+    inline ~DefinedTypeListResult() {}
 
     void SetValue(std::vector<OmniPointer<DefinedType>> new_value);
     std::vector<OmniPointer<DefinedType>> GetValue();
@@ -1716,11 +1650,10 @@ private:
     bool result;
 };
 
-class DefinedType
-{
+class DefinedType {
 public:
-    inline DefinedType() {};
-    inline ~DefinedType() {};
+    DefinedType();
+    inline ~DefinedType() {}
 
     void SetLengthString(OmniPointer<LengthString> new_value);
     std::string UnParse();
@@ -1732,11 +1665,10 @@ private:
     OmniPointer<QualfiedName> name_field;
 };
 
-class SingletonTypeParser
-{
+class SingletonTypeParser {
 public:
-    inline SingletonTypeParser() {};
-    inline ~SingletonTypeParser() {};
+    SingletonTypeParser();
+    inline ~SingletonTypeParser() {}
 
     void SetParserNetwork(OmniPointer<ParserNetwork> input);
     bool ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<SingletonTypeResult> result);
@@ -1750,11 +1682,10 @@ private:
     OmniPointer<ParserNetwork> parser_network;
 };
 
-class SingletonTypeResult
-{
+class SingletonTypeResult {
 public:
-    inline SingletonTypeResult() {};
-    inline ~SingletonTypeResult() {};
+    SingletonTypeResult();
+    inline ~SingletonTypeResult() {}
 
     void SetValue(OmniPointer<SingletonType> new_value);
     OmniPointer<SingletonType> GetValue();
@@ -1766,11 +1697,10 @@ private:
     bool result;
 };
 
-class SingletonTypeListResult
-{
+class SingletonTypeListResult {
 public:
-    inline SingletonTypeListResult() {};
-    inline ~SingletonTypeListResult() {};
+    SingletonTypeListResult();
+    inline ~SingletonTypeListResult() {}
 
     void SetValue(std::vector<OmniPointer<SingletonType>> new_value);
     std::vector<OmniPointer<SingletonType>> GetValue();
@@ -1782,11 +1712,10 @@ private:
     bool result;
 };
 
-class SingletonType
-{
+class SingletonType {
 public:
-    inline SingletonType() {};
-    inline ~SingletonType() {};
+    SingletonType();
+    inline ~SingletonType() {}
 
     void SetLengthString(OmniPointer<LengthString> new_value);
     std::string UnParse();
@@ -1801,11 +1730,10 @@ private:
     OmniPointer<PrimativeType> primative_type_field;
 };
 
-class DimensionalNoteParser
-{
+class DimensionalNoteParser {
 public:
-    inline DimensionalNoteParser() {};
-    inline ~DimensionalNoteParser() {};
+    DimensionalNoteParser();
+    inline ~DimensionalNoteParser() {}
 
     void SetParserNetwork(OmniPointer<ParserNetwork> input);
     bool ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<DimensionalNoteResult> result);
@@ -1819,11 +1747,10 @@ private:
     OmniPointer<ParserNetwork> parser_network;
 };
 
-class DimensionalNoteResult
-{
+class DimensionalNoteResult {
 public:
-    inline DimensionalNoteResult() {};
-    inline ~DimensionalNoteResult() {};
+    DimensionalNoteResult();
+    inline ~DimensionalNoteResult() {}
 
     void SetValue(OmniPointer<DimensionalNote> new_value);
     OmniPointer<DimensionalNote> GetValue();
@@ -1835,11 +1762,10 @@ private:
     bool result;
 };
 
-class DimensionalNoteListResult
-{
+class DimensionalNoteListResult {
 public:
-    inline DimensionalNoteListResult() {};
-    inline ~DimensionalNoteListResult() {};
+    DimensionalNoteListResult();
+    inline ~DimensionalNoteListResult() {}
 
     void SetValue(std::vector<OmniPointer<DimensionalNote>> new_value);
     std::vector<OmniPointer<DimensionalNote>> GetValue();
@@ -1851,11 +1777,10 @@ private:
     bool result;
 };
 
-class DimensionalNote
-{
+class DimensionalNote {
 public:
-    inline DimensionalNote() {};
-    inline ~DimensionalNote() {};
+    DimensionalNote();
+    inline ~DimensionalNote() {}
 
     void SetLengthString(OmniPointer<LengthString> new_value);
     std::string UnParse();
@@ -1864,11 +1789,10 @@ private:
     OmniPointer<LengthString> length_string;
 };
 
-class DimensionalTypeParser
-{
+class DimensionalTypeParser {
 public:
-    inline DimensionalTypeParser() {};
-    inline ~DimensionalTypeParser() {};
+    DimensionalTypeParser();
+    inline ~DimensionalTypeParser() {}
 
     void SetParserNetwork(OmniPointer<ParserNetwork> input);
     bool ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<DimensionalTypeResult> result);
@@ -1882,11 +1806,10 @@ private:
     OmniPointer<ParserNetwork> parser_network;
 };
 
-class DimensionalTypeResult
-{
+class DimensionalTypeResult {
 public:
-    inline DimensionalTypeResult() {};
-    inline ~DimensionalTypeResult() {};
+    DimensionalTypeResult();
+    inline ~DimensionalTypeResult() {}
 
     void SetValue(OmniPointer<DimensionalType> new_value);
     OmniPointer<DimensionalType> GetValue();
@@ -1898,11 +1821,10 @@ private:
     bool result;
 };
 
-class DimensionalTypeListResult
-{
+class DimensionalTypeListResult {
 public:
-    inline DimensionalTypeListResult() {};
-    inline ~DimensionalTypeListResult() {};
+    DimensionalTypeListResult();
+    inline ~DimensionalTypeListResult() {}
 
     void SetValue(std::vector<OmniPointer<DimensionalType>> new_value);
     std::vector<OmniPointer<DimensionalType>> GetValue();
@@ -1914,11 +1836,10 @@ private:
     bool result;
 };
 
-class DimensionalType
-{
+class DimensionalType {
 public:
-    inline DimensionalType() {};
-    inline ~DimensionalType() {};
+    DimensionalType();
+    inline ~DimensionalType() {}
 
     void SetLengthString(OmniPointer<LengthString> new_value);
     std::string UnParse();
@@ -1933,11 +1854,10 @@ private:
     OmniPointer<SingletonType> singleton_type_field;
 };
 
-class MapNoteParser
-{
+class MapNoteParser {
 public:
-    inline MapNoteParser() {};
-    inline ~MapNoteParser() {};
+    MapNoteParser();
+    inline ~MapNoteParser() {}
 
     void SetParserNetwork(OmniPointer<ParserNetwork> input);
     bool ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<MapNoteResult> result);
@@ -1951,11 +1871,10 @@ private:
     OmniPointer<ParserNetwork> parser_network;
 };
 
-class MapNoteResult
-{
+class MapNoteResult {
 public:
-    inline MapNoteResult() {};
-    inline ~MapNoteResult() {};
+    MapNoteResult();
+    inline ~MapNoteResult() {}
 
     void SetValue(OmniPointer<MapNote> new_value);
     OmniPointer<MapNote> GetValue();
@@ -1967,11 +1886,10 @@ private:
     bool result;
 };
 
-class MapNoteListResult
-{
+class MapNoteListResult {
 public:
-    inline MapNoteListResult() {};
-    inline ~MapNoteListResult() {};
+    MapNoteListResult();
+    inline ~MapNoteListResult() {}
 
     void SetValue(std::vector<OmniPointer<MapNote>> new_value);
     std::vector<OmniPointer<MapNote>> GetValue();
@@ -1983,11 +1901,10 @@ private:
     bool result;
 };
 
-class MapNote
-{
+class MapNote {
 public:
-    inline MapNote() {};
-    inline ~MapNote() {};
+    MapNote();
+    inline ~MapNote() {}
 
     void SetLengthString(OmniPointer<LengthString> new_value);
     std::string UnParse();
@@ -1996,11 +1913,10 @@ private:
     OmniPointer<LengthString> length_string;
 };
 
-class MapTypeParser
-{
+class MapTypeParser {
 public:
-    inline MapTypeParser() {};
-    inline ~MapTypeParser() {};
+    MapTypeParser();
+    inline ~MapTypeParser() {}
 
     void SetParserNetwork(OmniPointer<ParserNetwork> input);
     bool ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<MapTypeResult> result);
@@ -2014,11 +1930,10 @@ private:
     OmniPointer<ParserNetwork> parser_network;
 };
 
-class MapTypeResult
-{
+class MapTypeResult {
 public:
-    inline MapTypeResult() {};
-    inline ~MapTypeResult() {};
+    MapTypeResult();
+    inline ~MapTypeResult() {}
 
     void SetValue(OmniPointer<MapType> new_value);
     OmniPointer<MapType> GetValue();
@@ -2030,11 +1945,10 @@ private:
     bool result;
 };
 
-class MapTypeListResult
-{
+class MapTypeListResult {
 public:
-    inline MapTypeListResult() {};
-    inline ~MapTypeListResult() {};
+    MapTypeListResult();
+    inline ~MapTypeListResult() {}
 
     void SetValue(std::vector<OmniPointer<MapType>> new_value);
     std::vector<OmniPointer<MapType>> GetValue();
@@ -2046,11 +1960,10 @@ private:
     bool result;
 };
 
-class MapType
-{
+class MapType {
 public:
-    inline MapType() {};
-    inline ~MapType() {};
+    MapType();
+    inline ~MapType() {}
 
     void SetLengthString(OmniPointer<LengthString> new_value);
     std::string UnParse();
@@ -2065,11 +1978,10 @@ private:
     OmniPointer<SingletonType> singleton_type_field;
 };
 
-class ValueTypeParser
-{
+class ValueTypeParser {
 public:
-    inline ValueTypeParser() {};
-    inline ~ValueTypeParser() {};
+    ValueTypeParser();
+    inline ~ValueTypeParser() {}
 
     void SetParserNetwork(OmniPointer<ParserNetwork> input);
     bool ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<ValueTypeResult> result);
@@ -2083,11 +1995,10 @@ private:
     OmniPointer<ParserNetwork> parser_network;
 };
 
-class ValueTypeResult
-{
+class ValueTypeResult {
 public:
-    inline ValueTypeResult() {};
-    inline ~ValueTypeResult() {};
+    ValueTypeResult();
+    inline ~ValueTypeResult() {}
 
     void SetValue(OmniPointer<ValueType> new_value);
     OmniPointer<ValueType> GetValue();
@@ -2099,11 +2010,10 @@ private:
     bool result;
 };
 
-class ValueTypeListResult
-{
+class ValueTypeListResult {
 public:
-    inline ValueTypeListResult() {};
-    inline ~ValueTypeListResult() {};
+    ValueTypeListResult();
+    inline ~ValueTypeListResult() {}
 
     void SetValue(std::vector<OmniPointer<ValueType>> new_value);
     std::vector<OmniPointer<ValueType>> GetValue();
@@ -2115,11 +2025,10 @@ private:
     bool result;
 };
 
-class ValueType
-{
+class ValueType {
 public:
-    inline ValueType() {};
-    inline ~ValueType() {};
+    ValueType();
+    inline ~ValueType() {}
 
     void SetLengthString(OmniPointer<LengthString> new_value);
     std::string UnParse();
@@ -2137,11 +2046,10 @@ private:
     OmniPointer<DimensionalType> dimensional_type_field;
 };
 
-class ParameterListDefParser
-{
+class ParameterListDefParser {
 public:
-    inline ParameterListDefParser() {};
-    inline ~ParameterListDefParser() {};
+    ParameterListDefParser();
+    inline ~ParameterListDefParser() {}
 
     void SetParserNetwork(OmniPointer<ParserNetwork> input);
     bool ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<ParameterListDefResult> result);
@@ -2155,11 +2063,10 @@ private:
     OmniPointer<ParserNetwork> parser_network;
 };
 
-class ParameterListDefResult
-{
+class ParameterListDefResult {
 public:
-    inline ParameterListDefResult() {};
-    inline ~ParameterListDefResult() {};
+    ParameterListDefResult();
+    inline ~ParameterListDefResult() {}
 
     void SetValue(OmniPointer<ParameterListDef> new_value);
     OmniPointer<ParameterListDef> GetValue();
@@ -2171,11 +2078,10 @@ private:
     bool result;
 };
 
-class ParameterListDefListResult
-{
+class ParameterListDefListResult {
 public:
-    inline ParameterListDefListResult() {};
-    inline ~ParameterListDefListResult() {};
+    ParameterListDefListResult();
+    inline ~ParameterListDefListResult() {}
 
     void SetValue(std::vector<OmniPointer<ParameterListDef>> new_value);
     std::vector<OmniPointer<ParameterListDef>> GetValue();
@@ -2187,11 +2093,10 @@ private:
     bool result;
 };
 
-class ParameterListDef
-{
+class ParameterListDef {
 public:
-    inline ParameterListDef() {};
-    inline ~ParameterListDef() {};
+    ParameterListDef();
+    inline ~ParameterListDef() {}
 
     void SetLengthString(OmniPointer<LengthString> new_value);
     std::string UnParse();
@@ -2209,11 +2114,10 @@ private:
     OmniPointer<ValueType> type_field;
 };
 
-class ParameterListParser
-{
+class ParameterListParser {
 public:
-    inline ParameterListParser() {};
-    inline ~ParameterListParser() {};
+    ParameterListParser();
+    inline ~ParameterListParser() {}
 
     void SetParserNetwork(OmniPointer<ParserNetwork> input);
     bool ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<ParameterListResult> result);
@@ -2227,11 +2131,10 @@ private:
     OmniPointer<ParserNetwork> parser_network;
 };
 
-class ParameterListResult
-{
+class ParameterListResult {
 public:
-    inline ParameterListResult() {};
-    inline ~ParameterListResult() {};
+    ParameterListResult();
+    inline ~ParameterListResult() {}
 
     void SetValue(OmniPointer<ParameterList> new_value);
     OmniPointer<ParameterList> GetValue();
@@ -2243,11 +2146,10 @@ private:
     bool result;
 };
 
-class ParameterListListResult
-{
+class ParameterListListResult {
 public:
-    inline ParameterListListResult() {};
-    inline ~ParameterListListResult() {};
+    ParameterListListResult();
+    inline ~ParameterListListResult() {}
 
     void SetValue(std::vector<OmniPointer<ParameterList>> new_value);
     std::vector<OmniPointer<ParameterList>> GetValue();
@@ -2259,11 +2161,10 @@ private:
     bool result;
 };
 
-class ParameterList
-{
+class ParameterList {
 public:
-    inline ParameterList() {};
-    inline ~ParameterList() {};
+    ParameterList();
+    inline ~ParameterList() {}
 
     void SetLengthString(OmniPointer<LengthString> new_value);
     std::string UnParse();
@@ -2278,11 +2179,10 @@ private:
     OmniPointer<RValue> r_value_field;
 };
 
-class CodeBlockParser
-{
+class CodeBlockParser {
 public:
-    inline CodeBlockParser() {};
-    inline ~CodeBlockParser() {};
+    CodeBlockParser();
+    inline ~CodeBlockParser() {}
 
     void SetParserNetwork(OmniPointer<ParserNetwork> input);
     bool ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<CodeBlockResult> result);
@@ -2296,11 +2196,10 @@ private:
     OmniPointer<ParserNetwork> parser_network;
 };
 
-class CodeBlockResult
-{
+class CodeBlockResult {
 public:
-    inline CodeBlockResult() {};
-    inline ~CodeBlockResult() {};
+    CodeBlockResult();
+    inline ~CodeBlockResult() {}
 
     void SetValue(OmniPointer<CodeBlock> new_value);
     OmniPointer<CodeBlock> GetValue();
@@ -2312,11 +2211,10 @@ private:
     bool result;
 };
 
-class CodeBlockListResult
-{
+class CodeBlockListResult {
 public:
-    inline CodeBlockListResult() {};
-    inline ~CodeBlockListResult() {};
+    CodeBlockListResult();
+    inline ~CodeBlockListResult() {}
 
     void SetValue(std::vector<OmniPointer<CodeBlock>> new_value);
     std::vector<OmniPointer<CodeBlock>> GetValue();
@@ -2328,11 +2226,10 @@ private:
     bool result;
 };
 
-class CodeBlock
-{
+class CodeBlock {
 public:
-    inline CodeBlock() {};
-    inline ~CodeBlock() {};
+    CodeBlock();
+    inline ~CodeBlock() {}
 
     void SetLengthString(OmniPointer<LengthString> new_value);
     std::string UnParse();
@@ -2344,11 +2241,10 @@ private:
     std::vector<OmniPointer<Instruction>> instructions_field;
 };
 
-class DeclarationAssignParser
-{
+class DeclarationAssignParser {
 public:
-    inline DeclarationAssignParser() {};
-    inline ~DeclarationAssignParser() {};
+    DeclarationAssignParser();
+    inline ~DeclarationAssignParser() {}
 
     void SetParserNetwork(OmniPointer<ParserNetwork> input);
     bool ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<DeclarationAssignResult> result);
@@ -2362,11 +2258,10 @@ private:
     OmniPointer<ParserNetwork> parser_network;
 };
 
-class DeclarationAssignResult
-{
+class DeclarationAssignResult {
 public:
-    inline DeclarationAssignResult() {};
-    inline ~DeclarationAssignResult() {};
+    DeclarationAssignResult();
+    inline ~DeclarationAssignResult() {}
 
     void SetValue(OmniPointer<DeclarationAssign> new_value);
     OmniPointer<DeclarationAssign> GetValue();
@@ -2378,11 +2273,10 @@ private:
     bool result;
 };
 
-class DeclarationAssignListResult
-{
+class DeclarationAssignListResult {
 public:
-    inline DeclarationAssignListResult() {};
-    inline ~DeclarationAssignListResult() {};
+    DeclarationAssignListResult();
+    inline ~DeclarationAssignListResult() {}
 
     void SetValue(std::vector<OmniPointer<DeclarationAssign>> new_value);
     std::vector<OmniPointer<DeclarationAssign>> GetValue();
@@ -2394,11 +2288,10 @@ private:
     bool result;
 };
 
-class DeclarationAssign
-{
+class DeclarationAssign {
 public:
-    inline DeclarationAssign() {};
-    inline ~DeclarationAssign() {};
+    DeclarationAssign();
+    inline ~DeclarationAssign() {}
 
     void SetLengthString(OmniPointer<LengthString> new_value);
     std::string UnParse();
@@ -2410,11 +2303,10 @@ private:
     OmniPointer<RValue> r_value_field;
 };
 
-class DeclarationParser
-{
+class DeclarationParser {
 public:
-    inline DeclarationParser() {};
-    inline ~DeclarationParser() {};
+    DeclarationParser();
+    inline ~DeclarationParser() {}
 
     void SetParserNetwork(OmniPointer<ParserNetwork> input);
     bool ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<DeclarationResult> result);
@@ -2428,11 +2320,10 @@ private:
     OmniPointer<ParserNetwork> parser_network;
 };
 
-class DeclarationResult
-{
+class DeclarationResult {
 public:
-    inline DeclarationResult() {};
-    inline ~DeclarationResult() {};
+    DeclarationResult();
+    inline ~DeclarationResult() {}
 
     void SetValue(OmniPointer<Declaration> new_value);
     OmniPointer<Declaration> GetValue();
@@ -2444,11 +2335,10 @@ private:
     bool result;
 };
 
-class DeclarationListResult
-{
+class DeclarationListResult {
 public:
-    inline DeclarationListResult() {};
-    inline ~DeclarationListResult() {};
+    DeclarationListResult();
+    inline ~DeclarationListResult() {}
 
     void SetValue(std::vector<OmniPointer<Declaration>> new_value);
     std::vector<OmniPointer<Declaration>> GetValue();
@@ -2460,11 +2350,10 @@ private:
     bool result;
 };
 
-class Declaration
-{
+class Declaration {
 public:
-    inline Declaration() {};
-    inline ~Declaration() {};
+    Declaration();
+    inline ~Declaration() {}
 
     void SetLengthString(OmniPointer<LengthString> new_value);
     std::string UnParse();
@@ -2482,11 +2371,10 @@ private:
     OmniPointer<ValueType> type_field;
 };
 
-class AssignmentParser
-{
+class AssignmentParser {
 public:
-    inline AssignmentParser() {};
-    inline ~AssignmentParser() {};
+    AssignmentParser();
+    inline ~AssignmentParser() {}
 
     void SetParserNetwork(OmniPointer<ParserNetwork> input);
     bool ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<AssignmentResult> result);
@@ -2500,11 +2388,10 @@ private:
     OmniPointer<ParserNetwork> parser_network;
 };
 
-class AssignmentResult
-{
+class AssignmentResult {
 public:
-    inline AssignmentResult() {};
-    inline ~AssignmentResult() {};
+    AssignmentResult();
+    inline ~AssignmentResult() {}
 
     void SetValue(OmniPointer<Assignment> new_value);
     OmniPointer<Assignment> GetValue();
@@ -2516,11 +2403,10 @@ private:
     bool result;
 };
 
-class AssignmentListResult
-{
+class AssignmentListResult {
 public:
-    inline AssignmentListResult() {};
-    inline ~AssignmentListResult() {};
+    AssignmentListResult();
+    inline ~AssignmentListResult() {}
 
     void SetValue(std::vector<OmniPointer<Assignment>> new_value);
     std::vector<OmniPointer<Assignment>> GetValue();
@@ -2532,11 +2418,10 @@ private:
     bool result;
 };
 
-class Assignment
-{
+class Assignment {
 public:
-    inline Assignment() {};
-    inline ~Assignment() {};
+    Assignment();
+    inline ~Assignment() {}
 
     void SetLengthString(OmniPointer<LengthString> new_value);
     std::string UnParse();
@@ -2551,11 +2436,10 @@ private:
     OmniPointer<QualfiedName> l_value_field;
 };
 
-class ReturnParser
-{
+class ReturnParser {
 public:
-    inline ReturnParser() {};
-    inline ~ReturnParser() {};
+    ReturnParser();
+    inline ~ReturnParser() {}
 
     void SetParserNetwork(OmniPointer<ParserNetwork> input);
     bool ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<ReturnResult> result);
@@ -2569,11 +2453,10 @@ private:
     OmniPointer<ParserNetwork> parser_network;
 };
 
-class ReturnResult
-{
+class ReturnResult {
 public:
-    inline ReturnResult() {};
-    inline ~ReturnResult() {};
+    ReturnResult();
+    inline ~ReturnResult() {}
 
     void SetValue(OmniPointer<Return> new_value);
     OmniPointer<Return> GetValue();
@@ -2585,11 +2468,10 @@ private:
     bool result;
 };
 
-class ReturnListResult
-{
+class ReturnListResult {
 public:
-    inline ReturnListResult() {};
-    inline ~ReturnListResult() {};
+    ReturnListResult();
+    inline ~ReturnListResult() {}
 
     void SetValue(std::vector<OmniPointer<Return>> new_value);
     std::vector<OmniPointer<Return>> GetValue();
@@ -2601,11 +2483,10 @@ private:
     bool result;
 };
 
-class Return
-{
+class Return {
 public:
-    inline Return() {};
-    inline ~Return() {};
+    Return();
+    inline ~Return() {}
 
     void SetLengthString(OmniPointer<LengthString> new_value);
     std::string UnParse();
@@ -2620,11 +2501,10 @@ private:
     OmniPointer<String> rtn_field;
 };
 
-class ElseTailParser
-{
+class ElseTailParser {
 public:
-    inline ElseTailParser() {};
-    inline ~ElseTailParser() {};
+    ElseTailParser();
+    inline ~ElseTailParser() {}
 
     void SetParserNetwork(OmniPointer<ParserNetwork> input);
     bool ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<ElseTailResult> result);
@@ -2638,11 +2518,10 @@ private:
     OmniPointer<ParserNetwork> parser_network;
 };
 
-class ElseTailResult
-{
+class ElseTailResult {
 public:
-    inline ElseTailResult() {};
-    inline ~ElseTailResult() {};
+    ElseTailResult();
+    inline ~ElseTailResult() {}
 
     void SetValue(OmniPointer<ElseTail> new_value);
     OmniPointer<ElseTail> GetValue();
@@ -2654,11 +2533,10 @@ private:
     bool result;
 };
 
-class ElseTailListResult
-{
+class ElseTailListResult {
 public:
-    inline ElseTailListResult() {};
-    inline ~ElseTailListResult() {};
+    ElseTailListResult();
+    inline ~ElseTailListResult() {}
 
     void SetValue(std::vector<OmniPointer<ElseTail>> new_value);
     std::vector<OmniPointer<ElseTail>> GetValue();
@@ -2670,11 +2548,10 @@ private:
     bool result;
 };
 
-class ElseTail
-{
+class ElseTail {
 public:
-    inline ElseTail() {};
-    inline ~ElseTail() {};
+    ElseTail();
+    inline ~ElseTail() {}
 
     void SetLengthString(OmniPointer<LengthString> new_value);
     std::string UnParse();
@@ -2689,11 +2566,10 @@ private:
     OmniPointer<String> else_key_field;
 };
 
-class ConditionalParser
-{
+class ConditionalParser {
 public:
-    inline ConditionalParser() {};
-    inline ~ConditionalParser() {};
+    ConditionalParser();
+    inline ~ConditionalParser() {}
 
     void SetParserNetwork(OmniPointer<ParserNetwork> input);
     bool ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<ConditionalResult> result);
@@ -2707,11 +2583,10 @@ private:
     OmniPointer<ParserNetwork> parser_network;
 };
 
-class ConditionalResult
-{
+class ConditionalResult {
 public:
-    inline ConditionalResult() {};
-    inline ~ConditionalResult() {};
+    ConditionalResult();
+    inline ~ConditionalResult() {}
 
     void SetValue(OmniPointer<Conditional> new_value);
     OmniPointer<Conditional> GetValue();
@@ -2723,11 +2598,10 @@ private:
     bool result;
 };
 
-class ConditionalListResult
-{
+class ConditionalListResult {
 public:
-    inline ConditionalListResult() {};
-    inline ~ConditionalListResult() {};
+    ConditionalListResult();
+    inline ~ConditionalListResult() {}
 
     void SetValue(std::vector<OmniPointer<Conditional>> new_value);
     std::vector<OmniPointer<Conditional>> GetValue();
@@ -2739,11 +2613,10 @@ private:
     bool result;
 };
 
-class Conditional
-{
+class Conditional {
 public:
-    inline Conditional() {};
-    inline ~Conditional() {};
+    Conditional();
+    inline ~Conditional() {}
 
     void SetLengthString(OmniPointer<LengthString> new_value);
     std::string UnParse();
@@ -2764,11 +2637,10 @@ private:
     OmniPointer<String> conditional_key_field;
 };
 
-class LoopParser
-{
+class LoopParser {
 public:
-    inline LoopParser() {};
-    inline ~LoopParser() {};
+    LoopParser();
+    inline ~LoopParser() {}
 
     void SetParserNetwork(OmniPointer<ParserNetwork> input);
     bool ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<LoopResult> result);
@@ -2782,11 +2654,10 @@ private:
     OmniPointer<ParserNetwork> parser_network;
 };
 
-class LoopResult
-{
+class LoopResult {
 public:
-    inline LoopResult() {};
-    inline ~LoopResult() {};
+    LoopResult();
+    inline ~LoopResult() {}
 
     void SetValue(OmniPointer<Loop> new_value);
     OmniPointer<Loop> GetValue();
@@ -2798,11 +2669,10 @@ private:
     bool result;
 };
 
-class LoopListResult
-{
+class LoopListResult {
 public:
-    inline LoopListResult() {};
-    inline ~LoopListResult() {};
+    LoopListResult();
+    inline ~LoopListResult() {}
 
     void SetValue(std::vector<OmniPointer<Loop>> new_value);
     std::vector<OmniPointer<Loop>> GetValue();
@@ -2814,11 +2684,10 @@ private:
     bool result;
 };
 
-class Loop
-{
+class Loop {
 public:
-    inline Loop() {};
-    inline ~Loop() {};
+    Loop();
+    inline ~Loop() {}
 
     void SetLengthString(OmniPointer<LengthString> new_value);
     std::string UnParse();
@@ -2836,11 +2705,10 @@ private:
     OmniPointer<String> loop_key_field;
 };
 
-class CallParser
-{
+class CallParser {
 public:
-    inline CallParser() {};
-    inline ~CallParser() {};
+    CallParser();
+    inline ~CallParser() {}
 
     void SetParserNetwork(OmniPointer<ParserNetwork> input);
     bool ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<CallResult> result);
@@ -2854,11 +2722,10 @@ private:
     OmniPointer<ParserNetwork> parser_network;
 };
 
-class CallResult
-{
+class CallResult {
 public:
-    inline CallResult() {};
-    inline ~CallResult() {};
+    CallResult();
+    inline ~CallResult() {}
 
     void SetValue(OmniPointer<Call> new_value);
     OmniPointer<Call> GetValue();
@@ -2870,11 +2737,10 @@ private:
     bool result;
 };
 
-class CallListResult
-{
+class CallListResult {
 public:
-    inline CallListResult() {};
-    inline ~CallListResult() {};
+    CallListResult();
+    inline ~CallListResult() {}
 
     void SetValue(std::vector<OmniPointer<Call>> new_value);
     std::vector<OmniPointer<Call>> GetValue();
@@ -2886,11 +2752,10 @@ private:
     bool result;
 };
 
-class Call
-{
+class Call {
 public:
-    inline Call() {};
-    inline ~Call() {};
+    Call();
+    inline ~Call() {}
 
     void SetLengthString(OmniPointer<LengthString> new_value);
     std::string UnParse();
@@ -2911,11 +2776,10 @@ private:
     OmniPointer<Name> variable_field;
 };
 
-class AllocateParser
-{
+class AllocateParser {
 public:
-    inline AllocateParser() {};
-    inline ~AllocateParser() {};
+    AllocateParser();
+    inline ~AllocateParser() {}
 
     void SetParserNetwork(OmniPointer<ParserNetwork> input);
     bool ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<AllocateResult> result);
@@ -2929,11 +2793,10 @@ private:
     OmniPointer<ParserNetwork> parser_network;
 };
 
-class AllocateResult
-{
+class AllocateResult {
 public:
-    inline AllocateResult() {};
-    inline ~AllocateResult() {};
+    AllocateResult();
+    inline ~AllocateResult() {}
 
     void SetValue(OmniPointer<Allocate> new_value);
     OmniPointer<Allocate> GetValue();
@@ -2945,11 +2808,10 @@ private:
     bool result;
 };
 
-class AllocateListResult
-{
+class AllocateListResult {
 public:
-    inline AllocateListResult() {};
-    inline ~AllocateListResult() {};
+    AllocateListResult();
+    inline ~AllocateListResult() {}
 
     void SetValue(std::vector<OmniPointer<Allocate>> new_value);
     std::vector<OmniPointer<Allocate>> GetValue();
@@ -2961,11 +2823,10 @@ private:
     bool result;
 };
 
-class Allocate
-{
+class Allocate {
 public:
-    inline Allocate() {};
-    inline ~Allocate() {};
+    Allocate();
+    inline ~Allocate() {}
 
     void SetLengthString(OmniPointer<LengthString> new_value);
     std::string UnParse();
@@ -2977,11 +2838,10 @@ private:
     OmniPointer<QualfiedName> managed_type_field;
 };
 
-class InstructionParser
-{
+class InstructionParser {
 public:
-    inline InstructionParser() {};
-    inline ~InstructionParser() {};
+    InstructionParser();
+    inline ~InstructionParser() {}
 
     void SetParserNetwork(OmniPointer<ParserNetwork> input);
     bool ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<InstructionResult> result);
@@ -2995,11 +2855,10 @@ private:
     OmniPointer<ParserNetwork> parser_network;
 };
 
-class InstructionResult
-{
+class InstructionResult {
 public:
-    inline InstructionResult() {};
-    inline ~InstructionResult() {};
+    InstructionResult();
+    inline ~InstructionResult() {}
 
     void SetValue(OmniPointer<Instruction> new_value);
     OmniPointer<Instruction> GetValue();
@@ -3011,11 +2870,10 @@ private:
     bool result;
 };
 
-class InstructionListResult
-{
+class InstructionListResult {
 public:
-    inline InstructionListResult() {};
-    inline ~InstructionListResult() {};
+    InstructionListResult();
+    inline ~InstructionListResult() {}
 
     void SetValue(std::vector<OmniPointer<Instruction>> new_value);
     std::vector<OmniPointer<Instruction>> GetValue();
@@ -3027,11 +2885,10 @@ private:
     bool result;
 };
 
-class Instruction
-{
+class Instruction {
 public:
-    inline Instruction() {};
-    inline ~Instruction() {};
+    Instruction();
+    inline ~Instruction() {}
 
     void SetLengthString(OmniPointer<LengthString> new_value);
     std::string UnParse();
@@ -3064,11 +2921,10 @@ private:
     OmniPointer<Comment> comment_field;
 };
 
-class RValueSingleParser
-{
+class RValueSingleParser {
 public:
-    inline RValueSingleParser() {};
-    inline ~RValueSingleParser() {};
+    RValueSingleParser();
+    inline ~RValueSingleParser() {}
 
     void SetParserNetwork(OmniPointer<ParserNetwork> input);
     bool ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<RValueSingleResult> result);
@@ -3082,11 +2938,10 @@ private:
     OmniPointer<ParserNetwork> parser_network;
 };
 
-class RValueSingleResult
-{
+class RValueSingleResult {
 public:
-    inline RValueSingleResult() {};
-    inline ~RValueSingleResult() {};
+    RValueSingleResult();
+    inline ~RValueSingleResult() {}
 
     void SetValue(OmniPointer<RValueSingle> new_value);
     OmniPointer<RValueSingle> GetValue();
@@ -3098,11 +2953,10 @@ private:
     bool result;
 };
 
-class RValueSingleListResult
-{
+class RValueSingleListResult {
 public:
-    inline RValueSingleListResult() {};
-    inline ~RValueSingleListResult() {};
+    RValueSingleListResult();
+    inline ~RValueSingleListResult() {}
 
     void SetValue(std::vector<OmniPointer<RValueSingle>> new_value);
     std::vector<OmniPointer<RValueSingle>> GetValue();
@@ -3114,11 +2968,10 @@ private:
     bool result;
 };
 
-class RValueSingle
-{
+class RValueSingle {
 public:
-    inline RValueSingle() {};
-    inline ~RValueSingle() {};
+    RValueSingle();
+    inline ~RValueSingle() {}
 
     void SetLengthString(OmniPointer<LengthString> new_value);
     std::string UnParse();
@@ -3154,11 +3007,10 @@ private:
     OmniPointer<UnaryOperator> unary_operator_field;
 };
 
-class RValueTailParser
-{
+class RValueTailParser {
 public:
-    inline RValueTailParser() {};
-    inline ~RValueTailParser() {};
+    RValueTailParser();
+    inline ~RValueTailParser() {}
 
     void SetParserNetwork(OmniPointer<ParserNetwork> input);
     bool ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<RValueTailResult> result);
@@ -3172,11 +3024,10 @@ private:
     OmniPointer<ParserNetwork> parser_network;
 };
 
-class RValueTailResult
-{
+class RValueTailResult {
 public:
-    inline RValueTailResult() {};
-    inline ~RValueTailResult() {};
+    RValueTailResult();
+    inline ~RValueTailResult() {}
 
     void SetValue(OmniPointer<RValueTail> new_value);
     OmniPointer<RValueTail> GetValue();
@@ -3188,11 +3039,10 @@ private:
     bool result;
 };
 
-class RValueTailListResult
-{
+class RValueTailListResult {
 public:
-    inline RValueTailListResult() {};
-    inline ~RValueTailListResult() {};
+    RValueTailListResult();
+    inline ~RValueTailListResult() {}
 
     void SetValue(std::vector<OmniPointer<RValueTail>> new_value);
     std::vector<OmniPointer<RValueTail>> GetValue();
@@ -3204,11 +3054,10 @@ private:
     bool result;
 };
 
-class RValueTail
-{
+class RValueTail {
 public:
-    inline RValueTail() {};
-    inline ~RValueTail() {};
+    RValueTail();
+    inline ~RValueTail() {}
 
     void SetLengthString(OmniPointer<LengthString> new_value);
     std::string UnParse();
@@ -3226,11 +3075,10 @@ private:
     OmniPointer<BinaryOperator> binary_operator_field;
 };
 
-class RValueParser
-{
+class RValueParser {
 public:
-    inline RValueParser() {};
-    inline ~RValueParser() {};
+    RValueParser();
+    inline ~RValueParser() {}
 
     void SetParserNetwork(OmniPointer<ParserNetwork> input);
     bool ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<RValueResult> result);
@@ -3244,11 +3092,10 @@ private:
     OmniPointer<ParserNetwork> parser_network;
 };
 
-class RValueResult
-{
+class RValueResult {
 public:
-    inline RValueResult() {};
-    inline ~RValueResult() {};
+    RValueResult();
+    inline ~RValueResult() {}
 
     void SetValue(OmniPointer<RValue> new_value);
     OmniPointer<RValue> GetValue();
@@ -3260,11 +3107,10 @@ private:
     bool result;
 };
 
-class RValueListResult
-{
+class RValueListResult {
 public:
-    inline RValueListResult() {};
-    inline ~RValueListResult() {};
+    RValueListResult();
+    inline ~RValueListResult() {}
 
     void SetValue(std::vector<OmniPointer<RValue>> new_value);
     std::vector<OmniPointer<RValue>> GetValue();
@@ -3276,11 +3122,10 @@ private:
     bool result;
 };
 
-class RValue
-{
+class RValue {
 public:
-    inline RValue() {};
-    inline ~RValue() {};
+    RValue();
+    inline ~RValue() {}
 
     void SetLengthString(OmniPointer<LengthString> new_value);
     std::string UnParse();
@@ -3295,11 +3140,10 @@ private:
     OmniPointer<RValueSingle> value_field;
 };
 
-class BinaryOperatorParser
-{
+class BinaryOperatorParser {
 public:
-    inline BinaryOperatorParser() {};
-    inline ~BinaryOperatorParser() {};
+    BinaryOperatorParser();
+    inline ~BinaryOperatorParser() {}
 
     void SetParserNetwork(OmniPointer<ParserNetwork> input);
     bool ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<BinaryOperatorResult> result);
@@ -3313,11 +3157,10 @@ private:
     OmniPointer<ParserNetwork> parser_network;
 };
 
-class BinaryOperatorResult
-{
+class BinaryOperatorResult {
 public:
-    inline BinaryOperatorResult() {};
-    inline ~BinaryOperatorResult() {};
+    BinaryOperatorResult();
+    inline ~BinaryOperatorResult() {}
 
     void SetValue(OmniPointer<BinaryOperator> new_value);
     OmniPointer<BinaryOperator> GetValue();
@@ -3329,11 +3172,10 @@ private:
     bool result;
 };
 
-class BinaryOperatorListResult
-{
+class BinaryOperatorListResult {
 public:
-    inline BinaryOperatorListResult() {};
-    inline ~BinaryOperatorListResult() {};
+    BinaryOperatorListResult();
+    inline ~BinaryOperatorListResult() {}
 
     void SetValue(std::vector<OmniPointer<BinaryOperator>> new_value);
     std::vector<OmniPointer<BinaryOperator>> GetValue();
@@ -3345,11 +3187,10 @@ private:
     bool result;
 };
 
-class BinaryOperator
-{
+class BinaryOperator {
 public:
-    inline BinaryOperator() {};
-    inline ~BinaryOperator() {};
+    BinaryOperator();
+    inline ~BinaryOperator() {}
 
     void SetLengthString(OmniPointer<LengthString> new_value);
     std::string UnParse();
@@ -3388,11 +3229,10 @@ private:
     OmniPointer<String> addition_field;
 };
 
-class UnaryOperatorParser
-{
+class UnaryOperatorParser {
 public:
-    inline UnaryOperatorParser() {};
-    inline ~UnaryOperatorParser() {};
+    UnaryOperatorParser();
+    inline ~UnaryOperatorParser() {}
 
     void SetParserNetwork(OmniPointer<ParserNetwork> input);
     bool ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<UnaryOperatorResult> result);
@@ -3406,11 +3246,10 @@ private:
     OmniPointer<ParserNetwork> parser_network;
 };
 
-class UnaryOperatorResult
-{
+class UnaryOperatorResult {
 public:
-    inline UnaryOperatorResult() {};
-    inline ~UnaryOperatorResult() {};
+    UnaryOperatorResult();
+    inline ~UnaryOperatorResult() {}
 
     void SetValue(OmniPointer<UnaryOperator> new_value);
     OmniPointer<UnaryOperator> GetValue();
@@ -3422,11 +3261,10 @@ private:
     bool result;
 };
 
-class UnaryOperatorListResult
-{
+class UnaryOperatorListResult {
 public:
-    inline UnaryOperatorListResult() {};
-    inline ~UnaryOperatorListResult() {};
+    UnaryOperatorListResult();
+    inline ~UnaryOperatorListResult() {}
 
     void SetValue(std::vector<OmniPointer<UnaryOperator>> new_value);
     std::vector<OmniPointer<UnaryOperator>> GetValue();
@@ -3438,11 +3276,10 @@ private:
     bool result;
 };
 
-class UnaryOperator
-{
+class UnaryOperator {
 public:
-    inline UnaryOperator() {};
-    inline ~UnaryOperator() {};
+    UnaryOperator();
+    inline ~UnaryOperator() {}
 
     void SetLengthString(OmniPointer<LengthString> new_value);
     std::string UnParse();
@@ -3454,11 +3291,10 @@ private:
     OmniPointer<String> negation_field;
 };
 
-class CommentParser
-{
+class CommentParser {
 public:
-    inline CommentParser() {};
-    inline ~CommentParser() {};
+    CommentParser();
+    inline ~CommentParser() {}
 
     void SetParserNetwork(OmniPointer<ParserNetwork> input);
     bool ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<CommentResult> result);
@@ -3472,11 +3308,10 @@ private:
     OmniPointer<ParserNetwork> parser_network;
 };
 
-class CommentResult
-{
+class CommentResult {
 public:
-    inline CommentResult() {};
-    inline ~CommentResult() {};
+    CommentResult();
+    inline ~CommentResult() {}
 
     void SetValue(OmniPointer<Comment> new_value);
     OmniPointer<Comment> GetValue();
@@ -3488,11 +3323,10 @@ private:
     bool result;
 };
 
-class CommentListResult
-{
+class CommentListResult {
 public:
-    inline CommentListResult() {};
-    inline ~CommentListResult() {};
+    CommentListResult();
+    inline ~CommentListResult() {}
 
     void SetValue(std::vector<OmniPointer<Comment>> new_value);
     std::vector<OmniPointer<Comment>> GetValue();
@@ -3504,11 +3338,10 @@ private:
     bool result;
 };
 
-class Comment
-{
+class Comment {
 public:
-    inline Comment() {};
-    inline ~Comment() {};
+    Comment();
+    inline ~Comment() {}
 
     void SetLengthString(OmniPointer<LengthString> new_value);
     std::string UnParse();
@@ -3520,11 +3353,10 @@ private:
     std::vector<OmniPointer<CommentContent>> content_field;
 };
 
-class NonStarCharacterParser
-{
+class NonStarCharacterParser {
 public:
-    inline NonStarCharacterParser() {};
-    inline ~NonStarCharacterParser() {};
+    NonStarCharacterParser();
+    inline ~NonStarCharacterParser() {}
 
     void SetParserNetwork(OmniPointer<ParserNetwork> input);
     bool ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<NonStarCharacterResult> result);
@@ -3538,11 +3370,10 @@ private:
     OmniPointer<ParserNetwork> parser_network;
 };
 
-class NonStarCharacterResult
-{
+class NonStarCharacterResult {
 public:
-    inline NonStarCharacterResult() {};
-    inline ~NonStarCharacterResult() {};
+    NonStarCharacterResult();
+    inline ~NonStarCharacterResult() {}
 
     void SetValue(OmniPointer<NonStarCharacter> new_value);
     OmniPointer<NonStarCharacter> GetValue();
@@ -3554,11 +3385,10 @@ private:
     bool result;
 };
 
-class NonStarCharacterListResult
-{
+class NonStarCharacterListResult {
 public:
-    inline NonStarCharacterListResult() {};
-    inline ~NonStarCharacterListResult() {};
+    NonStarCharacterListResult();
+    inline ~NonStarCharacterListResult() {}
 
     void SetValue(std::vector<OmniPointer<NonStarCharacter>> new_value);
     std::vector<OmniPointer<NonStarCharacter>> GetValue();
@@ -3570,11 +3400,10 @@ private:
     bool result;
 };
 
-class NonStarCharacter
-{
+class NonStarCharacter {
 public:
-    inline NonStarCharacter() {};
-    inline ~NonStarCharacter() {};
+    NonStarCharacter();
+    inline ~NonStarCharacter() {}
 
     void SetLengthString(OmniPointer<LengthString> new_value);
     std::string UnParse();
@@ -3583,11 +3412,10 @@ private:
     OmniPointer<LengthString> length_string;
 };
 
-class NonSlashCharacterParser
-{
+class NonSlashCharacterParser {
 public:
-    inline NonSlashCharacterParser() {};
-    inline ~NonSlashCharacterParser() {};
+    NonSlashCharacterParser();
+    inline ~NonSlashCharacterParser() {}
 
     void SetParserNetwork(OmniPointer<ParserNetwork> input);
     bool ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<NonSlashCharacterResult> result);
@@ -3601,11 +3429,10 @@ private:
     OmniPointer<ParserNetwork> parser_network;
 };
 
-class NonSlashCharacterResult
-{
+class NonSlashCharacterResult {
 public:
-    inline NonSlashCharacterResult() {};
-    inline ~NonSlashCharacterResult() {};
+    NonSlashCharacterResult();
+    inline ~NonSlashCharacterResult() {}
 
     void SetValue(OmniPointer<NonSlashCharacter> new_value);
     OmniPointer<NonSlashCharacter> GetValue();
@@ -3617,11 +3444,10 @@ private:
     bool result;
 };
 
-class NonSlashCharacterListResult
-{
+class NonSlashCharacterListResult {
 public:
-    inline NonSlashCharacterListResult() {};
-    inline ~NonSlashCharacterListResult() {};
+    NonSlashCharacterListResult();
+    inline ~NonSlashCharacterListResult() {}
 
     void SetValue(std::vector<OmniPointer<NonSlashCharacter>> new_value);
     std::vector<OmniPointer<NonSlashCharacter>> GetValue();
@@ -3633,11 +3459,10 @@ private:
     bool result;
 };
 
-class NonSlashCharacter
-{
+class NonSlashCharacter {
 public:
-    inline NonSlashCharacter() {};
-    inline ~NonSlashCharacter() {};
+    NonSlashCharacter();
+    inline ~NonSlashCharacter() {}
 
     void SetLengthString(OmniPointer<LengthString> new_value);
     std::string UnParse();
@@ -3646,11 +3471,10 @@ private:
     OmniPointer<LengthString> length_string;
 };
 
-class CommentContentParser
-{
+class CommentContentParser {
 public:
-    inline CommentContentParser() {};
-    inline ~CommentContentParser() {};
+    CommentContentParser();
+    inline ~CommentContentParser() {}
 
     void SetParserNetwork(OmniPointer<ParserNetwork> input);
     bool ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<CommentContentResult> result);
@@ -3664,11 +3488,10 @@ private:
     OmniPointer<ParserNetwork> parser_network;
 };
 
-class CommentContentResult
-{
+class CommentContentResult {
 public:
-    inline CommentContentResult() {};
-    inline ~CommentContentResult() {};
+    CommentContentResult();
+    inline ~CommentContentResult() {}
 
     void SetValue(OmniPointer<CommentContent> new_value);
     OmniPointer<CommentContent> GetValue();
@@ -3680,11 +3503,10 @@ private:
     bool result;
 };
 
-class CommentContentListResult
-{
+class CommentContentListResult {
 public:
-    inline CommentContentListResult() {};
-    inline ~CommentContentListResult() {};
+    CommentContentListResult();
+    inline ~CommentContentListResult() {}
 
     void SetValue(std::vector<OmniPointer<CommentContent>> new_value);
     std::vector<OmniPointer<CommentContent>> GetValue();
@@ -3696,11 +3518,10 @@ private:
     bool result;
 };
 
-class CommentContent
-{
+class CommentContent {
 public:
-    inline CommentContent() {};
-    inline ~CommentContent() {};
+    CommentContent();
+    inline ~CommentContent() {}
 
     void SetLengthString(OmniPointer<LengthString> new_value);
     std::string UnParse();
@@ -3709,11 +3530,10 @@ private:
     OmniPointer<LengthString> length_string;
 };
 
-class QualfiedNameParser
-{
+class QualfiedNameParser {
 public:
-    inline QualfiedNameParser() {};
-    inline ~QualfiedNameParser() {};
+    QualfiedNameParser();
+    inline ~QualfiedNameParser() {}
 
     void SetParserNetwork(OmniPointer<ParserNetwork> input);
     bool ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<QualfiedNameResult> result);
@@ -3727,11 +3547,10 @@ private:
     OmniPointer<ParserNetwork> parser_network;
 };
 
-class QualfiedNameResult
-{
+class QualfiedNameResult {
 public:
-    inline QualfiedNameResult() {};
-    inline ~QualfiedNameResult() {};
+    QualfiedNameResult();
+    inline ~QualfiedNameResult() {}
 
     void SetValue(OmniPointer<QualfiedName> new_value);
     OmniPointer<QualfiedName> GetValue();
@@ -3743,11 +3562,10 @@ private:
     bool result;
 };
 
-class QualfiedNameListResult
-{
+class QualfiedNameListResult {
 public:
-    inline QualfiedNameListResult() {};
-    inline ~QualfiedNameListResult() {};
+    QualfiedNameListResult();
+    inline ~QualfiedNameListResult() {}
 
     void SetValue(std::vector<OmniPointer<QualfiedName>> new_value);
     std::vector<OmniPointer<QualfiedName>> GetValue();
@@ -3759,11 +3577,10 @@ private:
     bool result;
 };
 
-class QualfiedName
-{
+class QualfiedName {
 public:
-    inline QualfiedName() {};
-    inline ~QualfiedName() {};
+    QualfiedName();
+    inline ~QualfiedName() {}
 
     void SetLengthString(OmniPointer<LengthString> new_value);
     std::string UnParse();
@@ -3778,11 +3595,10 @@ private:
     OmniPointer<Name> name_field;
 };
 
-class NameTailParser
-{
+class NameTailParser {
 public:
-    inline NameTailParser() {};
-    inline ~NameTailParser() {};
+    NameTailParser();
+    inline ~NameTailParser() {}
 
     void SetParserNetwork(OmniPointer<ParserNetwork> input);
     bool ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<NameTailResult> result);
@@ -3796,11 +3612,10 @@ private:
     OmniPointer<ParserNetwork> parser_network;
 };
 
-class NameTailResult
-{
+class NameTailResult {
 public:
-    inline NameTailResult() {};
-    inline ~NameTailResult() {};
+    NameTailResult();
+    inline ~NameTailResult() {}
 
     void SetValue(OmniPointer<NameTail> new_value);
     OmniPointer<NameTail> GetValue();
@@ -3812,11 +3627,10 @@ private:
     bool result;
 };
 
-class NameTailListResult
-{
+class NameTailListResult {
 public:
-    inline NameTailListResult() {};
-    inline ~NameTailListResult() {};
+    NameTailListResult();
+    inline ~NameTailListResult() {}
 
     void SetValue(std::vector<OmniPointer<NameTail>> new_value);
     std::vector<OmniPointer<NameTail>> GetValue();
@@ -3828,11 +3642,10 @@ private:
     bool result;
 };
 
-class NameTail
-{
+class NameTail {
 public:
-    inline NameTail() {};
-    inline ~NameTail() {};
+    NameTail();
+    inline ~NameTail() {}
 
     void SetLengthString(OmniPointer<LengthString> new_value);
     std::string UnParse();
@@ -3847,11 +3660,10 @@ private:
     OmniPointer<Name> name_field;
 };
 
-class NameParser
-{
+class NameParser {
 public:
-    inline NameParser() {};
-    inline ~NameParser() {};
+    NameParser();
+    inline ~NameParser() {}
 
     void SetParserNetwork(OmniPointer<ParserNetwork> input);
     bool ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<NameResult> result);
@@ -3865,11 +3677,10 @@ private:
     OmniPointer<ParserNetwork> parser_network;
 };
 
-class NameResult
-{
+class NameResult {
 public:
-    inline NameResult() {};
-    inline ~NameResult() {};
+    NameResult();
+    inline ~NameResult() {}
 
     void SetValue(OmniPointer<Name> new_value);
     OmniPointer<Name> GetValue();
@@ -3881,11 +3692,10 @@ private:
     bool result;
 };
 
-class NameListResult
-{
+class NameListResult {
 public:
-    inline NameListResult() {};
-    inline ~NameListResult() {};
+    NameListResult();
+    inline ~NameListResult() {}
 
     void SetValue(std::vector<OmniPointer<Name>> new_value);
     std::vector<OmniPointer<Name>> GetValue();
@@ -3897,11 +3707,10 @@ private:
     bool result;
 };
 
-class Name
-{
+class Name {
 public:
-    inline Name() {};
-    inline ~Name() {};
+    Name();
+    inline ~Name() {}
 
     void SetLengthString(OmniPointer<LengthString> new_value);
     std::string UnParse();
@@ -3910,11 +3719,10 @@ private:
     OmniPointer<LengthString> length_string;
 };
 
-class NameCharacterParser
-{
+class NameCharacterParser {
 public:
-    inline NameCharacterParser() {};
-    inline ~NameCharacterParser() {};
+    NameCharacterParser();
+    inline ~NameCharacterParser() {}
 
     void SetParserNetwork(OmniPointer<ParserNetwork> input);
     bool ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<NameCharacterResult> result);
@@ -3928,11 +3736,10 @@ private:
     OmniPointer<ParserNetwork> parser_network;
 };
 
-class NameCharacterResult
-{
+class NameCharacterResult {
 public:
-    inline NameCharacterResult() {};
-    inline ~NameCharacterResult() {};
+    NameCharacterResult();
+    inline ~NameCharacterResult() {}
 
     void SetValue(OmniPointer<NameCharacter> new_value);
     OmniPointer<NameCharacter> GetValue();
@@ -3944,11 +3751,10 @@ private:
     bool result;
 };
 
-class NameCharacterListResult
-{
+class NameCharacterListResult {
 public:
-    inline NameCharacterListResult() {};
-    inline ~NameCharacterListResult() {};
+    NameCharacterListResult();
+    inline ~NameCharacterListResult() {}
 
     void SetValue(std::vector<OmniPointer<NameCharacter>> new_value);
     std::vector<OmniPointer<NameCharacter>> GetValue();
@@ -3960,11 +3766,10 @@ private:
     bool result;
 };
 
-class NameCharacter
-{
+class NameCharacter {
 public:
-    inline NameCharacter() {};
-    inline ~NameCharacter() {};
+    NameCharacter();
+    inline ~NameCharacter() {}
 
     void SetLengthString(OmniPointer<LengthString> new_value);
     std::string UnParse();
@@ -3973,11 +3778,10 @@ private:
     OmniPointer<LengthString> length_string;
 };
 
-class BooleanParser
-{
+class BooleanParser {
 public:
-    inline BooleanParser() {};
-    inline ~BooleanParser() {};
+    BooleanParser();
+    inline ~BooleanParser() {}
 
     void SetParserNetwork(OmniPointer<ParserNetwork> input);
     bool ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<BooleanResult> result);
@@ -3991,11 +3795,10 @@ private:
     OmniPointer<ParserNetwork> parser_network;
 };
 
-class BooleanResult
-{
+class BooleanResult {
 public:
-    inline BooleanResult() {};
-    inline ~BooleanResult() {};
+    BooleanResult();
+    inline ~BooleanResult() {}
 
     void SetValue(OmniPointer<Boolean> new_value);
     OmniPointer<Boolean> GetValue();
@@ -4007,11 +3810,10 @@ private:
     bool result;
 };
 
-class BooleanListResult
-{
+class BooleanListResult {
 public:
-    inline BooleanListResult() {};
-    inline ~BooleanListResult() {};
+    BooleanListResult();
+    inline ~BooleanListResult() {}
 
     void SetValue(std::vector<OmniPointer<Boolean>> new_value);
     std::vector<OmniPointer<Boolean>> GetValue();
@@ -4023,11 +3825,10 @@ private:
     bool result;
 };
 
-class Boolean
-{
+class Boolean {
 public:
-    inline Boolean() {};
-    inline ~Boolean() {};
+    Boolean();
+    inline ~Boolean() {}
 
     void SetLengthString(OmniPointer<LengthString> new_value);
     std::string UnParse();
@@ -4036,11 +3837,10 @@ private:
     OmniPointer<LengthString> length_string;
 };
 
-class ByteParser
-{
+class ByteParser {
 public:
-    inline ByteParser() {};
-    inline ~ByteParser() {};
+    ByteParser();
+    inline ~ByteParser() {}
 
     void SetParserNetwork(OmniPointer<ParserNetwork> input);
     bool ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<ByteResult> result);
@@ -4054,11 +3854,10 @@ private:
     OmniPointer<ParserNetwork> parser_network;
 };
 
-class ByteResult
-{
+class ByteResult {
 public:
-    inline ByteResult() {};
-    inline ~ByteResult() {};
+    ByteResult();
+    inline ~ByteResult() {}
 
     void SetValue(OmniPointer<Byte> new_value);
     OmniPointer<Byte> GetValue();
@@ -4070,11 +3869,10 @@ private:
     bool result;
 };
 
-class ByteListResult
-{
+class ByteListResult {
 public:
-    inline ByteListResult() {};
-    inline ~ByteListResult() {};
+    ByteListResult();
+    inline ~ByteListResult() {}
 
     void SetValue(std::vector<OmniPointer<Byte>> new_value);
     std::vector<OmniPointer<Byte>> GetValue();
@@ -4086,11 +3884,10 @@ private:
     bool result;
 };
 
-class Byte
-{
+class Byte {
 public:
-    inline Byte() {};
-    inline ~Byte() {};
+    Byte();
+    inline ~Byte() {}
 
     void SetLengthString(OmniPointer<LengthString> new_value);
     std::string UnParse();
@@ -4105,11 +3902,10 @@ private:
     OmniPointer<ByteDigit> high_field;
 };
 
-class ByteDigitParser
-{
+class ByteDigitParser {
 public:
-    inline ByteDigitParser() {};
-    inline ~ByteDigitParser() {};
+    ByteDigitParser();
+    inline ~ByteDigitParser() {}
 
     void SetParserNetwork(OmniPointer<ParserNetwork> input);
     bool ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<ByteDigitResult> result);
@@ -4123,11 +3919,10 @@ private:
     OmniPointer<ParserNetwork> parser_network;
 };
 
-class ByteDigitResult
-{
+class ByteDigitResult {
 public:
-    inline ByteDigitResult() {};
-    inline ~ByteDigitResult() {};
+    ByteDigitResult();
+    inline ~ByteDigitResult() {}
 
     void SetValue(OmniPointer<ByteDigit> new_value);
     OmniPointer<ByteDigit> GetValue();
@@ -4139,11 +3934,10 @@ private:
     bool result;
 };
 
-class ByteDigitListResult
-{
+class ByteDigitListResult {
 public:
-    inline ByteDigitListResult() {};
-    inline ~ByteDigitListResult() {};
+    ByteDigitListResult();
+    inline ~ByteDigitListResult() {}
 
     void SetValue(std::vector<OmniPointer<ByteDigit>> new_value);
     std::vector<OmniPointer<ByteDigit>> GetValue();
@@ -4155,11 +3949,10 @@ private:
     bool result;
 };
 
-class ByteDigit
-{
+class ByteDigit {
 public:
-    inline ByteDigit() {};
-    inline ~ByteDigit() {};
+    ByteDigit();
+    inline ~ByteDigit() {}
 
     void SetLengthString(OmniPointer<LengthString> new_value);
     std::string UnParse();
@@ -4168,11 +3961,10 @@ private:
     OmniPointer<LengthString> length_string;
 };
 
-class NegativeParser
-{
+class NegativeParser {
 public:
-    inline NegativeParser() {};
-    inline ~NegativeParser() {};
+    NegativeParser();
+    inline ~NegativeParser() {}
 
     void SetParserNetwork(OmniPointer<ParserNetwork> input);
     bool ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<NegativeResult> result);
@@ -4186,11 +3978,10 @@ private:
     OmniPointer<ParserNetwork> parser_network;
 };
 
-class NegativeResult
-{
+class NegativeResult {
 public:
-    inline NegativeResult() {};
-    inline ~NegativeResult() {};
+    NegativeResult();
+    inline ~NegativeResult() {}
 
     void SetValue(OmniPointer<Negative> new_value);
     OmniPointer<Negative> GetValue();
@@ -4202,11 +3993,10 @@ private:
     bool result;
 };
 
-class NegativeListResult
-{
+class NegativeListResult {
 public:
-    inline NegativeListResult() {};
-    inline ~NegativeListResult() {};
+    NegativeListResult();
+    inline ~NegativeListResult() {}
 
     void SetValue(std::vector<OmniPointer<Negative>> new_value);
     std::vector<OmniPointer<Negative>> GetValue();
@@ -4218,11 +4008,10 @@ private:
     bool result;
 };
 
-class Negative
-{
+class Negative {
 public:
-    inline Negative() {};
-    inline ~Negative() {};
+    Negative();
+    inline ~Negative() {}
 
     void SetLengthString(OmniPointer<LengthString> new_value);
     std::string UnParse();
@@ -4231,11 +4020,10 @@ private:
     OmniPointer<LengthString> length_string;
 };
 
-class DecimalParser
-{
+class DecimalParser {
 public:
-    inline DecimalParser() {};
-    inline ~DecimalParser() {};
+    DecimalParser();
+    inline ~DecimalParser() {}
 
     void SetParserNetwork(OmniPointer<ParserNetwork> input);
     bool ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<DecimalResult> result);
@@ -4249,11 +4037,10 @@ private:
     OmniPointer<ParserNetwork> parser_network;
 };
 
-class DecimalResult
-{
+class DecimalResult {
 public:
-    inline DecimalResult() {};
-    inline ~DecimalResult() {};
+    DecimalResult();
+    inline ~DecimalResult() {}
 
     void SetValue(OmniPointer<Decimal> new_value);
     OmniPointer<Decimal> GetValue();
@@ -4265,11 +4052,10 @@ private:
     bool result;
 };
 
-class DecimalListResult
-{
+class DecimalListResult {
 public:
-    inline DecimalListResult() {};
-    inline ~DecimalListResult() {};
+    DecimalListResult();
+    inline ~DecimalListResult() {}
 
     void SetValue(std::vector<OmniPointer<Decimal>> new_value);
     std::vector<OmniPointer<Decimal>> GetValue();
@@ -4281,11 +4067,10 @@ private:
     bool result;
 };
 
-class Decimal
-{
+class Decimal {
 public:
-    inline Decimal() {};
-    inline ~Decimal() {};
+    Decimal();
+    inline ~Decimal() {}
 
     void SetLengthString(OmniPointer<LengthString> new_value);
     std::string UnParse();
@@ -4294,11 +4079,10 @@ private:
     OmniPointer<LengthString> length_string;
 };
 
-class NumberParser
-{
+class NumberParser {
 public:
-    inline NumberParser() {};
-    inline ~NumberParser() {};
+    NumberParser();
+    inline ~NumberParser() {}
 
     void SetParserNetwork(OmniPointer<ParserNetwork> input);
     bool ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<NumberResult> result);
@@ -4312,11 +4096,10 @@ private:
     OmniPointer<ParserNetwork> parser_network;
 };
 
-class NumberResult
-{
+class NumberResult {
 public:
-    inline NumberResult() {};
-    inline ~NumberResult() {};
+    NumberResult();
+    inline ~NumberResult() {}
 
     void SetValue(OmniPointer<Number> new_value);
     OmniPointer<Number> GetValue();
@@ -4328,11 +4111,10 @@ private:
     bool result;
 };
 
-class NumberListResult
-{
+class NumberListResult {
 public:
-    inline NumberListResult() {};
-    inline ~NumberListResult() {};
+    NumberListResult();
+    inline ~NumberListResult() {}
 
     void SetValue(std::vector<OmniPointer<Number>> new_value);
     std::vector<OmniPointer<Number>> GetValue();
@@ -4344,11 +4126,10 @@ private:
     bool result;
 };
 
-class Number
-{
+class Number {
 public:
-    inline Number() {};
-    inline ~Number() {};
+    Number();
+    inline ~Number() {}
 
     void SetLengthString(OmniPointer<LengthString> new_value);
     std::string UnParse();
@@ -4357,11 +4138,10 @@ private:
     OmniPointer<LengthString> length_string;
 };
 
-class DigitParser
-{
+class DigitParser {
 public:
-    inline DigitParser() {};
-    inline ~DigitParser() {};
+    DigitParser();
+    inline ~DigitParser() {}
 
     void SetParserNetwork(OmniPointer<ParserNetwork> input);
     bool ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<DigitResult> result);
@@ -4375,11 +4155,10 @@ private:
     OmniPointer<ParserNetwork> parser_network;
 };
 
-class DigitResult
-{
+class DigitResult {
 public:
-    inline DigitResult() {};
-    inline ~DigitResult() {};
+    DigitResult();
+    inline ~DigitResult() {}
 
     void SetValue(OmniPointer<Digit> new_value);
     OmniPointer<Digit> GetValue();
@@ -4391,11 +4170,10 @@ private:
     bool result;
 };
 
-class DigitListResult
-{
+class DigitListResult {
 public:
-    inline DigitListResult() {};
-    inline ~DigitListResult() {};
+    DigitListResult();
+    inline ~DigitListResult() {}
 
     void SetValue(std::vector<OmniPointer<Digit>> new_value);
     std::vector<OmniPointer<Digit>> GetValue();
@@ -4407,11 +4185,10 @@ private:
     bool result;
 };
 
-class Digit
-{
+class Digit {
 public:
-    inline Digit() {};
-    inline ~Digit() {};
+    Digit();
+    inline ~Digit() {}
 
     void SetLengthString(OmniPointer<LengthString> new_value);
     std::string UnParse();
@@ -4420,11 +4197,10 @@ private:
     OmniPointer<LengthString> length_string;
 };
 
-class LiteralParser
-{
+class LiteralParser {
 public:
-    inline LiteralParser() {};
-    inline ~LiteralParser() {};
+    LiteralParser();
+    inline ~LiteralParser() {}
 
     void SetParserNetwork(OmniPointer<ParserNetwork> input);
     bool ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<LiteralResult> result);
@@ -4438,11 +4214,10 @@ private:
     OmniPointer<ParserNetwork> parser_network;
 };
 
-class LiteralResult
-{
+class LiteralResult {
 public:
-    inline LiteralResult() {};
-    inline ~LiteralResult() {};
+    LiteralResult();
+    inline ~LiteralResult() {}
 
     void SetValue(OmniPointer<Literal> new_value);
     OmniPointer<Literal> GetValue();
@@ -4454,11 +4229,10 @@ private:
     bool result;
 };
 
-class LiteralListResult
-{
+class LiteralListResult {
 public:
-    inline LiteralListResult() {};
-    inline ~LiteralListResult() {};
+    LiteralListResult();
+    inline ~LiteralListResult() {}
 
     void SetValue(std::vector<OmniPointer<Literal>> new_value);
     std::vector<OmniPointer<Literal>> GetValue();
@@ -4470,11 +4244,10 @@ private:
     bool result;
 };
 
-class Literal
-{
+class Literal {
 public:
-    inline Literal() {};
-    inline ~Literal() {};
+    Literal();
+    inline ~Literal() {}
 
     void SetLengthString(OmniPointer<LengthString> new_value);
     std::string UnParse();
@@ -4483,11 +4256,10 @@ private:
     OmniPointer<LengthString> length_string;
 };
 
-class LiteralCharacterParser
-{
+class LiteralCharacterParser {
 public:
-    inline LiteralCharacterParser() {};
-    inline ~LiteralCharacterParser() {};
+    LiteralCharacterParser();
+    inline ~LiteralCharacterParser() {}
 
     void SetParserNetwork(OmniPointer<ParserNetwork> input);
     bool ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<LiteralCharacterResult> result);
@@ -4501,11 +4273,10 @@ private:
     OmniPointer<ParserNetwork> parser_network;
 };
 
-class LiteralCharacterResult
-{
+class LiteralCharacterResult {
 public:
-    inline LiteralCharacterResult() {};
-    inline ~LiteralCharacterResult() {};
+    LiteralCharacterResult();
+    inline ~LiteralCharacterResult() {}
 
     void SetValue(OmniPointer<LiteralCharacter> new_value);
     OmniPointer<LiteralCharacter> GetValue();
@@ -4517,11 +4288,10 @@ private:
     bool result;
 };
 
-class LiteralCharacterListResult
-{
+class LiteralCharacterListResult {
 public:
-    inline LiteralCharacterListResult() {};
-    inline ~LiteralCharacterListResult() {};
+    LiteralCharacterListResult();
+    inline ~LiteralCharacterListResult() {}
 
     void SetValue(std::vector<OmniPointer<LiteralCharacter>> new_value);
     std::vector<OmniPointer<LiteralCharacter>> GetValue();
@@ -4533,11 +4303,10 @@ private:
     bool result;
 };
 
-class LiteralCharacter
-{
+class LiteralCharacter {
 public:
-    inline LiteralCharacter() {};
-    inline ~LiteralCharacter() {};
+    LiteralCharacter();
+    inline ~LiteralCharacter() {}
 
     void SetLengthString(OmniPointer<LengthString> new_value);
     std::string UnParse();
@@ -4546,11 +4315,10 @@ private:
     OmniPointer<LengthString> length_string;
 };
 
-class WhitespaceParser
-{
+class WhitespaceParser {
 public:
-    inline WhitespaceParser() {};
-    inline ~WhitespaceParser() {};
+    WhitespaceParser();
+    inline ~WhitespaceParser() {}
 
     void SetParserNetwork(OmniPointer<ParserNetwork> input);
     bool ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<WhitespaceResult> result);
@@ -4564,11 +4332,10 @@ private:
     OmniPointer<ParserNetwork> parser_network;
 };
 
-class WhitespaceResult
-{
+class WhitespaceResult {
 public:
-    inline WhitespaceResult() {};
-    inline ~WhitespaceResult() {};
+    WhitespaceResult();
+    inline ~WhitespaceResult() {}
 
     void SetValue(OmniPointer<Whitespace> new_value);
     OmniPointer<Whitespace> GetValue();
@@ -4580,11 +4347,10 @@ private:
     bool result;
 };
 
-class WhitespaceListResult
-{
+class WhitespaceListResult {
 public:
-    inline WhitespaceListResult() {};
-    inline ~WhitespaceListResult() {};
+    WhitespaceListResult();
+    inline ~WhitespaceListResult() {}
 
     void SetValue(std::vector<OmniPointer<Whitespace>> new_value);
     std::vector<OmniPointer<Whitespace>> GetValue();
@@ -4596,11 +4362,10 @@ private:
     bool result;
 };
 
-class Whitespace
-{
+class Whitespace {
 public:
-    inline Whitespace() {};
-    inline ~Whitespace() {};
+    Whitespace();
+    inline ~Whitespace() {}
 
     void SetLengthString(OmniPointer<LengthString> new_value);
     std::string UnParse();
@@ -4608,6 +4373,7 @@ public:
 private:
     OmniPointer<LengthString> length_string;
 };
+
 };
 };
 };

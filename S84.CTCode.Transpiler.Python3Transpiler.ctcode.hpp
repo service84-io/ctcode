@@ -99,25 +99,19 @@ inline int IntAt(const std::string& input, int index) { return (input.at(index) 
 inline std::string Concat(const std::string& left, const std::string& right) { return left + right; };
 #endif
 
-namespace s84
-{
-namespace ctcode
-{
-namespace transpiler
-{
-namespace python3transpiler
-{
-namespace ctcode
-{
+namespace s84 {
+namespace ctcode {
+namespace transpiler {
+namespace python3transpiler {
+namespace ctcode {
+
 class ParameterDeclaration;
 class Python3Transpiler;
 
-
-class ParameterDeclaration
-{
+class ParameterDeclaration {
 public:
-    inline ParameterDeclaration() {};
-    inline ~ParameterDeclaration() {};
+    ParameterDeclaration();
+    inline ~ParameterDeclaration() {}
 
     std::string GetType();
     void SetType(std::string input);
@@ -129,12 +123,10 @@ private:
     std::string name;
 };
 
-class Python3Transpiler
-: public s84::ctcode::transpiler::ctcode::Transpiler
-{
+class Python3Transpiler : public s84::ctcode::transpiler::ctcode::Transpiler {
 public:
-    inline Python3Transpiler() {};
-    inline ~Python3Transpiler() {};
+    Python3Transpiler();
+    inline ~Python3Transpiler() {}
 
     void LogLine(std::string line);
     int GetBaseIndentation();
@@ -233,6 +225,7 @@ private:
     std::vector<std::string> class_init;
     std::vector<std::string> class_functions;
 };
+
 };
 };
 };

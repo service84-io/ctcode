@@ -1,7 +1,6 @@
 #ifndef S84_CTCODE_SYSTEM_CTCODE_H
 #define S84_CTCODE_SYSTEM_CTCODE_H
 
-
 #include <cstring>
 #include <list>
 #include <unordered_map>
@@ -96,37 +95,26 @@ inline int IntAt(const std::string& input, int index) { return (input.at(index) 
 inline std::string Concat(const std::string& left, const std::string& right) { return left + right; };
 #endif
 
-namespace s84
-{
-namespace ctcode
-{
-namespace system
-{
-namespace ctcode
-{
+namespace s84 {
+namespace ctcode {
+namespace system {
+namespace ctcode {
+
 class OutputStream;
 class System;
 
-
-class OutputStream
-{
+class OutputStream {
 public:
-    inline OutputStream() {};
-    inline ~OutputStream() {};
-
     virtual void WriteLine(std::string line) = 0;
 };
 
-class System
-{
+class System {
 public:
-    inline System() {};
-    inline ~System() {};
-
     virtual std::string ReadFileToString(std::string file_name) = 0;
     virtual OmniPointer<OutputStream> OpenFileWriter(std::string file_name) = 0;
     virtual OmniPointer<OutputStream> GetLoggerDestination() = 0;
 };
+
 };
 };
 };

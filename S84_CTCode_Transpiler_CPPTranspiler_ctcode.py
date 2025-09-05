@@ -20,405 +20,805 @@ def At(input: str, index: int) -> str: return input[index:index+1]
 def IntAt(input: str, index: int) -> int: return ord(input[index:index+1])
 def Concat(left: str, right: str) -> str: return left + right
 
+class ParameterDeclaration:
+    def __init__(self: 'ParameterDeclaration'):
+        self.type: str = ""
+        self.name: str = ""
+
+    def GetType(self: 'ParameterDeclaration') -> 'str':
+        return self.type
+
+    def SetType(self: 'ParameterDeclaration',input: 'str') -> 'None':
+        self.type = input
+
+    def GetName(self: 'ParameterDeclaration') -> 'str':
+        return self.name
+
+    def SetName(self: 'ParameterDeclaration',input: 'str') -> 'None':
+        self.name = input
+
 class CPPTranspiler(S84_CTCode_Transpiler_ctcode.Transpiler):
     def __init__(self: 'CPPTranspiler'):
-        self.saved_unmanaged_types: list[str] = []
+        self.system: S84_CTCode_System_ctcode.System = None
+        self.c_t_code_file: S84_CTCode_dbnf_ctcode.CTCodeFile = None
+        self.base_name: str = ""
+        self.logger: S84_CTCode_System_ctcode.OutputStream = None
+        self.includes: list[str] = []
+        self.interface_declarations: list[str] = []
+        self.class_declarations: list[str] = []
+        self.current_interface: str = ""
+        self.interface_definitions: list[str] = []
+        self.current_class: str = ""
+        self.class_definitions: list[str] = []
+        self.class_init: list[str] = []
+        self.class_functions: list[str] = []
+        self.class_members: list[str] = []
+        self.function_definitions: list[str] = []
 
-    def Transpile(self: 'CPPTranspiler',system: 'S84_CTCode_System_ctcode.System',ct_code_file: 'S84_CTCode_dbnf_ctcode.CTCodeFile',base_name: 'str') -> 'int':
-        logger: 'S84_CTCode_System_ctcode.OutputStream' = system.GetLoggerDestination()
-        header: 'S84_CTCode_System_ctcode.OutputStream' = system.OpenFileWriter(Concat(base_name,".hpp"))
-        implementation: 'S84_CTCode_System_ctcode.OutputStream' = system.OpenFileWriter(Concat(base_name,".cpp"))
-        base_name_tokens: 'list[str]' = self.TokenizeBaseName(base_name)
-        self.SetSavedUnmanagedTypes(self.GetUnmanagedTypes(ct_code_file.GetUnmanagedTypes()))
-        self.GenerateHeader(ct_code_file,header,base_name_tokens)
-        self.GenerateImplementation(ct_code_file,implementation,base_name,base_name_tokens)
+    def GetBaseIndentation(self: 'CPPTranspiler') -> 'int':
         return 0
 
-    def SetSavedUnmanagedTypes(self: 'CPPTranspiler',value: 'list[str]') -> 'None':
-        self.saved_unmanaged_types = value
-
-    def IsUnmanagedType(self: 'CPPTranspiler',type_name: 'str') -> 'bool':
-        index: 'int' = 0
-        while index<Size(self.saved_unmanaged_types):
-            if type_name==Element(self.saved_unmanaged_types,index):
-                return True
-            index = index+1
-        return False
-
-    def GenerateHeader(self: 'CPPTranspiler',ctcode_file: 'S84_CTCode_dbnf_ctcode.CTCodeFile',header: 'S84_CTCode_System_ctcode.OutputStream',base_name_tokens: 'list[str]') -> 'None':
-        guard_name: 'str' = self.GenerateGuardName(base_name_tokens)
-        header.WriteLine(Concat("#ifndef ",guard_name))
-        header.WriteLine(Concat("#define ",guard_name))
-        header.WriteLine("")
-        exdefs: 'list[S84_CTCode_dbnf_ctcode.ExternalDefinition]' = ctcode_file.GetDeclarations()
-        index: 'int' = 0
-        while index<Size(exdefs):
-            exdef: 'S84_CTCode_dbnf_ctcode.ExternalDefinition' = None
-            exdef = Element(exdefs,index)
-            exdef_name: 'S84_CTCode_dbnf_ctcode.QualfiedName' = None
-            exdef_name = exdef.GetExdef()
-            header.WriteLine(Concat("#include \"",Concat(self.GetExdefHeaderString(exdef_name),"\"")))
-            index = index+1
-        header.WriteLine("")
-        header.WriteLine("#include <cstring>")
-        header.WriteLine("#include <list>")
-        header.WriteLine("#include <unordered_map>")
-        header.WriteLine("#include <memory>")
-        header.WriteLine("#include <string>")
-        header.WriteLine("#include <vector>")
-        self.WriteCTCodeCommonFunctions(header)
-        header.WriteLine("")
-        index = 0
-        while index<Size(base_name_tokens):
-            base_name_token: 'str' = ""
-            base_name_token = Element(base_name_tokens,index)
-            header.WriteLine(Concat("namespace ",self.ToLower(base_name_token)))
-            header.WriteLine("{")
-            index = index+1
-        header.WriteLine("namespace ctcode")
-        header.WriteLine("{")
-        self.WriteForwardDeclaration(ctcode_file,header)
-        self.WriteClassDeclarations(ctcode_file,header)
-        index = 0
-        while index<Size(base_name_tokens):
-            header.WriteLine("};")
-            index = index+1
-        header.WriteLine("};")
-        header.WriteLine("")
-        header.WriteLine("#endif")
-
-    def WriteCTCodeCommonFunctions(self: 'CPPTranspiler',header: 'S84_CTCode_System_ctcode.OutputStream') -> 'None':
-        header.WriteLine("")
-        header.WriteLine("#ifndef CTCODE_COMMON_FUNCTIONS_VERSION_1")
-        header.WriteLine("#define CTCODE_COMMON_FUNCTIONS_VERSION_1")
-        header.WriteLine("template<typename T>")
-        header.WriteLine("class OmniPointer")
-        header.WriteLine("{")
-        header.WriteLine("public:")
-        header.WriteLine("    OmniPointer() { value_raw = NULL; }")
-        header.WriteLine("    OmniPointer(T* value) { value_raw = value; }")
-        header.WriteLine("    template<typename U>")
-        header.WriteLine("    OmniPointer(U* value) { value_raw = value; }")
-        header.WriteLine("    OmniPointer(std::shared_ptr<T> value) { value_raw = NULL; value_shared = value; }")
-        header.WriteLine("    template<typename U>")
-        header.WriteLine("    OmniPointer(std::shared_ptr<U> value) { value_raw = NULL; value_shared = value; }")
-        header.WriteLine("")
-        header.WriteLine("    operator bool()")
-        header.WriteLine("    {")
-        header.WriteLine("        if (value_raw) return true;")
-        header.WriteLine("        return value_shared.get() != NULL;")
-        header.WriteLine("    }")
-        header.WriteLine("    T& operator*()")
-        header.WriteLine("    {")
-        header.WriteLine("        if (value_raw) return *value_raw;")
-        header.WriteLine("        return *value_shared;")
-        header.WriteLine("    }")
-        header.WriteLine("    T* operator->()")
-        header.WriteLine("    {")
-        header.WriteLine("        if (value_raw) return value_raw;")
-        header.WriteLine("        return value_shared.get();")
-        header.WriteLine("    }")
-        header.WriteLine("    T* raw()")
-        header.WriteLine("    {")
-        header.WriteLine("        if (value_raw) return value_raw;")
-        header.WriteLine("        return value_shared.get();")
-        header.WriteLine("    }")
-        header.WriteLine("")
-        header.WriteLine("private:")
-        header.WriteLine("    T* value_raw;")
-        header.WriteLine("    std::shared_ptr<T> value_shared;")
-        header.WriteLine("};")
-        header.WriteLine("")
-        header.WriteLine("template<typename T>")
-        header.WriteLine("inline std::vector<T*> UnwrapOmniList(std::vector<OmniPointer<T>> input) {")
-        header.WriteLine("	std::vector<T*> result;")
-        header.WriteLine("	for (typename std::vector<OmniPointer<T>>::iterator index = input.begin();index != input.end();index++) {")
-        header.WriteLine("		result.push_back(index->raw());")
-        header.WriteLine("	}")
-        header.WriteLine("	return result;")
-        header.WriteLine("};")
-        header.WriteLine("template<typename T>")
-        header.WriteLine("inline void ClearList(std::vector<T>& input) { input.clear(); };")
-        header.WriteLine("template<typename T>")
-        header.WriteLine("inline int Size(const std::vector<T>& input) { return input.size(); };")
-        header.WriteLine("template<typename T>")
-        header.WriteLine("inline T Element(const std::vector<T>& input, int element) { return input.at(element); };")
-        header.WriteLine("template<typename T>")
-        header.WriteLine("inline void Append(std::vector<T>& input, T element) { input.push_back(element); };")
-        header.WriteLine("template<typename T>")
-        header.WriteLine("inline void ClearMap(std::unordered_map<std::string, T>& input) { input.clear(); };")
-        header.WriteLine("template<typename T>")
-        header.WriteLine("inline void SetKV(std::unordered_map<std::string, T>& input, const std::string& key, T element)")
-        header.WriteLine("{")
-        header.WriteLine("    input.erase(key);")
-        header.WriteLine("    input.insert(std::pair<std::string, T>(key, element));")
-        header.WriteLine("}")
-        header.WriteLine("template<typename T>")
-        header.WriteLine("inline std::vector<std::string> Keys(const std::unordered_map<std::string, T>& input)")
-        header.WriteLine("{")
-        header.WriteLine("    std::vector<std::string> result;")
-        header.WriteLine("    for(typename std::unordered_map<std::string, T>::const_iterator index = input.begin();index != input.end();index++) {")
-        header.WriteLine("        result.push_back(index->first);")
-        header.WriteLine("    }")
-        header.WriteLine("    return result;")
-        header.WriteLine("}")
-        header.WriteLine("template<typename T>")
-        header.WriteLine("inline bool HasKV(const std::unordered_map<std::string, T>& input, const std::string& key)")
-        header.WriteLine("{")
-        header.WriteLine("    typename std::unordered_map<std::string, T>::const_iterator beginning = input.find(key);")
-        header.WriteLine("    return beginning != input.end();")
-        header.WriteLine("}")
-        header.WriteLine("template<typename T>")
-        header.WriteLine("inline T GetKV(const std::unordered_map<std::string, T>& input, const std::string& key) { return input.at(key); }")
-        header.WriteLine("inline int Length(const std::string& input) { return (int)input.length(); };")
-        header.WriteLine("inline std::string At(const std::string& input, int index) { return input.substr(index, 1); };")
-        header.WriteLine("inline int IntAt(const std::string& input, int index) { return (input.at(index) + 256) % 256; };")
-        header.WriteLine("inline std::string Concat(const std::string& left, const std::string& right) { return left + right; };")
-        header.WriteLine("#endif")
-
-    def WriteForwardDeclaration(self: 'CPPTranspiler',ctcode_file: 'S84_CTCode_dbnf_ctcode.CTCodeFile',header: 'S84_CTCode_System_ctcode.OutputStream') -> 'None':
-        definitions: 'list[S84_CTCode_dbnf_ctcode.Definition]' = ctcode_file.GetDefinitions()
-        index: 'int' = 0
-        while index<Size(definitions):
-            definition: 'S84_CTCode_dbnf_ctcode.Definition' = None
-            definition = Element(definitions,index)
-            interface_definition: 'S84_CTCode_dbnf_ctcode.InterfaceDef' = definition.GetInterfaceDef()
-            class_definition: 'S84_CTCode_dbnf_ctcode.ClassDef' = definition.GetClassDef()
-            if interface_definition:
-                header.WriteLine(Concat("class ",Concat(self.GenerateClassName(interface_definition.GetName()),";")))
-            if class_definition:
-                header.WriteLine(Concat("class ",Concat(self.GenerateClassName(class_definition.GetName()),";")))
-            index = index+1
-
-    def WriteClassDeclarations(self: 'CPPTranspiler',ctcode_file: 'S84_CTCode_dbnf_ctcode.CTCodeFile',header: 'S84_CTCode_System_ctcode.OutputStream') -> 'None':
-        definitions: 'list[S84_CTCode_dbnf_ctcode.Definition]' = ctcode_file.GetDefinitions()
-        header.WriteLine("")
-        index: 'int' = 0
-        index = 0
-        while index<Size(definitions):
-            definition: 'S84_CTCode_dbnf_ctcode.Definition' = None
-            definition = Element(definitions,index)
-            if definition.GetInterfaceDef():
-                self.WriteInterfaceDeclaration(definition.GetInterfaceDef(),header)
-            if definition.GetClassDef():
-                self.WriteClassDeclaration(definition.GetClassDef(),header)
-            index = index+1
-
-    def WriteInterfaceDeclaration(self: 'CPPTranspiler',interface_definition: 'S84_CTCode_dbnf_ctcode.InterfaceDef',header: 'S84_CTCode_System_ctcode.OutputStream') -> 'None':
-        class_name: 'str' = ""
-        class_name = self.GenerateClassName(interface_definition.GetName())
-        header.WriteLine("")
-        header.WriteLine(Concat("class ",class_name))
-        header.WriteLine("{")
-        header.WriteLine("public:")
-        header.WriteLine(Concat("    inline ",Concat(class_name,"() {};")))
-        header.WriteLine(Concat("    inline ~",Concat(class_name,"() {};")))
-        declarations: 'list[S84_CTCode_dbnf_ctcode.ContentDeclaration]' = interface_definition.GetDeclarations()
-        index: 'int' = 0
-        index = 0
-        if Size(declarations)>0:
-            header.WriteLine("")
-            while index<Size(declarations):
-                declaration: 'S84_CTCode_dbnf_ctcode.ContentDeclaration' = None
-                declaration = Element(declarations,index)
-                header.WriteLine(Concat("    virtual ",Concat(self.GetType(declaration.GetType()),Concat(" ",Concat(self.GenerateCallName(declaration.GetName()),Concat("(",Concat(self.GenerateParameterList(declaration.GetParameters()),") = 0;")))))))
-                index = index+1
-        header.WriteLine("};")
-
-    def WriteClassDeclaration(self: 'CPPTranspiler',class_definition: 'S84_CTCode_dbnf_ctcode.ClassDef',header: 'S84_CTCode_System_ctcode.OutputStream') -> 'None':
-        class_name: 'str' = ""
-        class_name = self.GenerateClassName(class_definition.GetName())
-        header.WriteLine("")
-        header.WriteLine(Concat("class ",class_name))
-        self.WriteImplementationSpec(class_definition.GetImplementing(),header)
-        header.WriteLine("{")
-        header.WriteLine("public:")
-        header.WriteLine(Concat("    inline ",Concat(class_name,"() {};")))
-        header.WriteLine(Concat("    inline ~",Concat(class_name,"() {};")))
-        definitions: 'list[S84_CTCode_dbnf_ctcode.ContentDefinition]' = class_definition.GetDefinitions()
-        function_definitions: 'list[S84_CTCode_dbnf_ctcode.ContentDefinition]' = []
-        member_definitions: 'list[S84_CTCode_dbnf_ctcode.ContentDefinition]' = []
-        index: 'int' = 0
-        index = 0
-        while index<Size(definitions):
-            definition: 'S84_CTCode_dbnf_ctcode.ContentDefinition' = None
-            definition = Element(definitions,index)
-            if definition.GetFunctionBody():
-                Append(function_definitions,definition)
-            else:
-                Append(member_definitions,definition)
-            index = index+1
-        if Size(function_definitions)>0:
-            header.WriteLine("")
-            index = 0
-            while index<Size(function_definitions):
-                definition: 'S84_CTCode_dbnf_ctcode.ContentDefinition' = None
-                definition = Element(function_definitions,index)
-                header.WriteLine(Concat("    ",Concat(self.GetType(definition.GetType()),Concat(" ",Concat(self.GenerateCallName(definition.GetName()),Concat("(",Concat(self.GenerateParameterList(definition.GetParameters()),");")))))))
-                index = index+1
-        if Size(member_definitions)>0:
-            header.WriteLine("")
-            header.WriteLine("private:")
-            index = 0
-            while index<Size(member_definitions):
-                definition: 'S84_CTCode_dbnf_ctcode.ContentDefinition' = None
-                definition = Element(member_definitions,index)
-                header.WriteLine(Concat("    ",Concat(self.GetType(definition.GetType()),Concat(" ",Concat(self.GenerateVariableName(definition.GetName()),";")))))
-                index = index+1
-        header.WriteLine("};")
-
-    def WriteImplementationSpec(self: 'CPPTranspiler',implementation_spec: 'S84_CTCode_dbnf_ctcode.ImplementationSpec',header: 'S84_CTCode_System_ctcode.OutputStream') -> 'None':
-        if implementation_spec:
-            qualified_name: 'S84_CTCode_dbnf_ctcode.QualfiedName' = implementation_spec.GetInterface()
-            header.WriteLine(Concat(": public ",self.GetRawDefinedType(qualified_name)))
-
-    def GenerateImplementation(self: 'CPPTranspiler',ctcode_file: 'S84_CTCode_dbnf_ctcode.CTCodeFile',implementation: 'S84_CTCode_System_ctcode.OutputStream',base_name: 'str',base_name_tokens: 'list[str]') -> 'None':
-        implementation.WriteLine(Concat("#include \"",Concat(base_name,".hpp\"")))
-        implementation.WriteLine("")
-        exdefs: 'list[S84_CTCode_dbnf_ctcode.ExternalDefinition]' = ctcode_file.GetDeclarations()
-        index: 'int' = 0
-        index = 0
-        while index<Size(exdefs):
-            exdef: 'S84_CTCode_dbnf_ctcode.ExternalDefinition' = None
-            exdef = Element(exdefs,index)
-            exdef_name: 'S84_CTCode_dbnf_ctcode.QualfiedName' = None
-            exdef_name = exdef.GetExdef()
-            implementation.WriteLine(Concat("#include \"",Concat(self.GetExdefHeaderString(exdef_name),"\"")))
-            index = index+1
-        implementation.WriteLine("")
-        index = 0
-        while index<Size(base_name_tokens):
-            base_name_token: 'str' = ""
-            base_name_token = Element(base_name_tokens,index)
-            implementation.WriteLine(Concat("namespace ",self.ToLower(base_name_token)))
-            implementation.WriteLine("{")
-            index = index+1
-        implementation.WriteLine("namespace ctcode")
-        implementation.WriteLine("{")
-        self.WriteFunctionDefinitions(ctcode_file,implementation)
-        index = 0
-        while index<Size(base_name_tokens):
-            implementation.WriteLine("};")
-            index = index+1
-        implementation.WriteLine("};")
-
-    def WriteFunctionDefinitions(self: 'CPPTranspiler',ctcode_file: 'S84_CTCode_dbnf_ctcode.CTCodeFile',implementation: 'S84_CTCode_System_ctcode.OutputStream') -> 'None':
-        definitions: 'list[S84_CTCode_dbnf_ctcode.Definition]' = ctcode_file.GetDefinitions()
-        class_definitions: 'list[S84_CTCode_dbnf_ctcode.ClassDef]' = []
-        index: 'int' = 0
-        index = 0
-        while index<Size(definitions):
-            definition: 'S84_CTCode_dbnf_ctcode.Definition' = None
-            definition = Element(definitions,index)
-            class_definition: 'S84_CTCode_dbnf_ctcode.ClassDef' = None
-            class_definition = definition.GetClassDef()
-            if class_definition:
-                Append(class_definitions,class_definition)
-            index = index+1
-        index = 0
-        while index<Size(class_definitions):
-            class_definition: 'S84_CTCode_dbnf_ctcode.ClassDef' = None
-            class_definition = Element(class_definitions,index)
-            self.WriteClassDefinition(class_definition,implementation)
-            index = index+1
-
-    def WriteClassDefinition(self: 'CPPTranspiler',class_definition: 'S84_CTCode_dbnf_ctcode.ClassDef',implementation: 'S84_CTCode_System_ctcode.OutputStream') -> 'None':
-        class_name: 'str' = ""
-        class_name = self.GenerateClassName(class_definition.GetName())
-        definitions: 'list[S84_CTCode_dbnf_ctcode.ContentDefinition]' = class_definition.GetDefinitions()
-        function_definitions: 'list[S84_CTCode_dbnf_ctcode.ContentDefinition]' = []
-        index: 'int' = 0
-        index = 0
-        while index<Size(definitions):
-            definition: 'S84_CTCode_dbnf_ctcode.ContentDefinition' = None
-            definition = Element(definitions,index)
-            if definition.GetFunctionBody():
-                Append(function_definitions,definition)
-            index = index+1
-        if Size(function_definitions)>0:
-            index = 0
-            while index<Size(function_definitions):
-                definition: 'S84_CTCode_dbnf_ctcode.ContentDefinition' = None
-                definition = Element(function_definitions,index)
-                implementation.WriteLine(Concat("    ",Concat(self.GetType(definition.GetType()),Concat(" ",Concat(class_name,Concat("::",Concat(self.GenerateCallName(definition.GetName()),Concat("(",Concat(self.GenerateParameterList(definition.GetParameters()),")")))))))))
-                self.WriteCodeBlock(1,implementation,definition.GetFunctionBody(),True)
-                index = index+1
-
-    def WriteInstruction(self: 'CPPTranspiler',indent: 'int',implementation: 'S84_CTCode_System_ctcode.OutputStream',instruction: 'S84_CTCode_dbnf_ctcode.Instruction',add_newline_after_code_block: 'bool') -> 'None':
-        if instruction.GetCodeBlock():
-            self.WriteCodeBlock(indent,implementation,instruction.GetCodeBlock(),add_newline_after_code_block)
-        if instruction.GetRtn():
-            self.WriteRtn(indent,implementation,instruction.GetRtn())
-        if instruction.GetDeclaration():
-            self.WriteDeclaration(indent,implementation,instruction.GetDeclaration())
-        if instruction.GetAssignment():
-            self.WriteAssignment(indent,implementation,instruction.GetAssignment())
-        if instruction.GetCall():
-            self.WriteCall(indent,implementation,instruction.GetCall())
-        if instruction.GetConditional():
-            self.WriteConditional(indent,implementation,instruction.GetConditional(),add_newline_after_code_block)
-        if instruction.GetLoop():
-            self.WriteLoop(indent,implementation,instruction.GetLoop(),add_newline_after_code_block)
-
-    def WriteCodeBlock(self: 'CPPTranspiler',indent: 'int',implementation: 'S84_CTCode_System_ctcode.OutputStream',code_block: 'S84_CTCode_dbnf_ctcode.CodeBlock',add_newline_after_code_block: 'bool') -> 'None':
-        implementation.WriteLine(Concat(self.Indentation(indent),"{"))
-        instructions: 'list[S84_CTCode_dbnf_ctcode.Instruction]' = code_block.GetInstructions()
-        index: 'int' = 0
-        index = 0
-        last: 'int' = 0
-        last = Size(instructions)-1
-        while index<Size(instructions):
-            self.WriteInstruction(indent+1,implementation,Element(instructions,index),index!=last)
-            index = index+1
-        implementation.WriteLine(Concat(self.Indentation(indent),"}"))
-        if add_newline_after_code_block:
-            implementation.WriteLine("")
-
-    def WriteConditional(self: 'CPPTranspiler',indent: 'int',implementation: 'S84_CTCode_System_ctcode.OutputStream',conditional: 'S84_CTCode_dbnf_ctcode.Conditional',add_newline_after_code_block: 'bool') -> 'None':
-        implementation.WriteLine(Concat(self.Indentation(indent),Concat("if (",Concat(self.GetRValueString(conditional.GetRValue()),")"))))
-        if conditional.GetElseTail():
-            else_tail: 'S84_CTCode_dbnf_ctcode.ElseTail' = None
-            else_tail = conditional.GetElseTail()
-            self.WriteCodeBlock(indent,implementation,conditional.GetCodeBlock(),False)
-            implementation.WriteLine(Concat(self.Indentation(indent),"else"))
-            self.WriteCodeBlock(indent,implementation,else_tail.GetCodeBlock(),add_newline_after_code_block)
+    def GetCallName(self: 'CPPTranspiler',name: 'S84_CTCode_dbnf_ctcode.Name') -> 'str':
+        if name:
+            return self.SnakeCaseToCamelCase(name.UnParse())
         else:
-            self.WriteCodeBlock(indent,implementation,conditional.GetCodeBlock(),add_newline_after_code_block)
+            return ""
 
-    def WriteLoop(self: 'CPPTranspiler',indent: 'int',implementation: 'S84_CTCode_System_ctcode.OutputStream',loop: 'S84_CTCode_dbnf_ctcode.Loop',add_newline_after_code_block: 'bool') -> 'None':
-        implementation.WriteLine(Concat(self.Indentation(indent),Concat("while (",Concat(self.GetRValueString(loop.GetRValue()),")"))))
-        self.WriteCodeBlock(indent,implementation,loop.GetCodeBlock(),add_newline_after_code_block)
+    def GetVariableName(self: 'CPPTranspiler',name: 'S84_CTCode_dbnf_ctcode.Name') -> 'str':
+        if name:
+            value: 'str' = self.CamelCaseToSnakeCase(name.UnParse())
+            if value=="myself":
+                return "this"
+            return value
+        else:
+            return ""
 
-    def WriteRtn(self: 'CPPTranspiler',indent: 'int',implementation: 'S84_CTCode_System_ctcode.OutputStream',rtn: 'S84_CTCode_dbnf_ctcode.Return') -> 'None':
-        implementation.WriteLine(Concat(self.Indentation(indent),Concat("return ",Concat(self.GetRValueString(rtn.GetRValue()),";"))))
+    def GetVariableChainNameTail(self: 'CPPTranspiler',tail: 'S84_CTCode_dbnf_ctcode.NameTail') -> 'str':
+        accessor: 'str' = "->"
+        if tail:
+            return Concat(Concat(accessor,self.GetVariableName(tail.GetName())),self.GetVariableChainNameTail(tail.GetTail()))
+        else:
+            return ""
 
-    def WriteDeclaration(self: 'CPPTranspiler',indent: 'int',implementation: 'S84_CTCode_System_ctcode.OutputStream',declaration: 'S84_CTCode_dbnf_ctcode.Declaration') -> 'None':
-        assignment_suffix: 'str' = ""
-        assignment_suffix = ""
-        if declaration.GetAssignment():
-            assignment: 'S84_CTCode_dbnf_ctcode.DeclarationAssign' = None
-            assignment = declaration.GetAssignment()
-            assignment_suffix = Concat(" = ",self.GetRValueString(assignment.GetRValue()))
-        implementation.WriteLine(Concat(self.Indentation(indent),Concat(self.GetVariableDefinition(declaration.GetType(),declaration.GetName()),Concat(assignment_suffix,";"))))
+    def GetVariableChain(self: 'CPPTranspiler',l_value: 'S84_CTCode_dbnf_ctcode.QualfiedName') -> 'str':
+        if l_value:
+            return Concat(self.GetVariableName(l_value.GetName()),self.GetVariableChainNameTail(l_value.GetTail()))
+        else:
+            return ""
 
-    def WriteAssignment(self: 'CPPTranspiler',indent: 'int',implementation: 'S84_CTCode_System_ctcode.OutputStream',assignment: 'S84_CTCode_dbnf_ctcode.Assignment') -> 'None':
-        implementation.WriteLine(Concat(self.Indentation(indent),Concat(self.GenerateVariableChain(assignment.GetLValue()),Concat(" = ",Concat(self.GetRValueString(assignment.GetRValue()),";")))))
+    def ConvertCall(self: 'CPPTranspiler',name_chain: 'list[str]',parameters: 'list[str]') -> 'str':
+        result: 'str' = Element(name_chain,0)
+        name_chain_index: 'int' = 1
+        while name_chain_index<Size(name_chain):
+            name_part: 'str' = Element(name_chain,name_chain_index)
+            result = Concat(Concat(result,"->"),name_part)
+            name_chain_index = name_chain_index+1
+        result = Concat(result,"(")
+        if Size(parameters)>0:
+            result = Concat(result,Element(parameters,0))
+            parameters_index: 'int' = 1
+            while parameters_index<Size(parameters):
+                parameter: 'str' = Element(parameters,parameters_index)
+                result = Concat(result,",")
+                result = Concat(result,parameter)
+                parameters_index = parameters_index+1
+        result = Concat(result,")")
+        return result
 
-    def WriteCall(self: 'CPPTranspiler',indent: 'int',implementation: 'S84_CTCode_System_ctcode.OutputStream',call: 'S84_CTCode_dbnf_ctcode.Call') -> 'None':
-        implementation.WriteLine(Concat(self.Indentation(indent),Concat(self.GetCallString(call),";")))
+    def ConvertAllocate(self: 'CPPTranspiler',type: 'str') -> 'str':
+        return Concat(Concat(Concat(Concat("std::shared_ptr<",type),">(new "),type),"())")
 
-    def GetExdefHeaderString(self: 'CPPTranspiler',exdef_name: 'S84_CTCode_dbnf_ctcode.QualfiedName') -> 'str':
-        return Concat(exdef_name.UnParse(),".hpp")
+    def ConvertByte(self: 'CPPTranspiler',high: 'str',low: 'str') -> 'str':
+        return Concat(Concat("0x",high),low)
 
-    def GetUnmanagedTypes(self: 'CPPTranspiler',unmanaged_types: 'list[S84_CTCode_dbnf_ctcode.UnmanagedType]') -> 'list[str]':
-        unmanaged_type_strings: 'list[str]' = []
+    def ConvertDecimal(self: 'CPPTranspiler',decimal: 'str') -> 'str':
+        return decimal
+
+    def ConvertNumber(self: 'CPPTranspiler',number: 'str') -> 'str':
+        return number
+
+    def ConvertBoolean(self: 'CPPTranspiler',boolean: 'str') -> 'str':
+        if boolean=="true":
+            return "true"
+        if boolean=="false":
+            return "false"
+        return ""
+
+    def ConvertVariable(self: 'CPPTranspiler',variable: 'str') -> 'str':
+        return variable
+
+    def ConvertString(self: 'CPPTranspiler',literal: 'str') -> 'str':
+        return Concat(Concat("std::string(\"",literal),"\")")
+
+    def UnaryOperator(self: 'CPPTranspiler',op: 'str',r_value: 'str') -> 'str':
+        if op=="!":
+            return Concat("!",r_value)
+        return r_value
+
+    def BinaryOperator(self: 'CPPTranspiler',op: 'str',r_value_l: 'str',r_value_r: 'str') -> 'str':
+        if op=="+":
+            return Concat(Concat(r_value_l,"+"),r_value_r)
+        if op=="-":
+            return Concat(Concat(r_value_l,"-"),r_value_r)
+        if op=="<=":
+            return Concat(Concat(r_value_l,"<="),r_value_r)
+        if op==">=":
+            return Concat(Concat(r_value_l,">="),r_value_r)
+        if op=="==":
+            return Concat(Concat(r_value_l,"=="),r_value_r)
+        if op=="!=":
+            return Concat(Concat(r_value_l,"!="),r_value_r)
+        if op=="<":
+            return Concat(Concat(r_value_l,"<"),r_value_r)
+        if op==">":
+            return Concat(Concat(r_value_l,">"),r_value_r)
+        if op=="||":
+            return Concat(Concat(r_value_l,"||"),r_value_r)
+        if op=="&&":
+            return Concat(Concat(r_value_l,"&&"),r_value_r)
+        return ""
+
+    def GetTypeName(self: 'CPPTranspiler',name: 'S84_CTCode_dbnf_ctcode.Name') -> 'str':
+        if name:
+            return self.SnakeCaseToCamelCase(name.UnParse())
+        else:
+            return ""
+
+    def GetDimensionalType(self: 'CPPTranspiler',singleton_type: 'str',dimensions: 'int') -> 'str':
+        result: 'str' = singleton_type
+        while dimensions>0:
+            result = Concat(Concat("std::vector<",result),">")
+            dimensions = dimensions-1
+        return result
+
+    def GetMapType(self: 'CPPTranspiler',singleton_type: 'str') -> 'str':
+        return Concat(Concat("std::unordered_map<std::string, ",singleton_type),">")
+
+    def GetPrimativeType(self: 'CPPTranspiler',c_t_type: 'str') -> 'str':
+        if c_t_type=="int":
+            return "int"
+        if c_t_type=="string":
+            return "std::string"
+        if c_t_type=="bool":
+            return "bool"
+        if c_t_type=="float":
+            return "float"
+        if c_t_type=="void":
+            return "void"
+        return ""
+
+    def GetQualifiedTypeName(self: 'CPPTranspiler',name_parts: 'list[S84_CTCode_dbnf_ctcode.Name]') -> 'str':
+        delimiter: 'str' = "::"
+        name_parts_index: 'int' = Size(name_parts)-1
+        last_package_index: 'int' = Size(name_parts)-2
+        type_part: 'S84_CTCode_dbnf_ctcode.Name' = Element(name_parts,name_parts_index)
+        result: 'str' = self.GetTypeName(type_part)
+        if name_parts_index>0:
+            result = Concat(delimiter,result)
+            while name_parts_index>0:
+                name_parts_index = name_parts_index-1
+                name_part: 'S84_CTCode_dbnf_ctcode.Name' = Element(name_parts,name_parts_index)
+                if name_parts_index!=last_package_index:
+                    result = Concat(delimiter,result)
+                result = Concat(ToLower(name_part.UnParse()),result)
+        return result
+
+    def BeginProcessingCTCodeFile(self: 'CPPTranspiler') -> 'None':
+        ClearList(self.includes)
+        ClearList(self.interface_declarations)
+        ClearList(self.class_declarations)
+        self.current_interface = ""
+        ClearList(self.interface_definitions)
+        self.current_class = ""
+        ClearList(self.class_definitions)
+        ClearList(self.class_init)
+        ClearList(self.class_functions)
+        ClearList(self.class_members)
+        ClearList(self.function_definitions)
+
+    def ProcessExdef(self: 'CPPTranspiler',exdef: 'str') -> 'None':
+        Append(self.includes,Concat("#include \"",Concat(exdef,".hpp\"")))
+
+    def ProcessUnmanagedType(self: 'CPPTranspiler',unmanaged_type: 'str') -> 'None':
+        noop: 'int' = 0
+
+    def BeginProcessingInterface(self: 'CPPTranspiler',interface_name: 'str') -> 'None':
+        self.current_interface = interface_name
+        Append(self.interface_declarations,Concat(Concat("class ",interface_name),";"))
+        Append(self.interface_definitions,Concat(Concat("class ",interface_name)," {"))
+        Append(self.interface_definitions,"public:")
+
+    def ProcessInterfaceFunctionDeclaration(self: 'CPPTranspiler',return_type: 'str',function_name: 'str',parameters: 'list[ParameterDeclaration]') -> 'None':
+        Append(self.interface_definitions,Concat(Concat(Concat(Concat(Concat(Concat(self.Indentation(1),"virtual "),return_type)," "),function_name),self.MakeParametersString(parameters))," = 0;"))
+
+    def FinishProcessingInterface(self: 'CPPTranspiler',interface_name: 'str') -> 'None':
+        Append(self.interface_definitions,"};")
+        Append(self.interface_definitions,"")
+        self.current_interface = ""
+
+    def BeginProcessingClass(self: 'CPPTranspiler',class_name: 'str',implementing: 'str') -> 'None':
+        self.current_class = class_name
+        Append(self.class_declarations,Concat(Concat("class ",class_name),";"))
+        if implementing=="":
+            Append(self.class_definitions,Concat(Concat("class ",class_name)," {"))
+        else:
+            Append(self.class_definitions,Concat(Concat(Concat(Concat("class ",class_name)," : public "),implementing)," {"))
+        Append(self.class_definitions,"public:")
+        Append(self.class_definitions,Concat(Concat(self.Indentation(1),class_name),"();"))
+        Append(self.class_definitions,Concat(Concat(Concat(self.Indentation(1),"inline ~"),class_name),"() {}"))
+        Append(self.class_definitions,"")
+        ClearList(self.class_init)
+        ClearList(self.class_functions)
+        ClearList(self.class_members)
+        Append(self.class_init,Concat(Concat(Concat(class_name,"::"),class_name),"()"))
+        Append(self.class_init,"{")
+
+    def BeginProcessingClassFunctionDefinition(self: 'CPPTranspiler',return_type: 'str',function_name: 'str',parameters: 'list[ParameterDeclaration]') -> 'None':
+        Append(self.class_definitions,Concat(Concat(Concat(Concat(Concat(self.Indentation(1),return_type)," "),function_name),self.MakeParametersString(parameters)),";"))
+        Append(self.class_functions,Concat(Concat(Concat(Concat(Concat(return_type," "),self.current_class),"::"),function_name),self.MakeParametersString(parameters)))
+
+    def BeginProcessCodeBlock(self: 'CPPTranspiler',indent: 'int') -> 'None':
+        Append(self.class_functions,Concat(self.Indentation(indent),"{"))
+
+    def FinishProcessCodeBlock(self: 'CPPTranspiler',indent: 'int') -> 'None':
+        Append(self.class_functions,Concat(self.Indentation(indent),"}"))
+
+    def BeginProcessConditional(self: 'CPPTranspiler',indent: 'int',r_value: 'str') -> 'None':
+        Append(self.class_functions,Concat(Concat(Concat(self.Indentation(indent),"if ("),r_value),")"))
+
+    def ProcessElse(self: 'CPPTranspiler',indent: 'int') -> 'None':
+        Append(self.class_functions,Concat(self.Indentation(indent),"else"))
+
+    def FinishProcessConditional(self: 'CPPTranspiler',indent: 'int',r_value: 'str') -> 'None':
+        noop: 'int' = 0
+
+    def BeginProcessLoop(self: 'CPPTranspiler',indent: 'int',r_value: 'str') -> 'None':
+        Append(self.class_functions,Concat(Concat(Concat(self.Indentation(indent),"while ("),r_value),")"))
+
+    def FinishProcessLoop(self: 'CPPTranspiler',indent: 'int',r_value: 'str') -> 'None':
+        noop: 'int' = 0
+
+    def ProcessRtn(self: 'CPPTranspiler',indent: 'int',r_value: 'str') -> 'None':
+        Append(self.class_functions,Concat(Concat(Concat(self.Indentation(indent),"return "),r_value),";"))
+
+    def ProcessDeclaration(self: 'CPPTranspiler',indent: 'int',type: 'str',l_value: 'str',r_value: 'str') -> 'None':
+        if r_value=="":
+            r_value = self.GetDefault(type)
+        if r_value=="":
+            Append(self.class_functions,Concat(Concat(Concat(Concat(self.Indentation(indent),type)," "),l_value),";"))
+        else:
+            Append(self.class_functions,Concat(Concat(Concat(Concat(Concat(Concat(self.Indentation(indent),type)," "),l_value)," = "),r_value),";"))
+
+    def ProcessAssignment(self: 'CPPTranspiler',indent: 'int',l_value: 'str',r_value: 'str') -> 'None':
+        Append(self.class_functions,Concat(Concat(Concat(Concat(self.Indentation(indent),l_value)," = "),r_value),";"))
+
+    def ProcessCall(self: 'CPPTranspiler',indent: 'int',call: 'str') -> 'None':
+        Append(self.class_functions,Concat(Concat(self.Indentation(indent),call),";"))
+
+    def FinishProcessingClassFunctionDefinition(self: 'CPPTranspiler',return_type: 'str',function_name: 'str',parameters: 'list[ParameterDeclaration]') -> 'None':
+        Append(self.class_functions,"")
+
+    def ProcessClassMemberDeclaration(self: 'CPPTranspiler',member_type: 'str',member_name: 'str') -> 'None':
+        default_value: 'str' = self.GetDefault(member_type)
+        if default_value!="":
+            Append(self.class_init,Concat(Concat(Concat(Concat(Concat(self.Indentation(1),"this->"),member_name)," = "),default_value),";"))
+        else:
+            Append(self.class_init,Concat(Concat(Concat(Concat(Concat(self.Indentation(1),"/*this->"),member_name)," = "),"NO_DEFAULT"),";*/"))
+        Append(self.class_members,Concat(Concat(Concat(Concat(self.Indentation(1),member_type)," "),member_name),";"))
+
+    def FinishProcessingClass(self: 'CPPTranspiler',class_name: 'str',implementing: 'str') -> 'None':
+        if Size(self.class_members)>0:
+            Append(self.class_definitions,"")
+            Append(self.class_definitions,"private:")
+            class_members_index: 'int' = 0
+            while class_members_index<Size(self.class_members):
+                line: 'str' = Element(self.class_members,class_members_index)
+                Append(self.class_definitions,line)
+                class_members_index = class_members_index+1
+        Append(self.class_definitions,"};")
+        Append(self.class_definitions,"")
+        Append(self.class_init,"}")
+        Append(self.class_init,"")
+        class_init_index: 'int' = 0
+        while class_init_index<Size(self.class_init):
+            line: 'str' = Element(self.class_init,class_init_index)
+            Append(self.function_definitions,line)
+            class_init_index = class_init_index+1
+        class_functions_index: 'int' = 0
+        while class_functions_index<Size(self.class_functions):
+            line: 'str' = Element(self.class_functions,class_functions_index)
+            Append(self.function_definitions,line)
+            class_functions_index = class_functions_index+1
+        self.current_class = ""
+
+    def WriteCommonFunctions(self: 'CPPTranspiler',destination: 'S84_CTCode_System_ctcode.OutputStream') -> 'None':
+        destination.WriteLine("#ifndef CTCODE_COMMON_FUNCTIONS_VERSION_1")
+        destination.WriteLine("#define CTCODE_COMMON_FUNCTIONS_VERSION_1")
+        destination.WriteLine("template<typename T>")
+        destination.WriteLine("class OmniPointer")
+        destination.WriteLine("{")
+        destination.WriteLine("public:")
+        destination.WriteLine("    OmniPointer() { value_raw = NULL; }")
+        destination.WriteLine("    OmniPointer(T* value) { value_raw = value; }")
+        destination.WriteLine("    template<typename U>")
+        destination.WriteLine("    OmniPointer(U* value) { value_raw = value; }")
+        destination.WriteLine("    OmniPointer(std::shared_ptr<T> value) { value_raw = NULL; value_shared = value; }")
+        destination.WriteLine("    template<typename U>")
+        destination.WriteLine("    OmniPointer(std::shared_ptr<U> value) { value_raw = NULL; value_shared = value; }")
+        destination.WriteLine("")
+        destination.WriteLine("    operator bool()")
+        destination.WriteLine("    {")
+        destination.WriteLine("        if (value_raw) return true;")
+        destination.WriteLine("        return value_shared.get() != NULL;")
+        destination.WriteLine("    }")
+        destination.WriteLine("    T& operator*()")
+        destination.WriteLine("    {")
+        destination.WriteLine("        if (value_raw) return *value_raw;")
+        destination.WriteLine("        return *value_shared;")
+        destination.WriteLine("    }")
+        destination.WriteLine("    T* operator->()")
+        destination.WriteLine("    {")
+        destination.WriteLine("        if (value_raw) return value_raw;")
+        destination.WriteLine("        return value_shared.get();")
+        destination.WriteLine("    }")
+        destination.WriteLine("    T* raw()")
+        destination.WriteLine("    {")
+        destination.WriteLine("        if (value_raw) return value_raw;")
+        destination.WriteLine("        return value_shared.get();")
+        destination.WriteLine("    }")
+        destination.WriteLine("")
+        destination.WriteLine("private:")
+        destination.WriteLine("    T* value_raw;")
+        destination.WriteLine("    std::shared_ptr<T> value_shared;")
+        destination.WriteLine("};")
+        destination.WriteLine("")
+        destination.WriteLine("template<typename T>")
+        destination.WriteLine("inline std::vector<T*> UnwrapOmniList(std::vector<OmniPointer<T>> input) {")
+        destination.WriteLine("	std::vector<T*> result;")
+        destination.WriteLine("	for (typename std::vector<OmniPointer<T>>::iterator index = input.begin();index != input.end();index++) {")
+        destination.WriteLine("		result.push_back(index->raw());")
+        destination.WriteLine("	}")
+        destination.WriteLine("	return result;")
+        destination.WriteLine("};")
+        destination.WriteLine("template<typename T>")
+        destination.WriteLine("inline void ClearList(std::vector<T>& input) { input.clear(); };")
+        destination.WriteLine("template<typename T>")
+        destination.WriteLine("inline int Size(const std::vector<T>& input) { return input.size(); };")
+        destination.WriteLine("template<typename T>")
+        destination.WriteLine("inline T Element(const std::vector<T>& input, int element) { return input.at(element); };")
+        destination.WriteLine("template<typename T>")
+        destination.WriteLine("inline void Append(std::vector<T>& input, T element) { input.push_back(element); };")
+        destination.WriteLine("template<typename T>")
+        destination.WriteLine("inline void ClearMap(std::unordered_map<std::string, T>& input) { input.clear(); };")
+        destination.WriteLine("template<typename T>")
+        destination.WriteLine("inline void SetKV(std::unordered_map<std::string, T>& input, const std::string& key, T element)")
+        destination.WriteLine("{")
+        destination.WriteLine("    input.erase(key);")
+        destination.WriteLine("    input.insert(std::pair<std::string, T>(key, element));")
+        destination.WriteLine("}")
+        destination.WriteLine("template<typename T>")
+        destination.WriteLine("inline std::vector<std::string> Keys(const std::unordered_map<std::string, T>& input)")
+        destination.WriteLine("{")
+        destination.WriteLine("    std::vector<std::string> result;")
+        destination.WriteLine("    for(typename std::unordered_map<std::string, T>::const_iterator index = input.begin();index != input.end();index++) {")
+        destination.WriteLine("        result.push_back(index->first);")
+        destination.WriteLine("    }")
+        destination.WriteLine("    return result;")
+        destination.WriteLine("}")
+        destination.WriteLine("template<typename T>")
+        destination.WriteLine("inline bool HasKV(const std::unordered_map<std::string, T>& input, const std::string& key)")
+        destination.WriteLine("{")
+        destination.WriteLine("    typename std::unordered_map<std::string, T>::const_iterator beginning = input.find(key);")
+        destination.WriteLine("    return beginning != input.end();")
+        destination.WriteLine("}")
+        destination.WriteLine("template<typename T>")
+        destination.WriteLine("inline T GetKV(const std::unordered_map<std::string, T>& input, const std::string& key) { return input.at(key); }")
+        destination.WriteLine("inline int Length(const std::string& input) { return (int)input.length(); };")
+        destination.WriteLine("inline std::string At(const std::string& input, int index) { return input.substr(index, 1); };")
+        destination.WriteLine("inline int IntAt(const std::string& input, int index) { return (input.at(index) + 256) % 256; };")
+        destination.WriteLine("inline std::string Concat(const std::string& left, const std::string& right) { return left + right; };")
+        destination.WriteLine("#endif")
+
+    def WriteBeginingGuard(self: 'CPPTranspiler',file: 'S84_CTCode_System_ctcode.OutputStream') -> 'None':
+        guard_name: 'str' = self.ToUpper(self.StripDot(Concat(self.base_name,"_H")))
+        file.WriteLine(Concat("#ifndef ",guard_name))
+        file.WriteLine(Concat("#define ",guard_name))
+
+    def TokenizeBaseName(self: 'CPPTranspiler',name: 'str') -> 'list[str]':
+        base_name_tokens: 'list[str]' = []
+        current_token: 'str' = ""
+        index: 'int' = 0
+        while index<Length(name):
+            character: 'str' = At(name,index)
+            if character==".":
+                Append(base_name_tokens,current_token)
+                current_token = ""
+            else:
+                current_token = Concat(current_token,character)
+            index = index+1
+        Append(base_name_tokens,current_token)
+        return base_name_tokens
+
+    def WriteBeginingNamespace(self: 'CPPTranspiler',file: 'S84_CTCode_System_ctcode.OutputStream') -> 'None':
+        base_name_tokens: 'list[str]' = self.TokenizeBaseName(self.base_name)
+        base_name_tokens_index: 'int' = 0
+        while base_name_tokens_index<Size(base_name_tokens):
+            base_name_token: 'str' = Element(base_name_tokens,base_name_tokens_index)
+            file.WriteLine(Concat(Concat("namespace ",ToLower(base_name_token))," {"))
+            base_name_tokens_index = base_name_tokens_index+1
+
+    def WriteEndingNamespace(self: 'CPPTranspiler',file: 'S84_CTCode_System_ctcode.OutputStream') -> 'None':
+        base_name_tokens: 'list[str]' = self.TokenizeBaseName(self.base_name)
+        base_name_tokens_index: 'int' = 0
+        while base_name_tokens_index<Size(base_name_tokens):
+            base_name_token: 'str' = Element(base_name_tokens,base_name_tokens_index)
+            file.WriteLine("};")
+            base_name_tokens_index = base_name_tokens_index+1
+
+    def WriteEndingGuard(self: 'CPPTranspiler',file: 'S84_CTCode_System_ctcode.OutputStream') -> 'None':
+        file.WriteLine("#endif")
+
+    def FinishProcessingCTCodeFile(self: 'CPPTranspiler') -> 'None':
+        header_file_name: 'str' = Concat(self.base_name,".hpp")
+        header_file: 'S84_CTCode_System_ctcode.OutputStream' = self.system.OpenFileWriter(header_file_name)
+        source_file_name: 'str' = Concat(self.base_name,".cpp")
+        source_file: 'S84_CTCode_System_ctcode.OutputStream' = self.system.OpenFileWriter(source_file_name)
+        self.WriteBeginingGuard(header_file)
+        header_file.WriteLine("")
+        if Size(self.includes)>0:
+            self.WriteLines(header_file,self.includes)
+            header_file.WriteLine("")
+        header_file.WriteLine("#include <cstring>")
+        header_file.WriteLine("#include <list>")
+        header_file.WriteLine("#include <unordered_map>")
+        header_file.WriteLine("#include <memory>")
+        header_file.WriteLine("#include <string>")
+        header_file.WriteLine("#include <vector>")
+        header_file.WriteLine("")
+        self.WriteCommonFunctions(header_file)
+        header_file.WriteLine("")
+        self.WriteBeginingNamespace(header_file)
+        header_file.WriteLine("")
+        if Size(self.interface_declarations)>0:
+            self.WriteLines(header_file,self.interface_declarations)
+            header_file.WriteLine("")
+        if Size(self.class_declarations)>0:
+            self.WriteLines(header_file,self.class_declarations)
+            header_file.WriteLine("")
+        if Size(self.interface_definitions)>0:
+            self.WriteLines(header_file,self.interface_definitions)
+        self.WriteLines(header_file,self.class_definitions)
+        self.WriteEndingNamespace(header_file)
+        header_file.WriteLine("")
+        self.WriteEndingGuard(header_file)
+        source_file.WriteLine(Concat(Concat("#include \"",base_name),".hpp\""))
+        source_file.WriteLine("")
+        self.WriteBeginingNamespace(source_file)
+        source_file.WriteLine("")
+        if Size(self.function_definitions)>0:
+            self.WriteLines(source_file,self.function_definitions)
+            source_file.WriteLine("")
+        self.WriteEndingNamespace(source_file)
+
+    def BeginsWith(self: 'CPPTranspiler',prefix: 'str',value: 'str') -> 'bool':
+        if Length(prefix)>Length(value):
+            return False
+        prefix_index: 'int' = 0
+        while prefix_index<Length(prefix):
+            if At(prefix,prefix_index)!=At(value,prefix_index):
+                return False
+            prefix_index = prefix_index+1
+        return True
+
+    def GetDefault(self: 'CPPTranspiler',cpp_type: 'str') -> 'str':
+        if cpp_type=="int":
+            return "0"
+        if cpp_type=="std::string":
+            return "\"\""
+        if cpp_type=="bool":
+            return "false"
+        if cpp_type=="float":
+            return "0.0"
+        if cpp_type=="void":
+            return "NULL"
+        if self.BeginsWith("std::unordered_map<std::string, ",cpp_type):
+            return ""
+        if self.BeginsWith("std::vector<",cpp_type):
+            return ""
+        return "NULL"
+
+    def MakeParametersString(self: 'CPPTranspiler',parameters: 'list[ParameterDeclaration]') -> 'str':
+        result: 'str' = "("
+        parameters_index: 'int' = 0
+        while parameters_index<Size(parameters):
+            parameter: 'ParameterDeclaration' = Element(parameters,parameters_index)
+            if parameters_index!=0:
+                result = Concat(result,", ")
+            result = Concat(Concat(Concat(result,parameter.GetType())," "),parameter.GetName())
+            parameters_index = parameters_index+1
+        result = Concat(result,")")
+        return result
+
+    def StripDot(self: 'CPPTranspiler',input: 'str') -> 'str':
         index: 'int' = 0
         index = 0
-        while index<Size(unmanaged_types):
-            unmanaged_type: 'S84_CTCode_dbnf_ctcode.UnmanagedType' = Element(unmanaged_types,index)
-            Append(unmanaged_type_strings,self.GetRawDefinedType(unmanaged_type.GetUnmanagedType()))
+        result: 'str' = ""
+        result = ""
+        while index<Length(input):
+            character: 'str' = ""
+            character = At(input,index)
+            if character==".":
+                result = Concat(result,"_")
+            else:
+                result = Concat(result,character)
             index = index+1
-        return unmanaged_type_strings
+        return result
+
+    def WriteLines(self: 'CPPTranspiler',destination: 'S84_CTCode_System_ctcode.OutputStream',lines: 'list[str]') -> 'None':
+        lines_index: 'int' = 0
+        while lines_index<Size(lines):
+            line: 'str' = Element(lines,lines_index)
+            destination.WriteLine(line)
+            lines_index = lines_index+1
+
+    def Transpile(self: 'CPPTranspiler',system: 'S84_CTCode_System_ctcode.System',c_t_code_file: 'S84_CTCode_dbnf_ctcode.CTCodeFile',base_name: 'str') -> 'int':
+        self.system = system
+        self.c_t_code_file = c_t_code_file
+        self.base_name = base_name
+        self.logger = system.GetLoggerDestination()
+        self.ProcessCTCodeFile(c_t_code_file)
+        return 0
+
+    def ProcessCTCodeFile(self: 'CPPTranspiler',c_t_code_file: 'S84_CTCode_dbnf_ctcode.CTCodeFile') -> 'None':
+        self.BeginProcessingCTCodeFile()
+        self.ProcessExdefs(c_t_code_file)
+        self.ProcessUnmanagedTypes(c_t_code_file)
+        self.ProcessDefinitions(c_t_code_file)
+        self.FinishProcessingCTCodeFile()
+
+    def ProcessExdefs(self: 'CPPTranspiler',c_t_code_file: 'S84_CTCode_dbnf_ctcode.CTCodeFile') -> 'None':
+        exdefs: 'list[S84_CTCode_dbnf_ctcode.ExternalDefinition]' = c_t_code_file.GetDeclarations()
+        exdefs_index: 'int' = 0
+        while exdefs_index<Size(exdefs):
+            exdef: 'S84_CTCode_dbnf_ctcode.ExternalDefinition' = Element(exdefs,exdefs_index)
+            exdef_name: 'S84_CTCode_dbnf_ctcode.QualfiedName' = exdef.GetExdef()
+            self.ProcessExdef(exdef_name.UnParse())
+            exdefs_index = exdefs_index+1
+
+    def ProcessUnmanagedTypes(self: 'CPPTranspiler',c_t_code_file: 'S84_CTCode_dbnf_ctcode.CTCodeFile') -> 'None':
+        unmanaged_types: 'list[S84_CTCode_dbnf_ctcode.UnmanagedType]' = c_t_code_file.GetUnmanagedTypes()
+        unmanaged_types_index: 'int' = 0
+        while unmanaged_types_index<Size(unmanaged_types):
+            unmanaged_type: 'S84_CTCode_dbnf_ctcode.UnmanagedType' = Element(unmanaged_types,unmanaged_types_index)
+            self.ProcessUnmanagedType(self.GetQualifiedTypeNameInternal(unmanaged_type.GetUnmanagedType()))
+            unmanaged_types_index = unmanaged_types_index+1
+
+    def ProcessDefinitions(self: 'CPPTranspiler',c_t_code_file: 'S84_CTCode_dbnf_ctcode.CTCodeFile') -> 'None':
+        definitions: 'list[S84_CTCode_dbnf_ctcode.Definition]' = c_t_code_file.GetDefinitions()
+        definitions_index: 'int' = 0
+        while definitions_index<Size(definitions):
+            definition: 'S84_CTCode_dbnf_ctcode.Definition' = None
+            definition = Element(definitions,definitions_index)
+            if definition.GetInterfaceDef():
+                self.ProcessInterfaceDefinition(definition.GetInterfaceDef())
+            if definition.GetClassDef():
+                self.ProcessClassDefinition(definition.GetClassDef())
+            definitions_index = definitions_index+1
+
+    def GetParameters(self: 'CPPTranspiler',parameter_list_def: 'S84_CTCode_dbnf_ctcode.ParameterListDef') -> 'list[ParameterDeclaration]':
+        result: 'list[ParameterDeclaration]' = []
+        while parameter_list_def:
+            parameter: 'ParameterDeclaration' = ParameterDeclaration()
+            parameter.SetType(self.GetType(parameter_list_def.GetType()))
+            parameter.SetName(self.GetVariableName(parameter_list_def.GetName()))
+            Append(result,parameter)
+            parameter_list_def = parameter_list_def.GetParameterTail()
+        return result
+
+    def ProcessInterfaceDefinition(self: 'CPPTranspiler',interface_definition: 'S84_CTCode_dbnf_ctcode.InterfaceDef') -> 'None':
+        interface_name: 'str' = self.GetTypeName(interface_definition.GetName())
+        self.BeginProcessingInterface(interface_name)
+        declarations: 'list[S84_CTCode_dbnf_ctcode.ContentDeclaration]' = interface_definition.GetDeclarations()
+        declarations_index: 'int' = 0
+        while declarations_index<Size(declarations):
+            declaration: 'S84_CTCode_dbnf_ctcode.ContentDeclaration' = Element(declarations,declarations_index)
+            return_type: 'str' = self.GetType(declaration.GetType())
+            function_name: 'str' = self.GetCallName(declaration.GetName())
+            parameters: 'list[ParameterDeclaration]' = self.GetParameters(declaration.GetParameters())
+            self.ProcessInterfaceFunctionDeclaration(return_type,function_name,parameters)
+            declarations_index = declarations_index+1
+        self.FinishProcessingInterface(interface_name)
+
+    def ProcessClassDefinition(self: 'CPPTranspiler',class_definition: 'S84_CTCode_dbnf_ctcode.ClassDef') -> 'None':
+        class_name: 'str' = self.GetTypeName(class_definition.GetName())
+        implementing: 'str' = ""
+        implementation_spec: 'S84_CTCode_dbnf_ctcode.ImplementationSpec' = class_definition.GetImplementing()
+        if implementation_spec:
+            implementing = self.GetQualifiedTypeNameInternal(implementation_spec.GetInterface())
+        self.BeginProcessingClass(class_name,implementing)
+        definitions: 'list[S84_CTCode_dbnf_ctcode.ContentDefinition]' = class_definition.GetDefinitions()
+        definitions_index: 'int' = 0
+        while definitions_index<Size(definitions):
+            definition: 'S84_CTCode_dbnf_ctcode.ContentDefinition' = Element(definitions,definitions_index)
+            if definition.GetFunctionBody():
+                return_type: 'str' = self.GetType(definition.GetType())
+                function_name: 'str' = self.GetCallName(definition.GetName())
+                parameters: 'list[ParameterDeclaration]' = self.GetParameters(definition.GetParameters())
+                self.BeginProcessingClassFunctionDefinition(return_type,function_name,parameters)
+                self.ProcessCodeBlockInternal(self.GetBaseIndentation(),definition.GetFunctionBody())
+                self.FinishProcessingClassFunctionDefinition(return_type,function_name,parameters)
+            else:
+                member_type: 'str' = self.GetType(definition.GetType())
+                member_name: 'str' = self.GetVariableName(definition.GetName())
+                self.ProcessClassMemberDeclaration(member_type,member_name)
+            definitions_index = definitions_index+1
+        self.FinishProcessingClass(class_name,implementing)
+
+    def ProcessInstructionInternal(self: 'CPPTranspiler',indent: 'int',instruction: 'S84_CTCode_dbnf_ctcode.Instruction') -> 'None':
+        if instruction.GetCodeBlock():
+            self.ProcessCodeBlockInternal(indent,instruction.GetCodeBlock())
+        if instruction.GetRtn():
+            self.ProcessRtnInternal(indent,instruction.GetRtn())
+        if instruction.GetDeclaration():
+            self.ProcessDeclarationInternal(indent,instruction.GetDeclaration())
+        if instruction.GetAssignment():
+            self.ProcessAssignmentInternal(indent,instruction.GetAssignment())
+        if instruction.GetCall():
+            self.ProcessCallInternal(indent,instruction.GetCall())
+        if instruction.GetConditional():
+            self.ProcessConditionalInternal(indent,instruction.GetConditional())
+        if instruction.GetLoop():
+            self.ProcessLoopInternal(indent,instruction.GetLoop())
+
+    def ProcessCodeBlockInternal(self: 'CPPTranspiler',indent: 'int',code_block: 'S84_CTCode_dbnf_ctcode.CodeBlock') -> 'None':
+        self.BeginProcessCodeBlock(indent)
+        instructions: 'list[S84_CTCode_dbnf_ctcode.Instruction]' = code_block.GetInstructions()
+        instructions_index: 'int' = 0
+        while instructions_index<Size(instructions):
+            self.ProcessInstructionInternal(indent+1,Element(instructions,instructions_index))
+            instructions_index = instructions_index+1
+        self.FinishProcessCodeBlock(indent)
+
+    def ProcessConditionalInternal(self: 'CPPTranspiler',indent: 'int',conditional: 'S84_CTCode_dbnf_ctcode.Conditional') -> 'None':
+        r_value: 'str' = self.GetRValueInternal(conditional.GetRValue())
+        self.BeginProcessConditional(indent,r_value)
+        self.ProcessCodeBlockInternal(indent,conditional.GetCodeBlock())
+        if conditional.GetElseTail():
+            else_tail: 'S84_CTCode_dbnf_ctcode.ElseTail' = conditional.GetElseTail()
+            self.ProcessElse(indent)
+            self.ProcessCodeBlockInternal(indent,else_tail.GetCodeBlock())
+        self.FinishProcessConditional(indent,r_value)
+
+    def ProcessLoopInternal(self: 'CPPTranspiler',indent: 'int',loop: 'S84_CTCode_dbnf_ctcode.Loop') -> 'None':
+        r_value: 'str' = self.GetRValueInternal(loop.GetRValue())
+        self.BeginProcessLoop(indent,r_value)
+        self.ProcessCodeBlockInternal(indent,loop.GetCodeBlock())
+        self.FinishProcessLoop(indent,r_value)
+
+    def ProcessRtnInternal(self: 'CPPTranspiler',indent: 'int',rtn: 'S84_CTCode_dbnf_ctcode.Return') -> 'None':
+        r_value: 'str' = self.GetRValueInternal(rtn.GetRValue())
+        self.ProcessRtn(indent,r_value)
+
+    def ProcessDeclarationInternal(self: 'CPPTranspiler',indent: 'int',declaration: 'S84_CTCode_dbnf_ctcode.Declaration') -> 'None':
+        type: 'str' = self.GetType(declaration.GetType())
+        l_value: 'str' = self.GetVariableName(declaration.GetName())
+        r_value: 'str' = ""
+        declaration_assignment: 'S84_CTCode_dbnf_ctcode.DeclarationAssign' = declaration.GetAssignment()
+        if declaration_assignment:
+            r_value = self.GetRValueInternal(declaration_assignment.GetRValue())
+        self.ProcessDeclaration(indent,type,l_value,r_value)
+
+    def ProcessAssignmentInternal(self: 'CPPTranspiler',indent: 'int',assignment: 'S84_CTCode_dbnf_ctcode.Assignment') -> 'None':
+        self.ProcessAssignment(indent,self.GetVariableChain(assignment.GetLValue()),self.GetRValueInternal(assignment.GetRValue()))
+
+    def ProcessCallInternal(self: 'CPPTranspiler',indent: 'int',call: 'S84_CTCode_dbnf_ctcode.Call') -> 'None':
+        self.ProcessCall(indent,self.ConvertCallInternal(call))
+
+    def ConvertCallInternal(self: 'CPPTranspiler',call: 'S84_CTCode_dbnf_ctcode.Call') -> 'str':
+        name_chain: 'list[str]' = []
+        parameters: 'list[str]' = []
+        if call.GetVariable():
+            Append(name_chain,self.GetVariableName(call.GetVariable()))
+        if call.GetFunction():
+            Append(name_chain,self.GetCallName(call.GetFunction()))
+        if call.GetFunctionChain():
+            function_chain: 'S84_CTCode_dbnf_ctcode.QualfiedName' = call.GetFunctionChain()
+            name_tail: 'S84_CTCode_dbnf_ctcode.NameTail' = function_chain.GetTail()
+            if function_chain.GetTail():
+                Append(name_chain,self.GetVariableName(function_chain.GetName()))
+            else:
+                Append(name_chain,self.GetCallName(function_chain.GetName()))
+            while name_tail:
+                if name_tail.GetTail():
+                    Append(name_chain,self.GetVariableName(name_tail.GetName()))
+                else:
+                    Append(name_chain,self.GetCallName(name_tail.GetName()))
+                name_tail = name_tail.GetTail()
+        parameter_list: 'S84_CTCode_dbnf_ctcode.ParameterList' = call.GetParameters()
+        while parameter_list:
+            Append(parameters,self.GetRValueInternal(parameter_list.GetRValue()))
+            parameter_list = parameter_list.GetParameterTail()
+        return self.ConvertCall(name_chain,parameters)
+
+    def GetSingletonType(self: 'CPPTranspiler',singleton_type: 'S84_CTCode_dbnf_ctcode.SingletonType') -> 'str':
+        if singleton_type.GetPrimativeType():
+            return self.GetPrimativeType(singleton_type.UnParse())
+        if singleton_type.GetDefinedType():
+            defined_type: 'S84_CTCode_dbnf_ctcode.DefinedType' = singleton_type.GetDefinedType()
+            return Concat(Concat("OmniPointer<",self.GetQualifiedTypeNameInternal(defined_type.GetName())),">")
+        return ""
+
+    def GetRValueSingleBasisInternal(self: 'CPPTranspiler',r_value_single: 'S84_CTCode_dbnf_ctcode.RValueSingle') -> 'str':
+        call: 'S84_CTCode_dbnf_ctcode.Call' = r_value_single.GetCall()
+        if call:
+            return self.ConvertCallInternal(call)
+        allocate: 'S84_CTCode_dbnf_ctcode.Allocate' = r_value_single.GetAllocate()
+        if allocate:
+            return self.ConvertAllocate(self.GetQualifiedTypeNameInternal(allocate.GetManagedType()))
+        byte_literal: 'S84_CTCode_dbnf_ctcode.Byte' = r_value_single.GetByteLiteral()
+        if byte_literal:
+            high: 'S84_CTCode_dbnf_ctcode.ByteDigit' = byte_literal.GetHigh()
+            low: 'S84_CTCode_dbnf_ctcode.ByteDigit' = byte_literal.GetLow()
+            return self.ConvertByte(high.UnParse(),low.UnParse())
+        decimal_literal: 'S84_CTCode_dbnf_ctcode.Decimal' = r_value_single.GetDecimalLiteral()
+        if decimal_literal:
+            return self.ConvertDecimal(decimal_literal.UnParse())
+        integer_literal: 'S84_CTCode_dbnf_ctcode.Number' = r_value_single.GetIntegerLiteral()
+        if integer_literal:
+            return self.ConvertNumber(integer_literal.UnParse())
+        boolean_literal: 'S84_CTCode_dbnf_ctcode.Boolean' = r_value_single.GetBooleanLiteral()
+        if boolean_literal:
+            return self.ConvertBoolean(boolean_literal.UnParse())
+        variable: 'S84_CTCode_dbnf_ctcode.QualfiedName' = r_value_single.GetVariable()
+        if variable:
+            return self.ConvertVariable(self.GetVariableChain(variable))
+        string_literal: 'S84_CTCode_dbnf_ctcode.Literal' = r_value_single.GetStringLiteral()
+        if string_literal:
+            return self.ConvertString(string_literal.UnParse())
+        return ""
+
+    def GetRValueSingleInternal(self: 'CPPTranspiler',r_value_single: 'S84_CTCode_dbnf_ctcode.RValueSingle') -> 'str':
+        unary_operator: 'S84_CTCode_dbnf_ctcode.UnaryOperator' = r_value_single.GetUnaryOperator()
+        if unary_operator:
+            return self.UnaryOperator(unary_operator.UnParse(),self.GetRValueSingleBasisInternal(r_value_single))
+        return self.GetRValueSingleBasisInternal(r_value_single)
+
+    def GetRValueBinaryInternal(self: 'CPPTranspiler',r_value_l: 'str',r_value_tail: 'S84_CTCode_dbnf_ctcode.RValueTail') -> 'str':
+        r_value_r: 'str' = self.GetRValueSingleInternal(r_value_tail.GetValue())
+        binary_operator: 'S84_CTCode_dbnf_ctcode.BinaryOperator' = r_value_tail.GetBinaryOperator()
+        r_value_l = self.BinaryOperator(binary_operator.UnParse(),r_value_l,r_value_r)
+        if r_value_tail.GetTail():
+            return self.GetRValueBinaryInternal(r_value_l,r_value_tail.GetTail())
+        return r_value_l
+
+    def GetRValueInternal(self: 'CPPTranspiler',r_value: 'S84_CTCode_dbnf_ctcode.RValue') -> 'str':
+        r_value_l: 'str' = self.GetRValueSingleInternal(r_value.GetValue())
+        if r_value.GetTail():
+            return self.GetRValueBinaryInternal(r_value_l,r_value.GetTail())
+        return r_value_l
+
+    def GetQualifiedTypeNameInternal(self: 'CPPTranspiler',qualified_name: 'S84_CTCode_dbnf_ctcode.QualfiedName') -> 'str':
+        name_parts: 'list[S84_CTCode_dbnf_ctcode.Name]' = []
+        Append(name_parts,qualified_name.GetName())
+        tail: 'S84_CTCode_dbnf_ctcode.NameTail' = qualified_name.GetTail()
+        while tail:
+            Append(name_parts,tail.GetName())
+            tail = tail.GetTail()
+        return self.GetQualifiedTypeName(name_parts)
+
+    def GetType(self: 'CPPTranspiler',type: 'S84_CTCode_dbnf_ctcode.ValueType') -> 'str':
+        if type.GetDimensionalType():
+            dimensional_type: 'S84_CTCode_dbnf_ctcode.DimensionalType' = type.GetDimensionalType()
+            singleton_type: 'S84_CTCode_dbnf_ctcode.SingletonType' = dimensional_type.GetSingletonType()
+            return self.GetDimensionalType(self.GetSingletonType(singleton_type),Size(dimensional_type.GetDimensionalNote()))
+        if type.GetMapType():
+            map_type: 'S84_CTCode_dbnf_ctcode.MapType' = type.GetMapType()
+            singleton_type: 'S84_CTCode_dbnf_ctcode.SingletonType' = map_type.GetSingletonType()
+            return self.GetMapType(self.GetSingletonType(singleton_type))
+        if type.GetSingletonType():
+            singleton_type: 'S84_CTCode_dbnf_ctcode.SingletonType' = type.GetSingletonType()
+            return self.GetSingletonType(singleton_type)
+        return ""
 
     def Indentation(self: 'CPPTranspiler',indent: 'int') -> 'str':
         result: 'str' = ""
@@ -428,329 +828,18 @@ class CPPTranspiler(S84_CTCode_Transpiler_ctcode.Transpiler):
             result = Concat(result,"    ")
         return result
 
-    def GetRValueSingleString(self: 'CPPTranspiler',r_value_single: 'S84_CTCode_dbnf_ctcode.RValueSingle') -> 'str':
-        return Concat(self.GetRValueSingleUnaryString(r_value_single),self.GetRValueSingleCoreString(r_value_single))
-
-    def GetRValueSingleUnaryString(self: 'CPPTranspiler',r_value_single: 'S84_CTCode_dbnf_ctcode.RValueSingle') -> 'str':
-        if r_value_single.GetUnaryOperator():
-            unary_operator: 'S84_CTCode_dbnf_ctcode.UnaryOperator' = None
-            unary_operator = r_value_single.GetUnaryOperator()
-            if unary_operator.GetNegation():
-                return "!"
-            return "/*WARNING UnaryOperator FALL THROUGH*/"
-        else:
-            return ""
-
-    def GetCallString(self: 'CPPTranspiler',call: 'S84_CTCode_dbnf_ctcode.Call') -> 'str':
-        result: 'str' = ""
-        result = ""
-        if call.GetVariable():
-            result = Concat(result,Concat(self.GenerateVariableName(call.GetVariable()),"->"))
-        if call.GetFunction():
-            result = Concat(result,self.GenerateCallName(call.GetFunction()))
-        if call.GetFunctionChain():
-            function_chain: 'S84_CTCode_dbnf_ctcode.QualfiedName' = call.GetFunctionChain()
-            name_tail: 'S84_CTCode_dbnf_ctcode.NameTail' = function_chain.GetTail()
-            if function_chain.GetTail():
-                result = Concat(Concat(result,self.GenerateVariableName(function_chain.GetName())),"->")
-            else:
-                result = Concat(result,self.GenerateCallName(function_chain.GetName()))
-            while name_tail:
-                if name_tail.GetTail():
-                    result = Concat(Concat(result,self.GenerateVariableName(name_tail.GetName())),"->")
-                else:
-                    result = Concat(result,self.GenerateCallName(name_tail.GetName()))
-                name_tail = name_tail.GetTail()
-        result = Concat(Concat(Concat(result,"("),self.GenerateCallingParameterList(call.GetParameters())),")")
-        return result
-
-    def GetRValueSingleCoreString(self: 'CPPTranspiler',r_value_single: 'S84_CTCode_dbnf_ctcode.RValueSingle') -> 'str':
-        if r_value_single.GetCall():
-            return self.GetCallString(r_value_single.GetCall())
-        if r_value_single.GetAllocate():
-            allocate: 'S84_CTCode_dbnf_ctcode.Allocate' = r_value_single.GetAllocate()
-            raw_type: 'str' = self.GetRawDefinedType(allocate.GetManagedType())
-            return Concat("std::shared_ptr<",Concat(raw_type,Concat(">(new ",Concat(raw_type,"())"))))
-        if r_value_single.GetByteLiteral():
-            return r_value_single.UnParse()
-        if r_value_single.GetDecimalLiteral():
-            return r_value_single.UnParse()
-        if r_value_single.GetIntegerLiteral():
-            return r_value_single.UnParse()
-        if r_value_single.GetBooleanLiteral():
-            return r_value_single.UnParse()
-        if r_value_single.GetVariable():
-            return self.GenerateVariableChain(r_value_single.GetVariable())
-        if r_value_single.GetStringLiteral():
-            return Concat(Concat("std::string(",r_value_single.UnParse()),")")
-        return "/*WARNING RValueSingle FALL THROUGH*/"
-
-    def GetOperator(self: 'CPPTranspiler',op: 'S84_CTCode_dbnf_ctcode.BinaryOperator') -> 'str':
-        if op.GetAddition():
-            return "+"
-        if op.GetSubtraction():
-            return "-"
-        if op.GetLessThan():
-            return "<"
-        if op.GetLessThanEq():
-            return "<="
-        if op.GetEquality():
-            return "=="
-        if op.GetNotEquality():
-            return "!="
-        if op.GetGreaterThanEq():
-            return ">="
-        if op.GetGreaterThan():
-            return ">"
-        if op.GetOrOp():
-            return "||"
-        if op.GetAndOp():
-            return "&&"
-        return "/*WARNING BinaryOperator FALL THROUGH*/"
-
-    def GetRValueTail(self: 'CPPTranspiler',r_value_tail: 'S84_CTCode_dbnf_ctcode.RValueTail') -> 'str':
-        if r_value_tail:
-            op: 'S84_CTCode_dbnf_ctcode.BinaryOperator' = None
-            op = r_value_tail.GetBinaryOperator()
-            return Concat(" ",Concat(self.GetOperator(op),Concat(" ",Concat(self.GetRValueSingleString(r_value_tail.GetValue()),self.GetRValueTail(r_value_tail.GetTail())))))
-        return ""
-
-    def GetRValueString(self: 'CPPTranspiler',r_value: 'S84_CTCode_dbnf_ctcode.RValue') -> 'str':
-        return Concat(self.GetRValueSingleString(r_value.GetValue()),self.GetRValueTail(r_value.GetTail()))
-
-    def GetVariableDefinition(self: 'CPPTranspiler',type: 'S84_CTCode_dbnf_ctcode.ValueType',name: 'S84_CTCode_dbnf_ctcode.Name') -> 'str':
-        return Concat(self.GetType(type),Concat(" ",self.GenerateVariableName(name)))
-
-    def GetParameterString(self: 'CPPTranspiler',parameter: 'S84_CTCode_dbnf_ctcode.ParameterListDef') -> 'str':
-        return self.GetVariableDefinition(parameter.GetType(),parameter.GetName())
-
-    def GenerateParameterListTail(self: 'CPPTranspiler',parameters: 'S84_CTCode_dbnf_ctcode.ParameterListDef') -> 'str':
-        if parameters:
-            return Concat(", ",Concat(self.GetParameterString(parameters),self.GenerateParameterListTail(parameters.GetParameterTail())))
-        return ""
-
-    def GenerateParameterList(self: 'CPPTranspiler',parameters: 'S84_CTCode_dbnf_ctcode.ParameterListDef') -> 'str':
-        if parameters:
-            return Concat(self.GetParameterString(parameters),self.GenerateParameterListTail(parameters.GetParameterTail()))
-        else:
-            return ""
-
-    def GenerateCallingParameterList(self: 'CPPTranspiler',parameters: 'S84_CTCode_dbnf_ctcode.ParameterList') -> 'str':
-        if parameters:
-            return Concat(self.GetCallingParameterString(parameters),self.GenerateCallingParameterListTail(parameters.GetParameterTail()))
-        else:
-            return ""
-
-    def GetCallingParameterString(self: 'CPPTranspiler',parameter: 'S84_CTCode_dbnf_ctcode.ParameterList') -> 'str':
-        if parameter:
-            return self.GetRValueString(parameter.GetRValue())
-        else:
-            return ""
-
-    def GenerateCallingParameterListTail(self: 'CPPTranspiler',parameters: 'S84_CTCode_dbnf_ctcode.ParameterList') -> 'str':
-        if parameters:
-            return Concat(", ",Concat(self.GetCallingParameterString(parameters),self.GenerateCallingParameterListTail(parameters.GetParameterTail())))
-        return ""
-
-    def GetType(self: 'CPPTranspiler',value_type: 'S84_CTCode_dbnf_ctcode.ValueType') -> 'str':
-        if value_type.GetDimensionalType():
-            return self.GetDimensionalType(value_type.GetDimensionalType())
-        if value_type.GetMapType():
-            return self.GetMapType(value_type.GetMapType())
-        if value_type.GetSingletonType():
-            return self.GetSingletonType(value_type.GetSingletonType())
-        return "/*WARNING ValueType FALL THROUGH*/"
-
-    def GetDimensionalType(self: 'CPPTranspiler',dimensional_type: 'S84_CTCode_dbnf_ctcode.DimensionalType') -> 'str':
-        dimensional_note_list: 'list[S84_CTCode_dbnf_ctcode.DimensionalNote]' = []
-        dimensional_note_list = dimensional_type.GetDimensionalNote()
-        dimensional_notes: 'int' = 0
-        dimensional_notes = Size(dimensional_note_list)
-        return Concat(self.GetDimensionalPrefix(dimensional_notes),Concat(self.GetSingletonType(dimensional_type.GetSingletonType()),self.GetDimensionalSuffix(dimensional_notes)))
-
-    def GetDimensionalPrefix(self: 'CPPTranspiler',dimensional_notes: 'int') -> 'str':
-        dimensional_prefix: 'str' = ""
-        dimensional_prefix = ""
-        while dimensional_notes>0:
-            dimensional_prefix = Concat(dimensional_prefix,"std::vector<")
-            dimensional_notes = dimensional_notes-1
-        return dimensional_prefix
-
-    def GetDimensionalSuffix(self: 'CPPTranspiler',dimensional_notes: 'int') -> 'str':
-        dimensional_suffix: 'str' = ""
-        dimensional_suffix = ""
-        while dimensional_notes>0:
-            dimensional_suffix = Concat(dimensional_suffix,">")
-            dimensional_notes = dimensional_notes-1
-        return dimensional_suffix
-
-    def GetMapType(self: 'CPPTranspiler',map_type: 'S84_CTCode_dbnf_ctcode.MapType') -> 'str':
-        return Concat("std::unordered_map<std::string, ",Concat(self.GetSingletonType(map_type.GetSingletonType()),">"))
-
-    def GetSingletonType(self: 'CPPTranspiler',singleton_type: 'S84_CTCode_dbnf_ctcode.SingletonType') -> 'str':
-        if singleton_type.GetDefinedType():
-            defined_type: 'S84_CTCode_dbnf_ctcode.DefinedType' = None
-            defined_type = singleton_type.GetDefinedType()
-            defined_type_name: 'S84_CTCode_dbnf_ctcode.QualfiedName' = None
-            defined_type_name = defined_type.GetName()
-            return self.GetDefinedType(defined_type_name)
-        if singleton_type.GetPrimativeType():
-            primative_type: 'S84_CTCode_dbnf_ctcode.PrimativeType' = None
-            primative_type = singleton_type.GetPrimativeType()
-            primative_type_string: 'str' = ""
-            primative_type_string = primative_type.UnParse()
-            if primative_type_string=="int":
-                return "int"
-            if primative_type_string=="string":
-                return "std::string"
-            if primative_type_string=="bool":
-                return "bool"
-            if primative_type_string=="float":
-                return "float"
-            if primative_type_string=="void":
-                return "void"
-            return "/*WARNING PrimativeType FALL THROUGH*/"
-        return "/*WARNING SingletonType FALL THROUGH*/"
-
-    def GetDefinedType(self: 'CPPTranspiler',qualified_name: 'S84_CTCode_dbnf_ctcode.QualfiedName') -> 'str':
-        raw_type: 'str' = self.GetRawDefinedType(qualified_name)
-        if self.IsUnmanagedType(raw_type):
-            return Concat(raw_type,"*")
-        else:
-            return Concat("OmniPointer<",Concat(raw_type,">"))
-
-    def GetRawDefinedType(self: 'CPPTranspiler',qualified_name: 'S84_CTCode_dbnf_ctcode.QualfiedName') -> 'str':
-        name_tail: 'S84_CTCode_dbnf_ctcode.NameTail' = None
-        name_tail = qualified_name.GetTail()
-        name: 'S84_CTCode_dbnf_ctcode.Name' = None
-        name = qualified_name.GetName()
-        result: 'str' = ""
-        result = ""
-        if name_tail:
-            name_string: 'str' = ""
-            name_string = name.UnParse()
-            lower_name_string: 'str' = ""
-            lower_name_string = self.ToLower(name_string)
-            name_tail_string: 'str' = ""
-            name_tail_string = self.GetRawDefinedTypeTail(name_tail)
-            result = Concat(result,lower_name_string)
-            result = Concat(result,name_tail_string)
-        else:
-            class_name: 'str' = ""
-            class_name = self.GenerateClassName(name)
-            result = Concat(result,class_name)
-        return result
-
-    def GetRawDefinedTypeTail(self: 'CPPTranspiler',name_tail: 'S84_CTCode_dbnf_ctcode.NameTail') -> 'str':
-        name_tail_tail: 'S84_CTCode_dbnf_ctcode.NameTail' = None
-        name_tail_tail = name_tail.GetTail()
-        name: 'S84_CTCode_dbnf_ctcode.Name' = None
-        name = name_tail.GetName()
-        result: 'str' = ""
-        result = "::"
-        if name_tail_tail:
-            name_string: 'str' = ""
-            name_string = name.UnParse()
-            lower_name_string: 'str' = ""
-            lower_name_string = self.ToLower(name_string)
-            name_tail_tail_string: 'str' = ""
-            name_tail_tail_string = self.GetRawDefinedTypeTail(name_tail_tail)
-            result = Concat(result,lower_name_string)
-            result = Concat(result,name_tail_tail_string)
-        else:
-            class_name: 'str' = ""
-            class_name = self.GenerateClassName(name)
-            result = Concat(result,class_name)
-        return result
-
-    def GenerateClassName(self: 'CPPTranspiler',name_node: 'S84_CTCode_dbnf_ctcode.Name') -> 'str':
-        if name_node:
-            name_node_string: 'str' = name_node.UnParse()
-            return self.SnakeCaseToCamelCase(name_node_string)
-        else:
-            return ""
-
-    def GenerateVariableChainNameTail(self: 'CPPTranspiler',name_tail: 'S84_CTCode_dbnf_ctcode.NameTail') -> 'str':
-        if name_tail.GetTail():
-            return Concat(Concat(self.GenerateVariableName(name_tail.GetName()),"->"),self.GenerateVariableChainNameTail(name_tail.GetTail()))
-        else:
-            return self.GenerateVariableName(name_tail.GetName())
-
-    def GenerateVariableChain(self: 'CPPTranspiler',qualified_name_node: 'S84_CTCode_dbnf_ctcode.QualfiedName') -> 'str':
-        if qualified_name_node.GetTail():
-            return Concat(Concat(self.GenerateVariableName(qualified_name_node.GetName()),"->"),self.GenerateVariableChainNameTail(qualified_name_node.GetTail()))
-        else:
-            return self.GenerateVariableName(qualified_name_node.GetName())
-
-    def GenerateVariableName(self: 'CPPTranspiler',name_node: 'S84_CTCode_dbnf_ctcode.Name') -> 'str':
-        if name_node:
-            name_node_string: 'str' = name_node.UnParse()
-            if name_node_string=="myself":
-                return "this"
-            return self.CamelCaseToSnakeCase(name_node_string)
-        else:
-            return ""
-
-    def GenerateCallName(self: 'CPPTranspiler',name_node: 'S84_CTCode_dbnf_ctcode.Name') -> 'str':
-        if name_node:
-            name_node_string: 'str' = name_node.UnParse()
-            return self.SnakeCaseToCamelCase(name_node_string)
-        else:
-            return ""
-
-    def TokenizeBaseName(self: 'CPPTranspiler',name: 'str') -> 'list[str]':
-        base_name_tokens: 'list[str]' = []
-        current_token: 'str' = ""
-        current_token = ""
-        index: 'int' = 0
-        index = 0
-        while index<Length(name):
-            character: 'str' = ""
-            character = At(name,index)
-            if character==".":
-                Append(base_name_tokens,current_token)
-                current_token = ""
-            else:
-                current_token = Concat(current_token,character)
-            index = index+1
-        return base_name_tokens
-
-    def GenerateGuardName(self: 'CPPTranspiler',base_name_tokens: 'list[str]') -> 'str':
-        guard_name: 'str' = ""
-        guard_name = ""
-        ctcode_guard: 'str' = ""
-        ctcode_guard = "CTCODE_H"
-        namespace_seperator: 'str' = ""
-        namespace_seperator = "_"
-        index: 'int' = 0
-        index = 0
-        while index<Size(base_name_tokens):
-            namespace_token: 'str' = ""
-            namespace_token = Element(base_name_tokens,index)
-            upper_namespace_token: 'str' = ""
-            upper_namespace_token = self.ToUpper(namespace_token)
-            guard_name = Concat(guard_name,upper_namespace_token)
-            guard_name = Concat(guard_name,namespace_seperator)
-            index = index+1
-        guard_name = Concat(guard_name,ctcode_guard)
-        return guard_name
-
     def SnakeCaseToCamelCase(self: 'CPPTranspiler',snake_case: 'str') -> 'str':
-        capitalize_this_letter: 'bool' = False
-        capitalize_this_letter = True
+        capitalize_this_letter: 'bool' = True
         camel_case: 'str' = ""
-        camel_case = ""
         index: 'int' = 0
         index = 0
         while index<Length(snake_case):
-            source_character: 'str' = ""
-            source_character = At(snake_case,index)
+            source_character: 'str' = At(snake_case,index)
             if source_character=="_":
                 capitalize_this_letter = True
             else:
                 if capitalize_this_letter==True:
-                    upper_character: 'str' = ""
-                    upper_character = self.CharacterToUpper(source_character)
+                    upper_character: 'str' = self.CharacterToUpper(source_character)
                     capitalize_this_letter = False
                     camel_case = Concat(camel_case,upper_character)
                 else:
@@ -760,33 +849,17 @@ class CPPTranspiler(S84_CTCode_Transpiler_ctcode.Transpiler):
         return camel_case
 
     def CamelCaseToSnakeCase(self: 'CPPTranspiler',camel_case: 'str') -> 'str':
-        delimiter: 'str' = ""
-        delimiter = "_"
-        in_abbreviation: 'bool' = False
-        in_abbreviation = True
+        delimiter: 'str' = "_"
         snake_case: 'str' = ""
-        snake_case = ""
         index: 'int' = 0
-        index = 0
         while index<Length(camel_case):
-            source_character: 'str' = ""
-            source_character = At(camel_case,index)
-            lower_character: 'str' = ""
-            lower_character = self.CharacterToLower(source_character)
+            source_character: 'str' = At(camel_case,index)
+            lower_character: 'str' = self.CharacterToLower(source_character)
             if self.IsUpper(source_character) or self.IsDigit(source_character):
-                is_first_character: 'bool' = False
-                is_first_character = Length(snake_case)==0
-                if not in_abbreviation and not is_first_character:
+                is_first_character: 'bool' = Length(snake_case)==0
+                if not is_first_character:
                     snake_case = Concat(snake_case,delimiter)
-                snake_case = Concat(snake_case,lower_character)
-                in_abbreviation = True
-            else:
-                if source_character==delimiter:
-                    snake_case = Concat(snake_case,delimiter)
-                    in_abbreviation = True
-                else:
-                    snake_case = Concat(snake_case,lower_character)
-                    in_abbreviation = False
+            snake_case = Concat(snake_case,lower_character)
             index = index+1
         return snake_case
 
@@ -838,14 +911,10 @@ class CPPTranspiler(S84_CTCode_Transpiler_ctcode.Transpiler):
 
     def ToLower(self: 'CPPTranspiler',input: 'str') -> 'str':
         index: 'int' = 0
-        index = 0
         result: 'str' = ""
-        result = ""
         while index<Length(input):
-            character: 'str' = ""
-            character = At(input,index)
-            lower_character: 'str' = ""
-            lower_character = self.CharacterToLower(character)
+            character: 'str' = At(input,index)
+            lower_character: 'str' = self.CharacterToLower(character)
             result = Concat(result,lower_character)
             index = index+1
         return result
@@ -907,14 +976,10 @@ class CPPTranspiler(S84_CTCode_Transpiler_ctcode.Transpiler):
 
     def ToUpper(self: 'CPPTranspiler',input: 'str') -> 'str':
         index: 'int' = 0
-        index = 0
         result: 'str' = ""
-        result = ""
         while index<Length(input):
-            character: 'str' = ""
-            character = At(input,index)
-            upper_character: 'str' = ""
-            upper_character = self.CharacterToUpper(character)
+            character: 'str' = At(input,index)
+            upper_character: 'str' = self.CharacterToUpper(character)
             result = Concat(result,upper_character)
             index = index+1
         return result

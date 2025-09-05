@@ -99,25 +99,19 @@ inline int IntAt(const std::string& input, int index) { return (input.at(index) 
 inline std::string Concat(const std::string& left, const std::string& right) { return left + right; };
 #endif
 
-namespace s84
-{
-namespace ctcode
-{
-namespace transpiler
-{
-namespace logtoconsole
-{
-namespace ctcode
-{
+namespace s84 {
+namespace ctcode {
+namespace transpiler {
+namespace logtoconsole {
+namespace ctcode {
+
 class ParameterDeclaration;
 class LogToConsole;
 
-
-class ParameterDeclaration
-{
+class ParameterDeclaration {
 public:
-    inline ParameterDeclaration() {};
-    inline ~ParameterDeclaration() {};
+    ParameterDeclaration();
+    inline ~ParameterDeclaration() {}
 
     std::string GetType();
     void SetType(std::string input);
@@ -129,12 +123,10 @@ private:
     std::string name;
 };
 
-class LogToConsole
-: public s84::ctcode::transpiler::ctcode::Transpiler
-{
+class LogToConsole : public s84::ctcode::transpiler::ctcode::Transpiler {
 public:
-    inline LogToConsole() {};
-    inline ~LogToConsole() {};
+    LogToConsole();
+    inline ~LogToConsole() {}
 
     int GetBaseIndentation();
     std::string GetCallName(OmniPointer<s84::ctcode::dbnf::ctcode::Name> name);
@@ -219,6 +211,7 @@ private:
     std::string base_name;
     OmniPointer<s84::ctcode::system::ctcode::OutputStream> logger;
 };
+
 };
 };
 };

@@ -102,28 +102,24 @@ inline int IntAt(const std::string& input, int index) { return (input.at(index) 
 inline std::string Concat(const std::string& left, const std::string& right) { return left + right; };
 #endif
 
-namespace s84
-{
-namespace ctcode
-{
-namespace main
-{
-namespace ctcode
-{
+namespace s84 {
+namespace ctcode {
+namespace main {
+namespace ctcode {
+
 class Main;
 
-
-class Main
-{
+class Main {
 public:
-    inline Main() {};
-    inline ~Main() {};
+    Main();
+    inline ~Main() {}
 
     OmniPointer<s84::ctcode::transpiler::ctcode::Transpiler> GetCPPTranspiler();
     OmniPointer<s84::ctcode::transpiler::ctcode::Transpiler> GetPython3Transpiler();
     OmniPointer<s84::ctcode::transpiler::ctcode::Transpiler> GetLogToConsole();
     int RunMain(OmniPointer<s84::ctcode::system::ctcode::System> system, std::string ctcode_file_name, std::string transpiler);
 };
+
 };
 };
 };
