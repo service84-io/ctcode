@@ -297,9 +297,6 @@ class Python3Transpiler implements S84.CTCode.Transpiler.ctcode.Transpiler {
         ClearList(myself.class_definitions);
         ClearList(myself.class_init);
         ClearList(myself.class_functions);
-        ClearList(myself.imports);
-        ClearList(myself.interface_definitions);
-        ClearList(myself.class_definitions);
     }
 
     function void ProcessExdef(string exdef) {
@@ -447,8 +444,7 @@ class Python3Transpiler implements S84.CTCode.Transpiler.ctcode.Transpiler {
 
     function void FinishProcessingCTCodeFile() {
         string destination_file_name = Concat(myself.StripDot(myself.base_name), ".py");
-        S84.CTCode.System.ctcode.System system = myself.system;
-        S84.CTCode.System.ctcode.OutputStream destination_file = system.OpenFileWriter(destination_file_name);
+        S84.CTCode.System.ctcode.OutputStream destination_file = myself.system.OpenFileWriter(destination_file_name);
 
         if (Size(myself.imports) > 0) {
             myself.WriteLines(destination_file, myself.imports);

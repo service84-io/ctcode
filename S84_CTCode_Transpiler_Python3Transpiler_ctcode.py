@@ -212,9 +212,6 @@ class Python3Transpiler(S84_CTCode_Transpiler_ctcode.Transpiler):
         ClearList(self.class_definitions)
         ClearList(self.class_init)
         ClearList(self.class_functions)
-        ClearList(self.imports)
-        ClearList(self.interface_definitions)
-        ClearList(self.class_definitions)
 
     def ProcessExdef(self: 'Python3Transpiler',exdef: 'str') -> 'None':
         Append(self.imports,Concat("import ",self.StripDot(exdef)))
@@ -324,8 +321,7 @@ class Python3Transpiler(S84_CTCode_Transpiler_ctcode.Transpiler):
 
     def FinishProcessingCTCodeFile(self: 'Python3Transpiler') -> 'None':
         destination_file_name: 'str' = Concat(self.StripDot(self.base_name),".py")
-        system: 'S84_CTCode_System_ctcode.System' = self.system
-        destination_file: 'S84_CTCode_System_ctcode.OutputStream' = system.OpenFileWriter(destination_file_name)
+        destination_file: 'S84_CTCode_System_ctcode.OutputStream' = self.system.OpenFileWriter(destination_file_name)
         if Size(self.imports)>0:
             self.WriteLines(destination_file,self.imports)
             destination_file.WriteLine("")

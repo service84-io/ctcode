@@ -334,9 +334,6 @@ namespace ctcode
         ClearList(this->class_definitions);
         ClearList(this->class_init);
         ClearList(this->class_functions);
-        ClearList(this->imports);
-        ClearList(this->interface_definitions);
-        ClearList(this->class_definitions);
     }
 
     void Python3Transpiler::ProcessExdef(std::string exdef)
@@ -509,8 +506,7 @@ namespace ctcode
     void Python3Transpiler::FinishProcessingCTCodeFile()
     {
         std::string destination_file_name = Concat(this->StripDot(this->base_name), std::string(".py"));
-        OmniPointer<s84::ctcode::system::ctcode::System> system = this->system;
-        OmniPointer<s84::ctcode::system::ctcode::OutputStream> destination_file = system->OpenFileWriter(destination_file_name);
+        OmniPointer<s84::ctcode::system::ctcode::OutputStream> destination_file = this->system->OpenFileWriter(destination_file_name);
         if (Size(this->imports) > 0)
         {
             this->WriteLines(destination_file, this->imports);
