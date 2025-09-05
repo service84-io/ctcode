@@ -44,10 +44,6 @@ class LogToConsole(S84_CTCode_Transpiler_ctcode.Transpiler):
         self.base_name: str = ""
         self.logger: S84_CTCode_System_ctcode.OutputStream = None
 
-    def LogLine(self: 'LogToConsole',line: 'str') -> 'None':
-        local_logger: 'S84_CTCode_System_ctcode.OutputStream' = self.logger
-        local_logger.WriteLine(line)
-
     def GetBaseIndentation(self: 'LogToConsole') -> 'int':
         return 3
 
@@ -192,73 +188,73 @@ class LogToConsole(S84_CTCode_Transpiler_ctcode.Transpiler):
         return result
 
     def BeginProcessingCTCodeFile(self: 'LogToConsole') -> 'None':
-        self.LogLine("BeginProcessingCTCodeFile")
+        self.logger.WriteLine("BeginProcessingCTCodeFile")
 
     def ProcessExdef(self: 'LogToConsole',exdef: 'str') -> 'None':
-        self.LogLine(Concat(Concat(self.Indentation(1),"ProcessExdef: "),exdef))
+        self.logger.WriteLine(Concat(Concat(self.Indentation(1),"ProcessExdef: "),exdef))
 
     def ProcessUnmanagedType(self: 'LogToConsole',unmanaged_type: 'str') -> 'None':
-        self.LogLine(Concat(Concat(self.Indentation(1),"ProcessUnmanagedType: "),unmanaged_type))
+        self.logger.WriteLine(Concat(Concat(self.Indentation(1),"ProcessUnmanagedType: "),unmanaged_type))
 
     def BeginProcessingInterface(self: 'LogToConsole',interface_name: 'str') -> 'None':
-        self.LogLine(Concat(Concat(self.Indentation(1),"BeginProcessingInterface: "),interface_name))
+        self.logger.WriteLine(Concat(Concat(self.Indentation(1),"BeginProcessingInterface: "),interface_name))
 
     def ProcessInterfaceFunctionDeclaration(self: 'LogToConsole',return_type: 'str',function_name: 'str',parameters: 'list[ParameterDeclaration]') -> 'None':
-        self.LogLine(Concat(Concat(Concat(Concat(self.Indentation(2),"ProcessInterfaceFunctionDeclaration: "),return_type)," "),function_name))
+        self.logger.WriteLine(Concat(Concat(Concat(Concat(self.Indentation(2),"ProcessInterfaceFunctionDeclaration: "),return_type)," "),function_name))
 
     def FinishProcessingInterface(self: 'LogToConsole',interface_name: 'str') -> 'None':
-        self.LogLine(Concat(Concat(self.Indentation(1),"FinishProcessingInterface: "),interface_name))
+        self.logger.WriteLine(Concat(Concat(self.Indentation(1),"FinishProcessingInterface: "),interface_name))
 
     def BeginProcessingClass(self: 'LogToConsole',class_name: 'str',implementing: 'str') -> 'None':
-        self.LogLine(Concat(Concat(Concat(Concat(self.Indentation(1),"BeginProcessingClass: "),class_name)," "),implementing))
+        self.logger.WriteLine(Concat(Concat(Concat(Concat(self.Indentation(1),"BeginProcessingClass: "),class_name)," "),implementing))
 
     def BeginProcessingClassFunctionDefinition(self: 'LogToConsole',return_type: 'str',function_name: 'str',parameters: 'list[ParameterDeclaration]') -> 'None':
-        self.LogLine(Concat(Concat(Concat(Concat(self.Indentation(2),"BeginProcessingClassFunctionDefinition: "),return_type)," "),function_name))
+        self.logger.WriteLine(Concat(Concat(Concat(Concat(self.Indentation(2),"BeginProcessingClassFunctionDefinition: "),return_type)," "),function_name))
 
     def BeginProcessCodeBlock(self: 'LogToConsole',indent: 'int') -> 'None':
-        self.LogLine(Concat(self.Indentation(indent),"BeginProcessCodeBlock"))
+        self.logger.WriteLine(Concat(self.Indentation(indent),"BeginProcessCodeBlock"))
 
     def FinishProcessCodeBlock(self: 'LogToConsole',indent: 'int') -> 'None':
-        self.LogLine(Concat(self.Indentation(indent),"FinishProcessCodeBlock"))
+        self.logger.WriteLine(Concat(self.Indentation(indent),"FinishProcessCodeBlock"))
 
     def BeginProcessConditional(self: 'LogToConsole',indent: 'int',r_value: 'str') -> 'None':
-        self.LogLine(Concat(Concat(self.Indentation(indent),"BeginProcessConditional: "),r_value))
+        self.logger.WriteLine(Concat(Concat(self.Indentation(indent),"BeginProcessConditional: "),r_value))
 
     def ProcessElse(self: 'LogToConsole',indent: 'int') -> 'None':
-        self.LogLine(Concat(self.Indentation(indent),"ProcessElse"))
+        self.logger.WriteLine(Concat(self.Indentation(indent),"ProcessElse"))
 
     def FinishProcessConditional(self: 'LogToConsole',indent: 'int',r_value: 'str') -> 'None':
-        self.LogLine(Concat(Concat(self.Indentation(indent),"FinishProcessConditional: "),r_value))
+        self.logger.WriteLine(Concat(Concat(self.Indentation(indent),"FinishProcessConditional: "),r_value))
 
     def BeginProcessLoop(self: 'LogToConsole',indent: 'int',r_value: 'str') -> 'None':
-        self.LogLine(Concat(Concat(self.Indentation(indent),"BeginProcessLoop: "),r_value))
+        self.logger.WriteLine(Concat(Concat(self.Indentation(indent),"BeginProcessLoop: "),r_value))
 
     def FinishProcessLoop(self: 'LogToConsole',indent: 'int',r_value: 'str') -> 'None':
-        self.LogLine(Concat(Concat(self.Indentation(indent),"FinishProcessLoop: "),r_value))
+        self.logger.WriteLine(Concat(Concat(self.Indentation(indent),"FinishProcessLoop: "),r_value))
 
     def ProcessRtn(self: 'LogToConsole',indent: 'int',r_value: 'str') -> 'None':
-        self.LogLine(Concat(Concat(self.Indentation(indent),"ProcessRtn: "),r_value))
+        self.logger.WriteLine(Concat(Concat(self.Indentation(indent),"ProcessRtn: "),r_value))
 
     def ProcessDeclaration(self: 'LogToConsole',indent: 'int',type: 'str',l_value: 'str',r_value: 'str') -> 'None':
-        self.LogLine(Concat(Concat(Concat(Concat(Concat(Concat(self.Indentation(indent),"ProcessDeclaration: "),type)," "),l_value)," "),r_value))
+        self.logger.WriteLine(Concat(Concat(Concat(Concat(Concat(Concat(self.Indentation(indent),"ProcessDeclaration: "),type)," "),l_value)," "),r_value))
 
     def ProcessAssignment(self: 'LogToConsole',indent: 'int',l_value: 'str',r_value: 'str') -> 'None':
-        self.LogLine(Concat(Concat(Concat(Concat(self.Indentation(indent),"ProcessAssignment: "),l_value)," "),r_value))
+        self.logger.WriteLine(Concat(Concat(Concat(Concat(self.Indentation(indent),"ProcessAssignment: "),l_value)," "),r_value))
 
     def ProcessCall(self: 'LogToConsole',indent: 'int',call: 'str') -> 'None':
-        self.LogLine(Concat(Concat(self.Indentation(indent),"ProcessCall: "),call))
+        self.logger.WriteLine(Concat(Concat(self.Indentation(indent),"ProcessCall: "),call))
 
     def FinishProcessingClassFunctionDefinition(self: 'LogToConsole',return_type: 'str',function_name: 'str',parameters: 'list[ParameterDeclaration]') -> 'None':
-        self.LogLine(Concat(Concat(Concat(Concat(self.Indentation(2),"FinishProcessingClassFunctionDefinition: "),return_type)," "),function_name))
+        self.logger.WriteLine(Concat(Concat(Concat(Concat(self.Indentation(2),"FinishProcessingClassFunctionDefinition: "),return_type)," "),function_name))
 
     def ProcessClassMemberDeclaration(self: 'LogToConsole',member_type: 'str',member_name: 'str') -> 'None':
-        self.LogLine(Concat(Concat(Concat(Concat(self.Indentation(2),"ProcessClassMemberDeclaration: "),member_type)," "),member_name))
+        self.logger.WriteLine(Concat(Concat(Concat(Concat(self.Indentation(2),"ProcessClassMemberDeclaration: "),member_type)," "),member_name))
 
     def FinishProcessingClass(self: 'LogToConsole',class_name: 'str',implementing: 'str') -> 'None':
-        self.LogLine(Concat(Concat(self.Indentation(1),"FinishProcessingClass: "),class_name))
+        self.logger.WriteLine(Concat(Concat(self.Indentation(1),"FinishProcessingClass: "),class_name))
 
     def FinishProcessingCTCodeFile(self: 'LogToConsole') -> 'None':
-        self.LogLine("FinishProcessingCTCodeFile")
+        self.logger.WriteLine("FinishProcessingCTCodeFile")
 
     def Transpile(self: 'LogToConsole',system: 'S84_CTCode_System_ctcode.System',c_t_code_file: 'S84_CTCode_dbnf_ctcode.CTCodeFile',base_name: 'str') -> 'int':
         self.system = system

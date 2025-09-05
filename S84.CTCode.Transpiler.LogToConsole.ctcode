@@ -19,11 +19,6 @@ class LogToConsole implements S84.CTCode.Transpiler.ctcode.Transpiler {
 
     S84.CTCode.System.ctcode.OutputStream logger;
 
-    function void LogLine(string line) {
-        S84.CTCode.System.ctcode.OutputStream local_logger = myself.logger;
-        local_logger.WriteLine(line);
-    }
-
     /* These target specific functions
      * VVVVVVVV
      * VVVVVVVV
@@ -271,95 +266,95 @@ class LogToConsole implements S84.CTCode.Transpiler.ctcode.Transpiler {
     }
 
     function void BeginProcessingCTCodeFile() {
-        myself.LogLine("BeginProcessingCTCodeFile");
+        myself.logger.WriteLine("BeginProcessingCTCodeFile");
     }
 
     function void ProcessExdef(string exdef) {
-        myself.LogLine(Concat(Concat(myself.Indentation(1), "ProcessExdef: "), exdef));
+        myself.logger.WriteLine(Concat(Concat(myself.Indentation(1), "ProcessExdef: "), exdef));
     }
 
     function void ProcessUnmanagedType(string unmanaged_type) {
-        myself.LogLine(Concat(Concat(myself.Indentation(1), "ProcessUnmanagedType: "), unmanaged_type));
+        myself.logger.WriteLine(Concat(Concat(myself.Indentation(1), "ProcessUnmanagedType: "), unmanaged_type));
     }
 
     function void BeginProcessingInterface(string interface_name) {
-        myself.LogLine(Concat(Concat(myself.Indentation(1), "BeginProcessingInterface: "), interface_name));
+        myself.logger.WriteLine(Concat(Concat(myself.Indentation(1), "BeginProcessingInterface: "), interface_name));
     }
 
     function void ProcessInterfaceFunctionDeclaration(string return_type, string function_name, ParameterDeclaration[] parameters) {
-        myself.LogLine(Concat(Concat(Concat(Concat(myself.Indentation(2), "ProcessInterfaceFunctionDeclaration: "), return_type), " "), function_name));
+        myself.logger.WriteLine(Concat(Concat(Concat(Concat(myself.Indentation(2), "ProcessInterfaceFunctionDeclaration: "), return_type), " "), function_name));
     }
 
     function void FinishProcessingInterface(string interface_name) {
-        myself.LogLine(Concat(Concat(myself.Indentation(1), "FinishProcessingInterface: "), interface_name));
+        myself.logger.WriteLine(Concat(Concat(myself.Indentation(1), "FinishProcessingInterface: "), interface_name));
     }
 
     function void BeginProcessingClass(string class_name, string implementing) {
-        myself.LogLine(Concat(Concat(Concat(Concat(myself.Indentation(1), "BeginProcessingClass: "), class_name), " "), implementing));
+        myself.logger.WriteLine(Concat(Concat(Concat(Concat(myself.Indentation(1), "BeginProcessingClass: "), class_name), " "), implementing));
     }
 
     function void BeginProcessingClassFunctionDefinition(string return_type, string function_name, ParameterDeclaration[] parameters) {
-        myself.LogLine(Concat(Concat(Concat(Concat(myself.Indentation(2), "BeginProcessingClassFunctionDefinition: "), return_type), " "), function_name));
+        myself.logger.WriteLine(Concat(Concat(Concat(Concat(myself.Indentation(2), "BeginProcessingClassFunctionDefinition: "), return_type), " "), function_name));
     }
 
     function void BeginProcessCodeBlock(int indent) {
-        myself.LogLine(Concat(myself.Indentation(indent), "BeginProcessCodeBlock"));
+        myself.logger.WriteLine(Concat(myself.Indentation(indent), "BeginProcessCodeBlock"));
     }
 
     function void FinishProcessCodeBlock(int indent) {
-        myself.LogLine(Concat(myself.Indentation(indent), "FinishProcessCodeBlock"));
+        myself.logger.WriteLine(Concat(myself.Indentation(indent), "FinishProcessCodeBlock"));
     }
 
     function void BeginProcessConditional(int indent, string r_value) {
-        myself.LogLine(Concat(Concat(myself.Indentation(indent), "BeginProcessConditional: "), r_value));
+        myself.logger.WriteLine(Concat(Concat(myself.Indentation(indent), "BeginProcessConditional: "), r_value));
     }
 
     function void ProcessElse(int indent) {
-        myself.LogLine(Concat(myself.Indentation(indent), "ProcessElse"));
+        myself.logger.WriteLine(Concat(myself.Indentation(indent), "ProcessElse"));
     }
 
     function void FinishProcessConditional(int indent, string r_value) {
-        myself.LogLine(Concat(Concat(myself.Indentation(indent), "FinishProcessConditional: "), r_value));
+        myself.logger.WriteLine(Concat(Concat(myself.Indentation(indent), "FinishProcessConditional: "), r_value));
     }
 
     function void BeginProcessLoop(int indent, string r_value) {
-        myself.LogLine(Concat(Concat(myself.Indentation(indent), "BeginProcessLoop: "), r_value));
+        myself.logger.WriteLine(Concat(Concat(myself.Indentation(indent), "BeginProcessLoop: "), r_value));
     }
 
     function void FinishProcessLoop(int indent, string r_value) {
-        myself.LogLine(Concat(Concat(myself.Indentation(indent), "FinishProcessLoop: "), r_value));
+        myself.logger.WriteLine(Concat(Concat(myself.Indentation(indent), "FinishProcessLoop: "), r_value));
     }
 
     function void ProcessRtn(int indent, string r_value) {
-        myself.LogLine(Concat(Concat(myself.Indentation(indent), "ProcessRtn: "), r_value));
+        myself.logger.WriteLine(Concat(Concat(myself.Indentation(indent), "ProcessRtn: "), r_value));
     }
 
     function void ProcessDeclaration(int indent, string type, string l_value, string r_value) {
-        myself.LogLine(Concat(Concat(Concat(Concat(Concat(Concat(myself.Indentation(indent), "ProcessDeclaration: "), type), " "),l_value), " "),r_value));
+        myself.logger.WriteLine(Concat(Concat(Concat(Concat(Concat(Concat(myself.Indentation(indent), "ProcessDeclaration: "), type), " "),l_value), " "),r_value));
     }
 
     function void ProcessAssignment(int indent, string l_value, string r_value) {
-        myself.LogLine(Concat(Concat(Concat(Concat(myself.Indentation(indent), "ProcessAssignment: "), l_value), " "),r_value));
+        myself.logger.WriteLine(Concat(Concat(Concat(Concat(myself.Indentation(indent), "ProcessAssignment: "), l_value), " "),r_value));
     }
 
     function void ProcessCall(int indent, string call) {
-        myself.LogLine(Concat(Concat(myself.Indentation(indent), "ProcessCall: "), call));
+        myself.logger.WriteLine(Concat(Concat(myself.Indentation(indent), "ProcessCall: "), call));
     }
 
     function void FinishProcessingClassFunctionDefinition(string return_type, string function_name, ParameterDeclaration[] parameters) {
-        myself.LogLine(Concat(Concat(Concat(Concat(myself.Indentation(2), "FinishProcessingClassFunctionDefinition: "), return_type), " "), function_name));
+        myself.logger.WriteLine(Concat(Concat(Concat(Concat(myself.Indentation(2), "FinishProcessingClassFunctionDefinition: "), return_type), " "), function_name));
     }
 
     function void ProcessClassMemberDeclaration(string member_type, string member_name) {
-        myself.LogLine(Concat(Concat(Concat(Concat(myself.Indentation(2), "ProcessClassMemberDeclaration: "), member_type), " "), member_name));
+        myself.logger.WriteLine(Concat(Concat(Concat(Concat(myself.Indentation(2), "ProcessClassMemberDeclaration: "), member_type), " "), member_name));
     }
 
     function void FinishProcessingClass(string class_name, string implementing) {
-        myself.LogLine(Concat(Concat(myself.Indentation(1), "FinishProcessingClass: "), class_name));
+        myself.logger.WriteLine(Concat(Concat(myself.Indentation(1), "FinishProcessingClass: "), class_name));
     }
 
     function void FinishProcessingCTCodeFile() {
-        myself.LogLine("FinishProcessingCTCodeFile");
+        myself.logger.WriteLine("FinishProcessingCTCodeFile");
     }
 
     /* These are structural functions

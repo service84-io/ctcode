@@ -34,12 +34,6 @@ namespace ctcode
         this->name = input;
     }
 
-    void LogToConsole::LogLine(std::string line)
-    {
-        OmniPointer<s84::ctcode::system::ctcode::OutputStream> local_logger = this->logger;
-        local_logger->WriteLine(line);
-    }
-
     int LogToConsole::GetBaseIndentation()
     {
         return 3;
@@ -316,117 +310,117 @@ namespace ctcode
 
     void LogToConsole::BeginProcessingCTCodeFile()
     {
-        this->LogLine(std::string("BeginProcessingCTCodeFile"));
+        this->logger->WriteLine(std::string("BeginProcessingCTCodeFile"));
     }
 
     void LogToConsole::ProcessExdef(std::string exdef)
     {
-        this->LogLine(Concat(Concat(this->Indentation(1), std::string("ProcessExdef: ")), exdef));
+        this->logger->WriteLine(Concat(Concat(this->Indentation(1), std::string("ProcessExdef: ")), exdef));
     }
 
     void LogToConsole::ProcessUnmanagedType(std::string unmanaged_type)
     {
-        this->LogLine(Concat(Concat(this->Indentation(1), std::string("ProcessUnmanagedType: ")), unmanaged_type));
+        this->logger->WriteLine(Concat(Concat(this->Indentation(1), std::string("ProcessUnmanagedType: ")), unmanaged_type));
     }
 
     void LogToConsole::BeginProcessingInterface(std::string interface_name)
     {
-        this->LogLine(Concat(Concat(this->Indentation(1), std::string("BeginProcessingInterface: ")), interface_name));
+        this->logger->WriteLine(Concat(Concat(this->Indentation(1), std::string("BeginProcessingInterface: ")), interface_name));
     }
 
     void LogToConsole::ProcessInterfaceFunctionDeclaration(std::string return_type, std::string function_name, std::vector<OmniPointer<ParameterDeclaration>> parameters)
     {
-        this->LogLine(Concat(Concat(Concat(Concat(this->Indentation(2), std::string("ProcessInterfaceFunctionDeclaration: ")), return_type), std::string(" ")), function_name));
+        this->logger->WriteLine(Concat(Concat(Concat(Concat(this->Indentation(2), std::string("ProcessInterfaceFunctionDeclaration: ")), return_type), std::string(" ")), function_name));
     }
 
     void LogToConsole::FinishProcessingInterface(std::string interface_name)
     {
-        this->LogLine(Concat(Concat(this->Indentation(1), std::string("FinishProcessingInterface: ")), interface_name));
+        this->logger->WriteLine(Concat(Concat(this->Indentation(1), std::string("FinishProcessingInterface: ")), interface_name));
     }
 
     void LogToConsole::BeginProcessingClass(std::string class_name, std::string implementing)
     {
-        this->LogLine(Concat(Concat(Concat(Concat(this->Indentation(1), std::string("BeginProcessingClass: ")), class_name), std::string(" ")), implementing));
+        this->logger->WriteLine(Concat(Concat(Concat(Concat(this->Indentation(1), std::string("BeginProcessingClass: ")), class_name), std::string(" ")), implementing));
     }
 
     void LogToConsole::BeginProcessingClassFunctionDefinition(std::string return_type, std::string function_name, std::vector<OmniPointer<ParameterDeclaration>> parameters)
     {
-        this->LogLine(Concat(Concat(Concat(Concat(this->Indentation(2), std::string("BeginProcessingClassFunctionDefinition: ")), return_type), std::string(" ")), function_name));
+        this->logger->WriteLine(Concat(Concat(Concat(Concat(this->Indentation(2), std::string("BeginProcessingClassFunctionDefinition: ")), return_type), std::string(" ")), function_name));
     }
 
     void LogToConsole::BeginProcessCodeBlock(int indent)
     {
-        this->LogLine(Concat(this->Indentation(indent), std::string("BeginProcessCodeBlock")));
+        this->logger->WriteLine(Concat(this->Indentation(indent), std::string("BeginProcessCodeBlock")));
     }
 
     void LogToConsole::FinishProcessCodeBlock(int indent)
     {
-        this->LogLine(Concat(this->Indentation(indent), std::string("FinishProcessCodeBlock")));
+        this->logger->WriteLine(Concat(this->Indentation(indent), std::string("FinishProcessCodeBlock")));
     }
 
     void LogToConsole::BeginProcessConditional(int indent, std::string r_value)
     {
-        this->LogLine(Concat(Concat(this->Indentation(indent), std::string("BeginProcessConditional: ")), r_value));
+        this->logger->WriteLine(Concat(Concat(this->Indentation(indent), std::string("BeginProcessConditional: ")), r_value));
     }
 
     void LogToConsole::ProcessElse(int indent)
     {
-        this->LogLine(Concat(this->Indentation(indent), std::string("ProcessElse")));
+        this->logger->WriteLine(Concat(this->Indentation(indent), std::string("ProcessElse")));
     }
 
     void LogToConsole::FinishProcessConditional(int indent, std::string r_value)
     {
-        this->LogLine(Concat(Concat(this->Indentation(indent), std::string("FinishProcessConditional: ")), r_value));
+        this->logger->WriteLine(Concat(Concat(this->Indentation(indent), std::string("FinishProcessConditional: ")), r_value));
     }
 
     void LogToConsole::BeginProcessLoop(int indent, std::string r_value)
     {
-        this->LogLine(Concat(Concat(this->Indentation(indent), std::string("BeginProcessLoop: ")), r_value));
+        this->logger->WriteLine(Concat(Concat(this->Indentation(indent), std::string("BeginProcessLoop: ")), r_value));
     }
 
     void LogToConsole::FinishProcessLoop(int indent, std::string r_value)
     {
-        this->LogLine(Concat(Concat(this->Indentation(indent), std::string("FinishProcessLoop: ")), r_value));
+        this->logger->WriteLine(Concat(Concat(this->Indentation(indent), std::string("FinishProcessLoop: ")), r_value));
     }
 
     void LogToConsole::ProcessRtn(int indent, std::string r_value)
     {
-        this->LogLine(Concat(Concat(this->Indentation(indent), std::string("ProcessRtn: ")), r_value));
+        this->logger->WriteLine(Concat(Concat(this->Indentation(indent), std::string("ProcessRtn: ")), r_value));
     }
 
     void LogToConsole::ProcessDeclaration(int indent, std::string type, std::string l_value, std::string r_value)
     {
-        this->LogLine(Concat(Concat(Concat(Concat(Concat(Concat(this->Indentation(indent), std::string("ProcessDeclaration: ")), type), std::string(" ")), l_value), std::string(" ")), r_value));
+        this->logger->WriteLine(Concat(Concat(Concat(Concat(Concat(Concat(this->Indentation(indent), std::string("ProcessDeclaration: ")), type), std::string(" ")), l_value), std::string(" ")), r_value));
     }
 
     void LogToConsole::ProcessAssignment(int indent, std::string l_value, std::string r_value)
     {
-        this->LogLine(Concat(Concat(Concat(Concat(this->Indentation(indent), std::string("ProcessAssignment: ")), l_value), std::string(" ")), r_value));
+        this->logger->WriteLine(Concat(Concat(Concat(Concat(this->Indentation(indent), std::string("ProcessAssignment: ")), l_value), std::string(" ")), r_value));
     }
 
     void LogToConsole::ProcessCall(int indent, std::string call)
     {
-        this->LogLine(Concat(Concat(this->Indentation(indent), std::string("ProcessCall: ")), call));
+        this->logger->WriteLine(Concat(Concat(this->Indentation(indent), std::string("ProcessCall: ")), call));
     }
 
     void LogToConsole::FinishProcessingClassFunctionDefinition(std::string return_type, std::string function_name, std::vector<OmniPointer<ParameterDeclaration>> parameters)
     {
-        this->LogLine(Concat(Concat(Concat(Concat(this->Indentation(2), std::string("FinishProcessingClassFunctionDefinition: ")), return_type), std::string(" ")), function_name));
+        this->logger->WriteLine(Concat(Concat(Concat(Concat(this->Indentation(2), std::string("FinishProcessingClassFunctionDefinition: ")), return_type), std::string(" ")), function_name));
     }
 
     void LogToConsole::ProcessClassMemberDeclaration(std::string member_type, std::string member_name)
     {
-        this->LogLine(Concat(Concat(Concat(Concat(this->Indentation(2), std::string("ProcessClassMemberDeclaration: ")), member_type), std::string(" ")), member_name));
+        this->logger->WriteLine(Concat(Concat(Concat(Concat(this->Indentation(2), std::string("ProcessClassMemberDeclaration: ")), member_type), std::string(" ")), member_name));
     }
 
     void LogToConsole::FinishProcessingClass(std::string class_name, std::string implementing)
     {
-        this->LogLine(Concat(Concat(this->Indentation(1), std::string("FinishProcessingClass: ")), class_name));
+        this->logger->WriteLine(Concat(Concat(this->Indentation(1), std::string("FinishProcessingClass: ")), class_name));
     }
 
     void LogToConsole::FinishProcessingCTCodeFile()
     {
-        this->LogLine(std::string("FinishProcessingCTCodeFile"));
+        this->logger->WriteLine(std::string("FinishProcessingCTCodeFile"));
     }
 
     int LogToConsole::Transpile(OmniPointer<s84::ctcode::system::ctcode::System> system, OmniPointer<s84::ctcode::dbnf::ctcode::CTCodeFile> c_t_code_file, std::string base_name)
