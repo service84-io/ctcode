@@ -24,6 +24,9 @@ for CTCodeFile in *.ctcode; do
   echo Generating Python...
   ctcode ${CTCodeFile} Python3Transpiler
   echo Done generating Python!
+  echo Generating NodeJS...
+  ctcode ${CTCodeFile} NodeJSTranspiler
+  echo Done generating NodeJS!
   echo Done processing ${CTCodeFile}!
   echo
 done

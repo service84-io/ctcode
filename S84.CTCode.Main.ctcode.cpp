@@ -19,6 +19,11 @@ OmniPointer<s84::ctcode::transpiler::ctcode::Transpiler> Main::GetPython3Transpi
     return std::shared_ptr<s84::ctcode::transpiler::python3transpiler::ctcode::Python3Transpiler>(new s84::ctcode::transpiler::python3transpiler::ctcode::Python3Transpiler());
 }
 
+OmniPointer<s84::ctcode::transpiler::ctcode::Transpiler> Main::GetNodeJSTranspiler()
+{
+    return std::shared_ptr<s84::ctcode::transpiler::nodejstranspiler::ctcode::NodeJSTranspiler>(new s84::ctcode::transpiler::nodejstranspiler::ctcode::NodeJSTranspiler());
+}
+
 OmniPointer<s84::ctcode::transpiler::ctcode::Transpiler> Main::GetLogToConsole()
 {
     return std::shared_ptr<s84::ctcode::transpiler::logtoconsole::ctcode::LogToConsole>(new s84::ctcode::transpiler::logtoconsole::ctcode::LogToConsole());
@@ -30,6 +35,7 @@ int Main::RunMain(OmniPointer<s84::ctcode::system::ctcode::System> system, std::
     std::unordered_map<std::string, OmniPointer<s84::ctcode::transpiler::ctcode::Transpiler>> transpilers;
     SetKV(transpilers,std::string("CPPTranspiler"),this->GetCPPTranspiler());
     SetKV(transpilers,std::string("Python3Transpiler"),this->GetPython3Transpiler());
+    SetKV(transpilers,std::string("NodeJSTranspiler"),this->GetNodeJSTranspiler());
     SetKV(transpilers,std::string("LogToConsole"),this->GetLogToConsole());
     if (ctcode_file_name==std::string("")||!HasKV(transpilers,transpiler))
     {

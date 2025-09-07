@@ -1,0 +1,99 @@
+import * as S84_CTCode_System_ctcode from "./S84_CTCode_System_ctcode.js"
+import * as S84_CTCode_Transpiler_ctcode from "./S84_CTCode_Transpiler_ctcode.js"
+import * as S84_CTCode_Transpiler_CPPTranspiler_ctcode from "./S84_CTCode_Transpiler_CPPTranspiler_ctcode.js"
+import * as S84_CTCode_Transpiler_Python3Transpiler_ctcode from "./S84_CTCode_Transpiler_Python3Transpiler_ctcode.js"
+import * as S84_CTCode_Transpiler_NodeJSTranspiler_ctcode from "./S84_CTCode_Transpiler_NodeJSTranspiler_ctcode.js"
+import * as S84_CTCode_Transpiler_LogToConsole_ctcode from "./S84_CTCode_Transpiler_LogToConsole_ctcode.js"
+import * as S84_CTCode_dbnf_ctcode from "./S84_CTCode_dbnf_ctcode.js"
+
+function ClearList(input) { input.length = 0; }
+function Size(input) { return input.length; }
+function Element(input, element) { return input[element]; }
+function Append(input, element) { input.push(element); }
+function ClearMap(input) { input.clear(); }
+function SetKV(input, key, element) { input.set(key, element); }
+function Keys(input) { return Array.from(input.keys()); }
+function HasKV(input, key) { return input.has(key); }
+function GetKV(input, key) { return input.get(key); }
+function Length(input) { return input.length; }
+function At(input, index) { return input[index]; }
+function IntAt(input, index) { return input.charCodeAt(index); }
+function Concat(left, right) { return left + right; }
+
+export class Main {
+    constructor() {
+    }
+
+    GetCPPTranspiler()
+    {
+        return new S84_CTCode_Transpiler_CPPTranspiler_ctcode.CPPTranspiler()
+    }
+
+    GetPython3Transpiler()
+    {
+        return new S84_CTCode_Transpiler_Python3Transpiler_ctcode.Python3Transpiler()
+    }
+
+    GetNodeJSTranspiler()
+    {
+        return new S84_CTCode_Transpiler_NodeJSTranspiler_ctcode.NodeJSTranspiler()
+    }
+
+    GetLogToConsole()
+    {
+        return new S84_CTCode_Transpiler_LogToConsole_ctcode.LogToConsole()
+    }
+
+    RunMain(system, ctcode_file_name, transpiler)
+    {
+        var logger = system.GetLoggerDestination()
+        var transpilers = new Map()
+        SetKV(transpilers,"CPPTranspiler",this.GetCPPTranspiler())
+        SetKV(transpilers,"Python3Transpiler",this.GetPython3Transpiler())
+        SetKV(transpilers,"NodeJSTranspiler",this.GetNodeJSTranspiler())
+        SetKV(transpilers,"LogToConsole",this.GetLogToConsole())
+        if (ctcode_file_name=="" || ! HasKV(transpilers,transpiler))
+        {
+            logger.WriteLine("ctcode <CTCodeFile> <Transpiler>")
+            logger.WriteLine("Known transpilers:")
+            var registered_transpilers = Keys(transpilers)
+            var index = 0
+            while (index<Size(registered_transpilers))
+            {
+                logger.WriteLine(Concat("    ",Element(registered_transpilers,index)))
+                index = index+1
+            }
+            return 1
+        }
+        var dbnf = system.ReadFileToString(ctcode_file_name)
+        if (dbnf=="")
+        {
+            logger.WriteLine(Concat("The file ",Concat(ctcode_file_name," is empty or does not exist.")))
+            return 1
+        }
+        var dbnf_large_string = new S84_CTCode_dbnf_ctcode.LargeString()
+        dbnf_large_string.SetData(dbnf)
+        var index = new S84_CTCode_dbnf_ctcode.LengthString()
+        index.SetData(dbnf_large_string)
+        index.SetStart(0)
+        index.SetLength(Length(dbnf))
+        var parser_network = new S84_CTCode_dbnf_ctcode.ParserNetwork()
+        parser_network.Initialize()
+        var ctcode_file_result = new S84_CTCode_dbnf_ctcode.CTCodeFileResult()
+        var ctcode_file_parser = parser_network.GetCTCodeFileParser()
+        logger.WriteLine("Parsing CTCodeFile...")
+        ctcode_file_parser.ParseSingleSave(index,ctcode_file_result)
+        if (ctcode_file_result.GetResult() && index.GetLength()==0)
+        {
+            logger.WriteLine("Done Parsing CTCodeFile!")
+            var target_transpiler = GetKV(transpilers,transpiler)
+            return target_transpiler.Transpile(system,ctcode_file_result.GetValue(),ctcode_file_name)
+        }
+        else
+        {
+            logger.WriteLine(Concat("Failed to parse ",Concat(ctcode_file_name,".")))
+            return 1
+        }
+    }
+}
+
