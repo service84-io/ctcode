@@ -128,7 +128,6 @@ public:
     Python3Transpiler();
     inline ~Python3Transpiler() {}
 
-    void LogLine(std::string line);
     int GetBaseIndentation();
     std::string GetCallName(OmniPointer<s84::ctcode::dbnf::ctcode::Name> name);
     std::string GetVariableName(OmniPointer<s84::ctcode::dbnf::ctcode::Name> name);

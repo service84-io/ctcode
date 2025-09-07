@@ -51,10 +51,6 @@ class Python3Transpiler(S84_CTCode_Transpiler_ctcode.Transpiler):
         self.class_init: list[str] = []
         self.class_functions: list[str] = []
 
-    def LogLine(self: 'Python3Transpiler',line: 'str') -> 'None':
-        local_logger: 'S84_CTCode_System_ctcode.OutputStream' = self.logger
-        local_logger.WriteLine(line)
-
     def GetBaseIndentation(self: 'Python3Transpiler') -> 'int':
         return 1
 

@@ -31,9 +31,6 @@ class System(S84_CTCode_System_ctcode.System):
     def GetLoggerDestination(self: 'System') -> 'S84_CTCode_System_ctcode.OutputStream':
         return LoggerClass()
 
-def main():
-    pass
-
 if __name__ == "__main__":
     system: System = System()
     main: S84_CTCode_Main_ctcode.Main = S84_CTCode_Main_ctcode.Main()

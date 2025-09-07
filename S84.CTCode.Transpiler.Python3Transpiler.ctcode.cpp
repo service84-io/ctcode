@@ -47,12 +47,6 @@ Python3Transpiler::Python3Transpiler()
     /*this->class_functions = NO_DEFAULT;*/
 }
 
-void Python3Transpiler::LogLine(std::string line)
-{
-    OmniPointer<s84::ctcode::system::ctcode::OutputStream> local_logger = this->logger;
-    local_logger->WriteLine(line);
-}
-
 int Python3Transpiler::GetBaseIndentation()
 {
     return 1;
