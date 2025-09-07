@@ -2390,9 +2390,9 @@ bool CTCodeFileParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPoin
     consumed_string->SetStart(index->GetStart());
     consumed_string->SetLength(0);
     OmniPointer<CTCodeFile> instance = std::shared_ptr<CTCodeFile>(new CTCodeFile());
+    OmniPointer<ExternalDefinitionListResult> declarations_field = std::shared_ptr<ExternalDefinitionListResult>(new ExternalDefinitionListResult());
     OmniPointer<DefinitionListResult> definitions_field = std::shared_ptr<DefinitionListResult>(new DefinitionListResult());
     OmniPointer<UnmanagedTypeListResult> unmanaged_types_field = std::shared_ptr<UnmanagedTypeListResult>(new UnmanagedTypeListResult());
-    OmniPointer<ExternalDefinitionListResult> declarations_field = std::shared_ptr<ExternalDefinitionListResult>(new ExternalDefinitionListResult());
     OmniPointer<CTCodeFileParser> c_t_code_file_parser_instance = this->parser_network->GetCTCodeFileParser();
     OmniPointer<ExternalDefinitionParser> external_definition_parser_instance = this->parser_network->GetExternalDefinitionParser();
     OmniPointer<UnmanagedTypeParser> unmanaged_type_parser_instance = this->parser_network->GetUnmanagedTypeParser();
@@ -2451,9 +2451,9 @@ bool CTCodeFileParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPoin
     OmniPointer<CharacterRangeParser> character_range_parser_instance = this->parser_network->GetCharacterRangeParser();
     if (true&&external_definition_parser_instance->ParseManySave(index,declarations_field,0,-1)&&unmanaged_type_parser_instance->ParseManySave(index,unmanaged_types_field,0,-1)&&definition_parser_instance->ParseManySave(index,definitions_field,0,-1))
     {
+        instance->SetDeclarations(declarations_field->GetValue());
         instance->SetDefinitions(definitions_field->GetValue());
         instance->SetUnmanagedTypes(unmanaged_types_field->GetValue());
-        instance->SetDeclarations(declarations_field->GetValue());
         consumed_string->SetLength(index->GetStart()-index_start);
         instance->SetLengthString(consumed_string);
         result->SetValue(instance);
@@ -2464,9 +2464,9 @@ bool CTCodeFileParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPoin
     {
         index->SetStart(index_start);
         index->SetLength(index_length);
+        declarations_field = std::shared_ptr<ExternalDefinitionListResult>(new ExternalDefinitionListResult());
         definitions_field = std::shared_ptr<DefinitionListResult>(new DefinitionListResult());
         unmanaged_types_field = std::shared_ptr<UnmanagedTypeListResult>(new UnmanagedTypeListResult());
-        declarations_field = std::shared_ptr<ExternalDefinitionListResult>(new ExternalDefinitionListResult());
     }
     result->SetResult(false);
     return result->GetResult();
@@ -2593,9 +2593,9 @@ bool CTCodeFileListResult::GetResult()
 CTCodeFile::CTCodeFile()
 {
     this->length_string = NULL;
+    /*this->declarations_field = NO_DEFAULT;*/
     /*this->definitions_field = NO_DEFAULT;*/
     /*this->unmanaged_types_field = NO_DEFAULT;*/
-    /*this->declarations_field = NO_DEFAULT;*/
 }
 
 void CTCodeFile::SetLengthString(OmniPointer<LengthString> new_value)
@@ -2609,6 +2609,16 @@ void CTCodeFile::SetLengthString(OmniPointer<LengthString> new_value)
 std::string CTCodeFile::UnParse()
 {
     return this->length_string->GetString();
+}
+
+void CTCodeFile::SetDeclarations(std::vector<OmniPointer<ExternalDefinition>> input_value)
+{
+    this->declarations_field = input_value;
+}
+
+std::vector<OmniPointer<ExternalDefinition>> CTCodeFile::GetDeclarations()
+{
+    return this->declarations_field;
 }
 
 void CTCodeFile::SetDefinitions(std::vector<OmniPointer<Definition>> input_value)
@@ -2629,16 +2639,6 @@ void CTCodeFile::SetUnmanagedTypes(std::vector<OmniPointer<UnmanagedType>> input
 std::vector<OmniPointer<UnmanagedType>> CTCodeFile::GetUnmanagedTypes()
 {
     return this->unmanaged_types_field;
-}
-
-void CTCodeFile::SetDeclarations(std::vector<OmniPointer<ExternalDefinition>> input_value)
-{
-    this->declarations_field = input_value;
-}
-
-std::vector<OmniPointer<ExternalDefinition>> CTCodeFile::GetDeclarations()
-{
-    return this->declarations_field;
 }
 
 ExternalDefinitionParser::ExternalDefinitionParser()
@@ -3417,9 +3417,9 @@ bool InterfaceDefParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPo
     consumed_string->SetStart(index->GetStart());
     consumed_string->SetLength(0);
     OmniPointer<InterfaceDef> instance = std::shared_ptr<InterfaceDef>(new InterfaceDef());
+    OmniPointer<CommentResult> comment_field = std::shared_ptr<CommentResult>(new CommentResult());
     OmniPointer<ContentDeclarationListResult> declarations_field = std::shared_ptr<ContentDeclarationListResult>(new ContentDeclarationListResult());
     OmniPointer<NameResult> name_field = std::shared_ptr<NameResult>(new NameResult());
-    OmniPointer<CommentResult> comment_field = std::shared_ptr<CommentResult>(new CommentResult());
     OmniPointer<CTCodeFileParser> c_t_code_file_parser_instance = this->parser_network->GetCTCodeFileParser();
     OmniPointer<ExternalDefinitionParser> external_definition_parser_instance = this->parser_network->GetExternalDefinitionParser();
     OmniPointer<UnmanagedTypeParser> unmanaged_type_parser_instance = this->parser_network->GetUnmanagedTypeParser();
@@ -3478,9 +3478,9 @@ bool InterfaceDefParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPo
     OmniPointer<CharacterRangeParser> character_range_parser_instance = this->parser_network->GetCharacterRangeParser();
     if (true&&whitespace_parser_instance->ParseMany(index,0,-1)&&comment_parser_instance->ParseOptionalSave(index,comment_field)&&whitespace_parser_instance->ParseMany(index,0,-1)&&string_parser_instance->ParseSingle(index,std::string("interface"))&&whitespace_parser_instance->ParseMany(index,1,-1)&&name_parser_instance->ParseSingleSave(index,name_field)&&whitespace_parser_instance->ParseMany(index,0,-1)&&string_parser_instance->ParseSingle(index,std::string("{"))&&whitespace_parser_instance->ParseMany(index,0,-1)&&content_declaration_parser_instance->ParseManySave(index,declarations_field,0,-1)&&whitespace_parser_instance->ParseMany(index,0,-1)&&string_parser_instance->ParseSingle(index,std::string("}"))&&whitespace_parser_instance->ParseMany(index,0,-1))
     {
+        instance->SetComment(comment_field->GetValue());
         instance->SetDeclarations(declarations_field->GetValue());
         instance->SetName(name_field->GetValue());
-        instance->SetComment(comment_field->GetValue());
         consumed_string->SetLength(index->GetStart()-index_start);
         instance->SetLengthString(consumed_string);
         result->SetValue(instance);
@@ -3491,9 +3491,9 @@ bool InterfaceDefParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPo
     {
         index->SetStart(index_start);
         index->SetLength(index_length);
+        comment_field = std::shared_ptr<CommentResult>(new CommentResult());
         declarations_field = std::shared_ptr<ContentDeclarationListResult>(new ContentDeclarationListResult());
         name_field = std::shared_ptr<NameResult>(new NameResult());
-        comment_field = std::shared_ptr<CommentResult>(new CommentResult());
     }
     result->SetResult(false);
     return result->GetResult();
@@ -3620,9 +3620,9 @@ bool InterfaceDefListResult::GetResult()
 InterfaceDef::InterfaceDef()
 {
     this->length_string = NULL;
+    this->comment_field = NULL;
     /*this->declarations_field = NO_DEFAULT;*/
     this->name_field = NULL;
-    this->comment_field = NULL;
 }
 
 void InterfaceDef::SetLengthString(OmniPointer<LengthString> new_value)
@@ -3636,6 +3636,16 @@ void InterfaceDef::SetLengthString(OmniPointer<LengthString> new_value)
 std::string InterfaceDef::UnParse()
 {
     return this->length_string->GetString();
+}
+
+void InterfaceDef::SetComment(OmniPointer<Comment> input_value)
+{
+    this->comment_field = input_value;
+}
+
+OmniPointer<Comment> InterfaceDef::GetComment()
+{
+    return this->comment_field;
 }
 
 void InterfaceDef::SetDeclarations(std::vector<OmniPointer<ContentDeclaration>> input_value)
@@ -3658,16 +3668,6 @@ OmniPointer<Name> InterfaceDef::GetName()
     return this->name_field;
 }
 
-void InterfaceDef::SetComment(OmniPointer<Comment> input_value)
-{
-    this->comment_field = input_value;
-}
-
-OmniPointer<Comment> InterfaceDef::GetComment()
-{
-    return this->comment_field;
-}
-
 ClassDefParser::ClassDefParser()
 {
     this->parser_network = NULL;
@@ -3687,10 +3687,10 @@ bool ClassDefParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPointe
     consumed_string->SetStart(index->GetStart());
     consumed_string->SetLength(0);
     OmniPointer<ClassDef> instance = std::shared_ptr<ClassDef>(new ClassDef());
+    OmniPointer<CommentResult> comment_field = std::shared_ptr<CommentResult>(new CommentResult());
+    OmniPointer<ContentDefinitionListResult> definitions_field = std::shared_ptr<ContentDefinitionListResult>(new ContentDefinitionListResult());
     OmniPointer<ImplementationSpecResult> implementing_field = std::shared_ptr<ImplementationSpecResult>(new ImplementationSpecResult());
     OmniPointer<NameResult> name_field = std::shared_ptr<NameResult>(new NameResult());
-    OmniPointer<ContentDefinitionListResult> definitions_field = std::shared_ptr<ContentDefinitionListResult>(new ContentDefinitionListResult());
-    OmniPointer<CommentResult> comment_field = std::shared_ptr<CommentResult>(new CommentResult());
     OmniPointer<CTCodeFileParser> c_t_code_file_parser_instance = this->parser_network->GetCTCodeFileParser();
     OmniPointer<ExternalDefinitionParser> external_definition_parser_instance = this->parser_network->GetExternalDefinitionParser();
     OmniPointer<UnmanagedTypeParser> unmanaged_type_parser_instance = this->parser_network->GetUnmanagedTypeParser();
@@ -3749,10 +3749,10 @@ bool ClassDefParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPointe
     OmniPointer<CharacterRangeParser> character_range_parser_instance = this->parser_network->GetCharacterRangeParser();
     if (true&&whitespace_parser_instance->ParseMany(index,0,-1)&&comment_parser_instance->ParseOptionalSave(index,comment_field)&&whitespace_parser_instance->ParseMany(index,0,-1)&&string_parser_instance->ParseSingle(index,std::string("class"))&&whitespace_parser_instance->ParseMany(index,1,-1)&&name_parser_instance->ParseSingleSave(index,name_field)&&implementation_spec_parser_instance->ParseOptionalSave(index,implementing_field)&&whitespace_parser_instance->ParseMany(index,0,-1)&&string_parser_instance->ParseSingle(index,std::string("{"))&&whitespace_parser_instance->ParseMany(index,0,-1)&&content_definition_parser_instance->ParseManySave(index,definitions_field,0,-1)&&whitespace_parser_instance->ParseMany(index,0,-1)&&string_parser_instance->ParseSingle(index,std::string("}"))&&whitespace_parser_instance->ParseMany(index,0,-1))
     {
+        instance->SetComment(comment_field->GetValue());
+        instance->SetDefinitions(definitions_field->GetValue());
         instance->SetImplementing(implementing_field->GetValue());
         instance->SetName(name_field->GetValue());
-        instance->SetDefinitions(definitions_field->GetValue());
-        instance->SetComment(comment_field->GetValue());
         consumed_string->SetLength(index->GetStart()-index_start);
         instance->SetLengthString(consumed_string);
         result->SetValue(instance);
@@ -3763,10 +3763,10 @@ bool ClassDefParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPointe
     {
         index->SetStart(index_start);
         index->SetLength(index_length);
+        comment_field = std::shared_ptr<CommentResult>(new CommentResult());
+        definitions_field = std::shared_ptr<ContentDefinitionListResult>(new ContentDefinitionListResult());
         implementing_field = std::shared_ptr<ImplementationSpecResult>(new ImplementationSpecResult());
         name_field = std::shared_ptr<NameResult>(new NameResult());
-        definitions_field = std::shared_ptr<ContentDefinitionListResult>(new ContentDefinitionListResult());
-        comment_field = std::shared_ptr<CommentResult>(new CommentResult());
     }
     result->SetResult(false);
     return result->GetResult();
@@ -3893,10 +3893,10 @@ bool ClassDefListResult::GetResult()
 ClassDef::ClassDef()
 {
     this->length_string = NULL;
+    this->comment_field = NULL;
+    /*this->definitions_field = NO_DEFAULT;*/
     this->implementing_field = NULL;
     this->name_field = NULL;
-    /*this->definitions_field = NO_DEFAULT;*/
-    this->comment_field = NULL;
 }
 
 void ClassDef::SetLengthString(OmniPointer<LengthString> new_value)
@@ -3910,6 +3910,26 @@ void ClassDef::SetLengthString(OmniPointer<LengthString> new_value)
 std::string ClassDef::UnParse()
 {
     return this->length_string->GetString();
+}
+
+void ClassDef::SetComment(OmniPointer<Comment> input_value)
+{
+    this->comment_field = input_value;
+}
+
+OmniPointer<Comment> ClassDef::GetComment()
+{
+    return this->comment_field;
+}
+
+void ClassDef::SetDefinitions(std::vector<OmniPointer<ContentDefinition>> input_value)
+{
+    this->definitions_field = input_value;
+}
+
+std::vector<OmniPointer<ContentDefinition>> ClassDef::GetDefinitions()
+{
+    return this->definitions_field;
 }
 
 void ClassDef::SetImplementing(OmniPointer<ImplementationSpec> input_value)
@@ -3930,26 +3950,6 @@ void ClassDef::SetName(OmniPointer<Name> input_value)
 OmniPointer<Name> ClassDef::GetName()
 {
     return this->name_field;
-}
-
-void ClassDef::SetDefinitions(std::vector<OmniPointer<ContentDefinition>> input_value)
-{
-    this->definitions_field = input_value;
-}
-
-std::vector<OmniPointer<ContentDefinition>> ClassDef::GetDefinitions()
-{
-    return this->definitions_field;
-}
-
-void ClassDef::SetComment(OmniPointer<Comment> input_value)
-{
-    this->comment_field = input_value;
-}
-
-OmniPointer<Comment> ClassDef::GetComment()
-{
-    return this->comment_field;
 }
 
 ImplementationSpecParser::ImplementationSpecParser()
@@ -4213,10 +4213,10 @@ bool ContentDeclarationParser::ParseSingleSave(OmniPointer<LengthString> index, 
     consumed_string->SetStart(index->GetStart());
     consumed_string->SetLength(0);
     OmniPointer<ContentDeclaration> instance = std::shared_ptr<ContentDeclaration>(new ContentDeclaration());
-    OmniPointer<ParameterListDefResult> parameters_field = std::shared_ptr<ParameterListDefResult>(new ParameterListDefResult());
-    OmniPointer<NameResult> name_field = std::shared_ptr<NameResult>(new NameResult());
-    OmniPointer<ValueTypeResult> type_field = std::shared_ptr<ValueTypeResult>(new ValueTypeResult());
     OmniPointer<CommentResult> comment_field = std::shared_ptr<CommentResult>(new CommentResult());
+    OmniPointer<NameResult> name_field = std::shared_ptr<NameResult>(new NameResult());
+    OmniPointer<ParameterListDefResult> parameters_field = std::shared_ptr<ParameterListDefResult>(new ParameterListDefResult());
+    OmniPointer<ValueTypeResult> type_field = std::shared_ptr<ValueTypeResult>(new ValueTypeResult());
     OmniPointer<CTCodeFileParser> c_t_code_file_parser_instance = this->parser_network->GetCTCodeFileParser();
     OmniPointer<ExternalDefinitionParser> external_definition_parser_instance = this->parser_network->GetExternalDefinitionParser();
     OmniPointer<UnmanagedTypeParser> unmanaged_type_parser_instance = this->parser_network->GetUnmanagedTypeParser();
@@ -4275,10 +4275,10 @@ bool ContentDeclarationParser::ParseSingleSave(OmniPointer<LengthString> index, 
     OmniPointer<CharacterRangeParser> character_range_parser_instance = this->parser_network->GetCharacterRangeParser();
     if (true&&whitespace_parser_instance->ParseMany(index,0,-1)&&comment_parser_instance->ParseOptionalSave(index,comment_field)&&whitespace_parser_instance->ParseMany(index,0,-1)&&string_parser_instance->ParseSingle(index,std::string("function"))&&whitespace_parser_instance->ParseMany(index,1,-1)&&value_type_parser_instance->ParseSingleSave(index,type_field)&&whitespace_parser_instance->ParseMany(index,1,-1)&&name_parser_instance->ParseSingleSave(index,name_field)&&whitespace_parser_instance->ParseMany(index,0,-1)&&string_parser_instance->ParseSingle(index,std::string("("))&&whitespace_parser_instance->ParseMany(index,0,-1)&&parameter_list_def_parser_instance->ParseOptionalSave(index,parameters_field)&&whitespace_parser_instance->ParseMany(index,0,-1)&&string_parser_instance->ParseSingle(index,std::string(")"))&&whitespace_parser_instance->ParseMany(index,0,-1)&&string_parser_instance->ParseSingle(index,std::string(";"))&&whitespace_parser_instance->ParseMany(index,0,-1))
     {
-        instance->SetParameters(parameters_field->GetValue());
-        instance->SetName(name_field->GetValue());
-        instance->SetType(type_field->GetValue());
         instance->SetComment(comment_field->GetValue());
+        instance->SetName(name_field->GetValue());
+        instance->SetParameters(parameters_field->GetValue());
+        instance->SetType(type_field->GetValue());
         consumed_string->SetLength(index->GetStart()-index_start);
         instance->SetLengthString(consumed_string);
         result->SetValue(instance);
@@ -4289,10 +4289,10 @@ bool ContentDeclarationParser::ParseSingleSave(OmniPointer<LengthString> index, 
     {
         index->SetStart(index_start);
         index->SetLength(index_length);
-        parameters_field = std::shared_ptr<ParameterListDefResult>(new ParameterListDefResult());
-        name_field = std::shared_ptr<NameResult>(new NameResult());
-        type_field = std::shared_ptr<ValueTypeResult>(new ValueTypeResult());
         comment_field = std::shared_ptr<CommentResult>(new CommentResult());
+        name_field = std::shared_ptr<NameResult>(new NameResult());
+        parameters_field = std::shared_ptr<ParameterListDefResult>(new ParameterListDefResult());
+        type_field = std::shared_ptr<ValueTypeResult>(new ValueTypeResult());
     }
     result->SetResult(false);
     return result->GetResult();
@@ -4419,10 +4419,10 @@ bool ContentDeclarationListResult::GetResult()
 ContentDeclaration::ContentDeclaration()
 {
     this->length_string = NULL;
-    this->parameters_field = NULL;
-    this->name_field = NULL;
-    this->type_field = NULL;
     this->comment_field = NULL;
+    this->name_field = NULL;
+    this->parameters_field = NULL;
+    this->type_field = NULL;
 }
 
 void ContentDeclaration::SetLengthString(OmniPointer<LengthString> new_value)
@@ -4438,14 +4438,14 @@ std::string ContentDeclaration::UnParse()
     return this->length_string->GetString();
 }
 
-void ContentDeclaration::SetParameters(OmniPointer<ParameterListDef> input_value)
+void ContentDeclaration::SetComment(OmniPointer<Comment> input_value)
 {
-    this->parameters_field = input_value;
+    this->comment_field = input_value;
 }
 
-OmniPointer<ParameterListDef> ContentDeclaration::GetParameters()
+OmniPointer<Comment> ContentDeclaration::GetComment()
 {
-    return this->parameters_field;
+    return this->comment_field;
 }
 
 void ContentDeclaration::SetName(OmniPointer<Name> input_value)
@@ -4458,6 +4458,16 @@ OmniPointer<Name> ContentDeclaration::GetName()
     return this->name_field;
 }
 
+void ContentDeclaration::SetParameters(OmniPointer<ParameterListDef> input_value)
+{
+    this->parameters_field = input_value;
+}
+
+OmniPointer<ParameterListDef> ContentDeclaration::GetParameters()
+{
+    return this->parameters_field;
+}
+
 void ContentDeclaration::SetType(OmniPointer<ValueType> input_value)
 {
     this->type_field = input_value;
@@ -4466,16 +4476,6 @@ void ContentDeclaration::SetType(OmniPointer<ValueType> input_value)
 OmniPointer<ValueType> ContentDeclaration::GetType()
 {
     return this->type_field;
-}
-
-void ContentDeclaration::SetComment(OmniPointer<Comment> input_value)
-{
-    this->comment_field = input_value;
-}
-
-OmniPointer<Comment> ContentDeclaration::GetComment()
-{
-    return this->comment_field;
 }
 
 ContentDefinitionParser::ContentDefinitionParser()
@@ -4497,11 +4497,11 @@ bool ContentDefinitionParser::ParseSingleSave(OmniPointer<LengthString> index, O
     consumed_string->SetStart(index->GetStart());
     consumed_string->SetLength(0);
     OmniPointer<ContentDefinition> instance = std::shared_ptr<ContentDefinition>(new ContentDefinition());
-    OmniPointer<CodeBlockResult> function_body_field = std::shared_ptr<CodeBlockResult>(new CodeBlockResult());
-    OmniPointer<ParameterListDefResult> parameters_field = std::shared_ptr<ParameterListDefResult>(new ParameterListDefResult());
-    OmniPointer<NameResult> name_field = std::shared_ptr<NameResult>(new NameResult());
-    OmniPointer<ValueTypeResult> type_field = std::shared_ptr<ValueTypeResult>(new ValueTypeResult());
     OmniPointer<CommentResult> comment_field = std::shared_ptr<CommentResult>(new CommentResult());
+    OmniPointer<CodeBlockResult> function_body_field = std::shared_ptr<CodeBlockResult>(new CodeBlockResult());
+    OmniPointer<NameResult> name_field = std::shared_ptr<NameResult>(new NameResult());
+    OmniPointer<ParameterListDefResult> parameters_field = std::shared_ptr<ParameterListDefResult>(new ParameterListDefResult());
+    OmniPointer<ValueTypeResult> type_field = std::shared_ptr<ValueTypeResult>(new ValueTypeResult());
     OmniPointer<CTCodeFileParser> c_t_code_file_parser_instance = this->parser_network->GetCTCodeFileParser();
     OmniPointer<ExternalDefinitionParser> external_definition_parser_instance = this->parser_network->GetExternalDefinitionParser();
     OmniPointer<UnmanagedTypeParser> unmanaged_type_parser_instance = this->parser_network->GetUnmanagedTypeParser();
@@ -4560,11 +4560,11 @@ bool ContentDefinitionParser::ParseSingleSave(OmniPointer<LengthString> index, O
     OmniPointer<CharacterRangeParser> character_range_parser_instance = this->parser_network->GetCharacterRangeParser();
     if (true&&whitespace_parser_instance->ParseMany(index,0,-1)&&comment_parser_instance->ParseOptionalSave(index,comment_field)&&whitespace_parser_instance->ParseMany(index,0,-1)&&string_parser_instance->ParseSingle(index,std::string("function"))&&whitespace_parser_instance->ParseMany(index,1,-1)&&value_type_parser_instance->ParseSingleSave(index,type_field)&&whitespace_parser_instance->ParseMany(index,1,-1)&&name_parser_instance->ParseSingleSave(index,name_field)&&whitespace_parser_instance->ParseMany(index,0,-1)&&string_parser_instance->ParseSingle(index,std::string("("))&&whitespace_parser_instance->ParseMany(index,0,-1)&&parameter_list_def_parser_instance->ParseOptionalSave(index,parameters_field)&&whitespace_parser_instance->ParseMany(index,0,-1)&&string_parser_instance->ParseSingle(index,std::string(")"))&&whitespace_parser_instance->ParseMany(index,0,-1)&&code_block_parser_instance->ParseSingleSave(index,function_body_field)&&whitespace_parser_instance->ParseMany(index,0,-1))
     {
-        instance->SetFunctionBody(function_body_field->GetValue());
-        instance->SetParameters(parameters_field->GetValue());
-        instance->SetName(name_field->GetValue());
-        instance->SetType(type_field->GetValue());
         instance->SetComment(comment_field->GetValue());
+        instance->SetFunctionBody(function_body_field->GetValue());
+        instance->SetName(name_field->GetValue());
+        instance->SetParameters(parameters_field->GetValue());
+        instance->SetType(type_field->GetValue());
         consumed_string->SetLength(index->GetStart()-index_start);
         instance->SetLengthString(consumed_string);
         result->SetValue(instance);
@@ -4575,19 +4575,19 @@ bool ContentDefinitionParser::ParseSingleSave(OmniPointer<LengthString> index, O
     {
         index->SetStart(index_start);
         index->SetLength(index_length);
-        function_body_field = std::shared_ptr<CodeBlockResult>(new CodeBlockResult());
-        parameters_field = std::shared_ptr<ParameterListDefResult>(new ParameterListDefResult());
-        name_field = std::shared_ptr<NameResult>(new NameResult());
-        type_field = std::shared_ptr<ValueTypeResult>(new ValueTypeResult());
         comment_field = std::shared_ptr<CommentResult>(new CommentResult());
+        function_body_field = std::shared_ptr<CodeBlockResult>(new CodeBlockResult());
+        name_field = std::shared_ptr<NameResult>(new NameResult());
+        parameters_field = std::shared_ptr<ParameterListDefResult>(new ParameterListDefResult());
+        type_field = std::shared_ptr<ValueTypeResult>(new ValueTypeResult());
     }
     if (true&&whitespace_parser_instance->ParseMany(index,0,-1)&&comment_parser_instance->ParseOptionalSave(index,comment_field)&&whitespace_parser_instance->ParseMany(index,0,-1)&&value_type_parser_instance->ParseSingleSave(index,type_field)&&whitespace_parser_instance->ParseMany(index,1,-1)&&name_parser_instance->ParseSingleSave(index,name_field)&&whitespace_parser_instance->ParseMany(index,0,-1)&&string_parser_instance->ParseSingle(index,std::string(";"))&&whitespace_parser_instance->ParseMany(index,0,-1))
     {
-        instance->SetFunctionBody(function_body_field->GetValue());
-        instance->SetParameters(parameters_field->GetValue());
-        instance->SetName(name_field->GetValue());
-        instance->SetType(type_field->GetValue());
         instance->SetComment(comment_field->GetValue());
+        instance->SetFunctionBody(function_body_field->GetValue());
+        instance->SetName(name_field->GetValue());
+        instance->SetParameters(parameters_field->GetValue());
+        instance->SetType(type_field->GetValue());
         consumed_string->SetLength(index->GetStart()-index_start);
         instance->SetLengthString(consumed_string);
         result->SetValue(instance);
@@ -4598,11 +4598,11 @@ bool ContentDefinitionParser::ParseSingleSave(OmniPointer<LengthString> index, O
     {
         index->SetStart(index_start);
         index->SetLength(index_length);
-        function_body_field = std::shared_ptr<CodeBlockResult>(new CodeBlockResult());
-        parameters_field = std::shared_ptr<ParameterListDefResult>(new ParameterListDefResult());
-        name_field = std::shared_ptr<NameResult>(new NameResult());
-        type_field = std::shared_ptr<ValueTypeResult>(new ValueTypeResult());
         comment_field = std::shared_ptr<CommentResult>(new CommentResult());
+        function_body_field = std::shared_ptr<CodeBlockResult>(new CodeBlockResult());
+        name_field = std::shared_ptr<NameResult>(new NameResult());
+        parameters_field = std::shared_ptr<ParameterListDefResult>(new ParameterListDefResult());
+        type_field = std::shared_ptr<ValueTypeResult>(new ValueTypeResult());
     }
     result->SetResult(false);
     return result->GetResult();
@@ -4729,11 +4729,11 @@ bool ContentDefinitionListResult::GetResult()
 ContentDefinition::ContentDefinition()
 {
     this->length_string = NULL;
-    this->function_body_field = NULL;
-    this->parameters_field = NULL;
-    this->name_field = NULL;
-    this->type_field = NULL;
     this->comment_field = NULL;
+    this->function_body_field = NULL;
+    this->name_field = NULL;
+    this->parameters_field = NULL;
+    this->type_field = NULL;
 }
 
 void ContentDefinition::SetLengthString(OmniPointer<LengthString> new_value)
@@ -4749,6 +4749,16 @@ std::string ContentDefinition::UnParse()
     return this->length_string->GetString();
 }
 
+void ContentDefinition::SetComment(OmniPointer<Comment> input_value)
+{
+    this->comment_field = input_value;
+}
+
+OmniPointer<Comment> ContentDefinition::GetComment()
+{
+    return this->comment_field;
+}
+
 void ContentDefinition::SetFunctionBody(OmniPointer<CodeBlock> input_value)
 {
     this->function_body_field = input_value;
@@ -4757,16 +4767,6 @@ void ContentDefinition::SetFunctionBody(OmniPointer<CodeBlock> input_value)
 OmniPointer<CodeBlock> ContentDefinition::GetFunctionBody()
 {
     return this->function_body_field;
-}
-
-void ContentDefinition::SetParameters(OmniPointer<ParameterListDef> input_value)
-{
-    this->parameters_field = input_value;
-}
-
-OmniPointer<ParameterListDef> ContentDefinition::GetParameters()
-{
-    return this->parameters_field;
 }
 
 void ContentDefinition::SetName(OmniPointer<Name> input_value)
@@ -4779,6 +4779,16 @@ OmniPointer<Name> ContentDefinition::GetName()
     return this->name_field;
 }
 
+void ContentDefinition::SetParameters(OmniPointer<ParameterListDef> input_value)
+{
+    this->parameters_field = input_value;
+}
+
+OmniPointer<ParameterListDef> ContentDefinition::GetParameters()
+{
+    return this->parameters_field;
+}
+
 void ContentDefinition::SetType(OmniPointer<ValueType> input_value)
 {
     this->type_field = input_value;
@@ -4787,16 +4797,6 @@ void ContentDefinition::SetType(OmniPointer<ValueType> input_value)
 OmniPointer<ValueType> ContentDefinition::GetType()
 {
     return this->type_field;
-}
-
-void ContentDefinition::SetComment(OmniPointer<Comment> input_value)
-{
-    this->comment_field = input_value;
-}
-
-OmniPointer<Comment> ContentDefinition::GetComment()
-{
-    return this->comment_field;
 }
 
 PrimativeTypeParser::PrimativeTypeParser()
@@ -6581,9 +6581,9 @@ bool ValueTypeParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPoint
     consumed_string->SetStart(index->GetStart());
     consumed_string->SetLength(0);
     OmniPointer<ValueType> instance = std::shared_ptr<ValueType>(new ValueType());
+    OmniPointer<DimensionalTypeResult> dimensional_type_field = std::shared_ptr<DimensionalTypeResult>(new DimensionalTypeResult());
     OmniPointer<MapTypeResult> map_type_field = std::shared_ptr<MapTypeResult>(new MapTypeResult());
     OmniPointer<SingletonTypeResult> singleton_type_field = std::shared_ptr<SingletonTypeResult>(new SingletonTypeResult());
-    OmniPointer<DimensionalTypeResult> dimensional_type_field = std::shared_ptr<DimensionalTypeResult>(new DimensionalTypeResult());
     OmniPointer<CTCodeFileParser> c_t_code_file_parser_instance = this->parser_network->GetCTCodeFileParser();
     OmniPointer<ExternalDefinitionParser> external_definition_parser_instance = this->parser_network->GetExternalDefinitionParser();
     OmniPointer<UnmanagedTypeParser> unmanaged_type_parser_instance = this->parser_network->GetUnmanagedTypeParser();
@@ -6642,9 +6642,9 @@ bool ValueTypeParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPoint
     OmniPointer<CharacterRangeParser> character_range_parser_instance = this->parser_network->GetCharacterRangeParser();
     if (true&&dimensional_type_parser_instance->ParseSingleSave(index,dimensional_type_field))
     {
+        instance->SetDimensionalType(dimensional_type_field->GetValue());
         instance->SetMapType(map_type_field->GetValue());
         instance->SetSingletonType(singleton_type_field->GetValue());
-        instance->SetDimensionalType(dimensional_type_field->GetValue());
         consumed_string->SetLength(index->GetStart()-index_start);
         instance->SetLengthString(consumed_string);
         result->SetValue(instance);
@@ -6655,15 +6655,15 @@ bool ValueTypeParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPoint
     {
         index->SetStart(index_start);
         index->SetLength(index_length);
+        dimensional_type_field = std::shared_ptr<DimensionalTypeResult>(new DimensionalTypeResult());
         map_type_field = std::shared_ptr<MapTypeResult>(new MapTypeResult());
         singleton_type_field = std::shared_ptr<SingletonTypeResult>(new SingletonTypeResult());
-        dimensional_type_field = std::shared_ptr<DimensionalTypeResult>(new DimensionalTypeResult());
     }
     if (true&&map_type_parser_instance->ParseSingleSave(index,map_type_field))
     {
+        instance->SetDimensionalType(dimensional_type_field->GetValue());
         instance->SetMapType(map_type_field->GetValue());
         instance->SetSingletonType(singleton_type_field->GetValue());
-        instance->SetDimensionalType(dimensional_type_field->GetValue());
         consumed_string->SetLength(index->GetStart()-index_start);
         instance->SetLengthString(consumed_string);
         result->SetValue(instance);
@@ -6674,15 +6674,15 @@ bool ValueTypeParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPoint
     {
         index->SetStart(index_start);
         index->SetLength(index_length);
+        dimensional_type_field = std::shared_ptr<DimensionalTypeResult>(new DimensionalTypeResult());
         map_type_field = std::shared_ptr<MapTypeResult>(new MapTypeResult());
         singleton_type_field = std::shared_ptr<SingletonTypeResult>(new SingletonTypeResult());
-        dimensional_type_field = std::shared_ptr<DimensionalTypeResult>(new DimensionalTypeResult());
     }
     if (true&&singleton_type_parser_instance->ParseSingleSave(index,singleton_type_field))
     {
+        instance->SetDimensionalType(dimensional_type_field->GetValue());
         instance->SetMapType(map_type_field->GetValue());
         instance->SetSingletonType(singleton_type_field->GetValue());
-        instance->SetDimensionalType(dimensional_type_field->GetValue());
         consumed_string->SetLength(index->GetStart()-index_start);
         instance->SetLengthString(consumed_string);
         result->SetValue(instance);
@@ -6693,9 +6693,9 @@ bool ValueTypeParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPoint
     {
         index->SetStart(index_start);
         index->SetLength(index_length);
+        dimensional_type_field = std::shared_ptr<DimensionalTypeResult>(new DimensionalTypeResult());
         map_type_field = std::shared_ptr<MapTypeResult>(new MapTypeResult());
         singleton_type_field = std::shared_ptr<SingletonTypeResult>(new SingletonTypeResult());
-        dimensional_type_field = std::shared_ptr<DimensionalTypeResult>(new DimensionalTypeResult());
     }
     result->SetResult(false);
     return result->GetResult();
@@ -6822,9 +6822,9 @@ bool ValueTypeListResult::GetResult()
 ValueType::ValueType()
 {
     this->length_string = NULL;
+    this->dimensional_type_field = NULL;
     this->map_type_field = NULL;
     this->singleton_type_field = NULL;
-    this->dimensional_type_field = NULL;
 }
 
 void ValueType::SetLengthString(OmniPointer<LengthString> new_value)
@@ -6838,6 +6838,16 @@ void ValueType::SetLengthString(OmniPointer<LengthString> new_value)
 std::string ValueType::UnParse()
 {
     return this->length_string->GetString();
+}
+
+void ValueType::SetDimensionalType(OmniPointer<DimensionalType> input_value)
+{
+    this->dimensional_type_field = input_value;
+}
+
+OmniPointer<DimensionalType> ValueType::GetDimensionalType()
+{
+    return this->dimensional_type_field;
 }
 
 void ValueType::SetMapType(OmniPointer<MapType> input_value)
@@ -6860,16 +6870,6 @@ OmniPointer<SingletonType> ValueType::GetSingletonType()
     return this->singleton_type_field;
 }
 
-void ValueType::SetDimensionalType(OmniPointer<DimensionalType> input_value)
-{
-    this->dimensional_type_field = input_value;
-}
-
-OmniPointer<DimensionalType> ValueType::GetDimensionalType()
-{
-    return this->dimensional_type_field;
-}
-
 ParameterListDefParser::ParameterListDefParser()
 {
     this->parser_network = NULL;
@@ -6889,8 +6889,8 @@ bool ParameterListDefParser::ParseSingleSave(OmniPointer<LengthString> index, Om
     consumed_string->SetStart(index->GetStart());
     consumed_string->SetLength(0);
     OmniPointer<ParameterListDef> instance = std::shared_ptr<ParameterListDef>(new ParameterListDef());
-    OmniPointer<ParameterListDefResult> parameter_tail_field = std::shared_ptr<ParameterListDefResult>(new ParameterListDefResult());
     OmniPointer<NameResult> name_field = std::shared_ptr<NameResult>(new NameResult());
+    OmniPointer<ParameterListDefResult> parameter_tail_field = std::shared_ptr<ParameterListDefResult>(new ParameterListDefResult());
     OmniPointer<ValueTypeResult> type_field = std::shared_ptr<ValueTypeResult>(new ValueTypeResult());
     OmniPointer<CTCodeFileParser> c_t_code_file_parser_instance = this->parser_network->GetCTCodeFileParser();
     OmniPointer<ExternalDefinitionParser> external_definition_parser_instance = this->parser_network->GetExternalDefinitionParser();
@@ -6950,8 +6950,8 @@ bool ParameterListDefParser::ParseSingleSave(OmniPointer<LengthString> index, Om
     OmniPointer<CharacterRangeParser> character_range_parser_instance = this->parser_network->GetCharacterRangeParser();
     if (true&&whitespace_parser_instance->ParseMany(index,0,-1)&&value_type_parser_instance->ParseSingleSave(index,type_field)&&whitespace_parser_instance->ParseMany(index,1,-1)&&name_parser_instance->ParseSingleSave(index,name_field)&&whitespace_parser_instance->ParseMany(index,0,-1)&&string_parser_instance->ParseSingle(index,std::string(","))&&whitespace_parser_instance->ParseMany(index,0,-1)&&parameter_list_def_parser_instance->ParseSingleSave(index,parameter_tail_field))
     {
-        instance->SetParameterTail(parameter_tail_field->GetValue());
         instance->SetName(name_field->GetValue());
+        instance->SetParameterTail(parameter_tail_field->GetValue());
         instance->SetType(type_field->GetValue());
         consumed_string->SetLength(index->GetStart()-index_start);
         instance->SetLengthString(consumed_string);
@@ -6963,14 +6963,14 @@ bool ParameterListDefParser::ParseSingleSave(OmniPointer<LengthString> index, Om
     {
         index->SetStart(index_start);
         index->SetLength(index_length);
-        parameter_tail_field = std::shared_ptr<ParameterListDefResult>(new ParameterListDefResult());
         name_field = std::shared_ptr<NameResult>(new NameResult());
+        parameter_tail_field = std::shared_ptr<ParameterListDefResult>(new ParameterListDefResult());
         type_field = std::shared_ptr<ValueTypeResult>(new ValueTypeResult());
     }
     if (true&&whitespace_parser_instance->ParseMany(index,0,-1)&&value_type_parser_instance->ParseSingleSave(index,type_field)&&whitespace_parser_instance->ParseMany(index,1,-1)&&name_parser_instance->ParseSingleSave(index,name_field)&&whitespace_parser_instance->ParseMany(index,0,-1))
     {
-        instance->SetParameterTail(parameter_tail_field->GetValue());
         instance->SetName(name_field->GetValue());
+        instance->SetParameterTail(parameter_tail_field->GetValue());
         instance->SetType(type_field->GetValue());
         consumed_string->SetLength(index->GetStart()-index_start);
         instance->SetLengthString(consumed_string);
@@ -6982,8 +6982,8 @@ bool ParameterListDefParser::ParseSingleSave(OmniPointer<LengthString> index, Om
     {
         index->SetStart(index_start);
         index->SetLength(index_length);
-        parameter_tail_field = std::shared_ptr<ParameterListDefResult>(new ParameterListDefResult());
         name_field = std::shared_ptr<NameResult>(new NameResult());
+        parameter_tail_field = std::shared_ptr<ParameterListDefResult>(new ParameterListDefResult());
         type_field = std::shared_ptr<ValueTypeResult>(new ValueTypeResult());
     }
     result->SetResult(false);
@@ -7111,8 +7111,8 @@ bool ParameterListDefListResult::GetResult()
 ParameterListDef::ParameterListDef()
 {
     this->length_string = NULL;
-    this->parameter_tail_field = NULL;
     this->name_field = NULL;
+    this->parameter_tail_field = NULL;
     this->type_field = NULL;
 }
 
@@ -7129,16 +7129,6 @@ std::string ParameterListDef::UnParse()
     return this->length_string->GetString();
 }
 
-void ParameterListDef::SetParameterTail(OmniPointer<ParameterListDef> input_value)
-{
-    this->parameter_tail_field = input_value;
-}
-
-OmniPointer<ParameterListDef> ParameterListDef::GetParameterTail()
-{
-    return this->parameter_tail_field;
-}
-
 void ParameterListDef::SetName(OmniPointer<Name> input_value)
 {
     this->name_field = input_value;
@@ -7147,6 +7137,16 @@ void ParameterListDef::SetName(OmniPointer<Name> input_value)
 OmniPointer<Name> ParameterListDef::GetName()
 {
     return this->name_field;
+}
+
+void ParameterListDef::SetParameterTail(OmniPointer<ParameterListDef> input_value)
+{
+    this->parameter_tail_field = input_value;
+}
+
+OmniPointer<ParameterListDef> ParameterListDef::GetParameterTail()
+{
+    return this->parameter_tail_field;
 }
 
 void ParameterListDef::SetType(OmniPointer<ValueType> input_value)
@@ -7935,8 +7935,8 @@ bool DeclarationParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPoi
     consumed_string->SetStart(index->GetStart());
     consumed_string->SetLength(0);
     OmniPointer<Declaration> instance = std::shared_ptr<Declaration>(new Declaration());
-    OmniPointer<NameResult> name_field = std::shared_ptr<NameResult>(new NameResult());
     OmniPointer<DeclarationAssignResult> assignment_field = std::shared_ptr<DeclarationAssignResult>(new DeclarationAssignResult());
+    OmniPointer<NameResult> name_field = std::shared_ptr<NameResult>(new NameResult());
     OmniPointer<ValueTypeResult> type_field = std::shared_ptr<ValueTypeResult>(new ValueTypeResult());
     OmniPointer<CTCodeFileParser> c_t_code_file_parser_instance = this->parser_network->GetCTCodeFileParser();
     OmniPointer<ExternalDefinitionParser> external_definition_parser_instance = this->parser_network->GetExternalDefinitionParser();
@@ -7996,8 +7996,8 @@ bool DeclarationParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPoi
     OmniPointer<CharacterRangeParser> character_range_parser_instance = this->parser_network->GetCharacterRangeParser();
     if (true&&whitespace_parser_instance->ParseMany(index,0,-1)&&value_type_parser_instance->ParseSingleSave(index,type_field)&&whitespace_parser_instance->ParseMany(index,1,-1)&&name_parser_instance->ParseSingleSave(index,name_field)&&whitespace_parser_instance->ParseMany(index,0,-1)&&declaration_assign_parser_instance->ParseOptionalSave(index,assignment_field)&&whitespace_parser_instance->ParseMany(index,0,-1)&&string_parser_instance->ParseSingle(index,std::string(";"))&&whitespace_parser_instance->ParseMany(index,0,-1))
     {
-        instance->SetName(name_field->GetValue());
         instance->SetAssignment(assignment_field->GetValue());
+        instance->SetName(name_field->GetValue());
         instance->SetType(type_field->GetValue());
         consumed_string->SetLength(index->GetStart()-index_start);
         instance->SetLengthString(consumed_string);
@@ -8009,8 +8009,8 @@ bool DeclarationParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPoi
     {
         index->SetStart(index_start);
         index->SetLength(index_length);
-        name_field = std::shared_ptr<NameResult>(new NameResult());
         assignment_field = std::shared_ptr<DeclarationAssignResult>(new DeclarationAssignResult());
+        name_field = std::shared_ptr<NameResult>(new NameResult());
         type_field = std::shared_ptr<ValueTypeResult>(new ValueTypeResult());
     }
     result->SetResult(false);
@@ -8138,8 +8138,8 @@ bool DeclarationListResult::GetResult()
 Declaration::Declaration()
 {
     this->length_string = NULL;
-    this->name_field = NULL;
     this->assignment_field = NULL;
+    this->name_field = NULL;
     this->type_field = NULL;
 }
 
@@ -8156,16 +8156,6 @@ std::string Declaration::UnParse()
     return this->length_string->GetString();
 }
 
-void Declaration::SetName(OmniPointer<Name> input_value)
-{
-    this->name_field = input_value;
-}
-
-OmniPointer<Name> Declaration::GetName()
-{
-    return this->name_field;
-}
-
 void Declaration::SetAssignment(OmniPointer<DeclarationAssign> input_value)
 {
     this->assignment_field = input_value;
@@ -8174,6 +8164,16 @@ void Declaration::SetAssignment(OmniPointer<DeclarationAssign> input_value)
 OmniPointer<DeclarationAssign> Declaration::GetAssignment()
 {
     return this->assignment_field;
+}
+
+void Declaration::SetName(OmniPointer<Name> input_value)
+{
+    this->name_field = input_value;
+}
+
+OmniPointer<Name> Declaration::GetName()
+{
+    return this->name_field;
 }
 
 void Declaration::SetType(OmniPointer<ValueType> input_value)
@@ -8205,8 +8205,8 @@ bool AssignmentParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPoin
     consumed_string->SetStart(index->GetStart());
     consumed_string->SetLength(0);
     OmniPointer<Assignment> instance = std::shared_ptr<Assignment>(new Assignment());
-    OmniPointer<RValueResult> r_value_field = std::shared_ptr<RValueResult>(new RValueResult());
     OmniPointer<QualfiedNameResult> l_value_field = std::shared_ptr<QualfiedNameResult>(new QualfiedNameResult());
+    OmniPointer<RValueResult> r_value_field = std::shared_ptr<RValueResult>(new RValueResult());
     OmniPointer<CTCodeFileParser> c_t_code_file_parser_instance = this->parser_network->GetCTCodeFileParser();
     OmniPointer<ExternalDefinitionParser> external_definition_parser_instance = this->parser_network->GetExternalDefinitionParser();
     OmniPointer<UnmanagedTypeParser> unmanaged_type_parser_instance = this->parser_network->GetUnmanagedTypeParser();
@@ -8265,8 +8265,8 @@ bool AssignmentParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPoin
     OmniPointer<CharacterRangeParser> character_range_parser_instance = this->parser_network->GetCharacterRangeParser();
     if (true&&whitespace_parser_instance->ParseMany(index,0,-1)&&qualfied_name_parser_instance->ParseSingleSave(index,l_value_field)&&whitespace_parser_instance->ParseMany(index,0,-1)&&string_parser_instance->ParseSingle(index,std::string("="))&&whitespace_parser_instance->ParseMany(index,0,-1)&&r_value_parser_instance->ParseSingleSave(index,r_value_field)&&whitespace_parser_instance->ParseMany(index,0,-1)&&string_parser_instance->ParseSingle(index,std::string(";"))&&whitespace_parser_instance->ParseMany(index,0,-1))
     {
-        instance->SetRValue(r_value_field->GetValue());
         instance->SetLValue(l_value_field->GetValue());
+        instance->SetRValue(r_value_field->GetValue());
         consumed_string->SetLength(index->GetStart()-index_start);
         instance->SetLengthString(consumed_string);
         result->SetValue(instance);
@@ -8277,8 +8277,8 @@ bool AssignmentParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPoin
     {
         index->SetStart(index_start);
         index->SetLength(index_length);
-        r_value_field = std::shared_ptr<RValueResult>(new RValueResult());
         l_value_field = std::shared_ptr<QualfiedNameResult>(new QualfiedNameResult());
+        r_value_field = std::shared_ptr<RValueResult>(new RValueResult());
     }
     result->SetResult(false);
     return result->GetResult();
@@ -8405,8 +8405,8 @@ bool AssignmentListResult::GetResult()
 Assignment::Assignment()
 {
     this->length_string = NULL;
-    this->r_value_field = NULL;
     this->l_value_field = NULL;
+    this->r_value_field = NULL;
 }
 
 void Assignment::SetLengthString(OmniPointer<LengthString> new_value)
@@ -8422,16 +8422,6 @@ std::string Assignment::UnParse()
     return this->length_string->GetString();
 }
 
-void Assignment::SetRValue(OmniPointer<RValue> input_value)
-{
-    this->r_value_field = input_value;
-}
-
-OmniPointer<RValue> Assignment::GetRValue()
-{
-    return this->r_value_field;
-}
-
 void Assignment::SetLValue(OmniPointer<QualfiedName> input_value)
 {
     this->l_value_field = input_value;
@@ -8440,6 +8430,16 @@ void Assignment::SetLValue(OmniPointer<QualfiedName> input_value)
 OmniPointer<QualfiedName> Assignment::GetLValue()
 {
     return this->l_value_field;
+}
+
+void Assignment::SetRValue(OmniPointer<RValue> input_value)
+{
+    this->r_value_field = input_value;
+}
+
+OmniPointer<RValue> Assignment::GetRValue()
+{
+    return this->r_value_field;
 }
 
 ReturnParser::ReturnParser()
@@ -8973,10 +8973,10 @@ bool ConditionalParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPoi
     consumed_string->SetStart(index->GetStart());
     consumed_string->SetLength(0);
     OmniPointer<Conditional> instance = std::shared_ptr<Conditional>(new Conditional());
-    OmniPointer<ElseTailResult> else_tail_field = std::shared_ptr<ElseTailResult>(new ElseTailResult());
     OmniPointer<CodeBlockResult> code_block_field = std::shared_ptr<CodeBlockResult>(new CodeBlockResult());
-    OmniPointer<RValueResult> r_value_field = std::shared_ptr<RValueResult>(new RValueResult());
     OmniPointer<StringResult> conditional_key_field = std::shared_ptr<StringResult>(new StringResult());
+    OmniPointer<ElseTailResult> else_tail_field = std::shared_ptr<ElseTailResult>(new ElseTailResult());
+    OmniPointer<RValueResult> r_value_field = std::shared_ptr<RValueResult>(new RValueResult());
     OmniPointer<CTCodeFileParser> c_t_code_file_parser_instance = this->parser_network->GetCTCodeFileParser();
     OmniPointer<ExternalDefinitionParser> external_definition_parser_instance = this->parser_network->GetExternalDefinitionParser();
     OmniPointer<UnmanagedTypeParser> unmanaged_type_parser_instance = this->parser_network->GetUnmanagedTypeParser();
@@ -9035,10 +9035,10 @@ bool ConditionalParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPoi
     OmniPointer<CharacterRangeParser> character_range_parser_instance = this->parser_network->GetCharacterRangeParser();
     if (true&&whitespace_parser_instance->ParseMany(index,0,-1)&&string_parser_instance->ParseSingleSave(index,std::string("if"),conditional_key_field)&&whitespace_parser_instance->ParseMany(index,0,-1)&&string_parser_instance->ParseSingle(index,std::string("("))&&whitespace_parser_instance->ParseMany(index,0,-1)&&r_value_parser_instance->ParseSingleSave(index,r_value_field)&&whitespace_parser_instance->ParseMany(index,0,-1)&&string_parser_instance->ParseSingle(index,std::string(")"))&&whitespace_parser_instance->ParseMany(index,0,-1)&&code_block_parser_instance->ParseSingleSave(index,code_block_field)&&whitespace_parser_instance->ParseMany(index,0,-1)&&else_tail_parser_instance->ParseOptionalSave(index,else_tail_field))
     {
-        instance->SetElseTail(else_tail_field->GetValue());
         instance->SetCodeBlock(code_block_field->GetValue());
-        instance->SetRValue(r_value_field->GetValue());
         instance->SetConditionalKey(conditional_key_field->GetValue());
+        instance->SetElseTail(else_tail_field->GetValue());
+        instance->SetRValue(r_value_field->GetValue());
         consumed_string->SetLength(index->GetStart()-index_start);
         instance->SetLengthString(consumed_string);
         result->SetValue(instance);
@@ -9049,10 +9049,10 @@ bool ConditionalParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPoi
     {
         index->SetStart(index_start);
         index->SetLength(index_length);
-        else_tail_field = std::shared_ptr<ElseTailResult>(new ElseTailResult());
         code_block_field = std::shared_ptr<CodeBlockResult>(new CodeBlockResult());
-        r_value_field = std::shared_ptr<RValueResult>(new RValueResult());
         conditional_key_field = std::shared_ptr<StringResult>(new StringResult());
+        else_tail_field = std::shared_ptr<ElseTailResult>(new ElseTailResult());
+        r_value_field = std::shared_ptr<RValueResult>(new RValueResult());
     }
     result->SetResult(false);
     return result->GetResult();
@@ -9179,10 +9179,10 @@ bool ConditionalListResult::GetResult()
 Conditional::Conditional()
 {
     this->length_string = NULL;
-    this->else_tail_field = NULL;
     this->code_block_field = NULL;
-    this->r_value_field = NULL;
     this->conditional_key_field = NULL;
+    this->else_tail_field = NULL;
+    this->r_value_field = NULL;
 }
 
 void Conditional::SetLengthString(OmniPointer<LengthString> new_value)
@@ -9198,16 +9198,6 @@ std::string Conditional::UnParse()
     return this->length_string->GetString();
 }
 
-void Conditional::SetElseTail(OmniPointer<ElseTail> input_value)
-{
-    this->else_tail_field = input_value;
-}
-
-OmniPointer<ElseTail> Conditional::GetElseTail()
-{
-    return this->else_tail_field;
-}
-
 void Conditional::SetCodeBlock(OmniPointer<CodeBlock> input_value)
 {
     this->code_block_field = input_value;
@@ -9218,16 +9208,6 @@ OmniPointer<CodeBlock> Conditional::GetCodeBlock()
     return this->code_block_field;
 }
 
-void Conditional::SetRValue(OmniPointer<RValue> input_value)
-{
-    this->r_value_field = input_value;
-}
-
-OmniPointer<RValue> Conditional::GetRValue()
-{
-    return this->r_value_field;
-}
-
 void Conditional::SetConditionalKey(OmniPointer<String> input_value)
 {
     this->conditional_key_field = input_value;
@@ -9236,6 +9216,26 @@ void Conditional::SetConditionalKey(OmniPointer<String> input_value)
 OmniPointer<String> Conditional::GetConditionalKey()
 {
     return this->conditional_key_field;
+}
+
+void Conditional::SetElseTail(OmniPointer<ElseTail> input_value)
+{
+    this->else_tail_field = input_value;
+}
+
+OmniPointer<ElseTail> Conditional::GetElseTail()
+{
+    return this->else_tail_field;
+}
+
+void Conditional::SetRValue(OmniPointer<RValue> input_value)
+{
+    this->r_value_field = input_value;
+}
+
+OmniPointer<RValue> Conditional::GetRValue()
+{
+    return this->r_value_field;
 }
 
 LoopParser::LoopParser()
@@ -9258,8 +9258,8 @@ bool LoopParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<Lo
     consumed_string->SetLength(0);
     OmniPointer<Loop> instance = std::shared_ptr<Loop>(new Loop());
     OmniPointer<CodeBlockResult> code_block_field = std::shared_ptr<CodeBlockResult>(new CodeBlockResult());
-    OmniPointer<RValueResult> r_value_field = std::shared_ptr<RValueResult>(new RValueResult());
     OmniPointer<StringResult> loop_key_field = std::shared_ptr<StringResult>(new StringResult());
+    OmniPointer<RValueResult> r_value_field = std::shared_ptr<RValueResult>(new RValueResult());
     OmniPointer<CTCodeFileParser> c_t_code_file_parser_instance = this->parser_network->GetCTCodeFileParser();
     OmniPointer<ExternalDefinitionParser> external_definition_parser_instance = this->parser_network->GetExternalDefinitionParser();
     OmniPointer<UnmanagedTypeParser> unmanaged_type_parser_instance = this->parser_network->GetUnmanagedTypeParser();
@@ -9319,8 +9319,8 @@ bool LoopParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<Lo
     if (true&&whitespace_parser_instance->ParseMany(index,0,-1)&&string_parser_instance->ParseSingleSave(index,std::string("while"),loop_key_field)&&whitespace_parser_instance->ParseMany(index,0,-1)&&string_parser_instance->ParseSingle(index,std::string("("))&&whitespace_parser_instance->ParseMany(index,0,-1)&&r_value_parser_instance->ParseSingleSave(index,r_value_field)&&whitespace_parser_instance->ParseMany(index,0,-1)&&string_parser_instance->ParseSingle(index,std::string(")"))&&whitespace_parser_instance->ParseMany(index,0,-1)&&code_block_parser_instance->ParseSingleSave(index,code_block_field)&&whitespace_parser_instance->ParseMany(index,0,-1))
     {
         instance->SetCodeBlock(code_block_field->GetValue());
-        instance->SetRValue(r_value_field->GetValue());
         instance->SetLoopKey(loop_key_field->GetValue());
+        instance->SetRValue(r_value_field->GetValue());
         consumed_string->SetLength(index->GetStart()-index_start);
         instance->SetLengthString(consumed_string);
         result->SetValue(instance);
@@ -9332,8 +9332,8 @@ bool LoopParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<Lo
         index->SetStart(index_start);
         index->SetLength(index_length);
         code_block_field = std::shared_ptr<CodeBlockResult>(new CodeBlockResult());
-        r_value_field = std::shared_ptr<RValueResult>(new RValueResult());
         loop_key_field = std::shared_ptr<StringResult>(new StringResult());
+        r_value_field = std::shared_ptr<RValueResult>(new RValueResult());
     }
     result->SetResult(false);
     return result->GetResult();
@@ -9461,8 +9461,8 @@ Loop::Loop()
 {
     this->length_string = NULL;
     this->code_block_field = NULL;
-    this->r_value_field = NULL;
     this->loop_key_field = NULL;
+    this->r_value_field = NULL;
 }
 
 void Loop::SetLengthString(OmniPointer<LengthString> new_value)
@@ -9488,16 +9488,6 @@ OmniPointer<CodeBlock> Loop::GetCodeBlock()
     return this->code_block_field;
 }
 
-void Loop::SetRValue(OmniPointer<RValue> input_value)
-{
-    this->r_value_field = input_value;
-}
-
-OmniPointer<RValue> Loop::GetRValue()
-{
-    return this->r_value_field;
-}
-
 void Loop::SetLoopKey(OmniPointer<String> input_value)
 {
     this->loop_key_field = input_value;
@@ -9506,6 +9496,16 @@ void Loop::SetLoopKey(OmniPointer<String> input_value)
 OmniPointer<String> Loop::GetLoopKey()
 {
     return this->loop_key_field;
+}
+
+void Loop::SetRValue(OmniPointer<RValue> input_value)
+{
+    this->r_value_field = input_value;
+}
+
+OmniPointer<RValue> Loop::GetRValue()
+{
+    return this->r_value_field;
 }
 
 CallParser::CallParser()
@@ -9528,8 +9528,8 @@ bool CallParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<Ca
     consumed_string->SetLength(0);
     OmniPointer<Call> instance = std::shared_ptr<Call>(new Call());
     OmniPointer<QualfiedNameResult> function_chain_field = std::shared_ptr<QualfiedNameResult>(new QualfiedNameResult());
-    OmniPointer<ParameterListResult> parameters_field = std::shared_ptr<ParameterListResult>(new ParameterListResult());
     OmniPointer<NameResult> function_field = std::shared_ptr<NameResult>(new NameResult());
+    OmniPointer<ParameterListResult> parameters_field = std::shared_ptr<ParameterListResult>(new ParameterListResult());
     OmniPointer<NameResult> variable_field = std::shared_ptr<NameResult>(new NameResult());
     OmniPointer<CTCodeFileParser> c_t_code_file_parser_instance = this->parser_network->GetCTCodeFileParser();
     OmniPointer<ExternalDefinitionParser> external_definition_parser_instance = this->parser_network->GetExternalDefinitionParser();
@@ -9590,8 +9590,8 @@ bool CallParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<Ca
     if (true&&name_parser_instance->ParseSingleSave(index,variable_field)&&string_parser_instance->ParseSingle(index,std::string("."))&&name_parser_instance->ParseSingleSave(index,function_field)&&whitespace_parser_instance->ParseMany(index,0,-1)&&string_parser_instance->ParseSingle(index,std::string("("))&&whitespace_parser_instance->ParseMany(index,0,-1)&&parameter_list_parser_instance->ParseOptionalSave(index,parameters_field)&&whitespace_parser_instance->ParseMany(index,0,-1)&&string_parser_instance->ParseSingle(index,std::string(")"))&&whitespace_parser_instance->ParseMany(index,0,-1))
     {
         instance->SetFunctionChain(function_chain_field->GetValue());
-        instance->SetParameters(parameters_field->GetValue());
         instance->SetFunction(function_field->GetValue());
+        instance->SetParameters(parameters_field->GetValue());
         instance->SetVariable(variable_field->GetValue());
         consumed_string->SetLength(index->GetStart()-index_start);
         instance->SetLengthString(consumed_string);
@@ -9604,15 +9604,15 @@ bool CallParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<Ca
         index->SetStart(index_start);
         index->SetLength(index_length);
         function_chain_field = std::shared_ptr<QualfiedNameResult>(new QualfiedNameResult());
-        parameters_field = std::shared_ptr<ParameterListResult>(new ParameterListResult());
         function_field = std::shared_ptr<NameResult>(new NameResult());
+        parameters_field = std::shared_ptr<ParameterListResult>(new ParameterListResult());
         variable_field = std::shared_ptr<NameResult>(new NameResult());
     }
     if (true&&name_parser_instance->ParseSingleSave(index,function_field)&&whitespace_parser_instance->ParseMany(index,0,-1)&&string_parser_instance->ParseSingle(index,std::string("("))&&whitespace_parser_instance->ParseMany(index,0,-1)&&parameter_list_parser_instance->ParseOptionalSave(index,parameters_field)&&whitespace_parser_instance->ParseMany(index,0,-1)&&string_parser_instance->ParseSingle(index,std::string(")"))&&whitespace_parser_instance->ParseMany(index,0,-1))
     {
         instance->SetFunctionChain(function_chain_field->GetValue());
-        instance->SetParameters(parameters_field->GetValue());
         instance->SetFunction(function_field->GetValue());
+        instance->SetParameters(parameters_field->GetValue());
         instance->SetVariable(variable_field->GetValue());
         consumed_string->SetLength(index->GetStart()-index_start);
         instance->SetLengthString(consumed_string);
@@ -9625,15 +9625,15 @@ bool CallParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<Ca
         index->SetStart(index_start);
         index->SetLength(index_length);
         function_chain_field = std::shared_ptr<QualfiedNameResult>(new QualfiedNameResult());
-        parameters_field = std::shared_ptr<ParameterListResult>(new ParameterListResult());
         function_field = std::shared_ptr<NameResult>(new NameResult());
+        parameters_field = std::shared_ptr<ParameterListResult>(new ParameterListResult());
         variable_field = std::shared_ptr<NameResult>(new NameResult());
     }
     if (true&&qualfied_name_parser_instance->ParseSingleSave(index,function_chain_field)&&whitespace_parser_instance->ParseMany(index,0,-1)&&string_parser_instance->ParseSingle(index,std::string("("))&&whitespace_parser_instance->ParseMany(index,0,-1)&&parameter_list_parser_instance->ParseOptionalSave(index,parameters_field)&&whitespace_parser_instance->ParseMany(index,0,-1)&&string_parser_instance->ParseSingle(index,std::string(")"))&&whitespace_parser_instance->ParseMany(index,0,-1))
     {
         instance->SetFunctionChain(function_chain_field->GetValue());
-        instance->SetParameters(parameters_field->GetValue());
         instance->SetFunction(function_field->GetValue());
+        instance->SetParameters(parameters_field->GetValue());
         instance->SetVariable(variable_field->GetValue());
         consumed_string->SetLength(index->GetStart()-index_start);
         instance->SetLengthString(consumed_string);
@@ -9646,8 +9646,8 @@ bool CallParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<Ca
         index->SetStart(index_start);
         index->SetLength(index_length);
         function_chain_field = std::shared_ptr<QualfiedNameResult>(new QualfiedNameResult());
-        parameters_field = std::shared_ptr<ParameterListResult>(new ParameterListResult());
         function_field = std::shared_ptr<NameResult>(new NameResult());
+        parameters_field = std::shared_ptr<ParameterListResult>(new ParameterListResult());
         variable_field = std::shared_ptr<NameResult>(new NameResult());
     }
     result->SetResult(false);
@@ -9776,8 +9776,8 @@ Call::Call()
 {
     this->length_string = NULL;
     this->function_chain_field = NULL;
-    this->parameters_field = NULL;
     this->function_field = NULL;
+    this->parameters_field = NULL;
     this->variable_field = NULL;
 }
 
@@ -9804,16 +9804,6 @@ OmniPointer<QualfiedName> Call::GetFunctionChain()
     return this->function_chain_field;
 }
 
-void Call::SetParameters(OmniPointer<ParameterList> input_value)
-{
-    this->parameters_field = input_value;
-}
-
-OmniPointer<ParameterList> Call::GetParameters()
-{
-    return this->parameters_field;
-}
-
 void Call::SetFunction(OmniPointer<Name> input_value)
 {
     this->function_field = input_value;
@@ -9822,6 +9812,16 @@ void Call::SetFunction(OmniPointer<Name> input_value)
 OmniPointer<Name> Call::GetFunction()
 {
     return this->function_field;
+}
+
+void Call::SetParameters(OmniPointer<ParameterList> input_value)
+{
+    this->parameters_field = input_value;
+}
+
+OmniPointer<ParameterList> Call::GetParameters()
+{
+    return this->parameters_field;
 }
 
 void Call::SetVariable(OmniPointer<Name> input_value)
@@ -10095,14 +10095,14 @@ bool InstructionParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPoi
     consumed_string->SetStart(index->GetStart());
     consumed_string->SetLength(0);
     OmniPointer<Instruction> instance = std::shared_ptr<Instruction>(new Instruction());
-    OmniPointer<LoopResult> loop_field = std::shared_ptr<LoopResult>(new LoopResult());
-    OmniPointer<ConditionalResult> conditional_field = std::shared_ptr<ConditionalResult>(new ConditionalResult());
-    OmniPointer<CallResult> call_field = std::shared_ptr<CallResult>(new CallResult());
-    OmniPointer<ReturnResult> rtn_field = std::shared_ptr<ReturnResult>(new ReturnResult());
-    OmniPointer<CodeBlockResult> code_block_field = std::shared_ptr<CodeBlockResult>(new CodeBlockResult());
     OmniPointer<AssignmentResult> assignment_field = std::shared_ptr<AssignmentResult>(new AssignmentResult());
-    OmniPointer<DeclarationResult> declaration_field = std::shared_ptr<DeclarationResult>(new DeclarationResult());
+    OmniPointer<CallResult> call_field = std::shared_ptr<CallResult>(new CallResult());
+    OmniPointer<CodeBlockResult> code_block_field = std::shared_ptr<CodeBlockResult>(new CodeBlockResult());
     OmniPointer<CommentResult> comment_field = std::shared_ptr<CommentResult>(new CommentResult());
+    OmniPointer<ConditionalResult> conditional_field = std::shared_ptr<ConditionalResult>(new ConditionalResult());
+    OmniPointer<DeclarationResult> declaration_field = std::shared_ptr<DeclarationResult>(new DeclarationResult());
+    OmniPointer<LoopResult> loop_field = std::shared_ptr<LoopResult>(new LoopResult());
+    OmniPointer<ReturnResult> rtn_field = std::shared_ptr<ReturnResult>(new ReturnResult());
     OmniPointer<CTCodeFileParser> c_t_code_file_parser_instance = this->parser_network->GetCTCodeFileParser();
     OmniPointer<ExternalDefinitionParser> external_definition_parser_instance = this->parser_network->GetExternalDefinitionParser();
     OmniPointer<UnmanagedTypeParser> unmanaged_type_parser_instance = this->parser_network->GetUnmanagedTypeParser();
@@ -10161,14 +10161,14 @@ bool InstructionParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPoi
     OmniPointer<CharacterRangeParser> character_range_parser_instance = this->parser_network->GetCharacterRangeParser();
     if (true&&whitespace_parser_instance->ParseMany(index,0,-1)&&comment_parser_instance->ParseOptionalSave(index,comment_field)&&whitespace_parser_instance->ParseMany(index,0,-1)&&code_block_parser_instance->ParseSingleSave(index,code_block_field))
     {
-        instance->SetLoop(loop_field->GetValue());
-        instance->SetConditional(conditional_field->GetValue());
-        instance->SetCall(call_field->GetValue());
-        instance->SetRtn(rtn_field->GetValue());
-        instance->SetCodeBlock(code_block_field->GetValue());
         instance->SetAssignment(assignment_field->GetValue());
-        instance->SetDeclaration(declaration_field->GetValue());
+        instance->SetCall(call_field->GetValue());
+        instance->SetCodeBlock(code_block_field->GetValue());
         instance->SetComment(comment_field->GetValue());
+        instance->SetConditional(conditional_field->GetValue());
+        instance->SetDeclaration(declaration_field->GetValue());
+        instance->SetLoop(loop_field->GetValue());
+        instance->SetRtn(rtn_field->GetValue());
         consumed_string->SetLength(index->GetStart()-index_start);
         instance->SetLengthString(consumed_string);
         result->SetValue(instance);
@@ -10179,25 +10179,25 @@ bool InstructionParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPoi
     {
         index->SetStart(index_start);
         index->SetLength(index_length);
-        loop_field = std::shared_ptr<LoopResult>(new LoopResult());
-        conditional_field = std::shared_ptr<ConditionalResult>(new ConditionalResult());
-        call_field = std::shared_ptr<CallResult>(new CallResult());
-        rtn_field = std::shared_ptr<ReturnResult>(new ReturnResult());
-        code_block_field = std::shared_ptr<CodeBlockResult>(new CodeBlockResult());
         assignment_field = std::shared_ptr<AssignmentResult>(new AssignmentResult());
-        declaration_field = std::shared_ptr<DeclarationResult>(new DeclarationResult());
+        call_field = std::shared_ptr<CallResult>(new CallResult());
+        code_block_field = std::shared_ptr<CodeBlockResult>(new CodeBlockResult());
         comment_field = std::shared_ptr<CommentResult>(new CommentResult());
+        conditional_field = std::shared_ptr<ConditionalResult>(new ConditionalResult());
+        declaration_field = std::shared_ptr<DeclarationResult>(new DeclarationResult());
+        loop_field = std::shared_ptr<LoopResult>(new LoopResult());
+        rtn_field = std::shared_ptr<ReturnResult>(new ReturnResult());
     }
     if (true&&whitespace_parser_instance->ParseMany(index,0,-1)&&comment_parser_instance->ParseOptionalSave(index,comment_field)&&whitespace_parser_instance->ParseMany(index,0,-1)&&return_parser_instance->ParseSingleSave(index,rtn_field))
     {
-        instance->SetLoop(loop_field->GetValue());
-        instance->SetConditional(conditional_field->GetValue());
-        instance->SetCall(call_field->GetValue());
-        instance->SetRtn(rtn_field->GetValue());
-        instance->SetCodeBlock(code_block_field->GetValue());
         instance->SetAssignment(assignment_field->GetValue());
-        instance->SetDeclaration(declaration_field->GetValue());
+        instance->SetCall(call_field->GetValue());
+        instance->SetCodeBlock(code_block_field->GetValue());
         instance->SetComment(comment_field->GetValue());
+        instance->SetConditional(conditional_field->GetValue());
+        instance->SetDeclaration(declaration_field->GetValue());
+        instance->SetLoop(loop_field->GetValue());
+        instance->SetRtn(rtn_field->GetValue());
         consumed_string->SetLength(index->GetStart()-index_start);
         instance->SetLengthString(consumed_string);
         result->SetValue(instance);
@@ -10208,25 +10208,25 @@ bool InstructionParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPoi
     {
         index->SetStart(index_start);
         index->SetLength(index_length);
-        loop_field = std::shared_ptr<LoopResult>(new LoopResult());
-        conditional_field = std::shared_ptr<ConditionalResult>(new ConditionalResult());
-        call_field = std::shared_ptr<CallResult>(new CallResult());
-        rtn_field = std::shared_ptr<ReturnResult>(new ReturnResult());
-        code_block_field = std::shared_ptr<CodeBlockResult>(new CodeBlockResult());
         assignment_field = std::shared_ptr<AssignmentResult>(new AssignmentResult());
-        declaration_field = std::shared_ptr<DeclarationResult>(new DeclarationResult());
+        call_field = std::shared_ptr<CallResult>(new CallResult());
+        code_block_field = std::shared_ptr<CodeBlockResult>(new CodeBlockResult());
         comment_field = std::shared_ptr<CommentResult>(new CommentResult());
+        conditional_field = std::shared_ptr<ConditionalResult>(new ConditionalResult());
+        declaration_field = std::shared_ptr<DeclarationResult>(new DeclarationResult());
+        loop_field = std::shared_ptr<LoopResult>(new LoopResult());
+        rtn_field = std::shared_ptr<ReturnResult>(new ReturnResult());
     }
     if (true&&whitespace_parser_instance->ParseMany(index,0,-1)&&comment_parser_instance->ParseOptionalSave(index,comment_field)&&whitespace_parser_instance->ParseMany(index,0,-1)&&declaration_parser_instance->ParseSingleSave(index,declaration_field))
     {
-        instance->SetLoop(loop_field->GetValue());
-        instance->SetConditional(conditional_field->GetValue());
-        instance->SetCall(call_field->GetValue());
-        instance->SetRtn(rtn_field->GetValue());
-        instance->SetCodeBlock(code_block_field->GetValue());
         instance->SetAssignment(assignment_field->GetValue());
-        instance->SetDeclaration(declaration_field->GetValue());
+        instance->SetCall(call_field->GetValue());
+        instance->SetCodeBlock(code_block_field->GetValue());
         instance->SetComment(comment_field->GetValue());
+        instance->SetConditional(conditional_field->GetValue());
+        instance->SetDeclaration(declaration_field->GetValue());
+        instance->SetLoop(loop_field->GetValue());
+        instance->SetRtn(rtn_field->GetValue());
         consumed_string->SetLength(index->GetStart()-index_start);
         instance->SetLengthString(consumed_string);
         result->SetValue(instance);
@@ -10237,25 +10237,25 @@ bool InstructionParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPoi
     {
         index->SetStart(index_start);
         index->SetLength(index_length);
-        loop_field = std::shared_ptr<LoopResult>(new LoopResult());
-        conditional_field = std::shared_ptr<ConditionalResult>(new ConditionalResult());
-        call_field = std::shared_ptr<CallResult>(new CallResult());
-        rtn_field = std::shared_ptr<ReturnResult>(new ReturnResult());
-        code_block_field = std::shared_ptr<CodeBlockResult>(new CodeBlockResult());
         assignment_field = std::shared_ptr<AssignmentResult>(new AssignmentResult());
-        declaration_field = std::shared_ptr<DeclarationResult>(new DeclarationResult());
+        call_field = std::shared_ptr<CallResult>(new CallResult());
+        code_block_field = std::shared_ptr<CodeBlockResult>(new CodeBlockResult());
         comment_field = std::shared_ptr<CommentResult>(new CommentResult());
+        conditional_field = std::shared_ptr<ConditionalResult>(new ConditionalResult());
+        declaration_field = std::shared_ptr<DeclarationResult>(new DeclarationResult());
+        loop_field = std::shared_ptr<LoopResult>(new LoopResult());
+        rtn_field = std::shared_ptr<ReturnResult>(new ReturnResult());
     }
     if (true&&whitespace_parser_instance->ParseMany(index,0,-1)&&comment_parser_instance->ParseOptionalSave(index,comment_field)&&whitespace_parser_instance->ParseMany(index,0,-1)&&assignment_parser_instance->ParseSingleSave(index,assignment_field))
     {
-        instance->SetLoop(loop_field->GetValue());
-        instance->SetConditional(conditional_field->GetValue());
-        instance->SetCall(call_field->GetValue());
-        instance->SetRtn(rtn_field->GetValue());
-        instance->SetCodeBlock(code_block_field->GetValue());
         instance->SetAssignment(assignment_field->GetValue());
-        instance->SetDeclaration(declaration_field->GetValue());
+        instance->SetCall(call_field->GetValue());
+        instance->SetCodeBlock(code_block_field->GetValue());
         instance->SetComment(comment_field->GetValue());
+        instance->SetConditional(conditional_field->GetValue());
+        instance->SetDeclaration(declaration_field->GetValue());
+        instance->SetLoop(loop_field->GetValue());
+        instance->SetRtn(rtn_field->GetValue());
         consumed_string->SetLength(index->GetStart()-index_start);
         instance->SetLengthString(consumed_string);
         result->SetValue(instance);
@@ -10266,25 +10266,25 @@ bool InstructionParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPoi
     {
         index->SetStart(index_start);
         index->SetLength(index_length);
-        loop_field = std::shared_ptr<LoopResult>(new LoopResult());
-        conditional_field = std::shared_ptr<ConditionalResult>(new ConditionalResult());
-        call_field = std::shared_ptr<CallResult>(new CallResult());
-        rtn_field = std::shared_ptr<ReturnResult>(new ReturnResult());
-        code_block_field = std::shared_ptr<CodeBlockResult>(new CodeBlockResult());
         assignment_field = std::shared_ptr<AssignmentResult>(new AssignmentResult());
-        declaration_field = std::shared_ptr<DeclarationResult>(new DeclarationResult());
+        call_field = std::shared_ptr<CallResult>(new CallResult());
+        code_block_field = std::shared_ptr<CodeBlockResult>(new CodeBlockResult());
         comment_field = std::shared_ptr<CommentResult>(new CommentResult());
+        conditional_field = std::shared_ptr<ConditionalResult>(new ConditionalResult());
+        declaration_field = std::shared_ptr<DeclarationResult>(new DeclarationResult());
+        loop_field = std::shared_ptr<LoopResult>(new LoopResult());
+        rtn_field = std::shared_ptr<ReturnResult>(new ReturnResult());
     }
     if (true&&whitespace_parser_instance->ParseMany(index,0,-1)&&comment_parser_instance->ParseOptionalSave(index,comment_field)&&whitespace_parser_instance->ParseMany(index,0,-1)&&call_parser_instance->ParseSingleSave(index,call_field)&&whitespace_parser_instance->ParseMany(index,0,-1)&&string_parser_instance->ParseSingle(index,std::string(";"))&&whitespace_parser_instance->ParseMany(index,0,-1))
     {
-        instance->SetLoop(loop_field->GetValue());
-        instance->SetConditional(conditional_field->GetValue());
-        instance->SetCall(call_field->GetValue());
-        instance->SetRtn(rtn_field->GetValue());
-        instance->SetCodeBlock(code_block_field->GetValue());
         instance->SetAssignment(assignment_field->GetValue());
-        instance->SetDeclaration(declaration_field->GetValue());
+        instance->SetCall(call_field->GetValue());
+        instance->SetCodeBlock(code_block_field->GetValue());
         instance->SetComment(comment_field->GetValue());
+        instance->SetConditional(conditional_field->GetValue());
+        instance->SetDeclaration(declaration_field->GetValue());
+        instance->SetLoop(loop_field->GetValue());
+        instance->SetRtn(rtn_field->GetValue());
         consumed_string->SetLength(index->GetStart()-index_start);
         instance->SetLengthString(consumed_string);
         result->SetValue(instance);
@@ -10295,25 +10295,25 @@ bool InstructionParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPoi
     {
         index->SetStart(index_start);
         index->SetLength(index_length);
-        loop_field = std::shared_ptr<LoopResult>(new LoopResult());
-        conditional_field = std::shared_ptr<ConditionalResult>(new ConditionalResult());
-        call_field = std::shared_ptr<CallResult>(new CallResult());
-        rtn_field = std::shared_ptr<ReturnResult>(new ReturnResult());
-        code_block_field = std::shared_ptr<CodeBlockResult>(new CodeBlockResult());
         assignment_field = std::shared_ptr<AssignmentResult>(new AssignmentResult());
-        declaration_field = std::shared_ptr<DeclarationResult>(new DeclarationResult());
+        call_field = std::shared_ptr<CallResult>(new CallResult());
+        code_block_field = std::shared_ptr<CodeBlockResult>(new CodeBlockResult());
         comment_field = std::shared_ptr<CommentResult>(new CommentResult());
+        conditional_field = std::shared_ptr<ConditionalResult>(new ConditionalResult());
+        declaration_field = std::shared_ptr<DeclarationResult>(new DeclarationResult());
+        loop_field = std::shared_ptr<LoopResult>(new LoopResult());
+        rtn_field = std::shared_ptr<ReturnResult>(new ReturnResult());
     }
     if (true&&whitespace_parser_instance->ParseMany(index,0,-1)&&comment_parser_instance->ParseOptionalSave(index,comment_field)&&whitespace_parser_instance->ParseMany(index,0,-1)&&conditional_parser_instance->ParseSingleSave(index,conditional_field))
     {
-        instance->SetLoop(loop_field->GetValue());
-        instance->SetConditional(conditional_field->GetValue());
-        instance->SetCall(call_field->GetValue());
-        instance->SetRtn(rtn_field->GetValue());
-        instance->SetCodeBlock(code_block_field->GetValue());
         instance->SetAssignment(assignment_field->GetValue());
-        instance->SetDeclaration(declaration_field->GetValue());
+        instance->SetCall(call_field->GetValue());
+        instance->SetCodeBlock(code_block_field->GetValue());
         instance->SetComment(comment_field->GetValue());
+        instance->SetConditional(conditional_field->GetValue());
+        instance->SetDeclaration(declaration_field->GetValue());
+        instance->SetLoop(loop_field->GetValue());
+        instance->SetRtn(rtn_field->GetValue());
         consumed_string->SetLength(index->GetStart()-index_start);
         instance->SetLengthString(consumed_string);
         result->SetValue(instance);
@@ -10324,25 +10324,25 @@ bool InstructionParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPoi
     {
         index->SetStart(index_start);
         index->SetLength(index_length);
-        loop_field = std::shared_ptr<LoopResult>(new LoopResult());
-        conditional_field = std::shared_ptr<ConditionalResult>(new ConditionalResult());
-        call_field = std::shared_ptr<CallResult>(new CallResult());
-        rtn_field = std::shared_ptr<ReturnResult>(new ReturnResult());
-        code_block_field = std::shared_ptr<CodeBlockResult>(new CodeBlockResult());
         assignment_field = std::shared_ptr<AssignmentResult>(new AssignmentResult());
-        declaration_field = std::shared_ptr<DeclarationResult>(new DeclarationResult());
+        call_field = std::shared_ptr<CallResult>(new CallResult());
+        code_block_field = std::shared_ptr<CodeBlockResult>(new CodeBlockResult());
         comment_field = std::shared_ptr<CommentResult>(new CommentResult());
+        conditional_field = std::shared_ptr<ConditionalResult>(new ConditionalResult());
+        declaration_field = std::shared_ptr<DeclarationResult>(new DeclarationResult());
+        loop_field = std::shared_ptr<LoopResult>(new LoopResult());
+        rtn_field = std::shared_ptr<ReturnResult>(new ReturnResult());
     }
     if (true&&whitespace_parser_instance->ParseMany(index,0,-1)&&comment_parser_instance->ParseOptionalSave(index,comment_field)&&whitespace_parser_instance->ParseMany(index,0,-1)&&loop_parser_instance->ParseSingleSave(index,loop_field))
     {
-        instance->SetLoop(loop_field->GetValue());
-        instance->SetConditional(conditional_field->GetValue());
-        instance->SetCall(call_field->GetValue());
-        instance->SetRtn(rtn_field->GetValue());
-        instance->SetCodeBlock(code_block_field->GetValue());
         instance->SetAssignment(assignment_field->GetValue());
-        instance->SetDeclaration(declaration_field->GetValue());
+        instance->SetCall(call_field->GetValue());
+        instance->SetCodeBlock(code_block_field->GetValue());
         instance->SetComment(comment_field->GetValue());
+        instance->SetConditional(conditional_field->GetValue());
+        instance->SetDeclaration(declaration_field->GetValue());
+        instance->SetLoop(loop_field->GetValue());
+        instance->SetRtn(rtn_field->GetValue());
         consumed_string->SetLength(index->GetStart()-index_start);
         instance->SetLengthString(consumed_string);
         result->SetValue(instance);
@@ -10353,14 +10353,14 @@ bool InstructionParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPoi
     {
         index->SetStart(index_start);
         index->SetLength(index_length);
-        loop_field = std::shared_ptr<LoopResult>(new LoopResult());
-        conditional_field = std::shared_ptr<ConditionalResult>(new ConditionalResult());
-        call_field = std::shared_ptr<CallResult>(new CallResult());
-        rtn_field = std::shared_ptr<ReturnResult>(new ReturnResult());
-        code_block_field = std::shared_ptr<CodeBlockResult>(new CodeBlockResult());
         assignment_field = std::shared_ptr<AssignmentResult>(new AssignmentResult());
-        declaration_field = std::shared_ptr<DeclarationResult>(new DeclarationResult());
+        call_field = std::shared_ptr<CallResult>(new CallResult());
+        code_block_field = std::shared_ptr<CodeBlockResult>(new CodeBlockResult());
         comment_field = std::shared_ptr<CommentResult>(new CommentResult());
+        conditional_field = std::shared_ptr<ConditionalResult>(new ConditionalResult());
+        declaration_field = std::shared_ptr<DeclarationResult>(new DeclarationResult());
+        loop_field = std::shared_ptr<LoopResult>(new LoopResult());
+        rtn_field = std::shared_ptr<ReturnResult>(new ReturnResult());
     }
     result->SetResult(false);
     return result->GetResult();
@@ -10487,14 +10487,14 @@ bool InstructionListResult::GetResult()
 Instruction::Instruction()
 {
     this->length_string = NULL;
-    this->loop_field = NULL;
-    this->conditional_field = NULL;
-    this->call_field = NULL;
-    this->rtn_field = NULL;
-    this->code_block_field = NULL;
     this->assignment_field = NULL;
-    this->declaration_field = NULL;
+    this->call_field = NULL;
+    this->code_block_field = NULL;
     this->comment_field = NULL;
+    this->conditional_field = NULL;
+    this->declaration_field = NULL;
+    this->loop_field = NULL;
+    this->rtn_field = NULL;
 }
 
 void Instruction::SetLengthString(OmniPointer<LengthString> new_value)
@@ -10510,24 +10510,14 @@ std::string Instruction::UnParse()
     return this->length_string->GetString();
 }
 
-void Instruction::SetLoop(OmniPointer<Loop> input_value)
+void Instruction::SetAssignment(OmniPointer<Assignment> input_value)
 {
-    this->loop_field = input_value;
+    this->assignment_field = input_value;
 }
 
-OmniPointer<Loop> Instruction::GetLoop()
+OmniPointer<Assignment> Instruction::GetAssignment()
 {
-    return this->loop_field;
-}
-
-void Instruction::SetConditional(OmniPointer<Conditional> input_value)
-{
-    this->conditional_field = input_value;
-}
-
-OmniPointer<Conditional> Instruction::GetConditional()
-{
-    return this->conditional_field;
+    return this->assignment_field;
 }
 
 void Instruction::SetCall(OmniPointer<Call> input_value)
@@ -10540,16 +10530,6 @@ OmniPointer<Call> Instruction::GetCall()
     return this->call_field;
 }
 
-void Instruction::SetRtn(OmniPointer<Return> input_value)
-{
-    this->rtn_field = input_value;
-}
-
-OmniPointer<Return> Instruction::GetRtn()
-{
-    return this->rtn_field;
-}
-
 void Instruction::SetCodeBlock(OmniPointer<CodeBlock> input_value)
 {
     this->code_block_field = input_value;
@@ -10560,14 +10540,24 @@ OmniPointer<CodeBlock> Instruction::GetCodeBlock()
     return this->code_block_field;
 }
 
-void Instruction::SetAssignment(OmniPointer<Assignment> input_value)
+void Instruction::SetComment(OmniPointer<Comment> input_value)
 {
-    this->assignment_field = input_value;
+    this->comment_field = input_value;
 }
 
-OmniPointer<Assignment> Instruction::GetAssignment()
+OmniPointer<Comment> Instruction::GetComment()
 {
-    return this->assignment_field;
+    return this->comment_field;
+}
+
+void Instruction::SetConditional(OmniPointer<Conditional> input_value)
+{
+    this->conditional_field = input_value;
+}
+
+OmniPointer<Conditional> Instruction::GetConditional()
+{
+    return this->conditional_field;
 }
 
 void Instruction::SetDeclaration(OmniPointer<Declaration> input_value)
@@ -10580,14 +10570,24 @@ OmniPointer<Declaration> Instruction::GetDeclaration()
     return this->declaration_field;
 }
 
-void Instruction::SetComment(OmniPointer<Comment> input_value)
+void Instruction::SetLoop(OmniPointer<Loop> input_value)
 {
-    this->comment_field = input_value;
+    this->loop_field = input_value;
 }
 
-OmniPointer<Comment> Instruction::GetComment()
+OmniPointer<Loop> Instruction::GetLoop()
 {
-    return this->comment_field;
+    return this->loop_field;
+}
+
+void Instruction::SetRtn(OmniPointer<Return> input_value)
+{
+    this->rtn_field = input_value;
+}
+
+OmniPointer<Return> Instruction::GetRtn()
+{
+    return this->rtn_field;
 }
 
 RValueSingleParser::RValueSingleParser()
@@ -10609,15 +10609,15 @@ bool RValueSingleParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPo
     consumed_string->SetStart(index->GetStart());
     consumed_string->SetLength(0);
     OmniPointer<RValueSingle> instance = std::shared_ptr<RValueSingle>(new RValueSingle());
-    OmniPointer<QualfiedNameResult> variable_field = std::shared_ptr<QualfiedNameResult>(new QualfiedNameResult());
-    OmniPointer<LiteralResult> string_literal_field = std::shared_ptr<LiteralResult>(new LiteralResult());
-    OmniPointer<NumberResult> integer_literal_field = std::shared_ptr<NumberResult>(new NumberResult());
-    OmniPointer<DecimalResult> decimal_literal_field = std::shared_ptr<DecimalResult>(new DecimalResult());
-    OmniPointer<ByteResult> byte_literal_field = std::shared_ptr<ByteResult>(new ByteResult());
     OmniPointer<AllocateResult> allocate_field = std::shared_ptr<AllocateResult>(new AllocateResult());
     OmniPointer<BooleanResult> boolean_literal_field = std::shared_ptr<BooleanResult>(new BooleanResult());
+    OmniPointer<ByteResult> byte_literal_field = std::shared_ptr<ByteResult>(new ByteResult());
     OmniPointer<CallResult> call_field = std::shared_ptr<CallResult>(new CallResult());
+    OmniPointer<DecimalResult> decimal_literal_field = std::shared_ptr<DecimalResult>(new DecimalResult());
+    OmniPointer<NumberResult> integer_literal_field = std::shared_ptr<NumberResult>(new NumberResult());
+    OmniPointer<LiteralResult> string_literal_field = std::shared_ptr<LiteralResult>(new LiteralResult());
     OmniPointer<UnaryOperatorResult> unary_operator_field = std::shared_ptr<UnaryOperatorResult>(new UnaryOperatorResult());
+    OmniPointer<QualfiedNameResult> variable_field = std::shared_ptr<QualfiedNameResult>(new QualfiedNameResult());
     OmniPointer<CTCodeFileParser> c_t_code_file_parser_instance = this->parser_network->GetCTCodeFileParser();
     OmniPointer<ExternalDefinitionParser> external_definition_parser_instance = this->parser_network->GetExternalDefinitionParser();
     OmniPointer<UnmanagedTypeParser> unmanaged_type_parser_instance = this->parser_network->GetUnmanagedTypeParser();
@@ -10676,15 +10676,15 @@ bool RValueSingleParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPo
     OmniPointer<CharacterRangeParser> character_range_parser_instance = this->parser_network->GetCharacterRangeParser();
     if (true&&whitespace_parser_instance->ParseMany(index,0,-1)&&unary_operator_parser_instance->ParseOptionalSave(index,unary_operator_field)&&whitespace_parser_instance->ParseMany(index,0,-1)&&call_parser_instance->ParseSingleSave(index,call_field))
     {
-        instance->SetVariable(variable_field->GetValue());
-        instance->SetStringLiteral(string_literal_field->GetValue());
-        instance->SetIntegerLiteral(integer_literal_field->GetValue());
-        instance->SetDecimalLiteral(decimal_literal_field->GetValue());
-        instance->SetByteLiteral(byte_literal_field->GetValue());
         instance->SetAllocate(allocate_field->GetValue());
         instance->SetBooleanLiteral(boolean_literal_field->GetValue());
+        instance->SetByteLiteral(byte_literal_field->GetValue());
         instance->SetCall(call_field->GetValue());
+        instance->SetDecimalLiteral(decimal_literal_field->GetValue());
+        instance->SetIntegerLiteral(integer_literal_field->GetValue());
+        instance->SetStringLiteral(string_literal_field->GetValue());
         instance->SetUnaryOperator(unary_operator_field->GetValue());
+        instance->SetVariable(variable_field->GetValue());
         consumed_string->SetLength(index->GetStart()-index_start);
         instance->SetLengthString(consumed_string);
         result->SetValue(instance);
@@ -10695,27 +10695,27 @@ bool RValueSingleParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPo
     {
         index->SetStart(index_start);
         index->SetLength(index_length);
-        variable_field = std::shared_ptr<QualfiedNameResult>(new QualfiedNameResult());
-        string_literal_field = std::shared_ptr<LiteralResult>(new LiteralResult());
-        integer_literal_field = std::shared_ptr<NumberResult>(new NumberResult());
-        decimal_literal_field = std::shared_ptr<DecimalResult>(new DecimalResult());
-        byte_literal_field = std::shared_ptr<ByteResult>(new ByteResult());
         allocate_field = std::shared_ptr<AllocateResult>(new AllocateResult());
         boolean_literal_field = std::shared_ptr<BooleanResult>(new BooleanResult());
+        byte_literal_field = std::shared_ptr<ByteResult>(new ByteResult());
         call_field = std::shared_ptr<CallResult>(new CallResult());
+        decimal_literal_field = std::shared_ptr<DecimalResult>(new DecimalResult());
+        integer_literal_field = std::shared_ptr<NumberResult>(new NumberResult());
+        string_literal_field = std::shared_ptr<LiteralResult>(new LiteralResult());
         unary_operator_field = std::shared_ptr<UnaryOperatorResult>(new UnaryOperatorResult());
+        variable_field = std::shared_ptr<QualfiedNameResult>(new QualfiedNameResult());
     }
     if (true&&whitespace_parser_instance->ParseMany(index,0,-1)&&unary_operator_parser_instance->ParseOptionalSave(index,unary_operator_field)&&whitespace_parser_instance->ParseMany(index,0,-1)&&allocate_parser_instance->ParseSingleSave(index,allocate_field))
     {
-        instance->SetVariable(variable_field->GetValue());
-        instance->SetStringLiteral(string_literal_field->GetValue());
-        instance->SetIntegerLiteral(integer_literal_field->GetValue());
-        instance->SetDecimalLiteral(decimal_literal_field->GetValue());
-        instance->SetByteLiteral(byte_literal_field->GetValue());
         instance->SetAllocate(allocate_field->GetValue());
         instance->SetBooleanLiteral(boolean_literal_field->GetValue());
+        instance->SetByteLiteral(byte_literal_field->GetValue());
         instance->SetCall(call_field->GetValue());
+        instance->SetDecimalLiteral(decimal_literal_field->GetValue());
+        instance->SetIntegerLiteral(integer_literal_field->GetValue());
+        instance->SetStringLiteral(string_literal_field->GetValue());
         instance->SetUnaryOperator(unary_operator_field->GetValue());
+        instance->SetVariable(variable_field->GetValue());
         consumed_string->SetLength(index->GetStart()-index_start);
         instance->SetLengthString(consumed_string);
         result->SetValue(instance);
@@ -10726,27 +10726,27 @@ bool RValueSingleParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPo
     {
         index->SetStart(index_start);
         index->SetLength(index_length);
-        variable_field = std::shared_ptr<QualfiedNameResult>(new QualfiedNameResult());
-        string_literal_field = std::shared_ptr<LiteralResult>(new LiteralResult());
-        integer_literal_field = std::shared_ptr<NumberResult>(new NumberResult());
-        decimal_literal_field = std::shared_ptr<DecimalResult>(new DecimalResult());
-        byte_literal_field = std::shared_ptr<ByteResult>(new ByteResult());
         allocate_field = std::shared_ptr<AllocateResult>(new AllocateResult());
         boolean_literal_field = std::shared_ptr<BooleanResult>(new BooleanResult());
+        byte_literal_field = std::shared_ptr<ByteResult>(new ByteResult());
         call_field = std::shared_ptr<CallResult>(new CallResult());
+        decimal_literal_field = std::shared_ptr<DecimalResult>(new DecimalResult());
+        integer_literal_field = std::shared_ptr<NumberResult>(new NumberResult());
+        string_literal_field = std::shared_ptr<LiteralResult>(new LiteralResult());
         unary_operator_field = std::shared_ptr<UnaryOperatorResult>(new UnaryOperatorResult());
+        variable_field = std::shared_ptr<QualfiedNameResult>(new QualfiedNameResult());
     }
     if (true&&whitespace_parser_instance->ParseMany(index,0,-1)&&unary_operator_parser_instance->ParseOptionalSave(index,unary_operator_field)&&whitespace_parser_instance->ParseMany(index,0,-1)&&byte_parser_instance->ParseSingleSave(index,byte_literal_field))
     {
-        instance->SetVariable(variable_field->GetValue());
-        instance->SetStringLiteral(string_literal_field->GetValue());
-        instance->SetIntegerLiteral(integer_literal_field->GetValue());
-        instance->SetDecimalLiteral(decimal_literal_field->GetValue());
-        instance->SetByteLiteral(byte_literal_field->GetValue());
         instance->SetAllocate(allocate_field->GetValue());
         instance->SetBooleanLiteral(boolean_literal_field->GetValue());
+        instance->SetByteLiteral(byte_literal_field->GetValue());
         instance->SetCall(call_field->GetValue());
+        instance->SetDecimalLiteral(decimal_literal_field->GetValue());
+        instance->SetIntegerLiteral(integer_literal_field->GetValue());
+        instance->SetStringLiteral(string_literal_field->GetValue());
         instance->SetUnaryOperator(unary_operator_field->GetValue());
+        instance->SetVariable(variable_field->GetValue());
         consumed_string->SetLength(index->GetStart()-index_start);
         instance->SetLengthString(consumed_string);
         result->SetValue(instance);
@@ -10757,27 +10757,27 @@ bool RValueSingleParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPo
     {
         index->SetStart(index_start);
         index->SetLength(index_length);
-        variable_field = std::shared_ptr<QualfiedNameResult>(new QualfiedNameResult());
-        string_literal_field = std::shared_ptr<LiteralResult>(new LiteralResult());
-        integer_literal_field = std::shared_ptr<NumberResult>(new NumberResult());
-        decimal_literal_field = std::shared_ptr<DecimalResult>(new DecimalResult());
-        byte_literal_field = std::shared_ptr<ByteResult>(new ByteResult());
         allocate_field = std::shared_ptr<AllocateResult>(new AllocateResult());
         boolean_literal_field = std::shared_ptr<BooleanResult>(new BooleanResult());
+        byte_literal_field = std::shared_ptr<ByteResult>(new ByteResult());
         call_field = std::shared_ptr<CallResult>(new CallResult());
+        decimal_literal_field = std::shared_ptr<DecimalResult>(new DecimalResult());
+        integer_literal_field = std::shared_ptr<NumberResult>(new NumberResult());
+        string_literal_field = std::shared_ptr<LiteralResult>(new LiteralResult());
         unary_operator_field = std::shared_ptr<UnaryOperatorResult>(new UnaryOperatorResult());
+        variable_field = std::shared_ptr<QualfiedNameResult>(new QualfiedNameResult());
     }
     if (true&&whitespace_parser_instance->ParseMany(index,0,-1)&&unary_operator_parser_instance->ParseOptionalSave(index,unary_operator_field)&&whitespace_parser_instance->ParseMany(index,0,-1)&&decimal_parser_instance->ParseSingleSave(index,decimal_literal_field))
     {
-        instance->SetVariable(variable_field->GetValue());
-        instance->SetStringLiteral(string_literal_field->GetValue());
-        instance->SetIntegerLiteral(integer_literal_field->GetValue());
-        instance->SetDecimalLiteral(decimal_literal_field->GetValue());
-        instance->SetByteLiteral(byte_literal_field->GetValue());
         instance->SetAllocate(allocate_field->GetValue());
         instance->SetBooleanLiteral(boolean_literal_field->GetValue());
+        instance->SetByteLiteral(byte_literal_field->GetValue());
         instance->SetCall(call_field->GetValue());
+        instance->SetDecimalLiteral(decimal_literal_field->GetValue());
+        instance->SetIntegerLiteral(integer_literal_field->GetValue());
+        instance->SetStringLiteral(string_literal_field->GetValue());
         instance->SetUnaryOperator(unary_operator_field->GetValue());
+        instance->SetVariable(variable_field->GetValue());
         consumed_string->SetLength(index->GetStart()-index_start);
         instance->SetLengthString(consumed_string);
         result->SetValue(instance);
@@ -10788,27 +10788,27 @@ bool RValueSingleParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPo
     {
         index->SetStart(index_start);
         index->SetLength(index_length);
-        variable_field = std::shared_ptr<QualfiedNameResult>(new QualfiedNameResult());
-        string_literal_field = std::shared_ptr<LiteralResult>(new LiteralResult());
-        integer_literal_field = std::shared_ptr<NumberResult>(new NumberResult());
-        decimal_literal_field = std::shared_ptr<DecimalResult>(new DecimalResult());
-        byte_literal_field = std::shared_ptr<ByteResult>(new ByteResult());
         allocate_field = std::shared_ptr<AllocateResult>(new AllocateResult());
         boolean_literal_field = std::shared_ptr<BooleanResult>(new BooleanResult());
+        byte_literal_field = std::shared_ptr<ByteResult>(new ByteResult());
         call_field = std::shared_ptr<CallResult>(new CallResult());
+        decimal_literal_field = std::shared_ptr<DecimalResult>(new DecimalResult());
+        integer_literal_field = std::shared_ptr<NumberResult>(new NumberResult());
+        string_literal_field = std::shared_ptr<LiteralResult>(new LiteralResult());
         unary_operator_field = std::shared_ptr<UnaryOperatorResult>(new UnaryOperatorResult());
+        variable_field = std::shared_ptr<QualfiedNameResult>(new QualfiedNameResult());
     }
     if (true&&whitespace_parser_instance->ParseMany(index,0,-1)&&unary_operator_parser_instance->ParseOptionalSave(index,unary_operator_field)&&whitespace_parser_instance->ParseMany(index,0,-1)&&number_parser_instance->ParseSingleSave(index,integer_literal_field))
     {
-        instance->SetVariable(variable_field->GetValue());
-        instance->SetStringLiteral(string_literal_field->GetValue());
-        instance->SetIntegerLiteral(integer_literal_field->GetValue());
-        instance->SetDecimalLiteral(decimal_literal_field->GetValue());
-        instance->SetByteLiteral(byte_literal_field->GetValue());
         instance->SetAllocate(allocate_field->GetValue());
         instance->SetBooleanLiteral(boolean_literal_field->GetValue());
+        instance->SetByteLiteral(byte_literal_field->GetValue());
         instance->SetCall(call_field->GetValue());
+        instance->SetDecimalLiteral(decimal_literal_field->GetValue());
+        instance->SetIntegerLiteral(integer_literal_field->GetValue());
+        instance->SetStringLiteral(string_literal_field->GetValue());
         instance->SetUnaryOperator(unary_operator_field->GetValue());
+        instance->SetVariable(variable_field->GetValue());
         consumed_string->SetLength(index->GetStart()-index_start);
         instance->SetLengthString(consumed_string);
         result->SetValue(instance);
@@ -10819,27 +10819,27 @@ bool RValueSingleParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPo
     {
         index->SetStart(index_start);
         index->SetLength(index_length);
-        variable_field = std::shared_ptr<QualfiedNameResult>(new QualfiedNameResult());
-        string_literal_field = std::shared_ptr<LiteralResult>(new LiteralResult());
-        integer_literal_field = std::shared_ptr<NumberResult>(new NumberResult());
-        decimal_literal_field = std::shared_ptr<DecimalResult>(new DecimalResult());
-        byte_literal_field = std::shared_ptr<ByteResult>(new ByteResult());
         allocate_field = std::shared_ptr<AllocateResult>(new AllocateResult());
         boolean_literal_field = std::shared_ptr<BooleanResult>(new BooleanResult());
+        byte_literal_field = std::shared_ptr<ByteResult>(new ByteResult());
         call_field = std::shared_ptr<CallResult>(new CallResult());
+        decimal_literal_field = std::shared_ptr<DecimalResult>(new DecimalResult());
+        integer_literal_field = std::shared_ptr<NumberResult>(new NumberResult());
+        string_literal_field = std::shared_ptr<LiteralResult>(new LiteralResult());
         unary_operator_field = std::shared_ptr<UnaryOperatorResult>(new UnaryOperatorResult());
+        variable_field = std::shared_ptr<QualfiedNameResult>(new QualfiedNameResult());
     }
     if (true&&whitespace_parser_instance->ParseMany(index,0,-1)&&unary_operator_parser_instance->ParseOptionalSave(index,unary_operator_field)&&whitespace_parser_instance->ParseMany(index,0,-1)&&boolean_parser_instance->ParseSingleSave(index,boolean_literal_field))
     {
-        instance->SetVariable(variable_field->GetValue());
-        instance->SetStringLiteral(string_literal_field->GetValue());
-        instance->SetIntegerLiteral(integer_literal_field->GetValue());
-        instance->SetDecimalLiteral(decimal_literal_field->GetValue());
-        instance->SetByteLiteral(byte_literal_field->GetValue());
         instance->SetAllocate(allocate_field->GetValue());
         instance->SetBooleanLiteral(boolean_literal_field->GetValue());
+        instance->SetByteLiteral(byte_literal_field->GetValue());
         instance->SetCall(call_field->GetValue());
+        instance->SetDecimalLiteral(decimal_literal_field->GetValue());
+        instance->SetIntegerLiteral(integer_literal_field->GetValue());
+        instance->SetStringLiteral(string_literal_field->GetValue());
         instance->SetUnaryOperator(unary_operator_field->GetValue());
+        instance->SetVariable(variable_field->GetValue());
         consumed_string->SetLength(index->GetStart()-index_start);
         instance->SetLengthString(consumed_string);
         result->SetValue(instance);
@@ -10850,27 +10850,27 @@ bool RValueSingleParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPo
     {
         index->SetStart(index_start);
         index->SetLength(index_length);
-        variable_field = std::shared_ptr<QualfiedNameResult>(new QualfiedNameResult());
-        string_literal_field = std::shared_ptr<LiteralResult>(new LiteralResult());
-        integer_literal_field = std::shared_ptr<NumberResult>(new NumberResult());
-        decimal_literal_field = std::shared_ptr<DecimalResult>(new DecimalResult());
-        byte_literal_field = std::shared_ptr<ByteResult>(new ByteResult());
         allocate_field = std::shared_ptr<AllocateResult>(new AllocateResult());
         boolean_literal_field = std::shared_ptr<BooleanResult>(new BooleanResult());
+        byte_literal_field = std::shared_ptr<ByteResult>(new ByteResult());
         call_field = std::shared_ptr<CallResult>(new CallResult());
+        decimal_literal_field = std::shared_ptr<DecimalResult>(new DecimalResult());
+        integer_literal_field = std::shared_ptr<NumberResult>(new NumberResult());
+        string_literal_field = std::shared_ptr<LiteralResult>(new LiteralResult());
         unary_operator_field = std::shared_ptr<UnaryOperatorResult>(new UnaryOperatorResult());
+        variable_field = std::shared_ptr<QualfiedNameResult>(new QualfiedNameResult());
     }
     if (true&&whitespace_parser_instance->ParseMany(index,0,-1)&&unary_operator_parser_instance->ParseOptionalSave(index,unary_operator_field)&&whitespace_parser_instance->ParseMany(index,0,-1)&&qualfied_name_parser_instance->ParseSingleSave(index,variable_field))
     {
-        instance->SetVariable(variable_field->GetValue());
-        instance->SetStringLiteral(string_literal_field->GetValue());
-        instance->SetIntegerLiteral(integer_literal_field->GetValue());
-        instance->SetDecimalLiteral(decimal_literal_field->GetValue());
-        instance->SetByteLiteral(byte_literal_field->GetValue());
         instance->SetAllocate(allocate_field->GetValue());
         instance->SetBooleanLiteral(boolean_literal_field->GetValue());
+        instance->SetByteLiteral(byte_literal_field->GetValue());
         instance->SetCall(call_field->GetValue());
+        instance->SetDecimalLiteral(decimal_literal_field->GetValue());
+        instance->SetIntegerLiteral(integer_literal_field->GetValue());
+        instance->SetStringLiteral(string_literal_field->GetValue());
         instance->SetUnaryOperator(unary_operator_field->GetValue());
+        instance->SetVariable(variable_field->GetValue());
         consumed_string->SetLength(index->GetStart()-index_start);
         instance->SetLengthString(consumed_string);
         result->SetValue(instance);
@@ -10881,27 +10881,27 @@ bool RValueSingleParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPo
     {
         index->SetStart(index_start);
         index->SetLength(index_length);
-        variable_field = std::shared_ptr<QualfiedNameResult>(new QualfiedNameResult());
-        string_literal_field = std::shared_ptr<LiteralResult>(new LiteralResult());
-        integer_literal_field = std::shared_ptr<NumberResult>(new NumberResult());
-        decimal_literal_field = std::shared_ptr<DecimalResult>(new DecimalResult());
-        byte_literal_field = std::shared_ptr<ByteResult>(new ByteResult());
         allocate_field = std::shared_ptr<AllocateResult>(new AllocateResult());
         boolean_literal_field = std::shared_ptr<BooleanResult>(new BooleanResult());
+        byte_literal_field = std::shared_ptr<ByteResult>(new ByteResult());
         call_field = std::shared_ptr<CallResult>(new CallResult());
+        decimal_literal_field = std::shared_ptr<DecimalResult>(new DecimalResult());
+        integer_literal_field = std::shared_ptr<NumberResult>(new NumberResult());
+        string_literal_field = std::shared_ptr<LiteralResult>(new LiteralResult());
         unary_operator_field = std::shared_ptr<UnaryOperatorResult>(new UnaryOperatorResult());
+        variable_field = std::shared_ptr<QualfiedNameResult>(new QualfiedNameResult());
     }
     if (true&&whitespace_parser_instance->ParseMany(index,0,-1)&&unary_operator_parser_instance->ParseOptionalSave(index,unary_operator_field)&&whitespace_parser_instance->ParseMany(index,0,-1)&&string_parser_instance->ParseSingle(index,std::string("\""))&&literal_parser_instance->ParseSingleSave(index,string_literal_field)&&string_parser_instance->ParseSingle(index,std::string("\"")))
     {
-        instance->SetVariable(variable_field->GetValue());
-        instance->SetStringLiteral(string_literal_field->GetValue());
-        instance->SetIntegerLiteral(integer_literal_field->GetValue());
-        instance->SetDecimalLiteral(decimal_literal_field->GetValue());
-        instance->SetByteLiteral(byte_literal_field->GetValue());
         instance->SetAllocate(allocate_field->GetValue());
         instance->SetBooleanLiteral(boolean_literal_field->GetValue());
+        instance->SetByteLiteral(byte_literal_field->GetValue());
         instance->SetCall(call_field->GetValue());
+        instance->SetDecimalLiteral(decimal_literal_field->GetValue());
+        instance->SetIntegerLiteral(integer_literal_field->GetValue());
+        instance->SetStringLiteral(string_literal_field->GetValue());
         instance->SetUnaryOperator(unary_operator_field->GetValue());
+        instance->SetVariable(variable_field->GetValue());
         consumed_string->SetLength(index->GetStart()-index_start);
         instance->SetLengthString(consumed_string);
         result->SetValue(instance);
@@ -10912,15 +10912,15 @@ bool RValueSingleParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPo
     {
         index->SetStart(index_start);
         index->SetLength(index_length);
-        variable_field = std::shared_ptr<QualfiedNameResult>(new QualfiedNameResult());
-        string_literal_field = std::shared_ptr<LiteralResult>(new LiteralResult());
-        integer_literal_field = std::shared_ptr<NumberResult>(new NumberResult());
-        decimal_literal_field = std::shared_ptr<DecimalResult>(new DecimalResult());
-        byte_literal_field = std::shared_ptr<ByteResult>(new ByteResult());
         allocate_field = std::shared_ptr<AllocateResult>(new AllocateResult());
         boolean_literal_field = std::shared_ptr<BooleanResult>(new BooleanResult());
+        byte_literal_field = std::shared_ptr<ByteResult>(new ByteResult());
         call_field = std::shared_ptr<CallResult>(new CallResult());
+        decimal_literal_field = std::shared_ptr<DecimalResult>(new DecimalResult());
+        integer_literal_field = std::shared_ptr<NumberResult>(new NumberResult());
+        string_literal_field = std::shared_ptr<LiteralResult>(new LiteralResult());
         unary_operator_field = std::shared_ptr<UnaryOperatorResult>(new UnaryOperatorResult());
+        variable_field = std::shared_ptr<QualfiedNameResult>(new QualfiedNameResult());
     }
     result->SetResult(false);
     return result->GetResult();
@@ -11047,15 +11047,15 @@ bool RValueSingleListResult::GetResult()
 RValueSingle::RValueSingle()
 {
     this->length_string = NULL;
-    this->variable_field = NULL;
-    this->string_literal_field = NULL;
-    this->integer_literal_field = NULL;
-    this->decimal_literal_field = NULL;
-    this->byte_literal_field = NULL;
     this->allocate_field = NULL;
     this->boolean_literal_field = NULL;
+    this->byte_literal_field = NULL;
     this->call_field = NULL;
+    this->decimal_literal_field = NULL;
+    this->integer_literal_field = NULL;
+    this->string_literal_field = NULL;
     this->unary_operator_field = NULL;
+    this->variable_field = NULL;
 }
 
 void RValueSingle::SetLengthString(OmniPointer<LengthString> new_value)
@@ -11069,56 +11069,6 @@ void RValueSingle::SetLengthString(OmniPointer<LengthString> new_value)
 std::string RValueSingle::UnParse()
 {
     return this->length_string->GetString();
-}
-
-void RValueSingle::SetVariable(OmniPointer<QualfiedName> input_value)
-{
-    this->variable_field = input_value;
-}
-
-OmniPointer<QualfiedName> RValueSingle::GetVariable()
-{
-    return this->variable_field;
-}
-
-void RValueSingle::SetStringLiteral(OmniPointer<Literal> input_value)
-{
-    this->string_literal_field = input_value;
-}
-
-OmniPointer<Literal> RValueSingle::GetStringLiteral()
-{
-    return this->string_literal_field;
-}
-
-void RValueSingle::SetIntegerLiteral(OmniPointer<Number> input_value)
-{
-    this->integer_literal_field = input_value;
-}
-
-OmniPointer<Number> RValueSingle::GetIntegerLiteral()
-{
-    return this->integer_literal_field;
-}
-
-void RValueSingle::SetDecimalLiteral(OmniPointer<Decimal> input_value)
-{
-    this->decimal_literal_field = input_value;
-}
-
-OmniPointer<Decimal> RValueSingle::GetDecimalLiteral()
-{
-    return this->decimal_literal_field;
-}
-
-void RValueSingle::SetByteLiteral(OmniPointer<Byte> input_value)
-{
-    this->byte_literal_field = input_value;
-}
-
-OmniPointer<Byte> RValueSingle::GetByteLiteral()
-{
-    return this->byte_literal_field;
 }
 
 void RValueSingle::SetAllocate(OmniPointer<Allocate> input_value)
@@ -11141,6 +11091,16 @@ OmniPointer<Boolean> RValueSingle::GetBooleanLiteral()
     return this->boolean_literal_field;
 }
 
+void RValueSingle::SetByteLiteral(OmniPointer<Byte> input_value)
+{
+    this->byte_literal_field = input_value;
+}
+
+OmniPointer<Byte> RValueSingle::GetByteLiteral()
+{
+    return this->byte_literal_field;
+}
+
 void RValueSingle::SetCall(OmniPointer<Call> input_value)
 {
     this->call_field = input_value;
@@ -11151,6 +11111,36 @@ OmniPointer<Call> RValueSingle::GetCall()
     return this->call_field;
 }
 
+void RValueSingle::SetDecimalLiteral(OmniPointer<Decimal> input_value)
+{
+    this->decimal_literal_field = input_value;
+}
+
+OmniPointer<Decimal> RValueSingle::GetDecimalLiteral()
+{
+    return this->decimal_literal_field;
+}
+
+void RValueSingle::SetIntegerLiteral(OmniPointer<Number> input_value)
+{
+    this->integer_literal_field = input_value;
+}
+
+OmniPointer<Number> RValueSingle::GetIntegerLiteral()
+{
+    return this->integer_literal_field;
+}
+
+void RValueSingle::SetStringLiteral(OmniPointer<Literal> input_value)
+{
+    this->string_literal_field = input_value;
+}
+
+OmniPointer<Literal> RValueSingle::GetStringLiteral()
+{
+    return this->string_literal_field;
+}
+
 void RValueSingle::SetUnaryOperator(OmniPointer<UnaryOperator> input_value)
 {
     this->unary_operator_field = input_value;
@@ -11159,6 +11149,16 @@ void RValueSingle::SetUnaryOperator(OmniPointer<UnaryOperator> input_value)
 OmniPointer<UnaryOperator> RValueSingle::GetUnaryOperator()
 {
     return this->unary_operator_field;
+}
+
+void RValueSingle::SetVariable(OmniPointer<QualfiedName> input_value)
+{
+    this->variable_field = input_value;
+}
+
+OmniPointer<QualfiedName> RValueSingle::GetVariable()
+{
+    return this->variable_field;
 }
 
 RValueTailParser::RValueTailParser()
@@ -11180,9 +11180,9 @@ bool RValueTailParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPoin
     consumed_string->SetStart(index->GetStart());
     consumed_string->SetLength(0);
     OmniPointer<RValueTail> instance = std::shared_ptr<RValueTail>(new RValueTail());
+    OmniPointer<BinaryOperatorResult> binary_operator_field = std::shared_ptr<BinaryOperatorResult>(new BinaryOperatorResult());
     OmniPointer<RValueTailResult> tail_field = std::shared_ptr<RValueTailResult>(new RValueTailResult());
     OmniPointer<RValueSingleResult> value_field = std::shared_ptr<RValueSingleResult>(new RValueSingleResult());
-    OmniPointer<BinaryOperatorResult> binary_operator_field = std::shared_ptr<BinaryOperatorResult>(new BinaryOperatorResult());
     OmniPointer<CTCodeFileParser> c_t_code_file_parser_instance = this->parser_network->GetCTCodeFileParser();
     OmniPointer<ExternalDefinitionParser> external_definition_parser_instance = this->parser_network->GetExternalDefinitionParser();
     OmniPointer<UnmanagedTypeParser> unmanaged_type_parser_instance = this->parser_network->GetUnmanagedTypeParser();
@@ -11241,9 +11241,9 @@ bool RValueTailParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPoin
     OmniPointer<CharacterRangeParser> character_range_parser_instance = this->parser_network->GetCharacterRangeParser();
     if (true&&whitespace_parser_instance->ParseMany(index,0,-1)&&binary_operator_parser_instance->ParseSingleSave(index,binary_operator_field)&&whitespace_parser_instance->ParseMany(index,0,-1)&&r_value_single_parser_instance->ParseSingleSave(index,value_field)&&whitespace_parser_instance->ParseMany(index,0,-1)&&r_value_tail_parser_instance->ParseOptionalSave(index,tail_field))
     {
+        instance->SetBinaryOperator(binary_operator_field->GetValue());
         instance->SetTail(tail_field->GetValue());
         instance->SetValue(value_field->GetValue());
-        instance->SetBinaryOperator(binary_operator_field->GetValue());
         consumed_string->SetLength(index->GetStart()-index_start);
         instance->SetLengthString(consumed_string);
         result->SetValue(instance);
@@ -11254,9 +11254,9 @@ bool RValueTailParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPoin
     {
         index->SetStart(index_start);
         index->SetLength(index_length);
+        binary_operator_field = std::shared_ptr<BinaryOperatorResult>(new BinaryOperatorResult());
         tail_field = std::shared_ptr<RValueTailResult>(new RValueTailResult());
         value_field = std::shared_ptr<RValueSingleResult>(new RValueSingleResult());
-        binary_operator_field = std::shared_ptr<BinaryOperatorResult>(new BinaryOperatorResult());
     }
     result->SetResult(false);
     return result->GetResult();
@@ -11383,9 +11383,9 @@ bool RValueTailListResult::GetResult()
 RValueTail::RValueTail()
 {
     this->length_string = NULL;
+    this->binary_operator_field = NULL;
     this->tail_field = NULL;
     this->value_field = NULL;
-    this->binary_operator_field = NULL;
 }
 
 void RValueTail::SetLengthString(OmniPointer<LengthString> new_value)
@@ -11399,6 +11399,16 @@ void RValueTail::SetLengthString(OmniPointer<LengthString> new_value)
 std::string RValueTail::UnParse()
 {
     return this->length_string->GetString();
+}
+
+void RValueTail::SetBinaryOperator(OmniPointer<BinaryOperator> input_value)
+{
+    this->binary_operator_field = input_value;
+}
+
+OmniPointer<BinaryOperator> RValueTail::GetBinaryOperator()
+{
+    return this->binary_operator_field;
 }
 
 void RValueTail::SetTail(OmniPointer<RValueTail> input_value)
@@ -11419,16 +11429,6 @@ void RValueTail::SetValue(OmniPointer<RValueSingle> input_value)
 OmniPointer<RValueSingle> RValueTail::GetValue()
 {
     return this->value_field;
-}
-
-void RValueTail::SetBinaryOperator(OmniPointer<BinaryOperator> input_value)
-{
-    this->binary_operator_field = input_value;
-}
-
-OmniPointer<BinaryOperator> RValueTail::GetBinaryOperator()
-{
-    return this->binary_operator_field;
 }
 
 RValueParser::RValueParser()
@@ -11706,16 +11706,16 @@ bool BinaryOperatorParser::ParseSingleSave(OmniPointer<LengthString> index, Omni
     consumed_string->SetStart(index->GetStart());
     consumed_string->SetLength(0);
     OmniPointer<BinaryOperator> instance = std::shared_ptr<BinaryOperator>(new BinaryOperator());
+    OmniPointer<StringResult> addition_field = std::shared_ptr<StringResult>(new StringResult());
     OmniPointer<StringResult> and_op_field = std::shared_ptr<StringResult>(new StringResult());
-    OmniPointer<StringResult> not_equality_field = std::shared_ptr<StringResult>(new StringResult());
-    OmniPointer<StringResult> or_op_field = std::shared_ptr<StringResult>(new StringResult());
-    OmniPointer<StringResult> greater_than_field = std::shared_ptr<StringResult>(new StringResult());
-    OmniPointer<StringResult> less_than_field = std::shared_ptr<StringResult>(new StringResult());
     OmniPointer<StringResult> equality_field = std::shared_ptr<StringResult>(new StringResult());
     OmniPointer<StringResult> greater_than_eq_field = std::shared_ptr<StringResult>(new StringResult());
+    OmniPointer<StringResult> greater_than_field = std::shared_ptr<StringResult>(new StringResult());
     OmniPointer<StringResult> less_than_eq_field = std::shared_ptr<StringResult>(new StringResult());
+    OmniPointer<StringResult> less_than_field = std::shared_ptr<StringResult>(new StringResult());
+    OmniPointer<StringResult> not_equality_field = std::shared_ptr<StringResult>(new StringResult());
+    OmniPointer<StringResult> or_op_field = std::shared_ptr<StringResult>(new StringResult());
     OmniPointer<StringResult> subtraction_field = std::shared_ptr<StringResult>(new StringResult());
-    OmniPointer<StringResult> addition_field = std::shared_ptr<StringResult>(new StringResult());
     OmniPointer<CTCodeFileParser> c_t_code_file_parser_instance = this->parser_network->GetCTCodeFileParser();
     OmniPointer<ExternalDefinitionParser> external_definition_parser_instance = this->parser_network->GetExternalDefinitionParser();
     OmniPointer<UnmanagedTypeParser> unmanaged_type_parser_instance = this->parser_network->GetUnmanagedTypeParser();
@@ -11774,16 +11774,16 @@ bool BinaryOperatorParser::ParseSingleSave(OmniPointer<LengthString> index, Omni
     OmniPointer<CharacterRangeParser> character_range_parser_instance = this->parser_network->GetCharacterRangeParser();
     if (true&&string_parser_instance->ParseSingleSave(index,std::string("+"),addition_field))
     {
+        instance->SetAddition(addition_field->GetValue());
         instance->SetAndOp(and_op_field->GetValue());
-        instance->SetNotEquality(not_equality_field->GetValue());
-        instance->SetOrOp(or_op_field->GetValue());
-        instance->SetGreaterThan(greater_than_field->GetValue());
-        instance->SetLessThan(less_than_field->GetValue());
         instance->SetEquality(equality_field->GetValue());
         instance->SetGreaterThanEq(greater_than_eq_field->GetValue());
+        instance->SetGreaterThan(greater_than_field->GetValue());
         instance->SetLessThanEq(less_than_eq_field->GetValue());
+        instance->SetLessThan(less_than_field->GetValue());
+        instance->SetNotEquality(not_equality_field->GetValue());
+        instance->SetOrOp(or_op_field->GetValue());
         instance->SetSubtraction(subtraction_field->GetValue());
-        instance->SetAddition(addition_field->GetValue());
         consumed_string->SetLength(index->GetStart()-index_start);
         instance->SetLengthString(consumed_string);
         result->SetValue(instance);
@@ -11794,29 +11794,29 @@ bool BinaryOperatorParser::ParseSingleSave(OmniPointer<LengthString> index, Omni
     {
         index->SetStart(index_start);
         index->SetLength(index_length);
+        addition_field = std::shared_ptr<StringResult>(new StringResult());
         and_op_field = std::shared_ptr<StringResult>(new StringResult());
-        not_equality_field = std::shared_ptr<StringResult>(new StringResult());
-        or_op_field = std::shared_ptr<StringResult>(new StringResult());
-        greater_than_field = std::shared_ptr<StringResult>(new StringResult());
-        less_than_field = std::shared_ptr<StringResult>(new StringResult());
         equality_field = std::shared_ptr<StringResult>(new StringResult());
         greater_than_eq_field = std::shared_ptr<StringResult>(new StringResult());
+        greater_than_field = std::shared_ptr<StringResult>(new StringResult());
         less_than_eq_field = std::shared_ptr<StringResult>(new StringResult());
+        less_than_field = std::shared_ptr<StringResult>(new StringResult());
+        not_equality_field = std::shared_ptr<StringResult>(new StringResult());
+        or_op_field = std::shared_ptr<StringResult>(new StringResult());
         subtraction_field = std::shared_ptr<StringResult>(new StringResult());
-        addition_field = std::shared_ptr<StringResult>(new StringResult());
     }
     if (true&&string_parser_instance->ParseSingleSave(index,std::string("-"),subtraction_field))
     {
+        instance->SetAddition(addition_field->GetValue());
         instance->SetAndOp(and_op_field->GetValue());
-        instance->SetNotEquality(not_equality_field->GetValue());
-        instance->SetOrOp(or_op_field->GetValue());
-        instance->SetGreaterThan(greater_than_field->GetValue());
-        instance->SetLessThan(less_than_field->GetValue());
         instance->SetEquality(equality_field->GetValue());
         instance->SetGreaterThanEq(greater_than_eq_field->GetValue());
+        instance->SetGreaterThan(greater_than_field->GetValue());
         instance->SetLessThanEq(less_than_eq_field->GetValue());
+        instance->SetLessThan(less_than_field->GetValue());
+        instance->SetNotEquality(not_equality_field->GetValue());
+        instance->SetOrOp(or_op_field->GetValue());
         instance->SetSubtraction(subtraction_field->GetValue());
-        instance->SetAddition(addition_field->GetValue());
         consumed_string->SetLength(index->GetStart()-index_start);
         instance->SetLengthString(consumed_string);
         result->SetValue(instance);
@@ -11827,29 +11827,29 @@ bool BinaryOperatorParser::ParseSingleSave(OmniPointer<LengthString> index, Omni
     {
         index->SetStart(index_start);
         index->SetLength(index_length);
+        addition_field = std::shared_ptr<StringResult>(new StringResult());
         and_op_field = std::shared_ptr<StringResult>(new StringResult());
-        not_equality_field = std::shared_ptr<StringResult>(new StringResult());
-        or_op_field = std::shared_ptr<StringResult>(new StringResult());
-        greater_than_field = std::shared_ptr<StringResult>(new StringResult());
-        less_than_field = std::shared_ptr<StringResult>(new StringResult());
         equality_field = std::shared_ptr<StringResult>(new StringResult());
         greater_than_eq_field = std::shared_ptr<StringResult>(new StringResult());
+        greater_than_field = std::shared_ptr<StringResult>(new StringResult());
         less_than_eq_field = std::shared_ptr<StringResult>(new StringResult());
+        less_than_field = std::shared_ptr<StringResult>(new StringResult());
+        not_equality_field = std::shared_ptr<StringResult>(new StringResult());
+        or_op_field = std::shared_ptr<StringResult>(new StringResult());
         subtraction_field = std::shared_ptr<StringResult>(new StringResult());
-        addition_field = std::shared_ptr<StringResult>(new StringResult());
     }
     if (true&&string_parser_instance->ParseSingleSave(index,std::string("<="),less_than_eq_field))
     {
+        instance->SetAddition(addition_field->GetValue());
         instance->SetAndOp(and_op_field->GetValue());
-        instance->SetNotEquality(not_equality_field->GetValue());
-        instance->SetOrOp(or_op_field->GetValue());
-        instance->SetGreaterThan(greater_than_field->GetValue());
-        instance->SetLessThan(less_than_field->GetValue());
         instance->SetEquality(equality_field->GetValue());
         instance->SetGreaterThanEq(greater_than_eq_field->GetValue());
+        instance->SetGreaterThan(greater_than_field->GetValue());
         instance->SetLessThanEq(less_than_eq_field->GetValue());
+        instance->SetLessThan(less_than_field->GetValue());
+        instance->SetNotEquality(not_equality_field->GetValue());
+        instance->SetOrOp(or_op_field->GetValue());
         instance->SetSubtraction(subtraction_field->GetValue());
-        instance->SetAddition(addition_field->GetValue());
         consumed_string->SetLength(index->GetStart()-index_start);
         instance->SetLengthString(consumed_string);
         result->SetValue(instance);
@@ -11860,29 +11860,29 @@ bool BinaryOperatorParser::ParseSingleSave(OmniPointer<LengthString> index, Omni
     {
         index->SetStart(index_start);
         index->SetLength(index_length);
+        addition_field = std::shared_ptr<StringResult>(new StringResult());
         and_op_field = std::shared_ptr<StringResult>(new StringResult());
-        not_equality_field = std::shared_ptr<StringResult>(new StringResult());
-        or_op_field = std::shared_ptr<StringResult>(new StringResult());
-        greater_than_field = std::shared_ptr<StringResult>(new StringResult());
-        less_than_field = std::shared_ptr<StringResult>(new StringResult());
         equality_field = std::shared_ptr<StringResult>(new StringResult());
         greater_than_eq_field = std::shared_ptr<StringResult>(new StringResult());
+        greater_than_field = std::shared_ptr<StringResult>(new StringResult());
         less_than_eq_field = std::shared_ptr<StringResult>(new StringResult());
+        less_than_field = std::shared_ptr<StringResult>(new StringResult());
+        not_equality_field = std::shared_ptr<StringResult>(new StringResult());
+        or_op_field = std::shared_ptr<StringResult>(new StringResult());
         subtraction_field = std::shared_ptr<StringResult>(new StringResult());
-        addition_field = std::shared_ptr<StringResult>(new StringResult());
     }
     if (true&&string_parser_instance->ParseSingleSave(index,std::string(">="),greater_than_eq_field))
     {
+        instance->SetAddition(addition_field->GetValue());
         instance->SetAndOp(and_op_field->GetValue());
-        instance->SetNotEquality(not_equality_field->GetValue());
-        instance->SetOrOp(or_op_field->GetValue());
-        instance->SetGreaterThan(greater_than_field->GetValue());
-        instance->SetLessThan(less_than_field->GetValue());
         instance->SetEquality(equality_field->GetValue());
         instance->SetGreaterThanEq(greater_than_eq_field->GetValue());
+        instance->SetGreaterThan(greater_than_field->GetValue());
         instance->SetLessThanEq(less_than_eq_field->GetValue());
+        instance->SetLessThan(less_than_field->GetValue());
+        instance->SetNotEquality(not_equality_field->GetValue());
+        instance->SetOrOp(or_op_field->GetValue());
         instance->SetSubtraction(subtraction_field->GetValue());
-        instance->SetAddition(addition_field->GetValue());
         consumed_string->SetLength(index->GetStart()-index_start);
         instance->SetLengthString(consumed_string);
         result->SetValue(instance);
@@ -11893,29 +11893,29 @@ bool BinaryOperatorParser::ParseSingleSave(OmniPointer<LengthString> index, Omni
     {
         index->SetStart(index_start);
         index->SetLength(index_length);
+        addition_field = std::shared_ptr<StringResult>(new StringResult());
         and_op_field = std::shared_ptr<StringResult>(new StringResult());
-        not_equality_field = std::shared_ptr<StringResult>(new StringResult());
-        or_op_field = std::shared_ptr<StringResult>(new StringResult());
-        greater_than_field = std::shared_ptr<StringResult>(new StringResult());
-        less_than_field = std::shared_ptr<StringResult>(new StringResult());
         equality_field = std::shared_ptr<StringResult>(new StringResult());
         greater_than_eq_field = std::shared_ptr<StringResult>(new StringResult());
+        greater_than_field = std::shared_ptr<StringResult>(new StringResult());
         less_than_eq_field = std::shared_ptr<StringResult>(new StringResult());
+        less_than_field = std::shared_ptr<StringResult>(new StringResult());
+        not_equality_field = std::shared_ptr<StringResult>(new StringResult());
+        or_op_field = std::shared_ptr<StringResult>(new StringResult());
         subtraction_field = std::shared_ptr<StringResult>(new StringResult());
-        addition_field = std::shared_ptr<StringResult>(new StringResult());
     }
     if (true&&string_parser_instance->ParseSingleSave(index,std::string("=="),equality_field))
     {
+        instance->SetAddition(addition_field->GetValue());
         instance->SetAndOp(and_op_field->GetValue());
-        instance->SetNotEquality(not_equality_field->GetValue());
-        instance->SetOrOp(or_op_field->GetValue());
-        instance->SetGreaterThan(greater_than_field->GetValue());
-        instance->SetLessThan(less_than_field->GetValue());
         instance->SetEquality(equality_field->GetValue());
         instance->SetGreaterThanEq(greater_than_eq_field->GetValue());
+        instance->SetGreaterThan(greater_than_field->GetValue());
         instance->SetLessThanEq(less_than_eq_field->GetValue());
+        instance->SetLessThan(less_than_field->GetValue());
+        instance->SetNotEquality(not_equality_field->GetValue());
+        instance->SetOrOp(or_op_field->GetValue());
         instance->SetSubtraction(subtraction_field->GetValue());
-        instance->SetAddition(addition_field->GetValue());
         consumed_string->SetLength(index->GetStart()-index_start);
         instance->SetLengthString(consumed_string);
         result->SetValue(instance);
@@ -11926,29 +11926,29 @@ bool BinaryOperatorParser::ParseSingleSave(OmniPointer<LengthString> index, Omni
     {
         index->SetStart(index_start);
         index->SetLength(index_length);
+        addition_field = std::shared_ptr<StringResult>(new StringResult());
         and_op_field = std::shared_ptr<StringResult>(new StringResult());
-        not_equality_field = std::shared_ptr<StringResult>(new StringResult());
-        or_op_field = std::shared_ptr<StringResult>(new StringResult());
-        greater_than_field = std::shared_ptr<StringResult>(new StringResult());
-        less_than_field = std::shared_ptr<StringResult>(new StringResult());
         equality_field = std::shared_ptr<StringResult>(new StringResult());
         greater_than_eq_field = std::shared_ptr<StringResult>(new StringResult());
+        greater_than_field = std::shared_ptr<StringResult>(new StringResult());
         less_than_eq_field = std::shared_ptr<StringResult>(new StringResult());
+        less_than_field = std::shared_ptr<StringResult>(new StringResult());
+        not_equality_field = std::shared_ptr<StringResult>(new StringResult());
+        or_op_field = std::shared_ptr<StringResult>(new StringResult());
         subtraction_field = std::shared_ptr<StringResult>(new StringResult());
-        addition_field = std::shared_ptr<StringResult>(new StringResult());
     }
     if (true&&string_parser_instance->ParseSingleSave(index,std::string("!="),not_equality_field))
     {
+        instance->SetAddition(addition_field->GetValue());
         instance->SetAndOp(and_op_field->GetValue());
-        instance->SetNotEquality(not_equality_field->GetValue());
-        instance->SetOrOp(or_op_field->GetValue());
-        instance->SetGreaterThan(greater_than_field->GetValue());
-        instance->SetLessThan(less_than_field->GetValue());
         instance->SetEquality(equality_field->GetValue());
         instance->SetGreaterThanEq(greater_than_eq_field->GetValue());
+        instance->SetGreaterThan(greater_than_field->GetValue());
         instance->SetLessThanEq(less_than_eq_field->GetValue());
+        instance->SetLessThan(less_than_field->GetValue());
+        instance->SetNotEquality(not_equality_field->GetValue());
+        instance->SetOrOp(or_op_field->GetValue());
         instance->SetSubtraction(subtraction_field->GetValue());
-        instance->SetAddition(addition_field->GetValue());
         consumed_string->SetLength(index->GetStart()-index_start);
         instance->SetLengthString(consumed_string);
         result->SetValue(instance);
@@ -11959,29 +11959,29 @@ bool BinaryOperatorParser::ParseSingleSave(OmniPointer<LengthString> index, Omni
     {
         index->SetStart(index_start);
         index->SetLength(index_length);
+        addition_field = std::shared_ptr<StringResult>(new StringResult());
         and_op_field = std::shared_ptr<StringResult>(new StringResult());
-        not_equality_field = std::shared_ptr<StringResult>(new StringResult());
-        or_op_field = std::shared_ptr<StringResult>(new StringResult());
-        greater_than_field = std::shared_ptr<StringResult>(new StringResult());
-        less_than_field = std::shared_ptr<StringResult>(new StringResult());
         equality_field = std::shared_ptr<StringResult>(new StringResult());
         greater_than_eq_field = std::shared_ptr<StringResult>(new StringResult());
+        greater_than_field = std::shared_ptr<StringResult>(new StringResult());
         less_than_eq_field = std::shared_ptr<StringResult>(new StringResult());
+        less_than_field = std::shared_ptr<StringResult>(new StringResult());
+        not_equality_field = std::shared_ptr<StringResult>(new StringResult());
+        or_op_field = std::shared_ptr<StringResult>(new StringResult());
         subtraction_field = std::shared_ptr<StringResult>(new StringResult());
-        addition_field = std::shared_ptr<StringResult>(new StringResult());
     }
     if (true&&string_parser_instance->ParseSingleSave(index,std::string("<"),less_than_field))
     {
+        instance->SetAddition(addition_field->GetValue());
         instance->SetAndOp(and_op_field->GetValue());
-        instance->SetNotEquality(not_equality_field->GetValue());
-        instance->SetOrOp(or_op_field->GetValue());
-        instance->SetGreaterThan(greater_than_field->GetValue());
-        instance->SetLessThan(less_than_field->GetValue());
         instance->SetEquality(equality_field->GetValue());
         instance->SetGreaterThanEq(greater_than_eq_field->GetValue());
+        instance->SetGreaterThan(greater_than_field->GetValue());
         instance->SetLessThanEq(less_than_eq_field->GetValue());
+        instance->SetLessThan(less_than_field->GetValue());
+        instance->SetNotEquality(not_equality_field->GetValue());
+        instance->SetOrOp(or_op_field->GetValue());
         instance->SetSubtraction(subtraction_field->GetValue());
-        instance->SetAddition(addition_field->GetValue());
         consumed_string->SetLength(index->GetStart()-index_start);
         instance->SetLengthString(consumed_string);
         result->SetValue(instance);
@@ -11992,29 +11992,29 @@ bool BinaryOperatorParser::ParseSingleSave(OmniPointer<LengthString> index, Omni
     {
         index->SetStart(index_start);
         index->SetLength(index_length);
+        addition_field = std::shared_ptr<StringResult>(new StringResult());
         and_op_field = std::shared_ptr<StringResult>(new StringResult());
-        not_equality_field = std::shared_ptr<StringResult>(new StringResult());
-        or_op_field = std::shared_ptr<StringResult>(new StringResult());
-        greater_than_field = std::shared_ptr<StringResult>(new StringResult());
-        less_than_field = std::shared_ptr<StringResult>(new StringResult());
         equality_field = std::shared_ptr<StringResult>(new StringResult());
         greater_than_eq_field = std::shared_ptr<StringResult>(new StringResult());
+        greater_than_field = std::shared_ptr<StringResult>(new StringResult());
         less_than_eq_field = std::shared_ptr<StringResult>(new StringResult());
+        less_than_field = std::shared_ptr<StringResult>(new StringResult());
+        not_equality_field = std::shared_ptr<StringResult>(new StringResult());
+        or_op_field = std::shared_ptr<StringResult>(new StringResult());
         subtraction_field = std::shared_ptr<StringResult>(new StringResult());
-        addition_field = std::shared_ptr<StringResult>(new StringResult());
     }
     if (true&&string_parser_instance->ParseSingleSave(index,std::string(">"),greater_than_field))
     {
+        instance->SetAddition(addition_field->GetValue());
         instance->SetAndOp(and_op_field->GetValue());
-        instance->SetNotEquality(not_equality_field->GetValue());
-        instance->SetOrOp(or_op_field->GetValue());
-        instance->SetGreaterThan(greater_than_field->GetValue());
-        instance->SetLessThan(less_than_field->GetValue());
         instance->SetEquality(equality_field->GetValue());
         instance->SetGreaterThanEq(greater_than_eq_field->GetValue());
+        instance->SetGreaterThan(greater_than_field->GetValue());
         instance->SetLessThanEq(less_than_eq_field->GetValue());
+        instance->SetLessThan(less_than_field->GetValue());
+        instance->SetNotEquality(not_equality_field->GetValue());
+        instance->SetOrOp(or_op_field->GetValue());
         instance->SetSubtraction(subtraction_field->GetValue());
-        instance->SetAddition(addition_field->GetValue());
         consumed_string->SetLength(index->GetStart()-index_start);
         instance->SetLengthString(consumed_string);
         result->SetValue(instance);
@@ -12025,29 +12025,29 @@ bool BinaryOperatorParser::ParseSingleSave(OmniPointer<LengthString> index, Omni
     {
         index->SetStart(index_start);
         index->SetLength(index_length);
+        addition_field = std::shared_ptr<StringResult>(new StringResult());
         and_op_field = std::shared_ptr<StringResult>(new StringResult());
-        not_equality_field = std::shared_ptr<StringResult>(new StringResult());
-        or_op_field = std::shared_ptr<StringResult>(new StringResult());
-        greater_than_field = std::shared_ptr<StringResult>(new StringResult());
-        less_than_field = std::shared_ptr<StringResult>(new StringResult());
         equality_field = std::shared_ptr<StringResult>(new StringResult());
         greater_than_eq_field = std::shared_ptr<StringResult>(new StringResult());
+        greater_than_field = std::shared_ptr<StringResult>(new StringResult());
         less_than_eq_field = std::shared_ptr<StringResult>(new StringResult());
+        less_than_field = std::shared_ptr<StringResult>(new StringResult());
+        not_equality_field = std::shared_ptr<StringResult>(new StringResult());
+        or_op_field = std::shared_ptr<StringResult>(new StringResult());
         subtraction_field = std::shared_ptr<StringResult>(new StringResult());
-        addition_field = std::shared_ptr<StringResult>(new StringResult());
     }
     if (true&&string_parser_instance->ParseSingleSave(index,std::string("||"),or_op_field))
     {
+        instance->SetAddition(addition_field->GetValue());
         instance->SetAndOp(and_op_field->GetValue());
-        instance->SetNotEquality(not_equality_field->GetValue());
-        instance->SetOrOp(or_op_field->GetValue());
-        instance->SetGreaterThan(greater_than_field->GetValue());
-        instance->SetLessThan(less_than_field->GetValue());
         instance->SetEquality(equality_field->GetValue());
         instance->SetGreaterThanEq(greater_than_eq_field->GetValue());
+        instance->SetGreaterThan(greater_than_field->GetValue());
         instance->SetLessThanEq(less_than_eq_field->GetValue());
+        instance->SetLessThan(less_than_field->GetValue());
+        instance->SetNotEquality(not_equality_field->GetValue());
+        instance->SetOrOp(or_op_field->GetValue());
         instance->SetSubtraction(subtraction_field->GetValue());
-        instance->SetAddition(addition_field->GetValue());
         consumed_string->SetLength(index->GetStart()-index_start);
         instance->SetLengthString(consumed_string);
         result->SetValue(instance);
@@ -12058,29 +12058,29 @@ bool BinaryOperatorParser::ParseSingleSave(OmniPointer<LengthString> index, Omni
     {
         index->SetStart(index_start);
         index->SetLength(index_length);
+        addition_field = std::shared_ptr<StringResult>(new StringResult());
         and_op_field = std::shared_ptr<StringResult>(new StringResult());
-        not_equality_field = std::shared_ptr<StringResult>(new StringResult());
-        or_op_field = std::shared_ptr<StringResult>(new StringResult());
-        greater_than_field = std::shared_ptr<StringResult>(new StringResult());
-        less_than_field = std::shared_ptr<StringResult>(new StringResult());
         equality_field = std::shared_ptr<StringResult>(new StringResult());
         greater_than_eq_field = std::shared_ptr<StringResult>(new StringResult());
+        greater_than_field = std::shared_ptr<StringResult>(new StringResult());
         less_than_eq_field = std::shared_ptr<StringResult>(new StringResult());
+        less_than_field = std::shared_ptr<StringResult>(new StringResult());
+        not_equality_field = std::shared_ptr<StringResult>(new StringResult());
+        or_op_field = std::shared_ptr<StringResult>(new StringResult());
         subtraction_field = std::shared_ptr<StringResult>(new StringResult());
-        addition_field = std::shared_ptr<StringResult>(new StringResult());
     }
     if (true&&string_parser_instance->ParseSingleSave(index,std::string("&&"),and_op_field))
     {
+        instance->SetAddition(addition_field->GetValue());
         instance->SetAndOp(and_op_field->GetValue());
-        instance->SetNotEquality(not_equality_field->GetValue());
-        instance->SetOrOp(or_op_field->GetValue());
-        instance->SetGreaterThan(greater_than_field->GetValue());
-        instance->SetLessThan(less_than_field->GetValue());
         instance->SetEquality(equality_field->GetValue());
         instance->SetGreaterThanEq(greater_than_eq_field->GetValue());
+        instance->SetGreaterThan(greater_than_field->GetValue());
         instance->SetLessThanEq(less_than_eq_field->GetValue());
+        instance->SetLessThan(less_than_field->GetValue());
+        instance->SetNotEquality(not_equality_field->GetValue());
+        instance->SetOrOp(or_op_field->GetValue());
         instance->SetSubtraction(subtraction_field->GetValue());
-        instance->SetAddition(addition_field->GetValue());
         consumed_string->SetLength(index->GetStart()-index_start);
         instance->SetLengthString(consumed_string);
         result->SetValue(instance);
@@ -12091,16 +12091,16 @@ bool BinaryOperatorParser::ParseSingleSave(OmniPointer<LengthString> index, Omni
     {
         index->SetStart(index_start);
         index->SetLength(index_length);
+        addition_field = std::shared_ptr<StringResult>(new StringResult());
         and_op_field = std::shared_ptr<StringResult>(new StringResult());
-        not_equality_field = std::shared_ptr<StringResult>(new StringResult());
-        or_op_field = std::shared_ptr<StringResult>(new StringResult());
-        greater_than_field = std::shared_ptr<StringResult>(new StringResult());
-        less_than_field = std::shared_ptr<StringResult>(new StringResult());
         equality_field = std::shared_ptr<StringResult>(new StringResult());
         greater_than_eq_field = std::shared_ptr<StringResult>(new StringResult());
+        greater_than_field = std::shared_ptr<StringResult>(new StringResult());
         less_than_eq_field = std::shared_ptr<StringResult>(new StringResult());
+        less_than_field = std::shared_ptr<StringResult>(new StringResult());
+        not_equality_field = std::shared_ptr<StringResult>(new StringResult());
+        or_op_field = std::shared_ptr<StringResult>(new StringResult());
         subtraction_field = std::shared_ptr<StringResult>(new StringResult());
-        addition_field = std::shared_ptr<StringResult>(new StringResult());
     }
     result->SetResult(false);
     return result->GetResult();
@@ -12227,16 +12227,16 @@ bool BinaryOperatorListResult::GetResult()
 BinaryOperator::BinaryOperator()
 {
     this->length_string = NULL;
+    this->addition_field = NULL;
     this->and_op_field = NULL;
-    this->not_equality_field = NULL;
-    this->or_op_field = NULL;
-    this->greater_than_field = NULL;
-    this->less_than_field = NULL;
     this->equality_field = NULL;
     this->greater_than_eq_field = NULL;
+    this->greater_than_field = NULL;
     this->less_than_eq_field = NULL;
+    this->less_than_field = NULL;
+    this->not_equality_field = NULL;
+    this->or_op_field = NULL;
     this->subtraction_field = NULL;
-    this->addition_field = NULL;
 }
 
 void BinaryOperator::SetLengthString(OmniPointer<LengthString> new_value)
@@ -12252,6 +12252,16 @@ std::string BinaryOperator::UnParse()
     return this->length_string->GetString();
 }
 
+void BinaryOperator::SetAddition(OmniPointer<String> input_value)
+{
+    this->addition_field = input_value;
+}
+
+OmniPointer<String> BinaryOperator::GetAddition()
+{
+    return this->addition_field;
+}
+
 void BinaryOperator::SetAndOp(OmniPointer<String> input_value)
 {
     this->and_op_field = input_value;
@@ -12260,46 +12270,6 @@ void BinaryOperator::SetAndOp(OmniPointer<String> input_value)
 OmniPointer<String> BinaryOperator::GetAndOp()
 {
     return this->and_op_field;
-}
-
-void BinaryOperator::SetNotEquality(OmniPointer<String> input_value)
-{
-    this->not_equality_field = input_value;
-}
-
-OmniPointer<String> BinaryOperator::GetNotEquality()
-{
-    return this->not_equality_field;
-}
-
-void BinaryOperator::SetOrOp(OmniPointer<String> input_value)
-{
-    this->or_op_field = input_value;
-}
-
-OmniPointer<String> BinaryOperator::GetOrOp()
-{
-    return this->or_op_field;
-}
-
-void BinaryOperator::SetGreaterThan(OmniPointer<String> input_value)
-{
-    this->greater_than_field = input_value;
-}
-
-OmniPointer<String> BinaryOperator::GetGreaterThan()
-{
-    return this->greater_than_field;
-}
-
-void BinaryOperator::SetLessThan(OmniPointer<String> input_value)
-{
-    this->less_than_field = input_value;
-}
-
-OmniPointer<String> BinaryOperator::GetLessThan()
-{
-    return this->less_than_field;
 }
 
 void BinaryOperator::SetEquality(OmniPointer<String> input_value)
@@ -12322,6 +12292,16 @@ OmniPointer<String> BinaryOperator::GetGreaterThanEq()
     return this->greater_than_eq_field;
 }
 
+void BinaryOperator::SetGreaterThan(OmniPointer<String> input_value)
+{
+    this->greater_than_field = input_value;
+}
+
+OmniPointer<String> BinaryOperator::GetGreaterThan()
+{
+    return this->greater_than_field;
+}
+
 void BinaryOperator::SetLessThanEq(OmniPointer<String> input_value)
 {
     this->less_than_eq_field = input_value;
@@ -12332,6 +12312,36 @@ OmniPointer<String> BinaryOperator::GetLessThanEq()
     return this->less_than_eq_field;
 }
 
+void BinaryOperator::SetLessThan(OmniPointer<String> input_value)
+{
+    this->less_than_field = input_value;
+}
+
+OmniPointer<String> BinaryOperator::GetLessThan()
+{
+    return this->less_than_field;
+}
+
+void BinaryOperator::SetNotEquality(OmniPointer<String> input_value)
+{
+    this->not_equality_field = input_value;
+}
+
+OmniPointer<String> BinaryOperator::GetNotEquality()
+{
+    return this->not_equality_field;
+}
+
+void BinaryOperator::SetOrOp(OmniPointer<String> input_value)
+{
+    this->or_op_field = input_value;
+}
+
+OmniPointer<String> BinaryOperator::GetOrOp()
+{
+    return this->or_op_field;
+}
+
 void BinaryOperator::SetSubtraction(OmniPointer<String> input_value)
 {
     this->subtraction_field = input_value;
@@ -12340,16 +12350,6 @@ void BinaryOperator::SetSubtraction(OmniPointer<String> input_value)
 OmniPointer<String> BinaryOperator::GetSubtraction()
 {
     return this->subtraction_field;
-}
-
-void BinaryOperator::SetAddition(OmniPointer<String> input_value)
-{
-    this->addition_field = input_value;
-}
-
-OmniPointer<String> BinaryOperator::GetAddition()
-{
-    return this->addition_field;
 }
 
 UnaryOperatorParser::UnaryOperatorParser()
@@ -13578,8 +13578,8 @@ bool QualfiedNameParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPo
     consumed_string->SetStart(index->GetStart());
     consumed_string->SetLength(0);
     OmniPointer<QualfiedName> instance = std::shared_ptr<QualfiedName>(new QualfiedName());
-    OmniPointer<NameTailResult> tail_field = std::shared_ptr<NameTailResult>(new NameTailResult());
     OmniPointer<NameResult> name_field = std::shared_ptr<NameResult>(new NameResult());
+    OmniPointer<NameTailResult> tail_field = std::shared_ptr<NameTailResult>(new NameTailResult());
     OmniPointer<CTCodeFileParser> c_t_code_file_parser_instance = this->parser_network->GetCTCodeFileParser();
     OmniPointer<ExternalDefinitionParser> external_definition_parser_instance = this->parser_network->GetExternalDefinitionParser();
     OmniPointer<UnmanagedTypeParser> unmanaged_type_parser_instance = this->parser_network->GetUnmanagedTypeParser();
@@ -13638,8 +13638,8 @@ bool QualfiedNameParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPo
     OmniPointer<CharacterRangeParser> character_range_parser_instance = this->parser_network->GetCharacterRangeParser();
     if (true&&name_parser_instance->ParseSingleSave(index,name_field)&&name_tail_parser_instance->ParseOptionalSave(index,tail_field))
     {
-        instance->SetTail(tail_field->GetValue());
         instance->SetName(name_field->GetValue());
+        instance->SetTail(tail_field->GetValue());
         consumed_string->SetLength(index->GetStart()-index_start);
         instance->SetLengthString(consumed_string);
         result->SetValue(instance);
@@ -13650,8 +13650,8 @@ bool QualfiedNameParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPo
     {
         index->SetStart(index_start);
         index->SetLength(index_length);
-        tail_field = std::shared_ptr<NameTailResult>(new NameTailResult());
         name_field = std::shared_ptr<NameResult>(new NameResult());
+        tail_field = std::shared_ptr<NameTailResult>(new NameTailResult());
     }
     result->SetResult(false);
     return result->GetResult();
@@ -13778,8 +13778,8 @@ bool QualfiedNameListResult::GetResult()
 QualfiedName::QualfiedName()
 {
     this->length_string = NULL;
-    this->tail_field = NULL;
     this->name_field = NULL;
+    this->tail_field = NULL;
 }
 
 void QualfiedName::SetLengthString(OmniPointer<LengthString> new_value)
@@ -13795,16 +13795,6 @@ std::string QualfiedName::UnParse()
     return this->length_string->GetString();
 }
 
-void QualfiedName::SetTail(OmniPointer<NameTail> input_value)
-{
-    this->tail_field = input_value;
-}
-
-OmniPointer<NameTail> QualfiedName::GetTail()
-{
-    return this->tail_field;
-}
-
 void QualfiedName::SetName(OmniPointer<Name> input_value)
 {
     this->name_field = input_value;
@@ -13813,6 +13803,16 @@ void QualfiedName::SetName(OmniPointer<Name> input_value)
 OmniPointer<Name> QualfiedName::GetName()
 {
     return this->name_field;
+}
+
+void QualfiedName::SetTail(OmniPointer<NameTail> input_value)
+{
+    this->tail_field = input_value;
+}
+
+OmniPointer<NameTail> QualfiedName::GetTail()
+{
+    return this->tail_field;
 }
 
 NameTailParser::NameTailParser()
@@ -13834,8 +13834,8 @@ bool NameTailParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPointe
     consumed_string->SetStart(index->GetStart());
     consumed_string->SetLength(0);
     OmniPointer<NameTail> instance = std::shared_ptr<NameTail>(new NameTail());
-    OmniPointer<NameTailResult> tail_field = std::shared_ptr<NameTailResult>(new NameTailResult());
     OmniPointer<NameResult> name_field = std::shared_ptr<NameResult>(new NameResult());
+    OmniPointer<NameTailResult> tail_field = std::shared_ptr<NameTailResult>(new NameTailResult());
     OmniPointer<CTCodeFileParser> c_t_code_file_parser_instance = this->parser_network->GetCTCodeFileParser();
     OmniPointer<ExternalDefinitionParser> external_definition_parser_instance = this->parser_network->GetExternalDefinitionParser();
     OmniPointer<UnmanagedTypeParser> unmanaged_type_parser_instance = this->parser_network->GetUnmanagedTypeParser();
@@ -13894,8 +13894,8 @@ bool NameTailParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPointe
     OmniPointer<CharacterRangeParser> character_range_parser_instance = this->parser_network->GetCharacterRangeParser();
     if (true&&string_parser_instance->ParseSingle(index,std::string("."))&&name_parser_instance->ParseSingleSave(index,name_field)&&name_tail_parser_instance->ParseOptionalSave(index,tail_field))
     {
-        instance->SetTail(tail_field->GetValue());
         instance->SetName(name_field->GetValue());
+        instance->SetTail(tail_field->GetValue());
         consumed_string->SetLength(index->GetStart()-index_start);
         instance->SetLengthString(consumed_string);
         result->SetValue(instance);
@@ -13906,8 +13906,8 @@ bool NameTailParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPointe
     {
         index->SetStart(index_start);
         index->SetLength(index_length);
-        tail_field = std::shared_ptr<NameTailResult>(new NameTailResult());
         name_field = std::shared_ptr<NameResult>(new NameResult());
+        tail_field = std::shared_ptr<NameTailResult>(new NameTailResult());
     }
     result->SetResult(false);
     return result->GetResult();
@@ -14034,8 +14034,8 @@ bool NameTailListResult::GetResult()
 NameTail::NameTail()
 {
     this->length_string = NULL;
-    this->tail_field = NULL;
     this->name_field = NULL;
+    this->tail_field = NULL;
 }
 
 void NameTail::SetLengthString(OmniPointer<LengthString> new_value)
@@ -14051,16 +14051,6 @@ std::string NameTail::UnParse()
     return this->length_string->GetString();
 }
 
-void NameTail::SetTail(OmniPointer<NameTail> input_value)
-{
-    this->tail_field = input_value;
-}
-
-OmniPointer<NameTail> NameTail::GetTail()
-{
-    return this->tail_field;
-}
-
 void NameTail::SetName(OmniPointer<Name> input_value)
 {
     this->name_field = input_value;
@@ -14069,6 +14059,16 @@ void NameTail::SetName(OmniPointer<Name> input_value)
 OmniPointer<Name> NameTail::GetName()
 {
     return this->name_field;
+}
+
+void NameTail::SetTail(OmniPointer<NameTail> input_value)
+{
+    this->tail_field = input_value;
+}
+
+OmniPointer<NameTail> NameTail::GetTail()
+{
+    return this->tail_field;
 }
 
 NameParser::NameParser()
@@ -14826,8 +14826,8 @@ bool ByteParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<By
     consumed_string->SetStart(index->GetStart());
     consumed_string->SetLength(0);
     OmniPointer<Byte> instance = std::shared_ptr<Byte>(new Byte());
-    OmniPointer<ByteDigitResult> low_field = std::shared_ptr<ByteDigitResult>(new ByteDigitResult());
     OmniPointer<ByteDigitResult> high_field = std::shared_ptr<ByteDigitResult>(new ByteDigitResult());
+    OmniPointer<ByteDigitResult> low_field = std::shared_ptr<ByteDigitResult>(new ByteDigitResult());
     OmniPointer<CTCodeFileParser> c_t_code_file_parser_instance = this->parser_network->GetCTCodeFileParser();
     OmniPointer<ExternalDefinitionParser> external_definition_parser_instance = this->parser_network->GetExternalDefinitionParser();
     OmniPointer<UnmanagedTypeParser> unmanaged_type_parser_instance = this->parser_network->GetUnmanagedTypeParser();
@@ -14886,8 +14886,8 @@ bool ByteParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<By
     OmniPointer<CharacterRangeParser> character_range_parser_instance = this->parser_network->GetCharacterRangeParser();
     if (true&&string_parser_instance->ParseSingle(index,std::string("0x"))&&byte_digit_parser_instance->ParseSingleSave(index,high_field)&&byte_digit_parser_instance->ParseSingleSave(index,low_field))
     {
-        instance->SetLow(low_field->GetValue());
         instance->SetHigh(high_field->GetValue());
+        instance->SetLow(low_field->GetValue());
         consumed_string->SetLength(index->GetStart()-index_start);
         instance->SetLengthString(consumed_string);
         result->SetValue(instance);
@@ -14898,8 +14898,8 @@ bool ByteParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<By
     {
         index->SetStart(index_start);
         index->SetLength(index_length);
-        low_field = std::shared_ptr<ByteDigitResult>(new ByteDigitResult());
         high_field = std::shared_ptr<ByteDigitResult>(new ByteDigitResult());
+        low_field = std::shared_ptr<ByteDigitResult>(new ByteDigitResult());
     }
     result->SetResult(false);
     return result->GetResult();
@@ -15026,8 +15026,8 @@ bool ByteListResult::GetResult()
 Byte::Byte()
 {
     this->length_string = NULL;
-    this->low_field = NULL;
     this->high_field = NULL;
+    this->low_field = NULL;
 }
 
 void Byte::SetLengthString(OmniPointer<LengthString> new_value)
@@ -15043,16 +15043,6 @@ std::string Byte::UnParse()
     return this->length_string->GetString();
 }
 
-void Byte::SetLow(OmniPointer<ByteDigit> input_value)
-{
-    this->low_field = input_value;
-}
-
-OmniPointer<ByteDigit> Byte::GetLow()
-{
-    return this->low_field;
-}
-
 void Byte::SetHigh(OmniPointer<ByteDigit> input_value)
 {
     this->high_field = input_value;
@@ -15061,6 +15051,16 @@ void Byte::SetHigh(OmniPointer<ByteDigit> input_value)
 OmniPointer<ByteDigit> Byte::GetHigh()
 {
     return this->high_field;
+}
+
+void Byte::SetLow(OmniPointer<ByteDigit> input_value)
+{
+    this->low_field = input_value;
+}
+
+OmniPointer<ByteDigit> Byte::GetLow()
+{
+    return this->low_field;
 }
 
 ByteDigitParser::ByteDigitParser()

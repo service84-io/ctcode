@@ -1616,9 +1616,9 @@ class CTCodeFileParser:
         consumed_string.SetStart(index.GetStart())
         consumed_string.SetLength(0)
         instance: 'CTCodeFile' = CTCodeFile()
+        declarations_field: 'ExternalDefinitionListResult' = ExternalDefinitionListResult()
         definitions_field: 'DefinitionListResult' = DefinitionListResult()
         unmanaged_types_field: 'UnmanagedTypeListResult' = UnmanagedTypeListResult()
-        declarations_field: 'ExternalDefinitionListResult' = ExternalDefinitionListResult()
         c_t_code_file_parser_instance: 'CTCodeFileParser' = self.parser_network.GetCTCodeFileParser()
         external_definition_parser_instance: 'ExternalDefinitionParser' = self.parser_network.GetExternalDefinitionParser()
         unmanaged_type_parser_instance: 'UnmanagedTypeParser' = self.parser_network.GetUnmanagedTypeParser()
@@ -1676,9 +1676,9 @@ class CTCodeFileParser:
         character_parser_instance: 'CharacterParser' = self.parser_network.GetCharacterParser()
         character_range_parser_instance: 'CharacterRangeParser' = self.parser_network.GetCharacterRangeParser()
         if True and external_definition_parser_instance.ParseManySave(index,declarations_field,0,-1) and unmanaged_type_parser_instance.ParseManySave(index,unmanaged_types_field,0,-1) and definition_parser_instance.ParseManySave(index,definitions_field,0,-1):
+            instance.SetDeclarations(declarations_field.GetValue())
             instance.SetDefinitions(definitions_field.GetValue())
             instance.SetUnmanagedTypes(unmanaged_types_field.GetValue())
-            instance.SetDeclarations(declarations_field.GetValue())
             consumed_string.SetLength(index.GetStart()-index_start)
             instance.SetLengthString(consumed_string)
             result.SetValue(instance)
@@ -1687,9 +1687,9 @@ class CTCodeFileParser:
         else:
             index.SetStart(index_start)
             index.SetLength(index_length)
+            declarations_field = ExternalDefinitionListResult()
             definitions_field = DefinitionListResult()
             unmanaged_types_field = UnmanagedTypeListResult()
-            declarations_field = ExternalDefinitionListResult()
         result.SetResult(False)
         return result.GetResult()
 
@@ -1774,9 +1774,9 @@ class CTCodeFileListResult:
 class CTCodeFile:
     def __init__(self: 'CTCodeFile'):
         self.length_string: LengthString = None
+        self.declarations_field: list[ExternalDefinition] = []
         self.definitions_field: list[Definition] = []
         self.unmanaged_types_field: list[UnmanagedType] = []
-        self.declarations_field: list[ExternalDefinition] = []
 
     def SetLengthString(self: 'CTCodeFile',new_value: 'LengthString') -> 'None':
         self.length_string = LengthString()
@@ -1786,6 +1786,12 @@ class CTCodeFile:
 
     def UnParse(self: 'CTCodeFile') -> 'str':
         return self.length_string.GetString()
+
+    def SetDeclarations(self: 'CTCodeFile',input_value: 'list[ExternalDefinition]') -> 'None':
+        self.declarations_field = input_value
+
+    def GetDeclarations(self: 'CTCodeFile') -> 'list[ExternalDefinition]':
+        return self.declarations_field
 
     def SetDefinitions(self: 'CTCodeFile',input_value: 'list[Definition]') -> 'None':
         self.definitions_field = input_value
@@ -1798,12 +1804,6 @@ class CTCodeFile:
 
     def GetUnmanagedTypes(self: 'CTCodeFile') -> 'list[UnmanagedType]':
         return self.unmanaged_types_field
-
-    def SetDeclarations(self: 'CTCodeFile',input_value: 'list[ExternalDefinition]') -> 'None':
-        self.declarations_field = input_value
-
-    def GetDeclarations(self: 'CTCodeFile') -> 'list[ExternalDefinition]':
-        return self.declarations_field
 
 class ExternalDefinitionParser:
     def __init__(self: 'ExternalDefinitionParser'):
@@ -2395,9 +2395,9 @@ class InterfaceDefParser:
         consumed_string.SetStart(index.GetStart())
         consumed_string.SetLength(0)
         instance: 'InterfaceDef' = InterfaceDef()
+        comment_field: 'CommentResult' = CommentResult()
         declarations_field: 'ContentDeclarationListResult' = ContentDeclarationListResult()
         name_field: 'NameResult' = NameResult()
-        comment_field: 'CommentResult' = CommentResult()
         c_t_code_file_parser_instance: 'CTCodeFileParser' = self.parser_network.GetCTCodeFileParser()
         external_definition_parser_instance: 'ExternalDefinitionParser' = self.parser_network.GetExternalDefinitionParser()
         unmanaged_type_parser_instance: 'UnmanagedTypeParser' = self.parser_network.GetUnmanagedTypeParser()
@@ -2455,9 +2455,9 @@ class InterfaceDefParser:
         character_parser_instance: 'CharacterParser' = self.parser_network.GetCharacterParser()
         character_range_parser_instance: 'CharacterRangeParser' = self.parser_network.GetCharacterRangeParser()
         if True and whitespace_parser_instance.ParseMany(index,0,-1) and comment_parser_instance.ParseOptionalSave(index,comment_field) and whitespace_parser_instance.ParseMany(index,0,-1) and string_parser_instance.ParseSingle(index,"interface") and whitespace_parser_instance.ParseMany(index,1,-1) and name_parser_instance.ParseSingleSave(index,name_field) and whitespace_parser_instance.ParseMany(index,0,-1) and string_parser_instance.ParseSingle(index,"{") and whitespace_parser_instance.ParseMany(index,0,-1) and content_declaration_parser_instance.ParseManySave(index,declarations_field,0,-1) and whitespace_parser_instance.ParseMany(index,0,-1) and string_parser_instance.ParseSingle(index,"}") and whitespace_parser_instance.ParseMany(index,0,-1):
+            instance.SetComment(comment_field.GetValue())
             instance.SetDeclarations(declarations_field.GetValue())
             instance.SetName(name_field.GetValue())
-            instance.SetComment(comment_field.GetValue())
             consumed_string.SetLength(index.GetStart()-index_start)
             instance.SetLengthString(consumed_string)
             result.SetValue(instance)
@@ -2466,9 +2466,9 @@ class InterfaceDefParser:
         else:
             index.SetStart(index_start)
             index.SetLength(index_length)
+            comment_field = CommentResult()
             declarations_field = ContentDeclarationListResult()
             name_field = NameResult()
-            comment_field = CommentResult()
         result.SetResult(False)
         return result.GetResult()
 
@@ -2553,9 +2553,9 @@ class InterfaceDefListResult:
 class InterfaceDef:
     def __init__(self: 'InterfaceDef'):
         self.length_string: LengthString = None
+        self.comment_field: Comment = None
         self.declarations_field: list[ContentDeclaration] = []
         self.name_field: Name = None
-        self.comment_field: Comment = None
 
     def SetLengthString(self: 'InterfaceDef',new_value: 'LengthString') -> 'None':
         self.length_string = LengthString()
@@ -2565,6 +2565,12 @@ class InterfaceDef:
 
     def UnParse(self: 'InterfaceDef') -> 'str':
         return self.length_string.GetString()
+
+    def SetComment(self: 'InterfaceDef',input_value: 'Comment') -> 'None':
+        self.comment_field = input_value
+
+    def GetComment(self: 'InterfaceDef') -> 'Comment':
+        return self.comment_field
 
     def SetDeclarations(self: 'InterfaceDef',input_value: 'list[ContentDeclaration]') -> 'None':
         self.declarations_field = input_value
@@ -2577,12 +2583,6 @@ class InterfaceDef:
 
     def GetName(self: 'InterfaceDef') -> 'Name':
         return self.name_field
-
-    def SetComment(self: 'InterfaceDef',input_value: 'Comment') -> 'None':
-        self.comment_field = input_value
-
-    def GetComment(self: 'InterfaceDef') -> 'Comment':
-        return self.comment_field
 
 class ClassDefParser:
     def __init__(self: 'ClassDefParser'):
@@ -2599,10 +2599,10 @@ class ClassDefParser:
         consumed_string.SetStart(index.GetStart())
         consumed_string.SetLength(0)
         instance: 'ClassDef' = ClassDef()
+        comment_field: 'CommentResult' = CommentResult()
+        definitions_field: 'ContentDefinitionListResult' = ContentDefinitionListResult()
         implementing_field: 'ImplementationSpecResult' = ImplementationSpecResult()
         name_field: 'NameResult' = NameResult()
-        definitions_field: 'ContentDefinitionListResult' = ContentDefinitionListResult()
-        comment_field: 'CommentResult' = CommentResult()
         c_t_code_file_parser_instance: 'CTCodeFileParser' = self.parser_network.GetCTCodeFileParser()
         external_definition_parser_instance: 'ExternalDefinitionParser' = self.parser_network.GetExternalDefinitionParser()
         unmanaged_type_parser_instance: 'UnmanagedTypeParser' = self.parser_network.GetUnmanagedTypeParser()
@@ -2660,10 +2660,10 @@ class ClassDefParser:
         character_parser_instance: 'CharacterParser' = self.parser_network.GetCharacterParser()
         character_range_parser_instance: 'CharacterRangeParser' = self.parser_network.GetCharacterRangeParser()
         if True and whitespace_parser_instance.ParseMany(index,0,-1) and comment_parser_instance.ParseOptionalSave(index,comment_field) and whitespace_parser_instance.ParseMany(index,0,-1) and string_parser_instance.ParseSingle(index,"class") and whitespace_parser_instance.ParseMany(index,1,-1) and name_parser_instance.ParseSingleSave(index,name_field) and implementation_spec_parser_instance.ParseOptionalSave(index,implementing_field) and whitespace_parser_instance.ParseMany(index,0,-1) and string_parser_instance.ParseSingle(index,"{") and whitespace_parser_instance.ParseMany(index,0,-1) and content_definition_parser_instance.ParseManySave(index,definitions_field,0,-1) and whitespace_parser_instance.ParseMany(index,0,-1) and string_parser_instance.ParseSingle(index,"}") and whitespace_parser_instance.ParseMany(index,0,-1):
+            instance.SetComment(comment_field.GetValue())
+            instance.SetDefinitions(definitions_field.GetValue())
             instance.SetImplementing(implementing_field.GetValue())
             instance.SetName(name_field.GetValue())
-            instance.SetDefinitions(definitions_field.GetValue())
-            instance.SetComment(comment_field.GetValue())
             consumed_string.SetLength(index.GetStart()-index_start)
             instance.SetLengthString(consumed_string)
             result.SetValue(instance)
@@ -2672,10 +2672,10 @@ class ClassDefParser:
         else:
             index.SetStart(index_start)
             index.SetLength(index_length)
+            comment_field = CommentResult()
+            definitions_field = ContentDefinitionListResult()
             implementing_field = ImplementationSpecResult()
             name_field = NameResult()
-            definitions_field = ContentDefinitionListResult()
-            comment_field = CommentResult()
         result.SetResult(False)
         return result.GetResult()
 
@@ -2760,10 +2760,10 @@ class ClassDefListResult:
 class ClassDef:
     def __init__(self: 'ClassDef'):
         self.length_string: LengthString = None
+        self.comment_field: Comment = None
+        self.definitions_field: list[ContentDefinition] = []
         self.implementing_field: ImplementationSpec = None
         self.name_field: Name = None
-        self.definitions_field: list[ContentDefinition] = []
-        self.comment_field: Comment = None
 
     def SetLengthString(self: 'ClassDef',new_value: 'LengthString') -> 'None':
         self.length_string = LengthString()
@@ -2773,6 +2773,18 @@ class ClassDef:
 
     def UnParse(self: 'ClassDef') -> 'str':
         return self.length_string.GetString()
+
+    def SetComment(self: 'ClassDef',input_value: 'Comment') -> 'None':
+        self.comment_field = input_value
+
+    def GetComment(self: 'ClassDef') -> 'Comment':
+        return self.comment_field
+
+    def SetDefinitions(self: 'ClassDef',input_value: 'list[ContentDefinition]') -> 'None':
+        self.definitions_field = input_value
+
+    def GetDefinitions(self: 'ClassDef') -> 'list[ContentDefinition]':
+        return self.definitions_field
 
     def SetImplementing(self: 'ClassDef',input_value: 'ImplementationSpec') -> 'None':
         self.implementing_field = input_value
@@ -2785,18 +2797,6 @@ class ClassDef:
 
     def GetName(self: 'ClassDef') -> 'Name':
         return self.name_field
-
-    def SetDefinitions(self: 'ClassDef',input_value: 'list[ContentDefinition]') -> 'None':
-        self.definitions_field = input_value
-
-    def GetDefinitions(self: 'ClassDef') -> 'list[ContentDefinition]':
-        return self.definitions_field
-
-    def SetComment(self: 'ClassDef',input_value: 'Comment') -> 'None':
-        self.comment_field = input_value
-
-    def GetComment(self: 'ClassDef') -> 'Comment':
-        return self.comment_field
 
 class ImplementationSpecParser:
     def __init__(self: 'ImplementationSpecParser'):
@@ -2997,10 +2997,10 @@ class ContentDeclarationParser:
         consumed_string.SetStart(index.GetStart())
         consumed_string.SetLength(0)
         instance: 'ContentDeclaration' = ContentDeclaration()
-        parameters_field: 'ParameterListDefResult' = ParameterListDefResult()
-        name_field: 'NameResult' = NameResult()
-        type_field: 'ValueTypeResult' = ValueTypeResult()
         comment_field: 'CommentResult' = CommentResult()
+        name_field: 'NameResult' = NameResult()
+        parameters_field: 'ParameterListDefResult' = ParameterListDefResult()
+        type_field: 'ValueTypeResult' = ValueTypeResult()
         c_t_code_file_parser_instance: 'CTCodeFileParser' = self.parser_network.GetCTCodeFileParser()
         external_definition_parser_instance: 'ExternalDefinitionParser' = self.parser_network.GetExternalDefinitionParser()
         unmanaged_type_parser_instance: 'UnmanagedTypeParser' = self.parser_network.GetUnmanagedTypeParser()
@@ -3058,10 +3058,10 @@ class ContentDeclarationParser:
         character_parser_instance: 'CharacterParser' = self.parser_network.GetCharacterParser()
         character_range_parser_instance: 'CharacterRangeParser' = self.parser_network.GetCharacterRangeParser()
         if True and whitespace_parser_instance.ParseMany(index,0,-1) and comment_parser_instance.ParseOptionalSave(index,comment_field) and whitespace_parser_instance.ParseMany(index,0,-1) and string_parser_instance.ParseSingle(index,"function") and whitespace_parser_instance.ParseMany(index,1,-1) and value_type_parser_instance.ParseSingleSave(index,type_field) and whitespace_parser_instance.ParseMany(index,1,-1) and name_parser_instance.ParseSingleSave(index,name_field) and whitespace_parser_instance.ParseMany(index,0,-1) and string_parser_instance.ParseSingle(index,"(") and whitespace_parser_instance.ParseMany(index,0,-1) and parameter_list_def_parser_instance.ParseOptionalSave(index,parameters_field) and whitespace_parser_instance.ParseMany(index,0,-1) and string_parser_instance.ParseSingle(index,")") and whitespace_parser_instance.ParseMany(index,0,-1) and string_parser_instance.ParseSingle(index,";") and whitespace_parser_instance.ParseMany(index,0,-1):
-            instance.SetParameters(parameters_field.GetValue())
-            instance.SetName(name_field.GetValue())
-            instance.SetType(type_field.GetValue())
             instance.SetComment(comment_field.GetValue())
+            instance.SetName(name_field.GetValue())
+            instance.SetParameters(parameters_field.GetValue())
+            instance.SetType(type_field.GetValue())
             consumed_string.SetLength(index.GetStart()-index_start)
             instance.SetLengthString(consumed_string)
             result.SetValue(instance)
@@ -3070,10 +3070,10 @@ class ContentDeclarationParser:
         else:
             index.SetStart(index_start)
             index.SetLength(index_length)
-            parameters_field = ParameterListDefResult()
-            name_field = NameResult()
-            type_field = ValueTypeResult()
             comment_field = CommentResult()
+            name_field = NameResult()
+            parameters_field = ParameterListDefResult()
+            type_field = ValueTypeResult()
         result.SetResult(False)
         return result.GetResult()
 
@@ -3158,10 +3158,10 @@ class ContentDeclarationListResult:
 class ContentDeclaration:
     def __init__(self: 'ContentDeclaration'):
         self.length_string: LengthString = None
-        self.parameters_field: ParameterListDef = None
-        self.name_field: Name = None
-        self.type_field: ValueType = None
         self.comment_field: Comment = None
+        self.name_field: Name = None
+        self.parameters_field: ParameterListDef = None
+        self.type_field: ValueType = None
 
     def SetLengthString(self: 'ContentDeclaration',new_value: 'LengthString') -> 'None':
         self.length_string = LengthString()
@@ -3172,11 +3172,11 @@ class ContentDeclaration:
     def UnParse(self: 'ContentDeclaration') -> 'str':
         return self.length_string.GetString()
 
-    def SetParameters(self: 'ContentDeclaration',input_value: 'ParameterListDef') -> 'None':
-        self.parameters_field = input_value
+    def SetComment(self: 'ContentDeclaration',input_value: 'Comment') -> 'None':
+        self.comment_field = input_value
 
-    def GetParameters(self: 'ContentDeclaration') -> 'ParameterListDef':
-        return self.parameters_field
+    def GetComment(self: 'ContentDeclaration') -> 'Comment':
+        return self.comment_field
 
     def SetName(self: 'ContentDeclaration',input_value: 'Name') -> 'None':
         self.name_field = input_value
@@ -3184,17 +3184,17 @@ class ContentDeclaration:
     def GetName(self: 'ContentDeclaration') -> 'Name':
         return self.name_field
 
+    def SetParameters(self: 'ContentDeclaration',input_value: 'ParameterListDef') -> 'None':
+        self.parameters_field = input_value
+
+    def GetParameters(self: 'ContentDeclaration') -> 'ParameterListDef':
+        return self.parameters_field
+
     def SetType(self: 'ContentDeclaration',input_value: 'ValueType') -> 'None':
         self.type_field = input_value
 
     def GetType(self: 'ContentDeclaration') -> 'ValueType':
         return self.type_field
-
-    def SetComment(self: 'ContentDeclaration',input_value: 'Comment') -> 'None':
-        self.comment_field = input_value
-
-    def GetComment(self: 'ContentDeclaration') -> 'Comment':
-        return self.comment_field
 
 class ContentDefinitionParser:
     def __init__(self: 'ContentDefinitionParser'):
@@ -3211,11 +3211,11 @@ class ContentDefinitionParser:
         consumed_string.SetStart(index.GetStart())
         consumed_string.SetLength(0)
         instance: 'ContentDefinition' = ContentDefinition()
-        function_body_field: 'CodeBlockResult' = CodeBlockResult()
-        parameters_field: 'ParameterListDefResult' = ParameterListDefResult()
-        name_field: 'NameResult' = NameResult()
-        type_field: 'ValueTypeResult' = ValueTypeResult()
         comment_field: 'CommentResult' = CommentResult()
+        function_body_field: 'CodeBlockResult' = CodeBlockResult()
+        name_field: 'NameResult' = NameResult()
+        parameters_field: 'ParameterListDefResult' = ParameterListDefResult()
+        type_field: 'ValueTypeResult' = ValueTypeResult()
         c_t_code_file_parser_instance: 'CTCodeFileParser' = self.parser_network.GetCTCodeFileParser()
         external_definition_parser_instance: 'ExternalDefinitionParser' = self.parser_network.GetExternalDefinitionParser()
         unmanaged_type_parser_instance: 'UnmanagedTypeParser' = self.parser_network.GetUnmanagedTypeParser()
@@ -3273,11 +3273,11 @@ class ContentDefinitionParser:
         character_parser_instance: 'CharacterParser' = self.parser_network.GetCharacterParser()
         character_range_parser_instance: 'CharacterRangeParser' = self.parser_network.GetCharacterRangeParser()
         if True and whitespace_parser_instance.ParseMany(index,0,-1) and comment_parser_instance.ParseOptionalSave(index,comment_field) and whitespace_parser_instance.ParseMany(index,0,-1) and string_parser_instance.ParseSingle(index,"function") and whitespace_parser_instance.ParseMany(index,1,-1) and value_type_parser_instance.ParseSingleSave(index,type_field) and whitespace_parser_instance.ParseMany(index,1,-1) and name_parser_instance.ParseSingleSave(index,name_field) and whitespace_parser_instance.ParseMany(index,0,-1) and string_parser_instance.ParseSingle(index,"(") and whitespace_parser_instance.ParseMany(index,0,-1) and parameter_list_def_parser_instance.ParseOptionalSave(index,parameters_field) and whitespace_parser_instance.ParseMany(index,0,-1) and string_parser_instance.ParseSingle(index,")") and whitespace_parser_instance.ParseMany(index,0,-1) and code_block_parser_instance.ParseSingleSave(index,function_body_field) and whitespace_parser_instance.ParseMany(index,0,-1):
-            instance.SetFunctionBody(function_body_field.GetValue())
-            instance.SetParameters(parameters_field.GetValue())
-            instance.SetName(name_field.GetValue())
-            instance.SetType(type_field.GetValue())
             instance.SetComment(comment_field.GetValue())
+            instance.SetFunctionBody(function_body_field.GetValue())
+            instance.SetName(name_field.GetValue())
+            instance.SetParameters(parameters_field.GetValue())
+            instance.SetType(type_field.GetValue())
             consumed_string.SetLength(index.GetStart()-index_start)
             instance.SetLengthString(consumed_string)
             result.SetValue(instance)
@@ -3286,17 +3286,17 @@ class ContentDefinitionParser:
         else:
             index.SetStart(index_start)
             index.SetLength(index_length)
-            function_body_field = CodeBlockResult()
-            parameters_field = ParameterListDefResult()
-            name_field = NameResult()
-            type_field = ValueTypeResult()
             comment_field = CommentResult()
+            function_body_field = CodeBlockResult()
+            name_field = NameResult()
+            parameters_field = ParameterListDefResult()
+            type_field = ValueTypeResult()
         if True and whitespace_parser_instance.ParseMany(index,0,-1) and comment_parser_instance.ParseOptionalSave(index,comment_field) and whitespace_parser_instance.ParseMany(index,0,-1) and value_type_parser_instance.ParseSingleSave(index,type_field) and whitespace_parser_instance.ParseMany(index,1,-1) and name_parser_instance.ParseSingleSave(index,name_field) and whitespace_parser_instance.ParseMany(index,0,-1) and string_parser_instance.ParseSingle(index,";") and whitespace_parser_instance.ParseMany(index,0,-1):
-            instance.SetFunctionBody(function_body_field.GetValue())
-            instance.SetParameters(parameters_field.GetValue())
-            instance.SetName(name_field.GetValue())
-            instance.SetType(type_field.GetValue())
             instance.SetComment(comment_field.GetValue())
+            instance.SetFunctionBody(function_body_field.GetValue())
+            instance.SetName(name_field.GetValue())
+            instance.SetParameters(parameters_field.GetValue())
+            instance.SetType(type_field.GetValue())
             consumed_string.SetLength(index.GetStart()-index_start)
             instance.SetLengthString(consumed_string)
             result.SetValue(instance)
@@ -3305,11 +3305,11 @@ class ContentDefinitionParser:
         else:
             index.SetStart(index_start)
             index.SetLength(index_length)
-            function_body_field = CodeBlockResult()
-            parameters_field = ParameterListDefResult()
-            name_field = NameResult()
-            type_field = ValueTypeResult()
             comment_field = CommentResult()
+            function_body_field = CodeBlockResult()
+            name_field = NameResult()
+            parameters_field = ParameterListDefResult()
+            type_field = ValueTypeResult()
         result.SetResult(False)
         return result.GetResult()
 
@@ -3394,11 +3394,11 @@ class ContentDefinitionListResult:
 class ContentDefinition:
     def __init__(self: 'ContentDefinition'):
         self.length_string: LengthString = None
-        self.function_body_field: CodeBlock = None
-        self.parameters_field: ParameterListDef = None
-        self.name_field: Name = None
-        self.type_field: ValueType = None
         self.comment_field: Comment = None
+        self.function_body_field: CodeBlock = None
+        self.name_field: Name = None
+        self.parameters_field: ParameterListDef = None
+        self.type_field: ValueType = None
 
     def SetLengthString(self: 'ContentDefinition',new_value: 'LengthString') -> 'None':
         self.length_string = LengthString()
@@ -3409,17 +3409,17 @@ class ContentDefinition:
     def UnParse(self: 'ContentDefinition') -> 'str':
         return self.length_string.GetString()
 
+    def SetComment(self: 'ContentDefinition',input_value: 'Comment') -> 'None':
+        self.comment_field = input_value
+
+    def GetComment(self: 'ContentDefinition') -> 'Comment':
+        return self.comment_field
+
     def SetFunctionBody(self: 'ContentDefinition',input_value: 'CodeBlock') -> 'None':
         self.function_body_field = input_value
 
     def GetFunctionBody(self: 'ContentDefinition') -> 'CodeBlock':
         return self.function_body_field
-
-    def SetParameters(self: 'ContentDefinition',input_value: 'ParameterListDef') -> 'None':
-        self.parameters_field = input_value
-
-    def GetParameters(self: 'ContentDefinition') -> 'ParameterListDef':
-        return self.parameters_field
 
     def SetName(self: 'ContentDefinition',input_value: 'Name') -> 'None':
         self.name_field = input_value
@@ -3427,17 +3427,17 @@ class ContentDefinition:
     def GetName(self: 'ContentDefinition') -> 'Name':
         return self.name_field
 
+    def SetParameters(self: 'ContentDefinition',input_value: 'ParameterListDef') -> 'None':
+        self.parameters_field = input_value
+
+    def GetParameters(self: 'ContentDefinition') -> 'ParameterListDef':
+        return self.parameters_field
+
     def SetType(self: 'ContentDefinition',input_value: 'ValueType') -> 'None':
         self.type_field = input_value
 
     def GetType(self: 'ContentDefinition') -> 'ValueType':
         return self.type_field
-
-    def SetComment(self: 'ContentDefinition',input_value: 'Comment') -> 'None':
-        self.comment_field = input_value
-
-    def GetComment(self: 'ContentDefinition') -> 'Comment':
-        return self.comment_field
 
 class PrimativeTypeParser:
     def __init__(self: 'PrimativeTypeParser'):
@@ -4791,9 +4791,9 @@ class ValueTypeParser:
         consumed_string.SetStart(index.GetStart())
         consumed_string.SetLength(0)
         instance: 'ValueType' = ValueType()
+        dimensional_type_field: 'DimensionalTypeResult' = DimensionalTypeResult()
         map_type_field: 'MapTypeResult' = MapTypeResult()
         singleton_type_field: 'SingletonTypeResult' = SingletonTypeResult()
-        dimensional_type_field: 'DimensionalTypeResult' = DimensionalTypeResult()
         c_t_code_file_parser_instance: 'CTCodeFileParser' = self.parser_network.GetCTCodeFileParser()
         external_definition_parser_instance: 'ExternalDefinitionParser' = self.parser_network.GetExternalDefinitionParser()
         unmanaged_type_parser_instance: 'UnmanagedTypeParser' = self.parser_network.GetUnmanagedTypeParser()
@@ -4851,9 +4851,9 @@ class ValueTypeParser:
         character_parser_instance: 'CharacterParser' = self.parser_network.GetCharacterParser()
         character_range_parser_instance: 'CharacterRangeParser' = self.parser_network.GetCharacterRangeParser()
         if True and dimensional_type_parser_instance.ParseSingleSave(index,dimensional_type_field):
+            instance.SetDimensionalType(dimensional_type_field.GetValue())
             instance.SetMapType(map_type_field.GetValue())
             instance.SetSingletonType(singleton_type_field.GetValue())
-            instance.SetDimensionalType(dimensional_type_field.GetValue())
             consumed_string.SetLength(index.GetStart()-index_start)
             instance.SetLengthString(consumed_string)
             result.SetValue(instance)
@@ -4862,13 +4862,13 @@ class ValueTypeParser:
         else:
             index.SetStart(index_start)
             index.SetLength(index_length)
+            dimensional_type_field = DimensionalTypeResult()
             map_type_field = MapTypeResult()
             singleton_type_field = SingletonTypeResult()
-            dimensional_type_field = DimensionalTypeResult()
         if True and map_type_parser_instance.ParseSingleSave(index,map_type_field):
+            instance.SetDimensionalType(dimensional_type_field.GetValue())
             instance.SetMapType(map_type_field.GetValue())
             instance.SetSingletonType(singleton_type_field.GetValue())
-            instance.SetDimensionalType(dimensional_type_field.GetValue())
             consumed_string.SetLength(index.GetStart()-index_start)
             instance.SetLengthString(consumed_string)
             result.SetValue(instance)
@@ -4877,13 +4877,13 @@ class ValueTypeParser:
         else:
             index.SetStart(index_start)
             index.SetLength(index_length)
+            dimensional_type_field = DimensionalTypeResult()
             map_type_field = MapTypeResult()
             singleton_type_field = SingletonTypeResult()
-            dimensional_type_field = DimensionalTypeResult()
         if True and singleton_type_parser_instance.ParseSingleSave(index,singleton_type_field):
+            instance.SetDimensionalType(dimensional_type_field.GetValue())
             instance.SetMapType(map_type_field.GetValue())
             instance.SetSingletonType(singleton_type_field.GetValue())
-            instance.SetDimensionalType(dimensional_type_field.GetValue())
             consumed_string.SetLength(index.GetStart()-index_start)
             instance.SetLengthString(consumed_string)
             result.SetValue(instance)
@@ -4892,9 +4892,9 @@ class ValueTypeParser:
         else:
             index.SetStart(index_start)
             index.SetLength(index_length)
+            dimensional_type_field = DimensionalTypeResult()
             map_type_field = MapTypeResult()
             singleton_type_field = SingletonTypeResult()
-            dimensional_type_field = DimensionalTypeResult()
         result.SetResult(False)
         return result.GetResult()
 
@@ -4979,9 +4979,9 @@ class ValueTypeListResult:
 class ValueType:
     def __init__(self: 'ValueType'):
         self.length_string: LengthString = None
+        self.dimensional_type_field: DimensionalType = None
         self.map_type_field: MapType = None
         self.singleton_type_field: SingletonType = None
-        self.dimensional_type_field: DimensionalType = None
 
     def SetLengthString(self: 'ValueType',new_value: 'LengthString') -> 'None':
         self.length_string = LengthString()
@@ -4991,6 +4991,12 @@ class ValueType:
 
     def UnParse(self: 'ValueType') -> 'str':
         return self.length_string.GetString()
+
+    def SetDimensionalType(self: 'ValueType',input_value: 'DimensionalType') -> 'None':
+        self.dimensional_type_field = input_value
+
+    def GetDimensionalType(self: 'ValueType') -> 'DimensionalType':
+        return self.dimensional_type_field
 
     def SetMapType(self: 'ValueType',input_value: 'MapType') -> 'None':
         self.map_type_field = input_value
@@ -5003,12 +5009,6 @@ class ValueType:
 
     def GetSingletonType(self: 'ValueType') -> 'SingletonType':
         return self.singleton_type_field
-
-    def SetDimensionalType(self: 'ValueType',input_value: 'DimensionalType') -> 'None':
-        self.dimensional_type_field = input_value
-
-    def GetDimensionalType(self: 'ValueType') -> 'DimensionalType':
-        return self.dimensional_type_field
 
 class ParameterListDefParser:
     def __init__(self: 'ParameterListDefParser'):
@@ -5025,8 +5025,8 @@ class ParameterListDefParser:
         consumed_string.SetStart(index.GetStart())
         consumed_string.SetLength(0)
         instance: 'ParameterListDef' = ParameterListDef()
-        parameter_tail_field: 'ParameterListDefResult' = ParameterListDefResult()
         name_field: 'NameResult' = NameResult()
+        parameter_tail_field: 'ParameterListDefResult' = ParameterListDefResult()
         type_field: 'ValueTypeResult' = ValueTypeResult()
         c_t_code_file_parser_instance: 'CTCodeFileParser' = self.parser_network.GetCTCodeFileParser()
         external_definition_parser_instance: 'ExternalDefinitionParser' = self.parser_network.GetExternalDefinitionParser()
@@ -5085,8 +5085,8 @@ class ParameterListDefParser:
         character_parser_instance: 'CharacterParser' = self.parser_network.GetCharacterParser()
         character_range_parser_instance: 'CharacterRangeParser' = self.parser_network.GetCharacterRangeParser()
         if True and whitespace_parser_instance.ParseMany(index,0,-1) and value_type_parser_instance.ParseSingleSave(index,type_field) and whitespace_parser_instance.ParseMany(index,1,-1) and name_parser_instance.ParseSingleSave(index,name_field) and whitespace_parser_instance.ParseMany(index,0,-1) and string_parser_instance.ParseSingle(index,",") and whitespace_parser_instance.ParseMany(index,0,-1) and parameter_list_def_parser_instance.ParseSingleSave(index,parameter_tail_field):
-            instance.SetParameterTail(parameter_tail_field.GetValue())
             instance.SetName(name_field.GetValue())
+            instance.SetParameterTail(parameter_tail_field.GetValue())
             instance.SetType(type_field.GetValue())
             consumed_string.SetLength(index.GetStart()-index_start)
             instance.SetLengthString(consumed_string)
@@ -5096,12 +5096,12 @@ class ParameterListDefParser:
         else:
             index.SetStart(index_start)
             index.SetLength(index_length)
-            parameter_tail_field = ParameterListDefResult()
             name_field = NameResult()
+            parameter_tail_field = ParameterListDefResult()
             type_field = ValueTypeResult()
         if True and whitespace_parser_instance.ParseMany(index,0,-1) and value_type_parser_instance.ParseSingleSave(index,type_field) and whitespace_parser_instance.ParseMany(index,1,-1) and name_parser_instance.ParseSingleSave(index,name_field) and whitespace_parser_instance.ParseMany(index,0,-1):
-            instance.SetParameterTail(parameter_tail_field.GetValue())
             instance.SetName(name_field.GetValue())
+            instance.SetParameterTail(parameter_tail_field.GetValue())
             instance.SetType(type_field.GetValue())
             consumed_string.SetLength(index.GetStart()-index_start)
             instance.SetLengthString(consumed_string)
@@ -5111,8 +5111,8 @@ class ParameterListDefParser:
         else:
             index.SetStart(index_start)
             index.SetLength(index_length)
-            parameter_tail_field = ParameterListDefResult()
             name_field = NameResult()
+            parameter_tail_field = ParameterListDefResult()
             type_field = ValueTypeResult()
         result.SetResult(False)
         return result.GetResult()
@@ -5198,8 +5198,8 @@ class ParameterListDefListResult:
 class ParameterListDef:
     def __init__(self: 'ParameterListDef'):
         self.length_string: LengthString = None
-        self.parameter_tail_field: ParameterListDef = None
         self.name_field: Name = None
+        self.parameter_tail_field: ParameterListDef = None
         self.type_field: ValueType = None
 
     def SetLengthString(self: 'ParameterListDef',new_value: 'LengthString') -> 'None':
@@ -5211,17 +5211,17 @@ class ParameterListDef:
     def UnParse(self: 'ParameterListDef') -> 'str':
         return self.length_string.GetString()
 
-    def SetParameterTail(self: 'ParameterListDef',input_value: 'ParameterListDef') -> 'None':
-        self.parameter_tail_field = input_value
-
-    def GetParameterTail(self: 'ParameterListDef') -> 'ParameterListDef':
-        return self.parameter_tail_field
-
     def SetName(self: 'ParameterListDef',input_value: 'Name') -> 'None':
         self.name_field = input_value
 
     def GetName(self: 'ParameterListDef') -> 'Name':
         return self.name_field
+
+    def SetParameterTail(self: 'ParameterListDef',input_value: 'ParameterListDef') -> 'None':
+        self.parameter_tail_field = input_value
+
+    def GetParameterTail(self: 'ParameterListDef') -> 'ParameterListDef':
+        return self.parameter_tail_field
 
     def SetType(self: 'ParameterListDef',input_value: 'ValueType') -> 'None':
         self.type_field = input_value
@@ -5819,8 +5819,8 @@ class DeclarationParser:
         consumed_string.SetStart(index.GetStart())
         consumed_string.SetLength(0)
         instance: 'Declaration' = Declaration()
-        name_field: 'NameResult' = NameResult()
         assignment_field: 'DeclarationAssignResult' = DeclarationAssignResult()
+        name_field: 'NameResult' = NameResult()
         type_field: 'ValueTypeResult' = ValueTypeResult()
         c_t_code_file_parser_instance: 'CTCodeFileParser' = self.parser_network.GetCTCodeFileParser()
         external_definition_parser_instance: 'ExternalDefinitionParser' = self.parser_network.GetExternalDefinitionParser()
@@ -5879,8 +5879,8 @@ class DeclarationParser:
         character_parser_instance: 'CharacterParser' = self.parser_network.GetCharacterParser()
         character_range_parser_instance: 'CharacterRangeParser' = self.parser_network.GetCharacterRangeParser()
         if True and whitespace_parser_instance.ParseMany(index,0,-1) and value_type_parser_instance.ParseSingleSave(index,type_field) and whitespace_parser_instance.ParseMany(index,1,-1) and name_parser_instance.ParseSingleSave(index,name_field) and whitespace_parser_instance.ParseMany(index,0,-1) and declaration_assign_parser_instance.ParseOptionalSave(index,assignment_field) and whitespace_parser_instance.ParseMany(index,0,-1) and string_parser_instance.ParseSingle(index,";") and whitespace_parser_instance.ParseMany(index,0,-1):
-            instance.SetName(name_field.GetValue())
             instance.SetAssignment(assignment_field.GetValue())
+            instance.SetName(name_field.GetValue())
             instance.SetType(type_field.GetValue())
             consumed_string.SetLength(index.GetStart()-index_start)
             instance.SetLengthString(consumed_string)
@@ -5890,8 +5890,8 @@ class DeclarationParser:
         else:
             index.SetStart(index_start)
             index.SetLength(index_length)
-            name_field = NameResult()
             assignment_field = DeclarationAssignResult()
+            name_field = NameResult()
             type_field = ValueTypeResult()
         result.SetResult(False)
         return result.GetResult()
@@ -5977,8 +5977,8 @@ class DeclarationListResult:
 class Declaration:
     def __init__(self: 'Declaration'):
         self.length_string: LengthString = None
-        self.name_field: Name = None
         self.assignment_field: DeclarationAssign = None
+        self.name_field: Name = None
         self.type_field: ValueType = None
 
     def SetLengthString(self: 'Declaration',new_value: 'LengthString') -> 'None':
@@ -5990,17 +5990,17 @@ class Declaration:
     def UnParse(self: 'Declaration') -> 'str':
         return self.length_string.GetString()
 
-    def SetName(self: 'Declaration',input_value: 'Name') -> 'None':
-        self.name_field = input_value
-
-    def GetName(self: 'Declaration') -> 'Name':
-        return self.name_field
-
     def SetAssignment(self: 'Declaration',input_value: 'DeclarationAssign') -> 'None':
         self.assignment_field = input_value
 
     def GetAssignment(self: 'Declaration') -> 'DeclarationAssign':
         return self.assignment_field
+
+    def SetName(self: 'Declaration',input_value: 'Name') -> 'None':
+        self.name_field = input_value
+
+    def GetName(self: 'Declaration') -> 'Name':
+        return self.name_field
 
     def SetType(self: 'Declaration',input_value: 'ValueType') -> 'None':
         self.type_field = input_value
@@ -6023,8 +6023,8 @@ class AssignmentParser:
         consumed_string.SetStart(index.GetStart())
         consumed_string.SetLength(0)
         instance: 'Assignment' = Assignment()
-        r_value_field: 'RValueResult' = RValueResult()
         l_value_field: 'QualfiedNameResult' = QualfiedNameResult()
+        r_value_field: 'RValueResult' = RValueResult()
         c_t_code_file_parser_instance: 'CTCodeFileParser' = self.parser_network.GetCTCodeFileParser()
         external_definition_parser_instance: 'ExternalDefinitionParser' = self.parser_network.GetExternalDefinitionParser()
         unmanaged_type_parser_instance: 'UnmanagedTypeParser' = self.parser_network.GetUnmanagedTypeParser()
@@ -6082,8 +6082,8 @@ class AssignmentParser:
         character_parser_instance: 'CharacterParser' = self.parser_network.GetCharacterParser()
         character_range_parser_instance: 'CharacterRangeParser' = self.parser_network.GetCharacterRangeParser()
         if True and whitespace_parser_instance.ParseMany(index,0,-1) and qualfied_name_parser_instance.ParseSingleSave(index,l_value_field) and whitespace_parser_instance.ParseMany(index,0,-1) and string_parser_instance.ParseSingle(index,"=") and whitespace_parser_instance.ParseMany(index,0,-1) and r_value_parser_instance.ParseSingleSave(index,r_value_field) and whitespace_parser_instance.ParseMany(index,0,-1) and string_parser_instance.ParseSingle(index,";") and whitespace_parser_instance.ParseMany(index,0,-1):
-            instance.SetRValue(r_value_field.GetValue())
             instance.SetLValue(l_value_field.GetValue())
+            instance.SetRValue(r_value_field.GetValue())
             consumed_string.SetLength(index.GetStart()-index_start)
             instance.SetLengthString(consumed_string)
             result.SetValue(instance)
@@ -6092,8 +6092,8 @@ class AssignmentParser:
         else:
             index.SetStart(index_start)
             index.SetLength(index_length)
-            r_value_field = RValueResult()
             l_value_field = QualfiedNameResult()
+            r_value_field = RValueResult()
         result.SetResult(False)
         return result.GetResult()
 
@@ -6178,8 +6178,8 @@ class AssignmentListResult:
 class Assignment:
     def __init__(self: 'Assignment'):
         self.length_string: LengthString = None
-        self.r_value_field: RValue = None
         self.l_value_field: QualfiedName = None
+        self.r_value_field: RValue = None
 
     def SetLengthString(self: 'Assignment',new_value: 'LengthString') -> 'None':
         self.length_string = LengthString()
@@ -6190,17 +6190,17 @@ class Assignment:
     def UnParse(self: 'Assignment') -> 'str':
         return self.length_string.GetString()
 
-    def SetRValue(self: 'Assignment',input_value: 'RValue') -> 'None':
-        self.r_value_field = input_value
-
-    def GetRValue(self: 'Assignment') -> 'RValue':
-        return self.r_value_field
-
     def SetLValue(self: 'Assignment',input_value: 'QualfiedName') -> 'None':
         self.l_value_field = input_value
 
     def GetLValue(self: 'Assignment') -> 'QualfiedName':
         return self.l_value_field
+
+    def SetRValue(self: 'Assignment',input_value: 'RValue') -> 'None':
+        self.r_value_field = input_value
+
+    def GetRValue(self: 'Assignment') -> 'RValue':
+        return self.r_value_field
 
 class ReturnParser:
     def __init__(self: 'ReturnParser'):
@@ -6605,10 +6605,10 @@ class ConditionalParser:
         consumed_string.SetStart(index.GetStart())
         consumed_string.SetLength(0)
         instance: 'Conditional' = Conditional()
-        else_tail_field: 'ElseTailResult' = ElseTailResult()
         code_block_field: 'CodeBlockResult' = CodeBlockResult()
-        r_value_field: 'RValueResult' = RValueResult()
         conditional_key_field: 'StringResult' = StringResult()
+        else_tail_field: 'ElseTailResult' = ElseTailResult()
+        r_value_field: 'RValueResult' = RValueResult()
         c_t_code_file_parser_instance: 'CTCodeFileParser' = self.parser_network.GetCTCodeFileParser()
         external_definition_parser_instance: 'ExternalDefinitionParser' = self.parser_network.GetExternalDefinitionParser()
         unmanaged_type_parser_instance: 'UnmanagedTypeParser' = self.parser_network.GetUnmanagedTypeParser()
@@ -6666,10 +6666,10 @@ class ConditionalParser:
         character_parser_instance: 'CharacterParser' = self.parser_network.GetCharacterParser()
         character_range_parser_instance: 'CharacterRangeParser' = self.parser_network.GetCharacterRangeParser()
         if True and whitespace_parser_instance.ParseMany(index,0,-1) and string_parser_instance.ParseSingleSave(index,"if",conditional_key_field) and whitespace_parser_instance.ParseMany(index,0,-1) and string_parser_instance.ParseSingle(index,"(") and whitespace_parser_instance.ParseMany(index,0,-1) and r_value_parser_instance.ParseSingleSave(index,r_value_field) and whitespace_parser_instance.ParseMany(index,0,-1) and string_parser_instance.ParseSingle(index,")") and whitespace_parser_instance.ParseMany(index,0,-1) and code_block_parser_instance.ParseSingleSave(index,code_block_field) and whitespace_parser_instance.ParseMany(index,0,-1) and else_tail_parser_instance.ParseOptionalSave(index,else_tail_field):
-            instance.SetElseTail(else_tail_field.GetValue())
             instance.SetCodeBlock(code_block_field.GetValue())
-            instance.SetRValue(r_value_field.GetValue())
             instance.SetConditionalKey(conditional_key_field.GetValue())
+            instance.SetElseTail(else_tail_field.GetValue())
+            instance.SetRValue(r_value_field.GetValue())
             consumed_string.SetLength(index.GetStart()-index_start)
             instance.SetLengthString(consumed_string)
             result.SetValue(instance)
@@ -6678,10 +6678,10 @@ class ConditionalParser:
         else:
             index.SetStart(index_start)
             index.SetLength(index_length)
-            else_tail_field = ElseTailResult()
             code_block_field = CodeBlockResult()
-            r_value_field = RValueResult()
             conditional_key_field = StringResult()
+            else_tail_field = ElseTailResult()
+            r_value_field = RValueResult()
         result.SetResult(False)
         return result.GetResult()
 
@@ -6766,10 +6766,10 @@ class ConditionalListResult:
 class Conditional:
     def __init__(self: 'Conditional'):
         self.length_string: LengthString = None
-        self.else_tail_field: ElseTail = None
         self.code_block_field: CodeBlock = None
-        self.r_value_field: RValue = None
         self.conditional_key_field: String = None
+        self.else_tail_field: ElseTail = None
+        self.r_value_field: RValue = None
 
     def SetLengthString(self: 'Conditional',new_value: 'LengthString') -> 'None':
         self.length_string = LengthString()
@@ -6780,29 +6780,29 @@ class Conditional:
     def UnParse(self: 'Conditional') -> 'str':
         return self.length_string.GetString()
 
-    def SetElseTail(self: 'Conditional',input_value: 'ElseTail') -> 'None':
-        self.else_tail_field = input_value
-
-    def GetElseTail(self: 'Conditional') -> 'ElseTail':
-        return self.else_tail_field
-
     def SetCodeBlock(self: 'Conditional',input_value: 'CodeBlock') -> 'None':
         self.code_block_field = input_value
 
     def GetCodeBlock(self: 'Conditional') -> 'CodeBlock':
         return self.code_block_field
 
-    def SetRValue(self: 'Conditional',input_value: 'RValue') -> 'None':
-        self.r_value_field = input_value
-
-    def GetRValue(self: 'Conditional') -> 'RValue':
-        return self.r_value_field
-
     def SetConditionalKey(self: 'Conditional',input_value: 'String') -> 'None':
         self.conditional_key_field = input_value
 
     def GetConditionalKey(self: 'Conditional') -> 'String':
         return self.conditional_key_field
+
+    def SetElseTail(self: 'Conditional',input_value: 'ElseTail') -> 'None':
+        self.else_tail_field = input_value
+
+    def GetElseTail(self: 'Conditional') -> 'ElseTail':
+        return self.else_tail_field
+
+    def SetRValue(self: 'Conditional',input_value: 'RValue') -> 'None':
+        self.r_value_field = input_value
+
+    def GetRValue(self: 'Conditional') -> 'RValue':
+        return self.r_value_field
 
 class LoopParser:
     def __init__(self: 'LoopParser'):
@@ -6820,8 +6820,8 @@ class LoopParser:
         consumed_string.SetLength(0)
         instance: 'Loop' = Loop()
         code_block_field: 'CodeBlockResult' = CodeBlockResult()
-        r_value_field: 'RValueResult' = RValueResult()
         loop_key_field: 'StringResult' = StringResult()
+        r_value_field: 'RValueResult' = RValueResult()
         c_t_code_file_parser_instance: 'CTCodeFileParser' = self.parser_network.GetCTCodeFileParser()
         external_definition_parser_instance: 'ExternalDefinitionParser' = self.parser_network.GetExternalDefinitionParser()
         unmanaged_type_parser_instance: 'UnmanagedTypeParser' = self.parser_network.GetUnmanagedTypeParser()
@@ -6880,8 +6880,8 @@ class LoopParser:
         character_range_parser_instance: 'CharacterRangeParser' = self.parser_network.GetCharacterRangeParser()
         if True and whitespace_parser_instance.ParseMany(index,0,-1) and string_parser_instance.ParseSingleSave(index,"while",loop_key_field) and whitespace_parser_instance.ParseMany(index,0,-1) and string_parser_instance.ParseSingle(index,"(") and whitespace_parser_instance.ParseMany(index,0,-1) and r_value_parser_instance.ParseSingleSave(index,r_value_field) and whitespace_parser_instance.ParseMany(index,0,-1) and string_parser_instance.ParseSingle(index,")") and whitespace_parser_instance.ParseMany(index,0,-1) and code_block_parser_instance.ParseSingleSave(index,code_block_field) and whitespace_parser_instance.ParseMany(index,0,-1):
             instance.SetCodeBlock(code_block_field.GetValue())
-            instance.SetRValue(r_value_field.GetValue())
             instance.SetLoopKey(loop_key_field.GetValue())
+            instance.SetRValue(r_value_field.GetValue())
             consumed_string.SetLength(index.GetStart()-index_start)
             instance.SetLengthString(consumed_string)
             result.SetValue(instance)
@@ -6891,8 +6891,8 @@ class LoopParser:
             index.SetStart(index_start)
             index.SetLength(index_length)
             code_block_field = CodeBlockResult()
-            r_value_field = RValueResult()
             loop_key_field = StringResult()
+            r_value_field = RValueResult()
         result.SetResult(False)
         return result.GetResult()
 
@@ -6978,8 +6978,8 @@ class Loop:
     def __init__(self: 'Loop'):
         self.length_string: LengthString = None
         self.code_block_field: CodeBlock = None
-        self.r_value_field: RValue = None
         self.loop_key_field: String = None
+        self.r_value_field: RValue = None
 
     def SetLengthString(self: 'Loop',new_value: 'LengthString') -> 'None':
         self.length_string = LengthString()
@@ -6996,17 +6996,17 @@ class Loop:
     def GetCodeBlock(self: 'Loop') -> 'CodeBlock':
         return self.code_block_field
 
-    def SetRValue(self: 'Loop',input_value: 'RValue') -> 'None':
-        self.r_value_field = input_value
-
-    def GetRValue(self: 'Loop') -> 'RValue':
-        return self.r_value_field
-
     def SetLoopKey(self: 'Loop',input_value: 'String') -> 'None':
         self.loop_key_field = input_value
 
     def GetLoopKey(self: 'Loop') -> 'String':
         return self.loop_key_field
+
+    def SetRValue(self: 'Loop',input_value: 'RValue') -> 'None':
+        self.r_value_field = input_value
+
+    def GetRValue(self: 'Loop') -> 'RValue':
+        return self.r_value_field
 
 class CallParser:
     def __init__(self: 'CallParser'):
@@ -7024,8 +7024,8 @@ class CallParser:
         consumed_string.SetLength(0)
         instance: 'Call' = Call()
         function_chain_field: 'QualfiedNameResult' = QualfiedNameResult()
-        parameters_field: 'ParameterListResult' = ParameterListResult()
         function_field: 'NameResult' = NameResult()
+        parameters_field: 'ParameterListResult' = ParameterListResult()
         variable_field: 'NameResult' = NameResult()
         c_t_code_file_parser_instance: 'CTCodeFileParser' = self.parser_network.GetCTCodeFileParser()
         external_definition_parser_instance: 'ExternalDefinitionParser' = self.parser_network.GetExternalDefinitionParser()
@@ -7085,8 +7085,8 @@ class CallParser:
         character_range_parser_instance: 'CharacterRangeParser' = self.parser_network.GetCharacterRangeParser()
         if True and name_parser_instance.ParseSingleSave(index,variable_field) and string_parser_instance.ParseSingle(index,".") and name_parser_instance.ParseSingleSave(index,function_field) and whitespace_parser_instance.ParseMany(index,0,-1) and string_parser_instance.ParseSingle(index,"(") and whitespace_parser_instance.ParseMany(index,0,-1) and parameter_list_parser_instance.ParseOptionalSave(index,parameters_field) and whitespace_parser_instance.ParseMany(index,0,-1) and string_parser_instance.ParseSingle(index,")") and whitespace_parser_instance.ParseMany(index,0,-1):
             instance.SetFunctionChain(function_chain_field.GetValue())
-            instance.SetParameters(parameters_field.GetValue())
             instance.SetFunction(function_field.GetValue())
+            instance.SetParameters(parameters_field.GetValue())
             instance.SetVariable(variable_field.GetValue())
             consumed_string.SetLength(index.GetStart()-index_start)
             instance.SetLengthString(consumed_string)
@@ -7097,13 +7097,13 @@ class CallParser:
             index.SetStart(index_start)
             index.SetLength(index_length)
             function_chain_field = QualfiedNameResult()
-            parameters_field = ParameterListResult()
             function_field = NameResult()
+            parameters_field = ParameterListResult()
             variable_field = NameResult()
         if True and name_parser_instance.ParseSingleSave(index,function_field) and whitespace_parser_instance.ParseMany(index,0,-1) and string_parser_instance.ParseSingle(index,"(") and whitespace_parser_instance.ParseMany(index,0,-1) and parameter_list_parser_instance.ParseOptionalSave(index,parameters_field) and whitespace_parser_instance.ParseMany(index,0,-1) and string_parser_instance.ParseSingle(index,")") and whitespace_parser_instance.ParseMany(index,0,-1):
             instance.SetFunctionChain(function_chain_field.GetValue())
-            instance.SetParameters(parameters_field.GetValue())
             instance.SetFunction(function_field.GetValue())
+            instance.SetParameters(parameters_field.GetValue())
             instance.SetVariable(variable_field.GetValue())
             consumed_string.SetLength(index.GetStart()-index_start)
             instance.SetLengthString(consumed_string)
@@ -7114,13 +7114,13 @@ class CallParser:
             index.SetStart(index_start)
             index.SetLength(index_length)
             function_chain_field = QualfiedNameResult()
-            parameters_field = ParameterListResult()
             function_field = NameResult()
+            parameters_field = ParameterListResult()
             variable_field = NameResult()
         if True and qualfied_name_parser_instance.ParseSingleSave(index,function_chain_field) and whitespace_parser_instance.ParseMany(index,0,-1) and string_parser_instance.ParseSingle(index,"(") and whitespace_parser_instance.ParseMany(index,0,-1) and parameter_list_parser_instance.ParseOptionalSave(index,parameters_field) and whitespace_parser_instance.ParseMany(index,0,-1) and string_parser_instance.ParseSingle(index,")") and whitespace_parser_instance.ParseMany(index,0,-1):
             instance.SetFunctionChain(function_chain_field.GetValue())
-            instance.SetParameters(parameters_field.GetValue())
             instance.SetFunction(function_field.GetValue())
+            instance.SetParameters(parameters_field.GetValue())
             instance.SetVariable(variable_field.GetValue())
             consumed_string.SetLength(index.GetStart()-index_start)
             instance.SetLengthString(consumed_string)
@@ -7131,8 +7131,8 @@ class CallParser:
             index.SetStart(index_start)
             index.SetLength(index_length)
             function_chain_field = QualfiedNameResult()
-            parameters_field = ParameterListResult()
             function_field = NameResult()
+            parameters_field = ParameterListResult()
             variable_field = NameResult()
         result.SetResult(False)
         return result.GetResult()
@@ -7219,8 +7219,8 @@ class Call:
     def __init__(self: 'Call'):
         self.length_string: LengthString = None
         self.function_chain_field: QualfiedName = None
-        self.parameters_field: ParameterList = None
         self.function_field: Name = None
+        self.parameters_field: ParameterList = None
         self.variable_field: Name = None
 
     def SetLengthString(self: 'Call',new_value: 'LengthString') -> 'None':
@@ -7238,17 +7238,17 @@ class Call:
     def GetFunctionChain(self: 'Call') -> 'QualfiedName':
         return self.function_chain_field
 
-    def SetParameters(self: 'Call',input_value: 'ParameterList') -> 'None':
-        self.parameters_field = input_value
-
-    def GetParameters(self: 'Call') -> 'ParameterList':
-        return self.parameters_field
-
     def SetFunction(self: 'Call',input_value: 'Name') -> 'None':
         self.function_field = input_value
 
     def GetFunction(self: 'Call') -> 'Name':
         return self.function_field
+
+    def SetParameters(self: 'Call',input_value: 'ParameterList') -> 'None':
+        self.parameters_field = input_value
+
+    def GetParameters(self: 'Call') -> 'ParameterList':
+        return self.parameters_field
 
     def SetVariable(self: 'Call',input_value: 'Name') -> 'None':
         self.variable_field = input_value
@@ -7455,14 +7455,14 @@ class InstructionParser:
         consumed_string.SetStart(index.GetStart())
         consumed_string.SetLength(0)
         instance: 'Instruction' = Instruction()
-        loop_field: 'LoopResult' = LoopResult()
-        conditional_field: 'ConditionalResult' = ConditionalResult()
-        call_field: 'CallResult' = CallResult()
-        rtn_field: 'ReturnResult' = ReturnResult()
-        code_block_field: 'CodeBlockResult' = CodeBlockResult()
         assignment_field: 'AssignmentResult' = AssignmentResult()
-        declaration_field: 'DeclarationResult' = DeclarationResult()
+        call_field: 'CallResult' = CallResult()
+        code_block_field: 'CodeBlockResult' = CodeBlockResult()
         comment_field: 'CommentResult' = CommentResult()
+        conditional_field: 'ConditionalResult' = ConditionalResult()
+        declaration_field: 'DeclarationResult' = DeclarationResult()
+        loop_field: 'LoopResult' = LoopResult()
+        rtn_field: 'ReturnResult' = ReturnResult()
         c_t_code_file_parser_instance: 'CTCodeFileParser' = self.parser_network.GetCTCodeFileParser()
         external_definition_parser_instance: 'ExternalDefinitionParser' = self.parser_network.GetExternalDefinitionParser()
         unmanaged_type_parser_instance: 'UnmanagedTypeParser' = self.parser_network.GetUnmanagedTypeParser()
@@ -7520,14 +7520,14 @@ class InstructionParser:
         character_parser_instance: 'CharacterParser' = self.parser_network.GetCharacterParser()
         character_range_parser_instance: 'CharacterRangeParser' = self.parser_network.GetCharacterRangeParser()
         if True and whitespace_parser_instance.ParseMany(index,0,-1) and comment_parser_instance.ParseOptionalSave(index,comment_field) and whitespace_parser_instance.ParseMany(index,0,-1) and code_block_parser_instance.ParseSingleSave(index,code_block_field):
-            instance.SetLoop(loop_field.GetValue())
-            instance.SetConditional(conditional_field.GetValue())
-            instance.SetCall(call_field.GetValue())
-            instance.SetRtn(rtn_field.GetValue())
-            instance.SetCodeBlock(code_block_field.GetValue())
             instance.SetAssignment(assignment_field.GetValue())
-            instance.SetDeclaration(declaration_field.GetValue())
+            instance.SetCall(call_field.GetValue())
+            instance.SetCodeBlock(code_block_field.GetValue())
             instance.SetComment(comment_field.GetValue())
+            instance.SetConditional(conditional_field.GetValue())
+            instance.SetDeclaration(declaration_field.GetValue())
+            instance.SetLoop(loop_field.GetValue())
+            instance.SetRtn(rtn_field.GetValue())
             consumed_string.SetLength(index.GetStart()-index_start)
             instance.SetLengthString(consumed_string)
             result.SetValue(instance)
@@ -7536,23 +7536,23 @@ class InstructionParser:
         else:
             index.SetStart(index_start)
             index.SetLength(index_length)
-            loop_field = LoopResult()
-            conditional_field = ConditionalResult()
-            call_field = CallResult()
-            rtn_field = ReturnResult()
-            code_block_field = CodeBlockResult()
             assignment_field = AssignmentResult()
-            declaration_field = DeclarationResult()
+            call_field = CallResult()
+            code_block_field = CodeBlockResult()
             comment_field = CommentResult()
+            conditional_field = ConditionalResult()
+            declaration_field = DeclarationResult()
+            loop_field = LoopResult()
+            rtn_field = ReturnResult()
         if True and whitespace_parser_instance.ParseMany(index,0,-1) and comment_parser_instance.ParseOptionalSave(index,comment_field) and whitespace_parser_instance.ParseMany(index,0,-1) and return_parser_instance.ParseSingleSave(index,rtn_field):
-            instance.SetLoop(loop_field.GetValue())
-            instance.SetConditional(conditional_field.GetValue())
-            instance.SetCall(call_field.GetValue())
-            instance.SetRtn(rtn_field.GetValue())
-            instance.SetCodeBlock(code_block_field.GetValue())
             instance.SetAssignment(assignment_field.GetValue())
-            instance.SetDeclaration(declaration_field.GetValue())
+            instance.SetCall(call_field.GetValue())
+            instance.SetCodeBlock(code_block_field.GetValue())
             instance.SetComment(comment_field.GetValue())
+            instance.SetConditional(conditional_field.GetValue())
+            instance.SetDeclaration(declaration_field.GetValue())
+            instance.SetLoop(loop_field.GetValue())
+            instance.SetRtn(rtn_field.GetValue())
             consumed_string.SetLength(index.GetStart()-index_start)
             instance.SetLengthString(consumed_string)
             result.SetValue(instance)
@@ -7561,23 +7561,23 @@ class InstructionParser:
         else:
             index.SetStart(index_start)
             index.SetLength(index_length)
-            loop_field = LoopResult()
-            conditional_field = ConditionalResult()
-            call_field = CallResult()
-            rtn_field = ReturnResult()
-            code_block_field = CodeBlockResult()
             assignment_field = AssignmentResult()
-            declaration_field = DeclarationResult()
+            call_field = CallResult()
+            code_block_field = CodeBlockResult()
             comment_field = CommentResult()
+            conditional_field = ConditionalResult()
+            declaration_field = DeclarationResult()
+            loop_field = LoopResult()
+            rtn_field = ReturnResult()
         if True and whitespace_parser_instance.ParseMany(index,0,-1) and comment_parser_instance.ParseOptionalSave(index,comment_field) and whitespace_parser_instance.ParseMany(index,0,-1) and declaration_parser_instance.ParseSingleSave(index,declaration_field):
-            instance.SetLoop(loop_field.GetValue())
-            instance.SetConditional(conditional_field.GetValue())
-            instance.SetCall(call_field.GetValue())
-            instance.SetRtn(rtn_field.GetValue())
-            instance.SetCodeBlock(code_block_field.GetValue())
             instance.SetAssignment(assignment_field.GetValue())
-            instance.SetDeclaration(declaration_field.GetValue())
+            instance.SetCall(call_field.GetValue())
+            instance.SetCodeBlock(code_block_field.GetValue())
             instance.SetComment(comment_field.GetValue())
+            instance.SetConditional(conditional_field.GetValue())
+            instance.SetDeclaration(declaration_field.GetValue())
+            instance.SetLoop(loop_field.GetValue())
+            instance.SetRtn(rtn_field.GetValue())
             consumed_string.SetLength(index.GetStart()-index_start)
             instance.SetLengthString(consumed_string)
             result.SetValue(instance)
@@ -7586,23 +7586,23 @@ class InstructionParser:
         else:
             index.SetStart(index_start)
             index.SetLength(index_length)
-            loop_field = LoopResult()
-            conditional_field = ConditionalResult()
-            call_field = CallResult()
-            rtn_field = ReturnResult()
-            code_block_field = CodeBlockResult()
             assignment_field = AssignmentResult()
-            declaration_field = DeclarationResult()
+            call_field = CallResult()
+            code_block_field = CodeBlockResult()
             comment_field = CommentResult()
+            conditional_field = ConditionalResult()
+            declaration_field = DeclarationResult()
+            loop_field = LoopResult()
+            rtn_field = ReturnResult()
         if True and whitespace_parser_instance.ParseMany(index,0,-1) and comment_parser_instance.ParseOptionalSave(index,comment_field) and whitespace_parser_instance.ParseMany(index,0,-1) and assignment_parser_instance.ParseSingleSave(index,assignment_field):
-            instance.SetLoop(loop_field.GetValue())
-            instance.SetConditional(conditional_field.GetValue())
-            instance.SetCall(call_field.GetValue())
-            instance.SetRtn(rtn_field.GetValue())
-            instance.SetCodeBlock(code_block_field.GetValue())
             instance.SetAssignment(assignment_field.GetValue())
-            instance.SetDeclaration(declaration_field.GetValue())
+            instance.SetCall(call_field.GetValue())
+            instance.SetCodeBlock(code_block_field.GetValue())
             instance.SetComment(comment_field.GetValue())
+            instance.SetConditional(conditional_field.GetValue())
+            instance.SetDeclaration(declaration_field.GetValue())
+            instance.SetLoop(loop_field.GetValue())
+            instance.SetRtn(rtn_field.GetValue())
             consumed_string.SetLength(index.GetStart()-index_start)
             instance.SetLengthString(consumed_string)
             result.SetValue(instance)
@@ -7611,23 +7611,23 @@ class InstructionParser:
         else:
             index.SetStart(index_start)
             index.SetLength(index_length)
-            loop_field = LoopResult()
-            conditional_field = ConditionalResult()
-            call_field = CallResult()
-            rtn_field = ReturnResult()
-            code_block_field = CodeBlockResult()
             assignment_field = AssignmentResult()
-            declaration_field = DeclarationResult()
+            call_field = CallResult()
+            code_block_field = CodeBlockResult()
             comment_field = CommentResult()
+            conditional_field = ConditionalResult()
+            declaration_field = DeclarationResult()
+            loop_field = LoopResult()
+            rtn_field = ReturnResult()
         if True and whitespace_parser_instance.ParseMany(index,0,-1) and comment_parser_instance.ParseOptionalSave(index,comment_field) and whitespace_parser_instance.ParseMany(index,0,-1) and call_parser_instance.ParseSingleSave(index,call_field) and whitespace_parser_instance.ParseMany(index,0,-1) and string_parser_instance.ParseSingle(index,";") and whitespace_parser_instance.ParseMany(index,0,-1):
-            instance.SetLoop(loop_field.GetValue())
-            instance.SetConditional(conditional_field.GetValue())
-            instance.SetCall(call_field.GetValue())
-            instance.SetRtn(rtn_field.GetValue())
-            instance.SetCodeBlock(code_block_field.GetValue())
             instance.SetAssignment(assignment_field.GetValue())
-            instance.SetDeclaration(declaration_field.GetValue())
+            instance.SetCall(call_field.GetValue())
+            instance.SetCodeBlock(code_block_field.GetValue())
             instance.SetComment(comment_field.GetValue())
+            instance.SetConditional(conditional_field.GetValue())
+            instance.SetDeclaration(declaration_field.GetValue())
+            instance.SetLoop(loop_field.GetValue())
+            instance.SetRtn(rtn_field.GetValue())
             consumed_string.SetLength(index.GetStart()-index_start)
             instance.SetLengthString(consumed_string)
             result.SetValue(instance)
@@ -7636,23 +7636,23 @@ class InstructionParser:
         else:
             index.SetStart(index_start)
             index.SetLength(index_length)
-            loop_field = LoopResult()
-            conditional_field = ConditionalResult()
-            call_field = CallResult()
-            rtn_field = ReturnResult()
-            code_block_field = CodeBlockResult()
             assignment_field = AssignmentResult()
-            declaration_field = DeclarationResult()
+            call_field = CallResult()
+            code_block_field = CodeBlockResult()
             comment_field = CommentResult()
+            conditional_field = ConditionalResult()
+            declaration_field = DeclarationResult()
+            loop_field = LoopResult()
+            rtn_field = ReturnResult()
         if True and whitespace_parser_instance.ParseMany(index,0,-1) and comment_parser_instance.ParseOptionalSave(index,comment_field) and whitespace_parser_instance.ParseMany(index,0,-1) and conditional_parser_instance.ParseSingleSave(index,conditional_field):
-            instance.SetLoop(loop_field.GetValue())
-            instance.SetConditional(conditional_field.GetValue())
-            instance.SetCall(call_field.GetValue())
-            instance.SetRtn(rtn_field.GetValue())
-            instance.SetCodeBlock(code_block_field.GetValue())
             instance.SetAssignment(assignment_field.GetValue())
-            instance.SetDeclaration(declaration_field.GetValue())
+            instance.SetCall(call_field.GetValue())
+            instance.SetCodeBlock(code_block_field.GetValue())
             instance.SetComment(comment_field.GetValue())
+            instance.SetConditional(conditional_field.GetValue())
+            instance.SetDeclaration(declaration_field.GetValue())
+            instance.SetLoop(loop_field.GetValue())
+            instance.SetRtn(rtn_field.GetValue())
             consumed_string.SetLength(index.GetStart()-index_start)
             instance.SetLengthString(consumed_string)
             result.SetValue(instance)
@@ -7661,23 +7661,23 @@ class InstructionParser:
         else:
             index.SetStart(index_start)
             index.SetLength(index_length)
-            loop_field = LoopResult()
-            conditional_field = ConditionalResult()
-            call_field = CallResult()
-            rtn_field = ReturnResult()
-            code_block_field = CodeBlockResult()
             assignment_field = AssignmentResult()
-            declaration_field = DeclarationResult()
+            call_field = CallResult()
+            code_block_field = CodeBlockResult()
             comment_field = CommentResult()
+            conditional_field = ConditionalResult()
+            declaration_field = DeclarationResult()
+            loop_field = LoopResult()
+            rtn_field = ReturnResult()
         if True and whitespace_parser_instance.ParseMany(index,0,-1) and comment_parser_instance.ParseOptionalSave(index,comment_field) and whitespace_parser_instance.ParseMany(index,0,-1) and loop_parser_instance.ParseSingleSave(index,loop_field):
-            instance.SetLoop(loop_field.GetValue())
-            instance.SetConditional(conditional_field.GetValue())
-            instance.SetCall(call_field.GetValue())
-            instance.SetRtn(rtn_field.GetValue())
-            instance.SetCodeBlock(code_block_field.GetValue())
             instance.SetAssignment(assignment_field.GetValue())
-            instance.SetDeclaration(declaration_field.GetValue())
+            instance.SetCall(call_field.GetValue())
+            instance.SetCodeBlock(code_block_field.GetValue())
             instance.SetComment(comment_field.GetValue())
+            instance.SetConditional(conditional_field.GetValue())
+            instance.SetDeclaration(declaration_field.GetValue())
+            instance.SetLoop(loop_field.GetValue())
+            instance.SetRtn(rtn_field.GetValue())
             consumed_string.SetLength(index.GetStart()-index_start)
             instance.SetLengthString(consumed_string)
             result.SetValue(instance)
@@ -7686,14 +7686,14 @@ class InstructionParser:
         else:
             index.SetStart(index_start)
             index.SetLength(index_length)
-            loop_field = LoopResult()
-            conditional_field = ConditionalResult()
-            call_field = CallResult()
-            rtn_field = ReturnResult()
-            code_block_field = CodeBlockResult()
             assignment_field = AssignmentResult()
-            declaration_field = DeclarationResult()
+            call_field = CallResult()
+            code_block_field = CodeBlockResult()
             comment_field = CommentResult()
+            conditional_field = ConditionalResult()
+            declaration_field = DeclarationResult()
+            loop_field = LoopResult()
+            rtn_field = ReturnResult()
         result.SetResult(False)
         return result.GetResult()
 
@@ -7778,14 +7778,14 @@ class InstructionListResult:
 class Instruction:
     def __init__(self: 'Instruction'):
         self.length_string: LengthString = None
-        self.loop_field: Loop = None
-        self.conditional_field: Conditional = None
-        self.call_field: Call = None
-        self.rtn_field: Return = None
-        self.code_block_field: CodeBlock = None
         self.assignment_field: Assignment = None
-        self.declaration_field: Declaration = None
+        self.call_field: Call = None
+        self.code_block_field: CodeBlock = None
         self.comment_field: Comment = None
+        self.conditional_field: Conditional = None
+        self.declaration_field: Declaration = None
+        self.loop_field: Loop = None
+        self.rtn_field: Return = None
 
     def SetLengthString(self: 'Instruction',new_value: 'LengthString') -> 'None':
         self.length_string = LengthString()
@@ -7796,17 +7796,11 @@ class Instruction:
     def UnParse(self: 'Instruction') -> 'str':
         return self.length_string.GetString()
 
-    def SetLoop(self: 'Instruction',input_value: 'Loop') -> 'None':
-        self.loop_field = input_value
+    def SetAssignment(self: 'Instruction',input_value: 'Assignment') -> 'None':
+        self.assignment_field = input_value
 
-    def GetLoop(self: 'Instruction') -> 'Loop':
-        return self.loop_field
-
-    def SetConditional(self: 'Instruction',input_value: 'Conditional') -> 'None':
-        self.conditional_field = input_value
-
-    def GetConditional(self: 'Instruction') -> 'Conditional':
-        return self.conditional_field
+    def GetAssignment(self: 'Instruction') -> 'Assignment':
+        return self.assignment_field
 
     def SetCall(self: 'Instruction',input_value: 'Call') -> 'None':
         self.call_field = input_value
@@ -7814,23 +7808,23 @@ class Instruction:
     def GetCall(self: 'Instruction') -> 'Call':
         return self.call_field
 
-    def SetRtn(self: 'Instruction',input_value: 'Return') -> 'None':
-        self.rtn_field = input_value
-
-    def GetRtn(self: 'Instruction') -> 'Return':
-        return self.rtn_field
-
     def SetCodeBlock(self: 'Instruction',input_value: 'CodeBlock') -> 'None':
         self.code_block_field = input_value
 
     def GetCodeBlock(self: 'Instruction') -> 'CodeBlock':
         return self.code_block_field
 
-    def SetAssignment(self: 'Instruction',input_value: 'Assignment') -> 'None':
-        self.assignment_field = input_value
+    def SetComment(self: 'Instruction',input_value: 'Comment') -> 'None':
+        self.comment_field = input_value
 
-    def GetAssignment(self: 'Instruction') -> 'Assignment':
-        return self.assignment_field
+    def GetComment(self: 'Instruction') -> 'Comment':
+        return self.comment_field
+
+    def SetConditional(self: 'Instruction',input_value: 'Conditional') -> 'None':
+        self.conditional_field = input_value
+
+    def GetConditional(self: 'Instruction') -> 'Conditional':
+        return self.conditional_field
 
     def SetDeclaration(self: 'Instruction',input_value: 'Declaration') -> 'None':
         self.declaration_field = input_value
@@ -7838,11 +7832,17 @@ class Instruction:
     def GetDeclaration(self: 'Instruction') -> 'Declaration':
         return self.declaration_field
 
-    def SetComment(self: 'Instruction',input_value: 'Comment') -> 'None':
-        self.comment_field = input_value
+    def SetLoop(self: 'Instruction',input_value: 'Loop') -> 'None':
+        self.loop_field = input_value
 
-    def GetComment(self: 'Instruction') -> 'Comment':
-        return self.comment_field
+    def GetLoop(self: 'Instruction') -> 'Loop':
+        return self.loop_field
+
+    def SetRtn(self: 'Instruction',input_value: 'Return') -> 'None':
+        self.rtn_field = input_value
+
+    def GetRtn(self: 'Instruction') -> 'Return':
+        return self.rtn_field
 
 class RValueSingleParser:
     def __init__(self: 'RValueSingleParser'):
@@ -7859,15 +7859,15 @@ class RValueSingleParser:
         consumed_string.SetStart(index.GetStart())
         consumed_string.SetLength(0)
         instance: 'RValueSingle' = RValueSingle()
-        variable_field: 'QualfiedNameResult' = QualfiedNameResult()
-        string_literal_field: 'LiteralResult' = LiteralResult()
-        integer_literal_field: 'NumberResult' = NumberResult()
-        decimal_literal_field: 'DecimalResult' = DecimalResult()
-        byte_literal_field: 'ByteResult' = ByteResult()
         allocate_field: 'AllocateResult' = AllocateResult()
         boolean_literal_field: 'BooleanResult' = BooleanResult()
+        byte_literal_field: 'ByteResult' = ByteResult()
         call_field: 'CallResult' = CallResult()
+        decimal_literal_field: 'DecimalResult' = DecimalResult()
+        integer_literal_field: 'NumberResult' = NumberResult()
+        string_literal_field: 'LiteralResult' = LiteralResult()
         unary_operator_field: 'UnaryOperatorResult' = UnaryOperatorResult()
+        variable_field: 'QualfiedNameResult' = QualfiedNameResult()
         c_t_code_file_parser_instance: 'CTCodeFileParser' = self.parser_network.GetCTCodeFileParser()
         external_definition_parser_instance: 'ExternalDefinitionParser' = self.parser_network.GetExternalDefinitionParser()
         unmanaged_type_parser_instance: 'UnmanagedTypeParser' = self.parser_network.GetUnmanagedTypeParser()
@@ -7925,15 +7925,15 @@ class RValueSingleParser:
         character_parser_instance: 'CharacterParser' = self.parser_network.GetCharacterParser()
         character_range_parser_instance: 'CharacterRangeParser' = self.parser_network.GetCharacterRangeParser()
         if True and whitespace_parser_instance.ParseMany(index,0,-1) and unary_operator_parser_instance.ParseOptionalSave(index,unary_operator_field) and whitespace_parser_instance.ParseMany(index,0,-1) and call_parser_instance.ParseSingleSave(index,call_field):
-            instance.SetVariable(variable_field.GetValue())
-            instance.SetStringLiteral(string_literal_field.GetValue())
-            instance.SetIntegerLiteral(integer_literal_field.GetValue())
-            instance.SetDecimalLiteral(decimal_literal_field.GetValue())
-            instance.SetByteLiteral(byte_literal_field.GetValue())
             instance.SetAllocate(allocate_field.GetValue())
             instance.SetBooleanLiteral(boolean_literal_field.GetValue())
+            instance.SetByteLiteral(byte_literal_field.GetValue())
             instance.SetCall(call_field.GetValue())
+            instance.SetDecimalLiteral(decimal_literal_field.GetValue())
+            instance.SetIntegerLiteral(integer_literal_field.GetValue())
+            instance.SetStringLiteral(string_literal_field.GetValue())
             instance.SetUnaryOperator(unary_operator_field.GetValue())
+            instance.SetVariable(variable_field.GetValue())
             consumed_string.SetLength(index.GetStart()-index_start)
             instance.SetLengthString(consumed_string)
             result.SetValue(instance)
@@ -7942,25 +7942,25 @@ class RValueSingleParser:
         else:
             index.SetStart(index_start)
             index.SetLength(index_length)
-            variable_field = QualfiedNameResult()
-            string_literal_field = LiteralResult()
-            integer_literal_field = NumberResult()
-            decimal_literal_field = DecimalResult()
-            byte_literal_field = ByteResult()
             allocate_field = AllocateResult()
             boolean_literal_field = BooleanResult()
+            byte_literal_field = ByteResult()
             call_field = CallResult()
+            decimal_literal_field = DecimalResult()
+            integer_literal_field = NumberResult()
+            string_literal_field = LiteralResult()
             unary_operator_field = UnaryOperatorResult()
+            variable_field = QualfiedNameResult()
         if True and whitespace_parser_instance.ParseMany(index,0,-1) and unary_operator_parser_instance.ParseOptionalSave(index,unary_operator_field) and whitespace_parser_instance.ParseMany(index,0,-1) and allocate_parser_instance.ParseSingleSave(index,allocate_field):
-            instance.SetVariable(variable_field.GetValue())
-            instance.SetStringLiteral(string_literal_field.GetValue())
-            instance.SetIntegerLiteral(integer_literal_field.GetValue())
-            instance.SetDecimalLiteral(decimal_literal_field.GetValue())
-            instance.SetByteLiteral(byte_literal_field.GetValue())
             instance.SetAllocate(allocate_field.GetValue())
             instance.SetBooleanLiteral(boolean_literal_field.GetValue())
+            instance.SetByteLiteral(byte_literal_field.GetValue())
             instance.SetCall(call_field.GetValue())
+            instance.SetDecimalLiteral(decimal_literal_field.GetValue())
+            instance.SetIntegerLiteral(integer_literal_field.GetValue())
+            instance.SetStringLiteral(string_literal_field.GetValue())
             instance.SetUnaryOperator(unary_operator_field.GetValue())
+            instance.SetVariable(variable_field.GetValue())
             consumed_string.SetLength(index.GetStart()-index_start)
             instance.SetLengthString(consumed_string)
             result.SetValue(instance)
@@ -7969,25 +7969,25 @@ class RValueSingleParser:
         else:
             index.SetStart(index_start)
             index.SetLength(index_length)
-            variable_field = QualfiedNameResult()
-            string_literal_field = LiteralResult()
-            integer_literal_field = NumberResult()
-            decimal_literal_field = DecimalResult()
-            byte_literal_field = ByteResult()
             allocate_field = AllocateResult()
             boolean_literal_field = BooleanResult()
+            byte_literal_field = ByteResult()
             call_field = CallResult()
+            decimal_literal_field = DecimalResult()
+            integer_literal_field = NumberResult()
+            string_literal_field = LiteralResult()
             unary_operator_field = UnaryOperatorResult()
+            variable_field = QualfiedNameResult()
         if True and whitespace_parser_instance.ParseMany(index,0,-1) and unary_operator_parser_instance.ParseOptionalSave(index,unary_operator_field) and whitespace_parser_instance.ParseMany(index,0,-1) and byte_parser_instance.ParseSingleSave(index,byte_literal_field):
-            instance.SetVariable(variable_field.GetValue())
-            instance.SetStringLiteral(string_literal_field.GetValue())
-            instance.SetIntegerLiteral(integer_literal_field.GetValue())
-            instance.SetDecimalLiteral(decimal_literal_field.GetValue())
-            instance.SetByteLiteral(byte_literal_field.GetValue())
             instance.SetAllocate(allocate_field.GetValue())
             instance.SetBooleanLiteral(boolean_literal_field.GetValue())
+            instance.SetByteLiteral(byte_literal_field.GetValue())
             instance.SetCall(call_field.GetValue())
+            instance.SetDecimalLiteral(decimal_literal_field.GetValue())
+            instance.SetIntegerLiteral(integer_literal_field.GetValue())
+            instance.SetStringLiteral(string_literal_field.GetValue())
             instance.SetUnaryOperator(unary_operator_field.GetValue())
+            instance.SetVariable(variable_field.GetValue())
             consumed_string.SetLength(index.GetStart()-index_start)
             instance.SetLengthString(consumed_string)
             result.SetValue(instance)
@@ -7996,25 +7996,25 @@ class RValueSingleParser:
         else:
             index.SetStart(index_start)
             index.SetLength(index_length)
-            variable_field = QualfiedNameResult()
-            string_literal_field = LiteralResult()
-            integer_literal_field = NumberResult()
-            decimal_literal_field = DecimalResult()
-            byte_literal_field = ByteResult()
             allocate_field = AllocateResult()
             boolean_literal_field = BooleanResult()
+            byte_literal_field = ByteResult()
             call_field = CallResult()
+            decimal_literal_field = DecimalResult()
+            integer_literal_field = NumberResult()
+            string_literal_field = LiteralResult()
             unary_operator_field = UnaryOperatorResult()
+            variable_field = QualfiedNameResult()
         if True and whitespace_parser_instance.ParseMany(index,0,-1) and unary_operator_parser_instance.ParseOptionalSave(index,unary_operator_field) and whitespace_parser_instance.ParseMany(index,0,-1) and decimal_parser_instance.ParseSingleSave(index,decimal_literal_field):
-            instance.SetVariable(variable_field.GetValue())
-            instance.SetStringLiteral(string_literal_field.GetValue())
-            instance.SetIntegerLiteral(integer_literal_field.GetValue())
-            instance.SetDecimalLiteral(decimal_literal_field.GetValue())
-            instance.SetByteLiteral(byte_literal_field.GetValue())
             instance.SetAllocate(allocate_field.GetValue())
             instance.SetBooleanLiteral(boolean_literal_field.GetValue())
+            instance.SetByteLiteral(byte_literal_field.GetValue())
             instance.SetCall(call_field.GetValue())
+            instance.SetDecimalLiteral(decimal_literal_field.GetValue())
+            instance.SetIntegerLiteral(integer_literal_field.GetValue())
+            instance.SetStringLiteral(string_literal_field.GetValue())
             instance.SetUnaryOperator(unary_operator_field.GetValue())
+            instance.SetVariable(variable_field.GetValue())
             consumed_string.SetLength(index.GetStart()-index_start)
             instance.SetLengthString(consumed_string)
             result.SetValue(instance)
@@ -8023,25 +8023,25 @@ class RValueSingleParser:
         else:
             index.SetStart(index_start)
             index.SetLength(index_length)
-            variable_field = QualfiedNameResult()
-            string_literal_field = LiteralResult()
-            integer_literal_field = NumberResult()
-            decimal_literal_field = DecimalResult()
-            byte_literal_field = ByteResult()
             allocate_field = AllocateResult()
             boolean_literal_field = BooleanResult()
+            byte_literal_field = ByteResult()
             call_field = CallResult()
+            decimal_literal_field = DecimalResult()
+            integer_literal_field = NumberResult()
+            string_literal_field = LiteralResult()
             unary_operator_field = UnaryOperatorResult()
+            variable_field = QualfiedNameResult()
         if True and whitespace_parser_instance.ParseMany(index,0,-1) and unary_operator_parser_instance.ParseOptionalSave(index,unary_operator_field) and whitespace_parser_instance.ParseMany(index,0,-1) and number_parser_instance.ParseSingleSave(index,integer_literal_field):
-            instance.SetVariable(variable_field.GetValue())
-            instance.SetStringLiteral(string_literal_field.GetValue())
-            instance.SetIntegerLiteral(integer_literal_field.GetValue())
-            instance.SetDecimalLiteral(decimal_literal_field.GetValue())
-            instance.SetByteLiteral(byte_literal_field.GetValue())
             instance.SetAllocate(allocate_field.GetValue())
             instance.SetBooleanLiteral(boolean_literal_field.GetValue())
+            instance.SetByteLiteral(byte_literal_field.GetValue())
             instance.SetCall(call_field.GetValue())
+            instance.SetDecimalLiteral(decimal_literal_field.GetValue())
+            instance.SetIntegerLiteral(integer_literal_field.GetValue())
+            instance.SetStringLiteral(string_literal_field.GetValue())
             instance.SetUnaryOperator(unary_operator_field.GetValue())
+            instance.SetVariable(variable_field.GetValue())
             consumed_string.SetLength(index.GetStart()-index_start)
             instance.SetLengthString(consumed_string)
             result.SetValue(instance)
@@ -8050,25 +8050,25 @@ class RValueSingleParser:
         else:
             index.SetStart(index_start)
             index.SetLength(index_length)
-            variable_field = QualfiedNameResult()
-            string_literal_field = LiteralResult()
-            integer_literal_field = NumberResult()
-            decimal_literal_field = DecimalResult()
-            byte_literal_field = ByteResult()
             allocate_field = AllocateResult()
             boolean_literal_field = BooleanResult()
+            byte_literal_field = ByteResult()
             call_field = CallResult()
+            decimal_literal_field = DecimalResult()
+            integer_literal_field = NumberResult()
+            string_literal_field = LiteralResult()
             unary_operator_field = UnaryOperatorResult()
+            variable_field = QualfiedNameResult()
         if True and whitespace_parser_instance.ParseMany(index,0,-1) and unary_operator_parser_instance.ParseOptionalSave(index,unary_operator_field) and whitespace_parser_instance.ParseMany(index,0,-1) and boolean_parser_instance.ParseSingleSave(index,boolean_literal_field):
-            instance.SetVariable(variable_field.GetValue())
-            instance.SetStringLiteral(string_literal_field.GetValue())
-            instance.SetIntegerLiteral(integer_literal_field.GetValue())
-            instance.SetDecimalLiteral(decimal_literal_field.GetValue())
-            instance.SetByteLiteral(byte_literal_field.GetValue())
             instance.SetAllocate(allocate_field.GetValue())
             instance.SetBooleanLiteral(boolean_literal_field.GetValue())
+            instance.SetByteLiteral(byte_literal_field.GetValue())
             instance.SetCall(call_field.GetValue())
+            instance.SetDecimalLiteral(decimal_literal_field.GetValue())
+            instance.SetIntegerLiteral(integer_literal_field.GetValue())
+            instance.SetStringLiteral(string_literal_field.GetValue())
             instance.SetUnaryOperator(unary_operator_field.GetValue())
+            instance.SetVariable(variable_field.GetValue())
             consumed_string.SetLength(index.GetStart()-index_start)
             instance.SetLengthString(consumed_string)
             result.SetValue(instance)
@@ -8077,25 +8077,25 @@ class RValueSingleParser:
         else:
             index.SetStart(index_start)
             index.SetLength(index_length)
-            variable_field = QualfiedNameResult()
-            string_literal_field = LiteralResult()
-            integer_literal_field = NumberResult()
-            decimal_literal_field = DecimalResult()
-            byte_literal_field = ByteResult()
             allocate_field = AllocateResult()
             boolean_literal_field = BooleanResult()
+            byte_literal_field = ByteResult()
             call_field = CallResult()
+            decimal_literal_field = DecimalResult()
+            integer_literal_field = NumberResult()
+            string_literal_field = LiteralResult()
             unary_operator_field = UnaryOperatorResult()
+            variable_field = QualfiedNameResult()
         if True and whitespace_parser_instance.ParseMany(index,0,-1) and unary_operator_parser_instance.ParseOptionalSave(index,unary_operator_field) and whitespace_parser_instance.ParseMany(index,0,-1) and qualfied_name_parser_instance.ParseSingleSave(index,variable_field):
-            instance.SetVariable(variable_field.GetValue())
-            instance.SetStringLiteral(string_literal_field.GetValue())
-            instance.SetIntegerLiteral(integer_literal_field.GetValue())
-            instance.SetDecimalLiteral(decimal_literal_field.GetValue())
-            instance.SetByteLiteral(byte_literal_field.GetValue())
             instance.SetAllocate(allocate_field.GetValue())
             instance.SetBooleanLiteral(boolean_literal_field.GetValue())
+            instance.SetByteLiteral(byte_literal_field.GetValue())
             instance.SetCall(call_field.GetValue())
+            instance.SetDecimalLiteral(decimal_literal_field.GetValue())
+            instance.SetIntegerLiteral(integer_literal_field.GetValue())
+            instance.SetStringLiteral(string_literal_field.GetValue())
             instance.SetUnaryOperator(unary_operator_field.GetValue())
+            instance.SetVariable(variable_field.GetValue())
             consumed_string.SetLength(index.GetStart()-index_start)
             instance.SetLengthString(consumed_string)
             result.SetValue(instance)
@@ -8104,25 +8104,25 @@ class RValueSingleParser:
         else:
             index.SetStart(index_start)
             index.SetLength(index_length)
-            variable_field = QualfiedNameResult()
-            string_literal_field = LiteralResult()
-            integer_literal_field = NumberResult()
-            decimal_literal_field = DecimalResult()
-            byte_literal_field = ByteResult()
             allocate_field = AllocateResult()
             boolean_literal_field = BooleanResult()
+            byte_literal_field = ByteResult()
             call_field = CallResult()
+            decimal_literal_field = DecimalResult()
+            integer_literal_field = NumberResult()
+            string_literal_field = LiteralResult()
             unary_operator_field = UnaryOperatorResult()
+            variable_field = QualfiedNameResult()
         if True and whitespace_parser_instance.ParseMany(index,0,-1) and unary_operator_parser_instance.ParseOptionalSave(index,unary_operator_field) and whitespace_parser_instance.ParseMany(index,0,-1) and string_parser_instance.ParseSingle(index,"\"") and literal_parser_instance.ParseSingleSave(index,string_literal_field) and string_parser_instance.ParseSingle(index,"\""):
-            instance.SetVariable(variable_field.GetValue())
-            instance.SetStringLiteral(string_literal_field.GetValue())
-            instance.SetIntegerLiteral(integer_literal_field.GetValue())
-            instance.SetDecimalLiteral(decimal_literal_field.GetValue())
-            instance.SetByteLiteral(byte_literal_field.GetValue())
             instance.SetAllocate(allocate_field.GetValue())
             instance.SetBooleanLiteral(boolean_literal_field.GetValue())
+            instance.SetByteLiteral(byte_literal_field.GetValue())
             instance.SetCall(call_field.GetValue())
+            instance.SetDecimalLiteral(decimal_literal_field.GetValue())
+            instance.SetIntegerLiteral(integer_literal_field.GetValue())
+            instance.SetStringLiteral(string_literal_field.GetValue())
             instance.SetUnaryOperator(unary_operator_field.GetValue())
+            instance.SetVariable(variable_field.GetValue())
             consumed_string.SetLength(index.GetStart()-index_start)
             instance.SetLengthString(consumed_string)
             result.SetValue(instance)
@@ -8131,15 +8131,15 @@ class RValueSingleParser:
         else:
             index.SetStart(index_start)
             index.SetLength(index_length)
-            variable_field = QualfiedNameResult()
-            string_literal_field = LiteralResult()
-            integer_literal_field = NumberResult()
-            decimal_literal_field = DecimalResult()
-            byte_literal_field = ByteResult()
             allocate_field = AllocateResult()
             boolean_literal_field = BooleanResult()
+            byte_literal_field = ByteResult()
             call_field = CallResult()
+            decimal_literal_field = DecimalResult()
+            integer_literal_field = NumberResult()
+            string_literal_field = LiteralResult()
             unary_operator_field = UnaryOperatorResult()
+            variable_field = QualfiedNameResult()
         result.SetResult(False)
         return result.GetResult()
 
@@ -8224,15 +8224,15 @@ class RValueSingleListResult:
 class RValueSingle:
     def __init__(self: 'RValueSingle'):
         self.length_string: LengthString = None
-        self.variable_field: QualfiedName = None
-        self.string_literal_field: Literal = None
-        self.integer_literal_field: Number = None
-        self.decimal_literal_field: Decimal = None
-        self.byte_literal_field: Byte = None
         self.allocate_field: Allocate = None
         self.boolean_literal_field: Boolean = None
+        self.byte_literal_field: Byte = None
         self.call_field: Call = None
+        self.decimal_literal_field: Decimal = None
+        self.integer_literal_field: Number = None
+        self.string_literal_field: Literal = None
         self.unary_operator_field: UnaryOperator = None
+        self.variable_field: QualfiedName = None
 
     def SetLengthString(self: 'RValueSingle',new_value: 'LengthString') -> 'None':
         self.length_string = LengthString()
@@ -8242,36 +8242,6 @@ class RValueSingle:
 
     def UnParse(self: 'RValueSingle') -> 'str':
         return self.length_string.GetString()
-
-    def SetVariable(self: 'RValueSingle',input_value: 'QualfiedName') -> 'None':
-        self.variable_field = input_value
-
-    def GetVariable(self: 'RValueSingle') -> 'QualfiedName':
-        return self.variable_field
-
-    def SetStringLiteral(self: 'RValueSingle',input_value: 'Literal') -> 'None':
-        self.string_literal_field = input_value
-
-    def GetStringLiteral(self: 'RValueSingle') -> 'Literal':
-        return self.string_literal_field
-
-    def SetIntegerLiteral(self: 'RValueSingle',input_value: 'Number') -> 'None':
-        self.integer_literal_field = input_value
-
-    def GetIntegerLiteral(self: 'RValueSingle') -> 'Number':
-        return self.integer_literal_field
-
-    def SetDecimalLiteral(self: 'RValueSingle',input_value: 'Decimal') -> 'None':
-        self.decimal_literal_field = input_value
-
-    def GetDecimalLiteral(self: 'RValueSingle') -> 'Decimal':
-        return self.decimal_literal_field
-
-    def SetByteLiteral(self: 'RValueSingle',input_value: 'Byte') -> 'None':
-        self.byte_literal_field = input_value
-
-    def GetByteLiteral(self: 'RValueSingle') -> 'Byte':
-        return self.byte_literal_field
 
     def SetAllocate(self: 'RValueSingle',input_value: 'Allocate') -> 'None':
         self.allocate_field = input_value
@@ -8285,17 +8255,47 @@ class RValueSingle:
     def GetBooleanLiteral(self: 'RValueSingle') -> 'Boolean':
         return self.boolean_literal_field
 
+    def SetByteLiteral(self: 'RValueSingle',input_value: 'Byte') -> 'None':
+        self.byte_literal_field = input_value
+
+    def GetByteLiteral(self: 'RValueSingle') -> 'Byte':
+        return self.byte_literal_field
+
     def SetCall(self: 'RValueSingle',input_value: 'Call') -> 'None':
         self.call_field = input_value
 
     def GetCall(self: 'RValueSingle') -> 'Call':
         return self.call_field
 
+    def SetDecimalLiteral(self: 'RValueSingle',input_value: 'Decimal') -> 'None':
+        self.decimal_literal_field = input_value
+
+    def GetDecimalLiteral(self: 'RValueSingle') -> 'Decimal':
+        return self.decimal_literal_field
+
+    def SetIntegerLiteral(self: 'RValueSingle',input_value: 'Number') -> 'None':
+        self.integer_literal_field = input_value
+
+    def GetIntegerLiteral(self: 'RValueSingle') -> 'Number':
+        return self.integer_literal_field
+
+    def SetStringLiteral(self: 'RValueSingle',input_value: 'Literal') -> 'None':
+        self.string_literal_field = input_value
+
+    def GetStringLiteral(self: 'RValueSingle') -> 'Literal':
+        return self.string_literal_field
+
     def SetUnaryOperator(self: 'RValueSingle',input_value: 'UnaryOperator') -> 'None':
         self.unary_operator_field = input_value
 
     def GetUnaryOperator(self: 'RValueSingle') -> 'UnaryOperator':
         return self.unary_operator_field
+
+    def SetVariable(self: 'RValueSingle',input_value: 'QualfiedName') -> 'None':
+        self.variable_field = input_value
+
+    def GetVariable(self: 'RValueSingle') -> 'QualfiedName':
+        return self.variable_field
 
 class RValueTailParser:
     def __init__(self: 'RValueTailParser'):
@@ -8312,9 +8312,9 @@ class RValueTailParser:
         consumed_string.SetStart(index.GetStart())
         consumed_string.SetLength(0)
         instance: 'RValueTail' = RValueTail()
+        binary_operator_field: 'BinaryOperatorResult' = BinaryOperatorResult()
         tail_field: 'RValueTailResult' = RValueTailResult()
         value_field: 'RValueSingleResult' = RValueSingleResult()
-        binary_operator_field: 'BinaryOperatorResult' = BinaryOperatorResult()
         c_t_code_file_parser_instance: 'CTCodeFileParser' = self.parser_network.GetCTCodeFileParser()
         external_definition_parser_instance: 'ExternalDefinitionParser' = self.parser_network.GetExternalDefinitionParser()
         unmanaged_type_parser_instance: 'UnmanagedTypeParser' = self.parser_network.GetUnmanagedTypeParser()
@@ -8372,9 +8372,9 @@ class RValueTailParser:
         character_parser_instance: 'CharacterParser' = self.parser_network.GetCharacterParser()
         character_range_parser_instance: 'CharacterRangeParser' = self.parser_network.GetCharacterRangeParser()
         if True and whitespace_parser_instance.ParseMany(index,0,-1) and binary_operator_parser_instance.ParseSingleSave(index,binary_operator_field) and whitespace_parser_instance.ParseMany(index,0,-1) and r_value_single_parser_instance.ParseSingleSave(index,value_field) and whitespace_parser_instance.ParseMany(index,0,-1) and r_value_tail_parser_instance.ParseOptionalSave(index,tail_field):
+            instance.SetBinaryOperator(binary_operator_field.GetValue())
             instance.SetTail(tail_field.GetValue())
             instance.SetValue(value_field.GetValue())
-            instance.SetBinaryOperator(binary_operator_field.GetValue())
             consumed_string.SetLength(index.GetStart()-index_start)
             instance.SetLengthString(consumed_string)
             result.SetValue(instance)
@@ -8383,9 +8383,9 @@ class RValueTailParser:
         else:
             index.SetStart(index_start)
             index.SetLength(index_length)
+            binary_operator_field = BinaryOperatorResult()
             tail_field = RValueTailResult()
             value_field = RValueSingleResult()
-            binary_operator_field = BinaryOperatorResult()
         result.SetResult(False)
         return result.GetResult()
 
@@ -8470,9 +8470,9 @@ class RValueTailListResult:
 class RValueTail:
     def __init__(self: 'RValueTail'):
         self.length_string: LengthString = None
+        self.binary_operator_field: BinaryOperator = None
         self.tail_field: RValueTail = None
         self.value_field: RValueSingle = None
-        self.binary_operator_field: BinaryOperator = None
 
     def SetLengthString(self: 'RValueTail',new_value: 'LengthString') -> 'None':
         self.length_string = LengthString()
@@ -8482,6 +8482,12 @@ class RValueTail:
 
     def UnParse(self: 'RValueTail') -> 'str':
         return self.length_string.GetString()
+
+    def SetBinaryOperator(self: 'RValueTail',input_value: 'BinaryOperator') -> 'None':
+        self.binary_operator_field = input_value
+
+    def GetBinaryOperator(self: 'RValueTail') -> 'BinaryOperator':
+        return self.binary_operator_field
 
     def SetTail(self: 'RValueTail',input_value: 'RValueTail') -> 'None':
         self.tail_field = input_value
@@ -8494,12 +8500,6 @@ class RValueTail:
 
     def GetValue(self: 'RValueTail') -> 'RValueSingle':
         return self.value_field
-
-    def SetBinaryOperator(self: 'RValueTail',input_value: 'BinaryOperator') -> 'None':
-        self.binary_operator_field = input_value
-
-    def GetBinaryOperator(self: 'RValueTail') -> 'BinaryOperator':
-        return self.binary_operator_field
 
 class RValueParser:
     def __init__(self: 'RValueParser'):
@@ -8710,16 +8710,16 @@ class BinaryOperatorParser:
         consumed_string.SetStart(index.GetStart())
         consumed_string.SetLength(0)
         instance: 'BinaryOperator' = BinaryOperator()
+        addition_field: 'StringResult' = StringResult()
         and_op_field: 'StringResult' = StringResult()
-        not_equality_field: 'StringResult' = StringResult()
-        or_op_field: 'StringResult' = StringResult()
-        greater_than_field: 'StringResult' = StringResult()
-        less_than_field: 'StringResult' = StringResult()
         equality_field: 'StringResult' = StringResult()
         greater_than_eq_field: 'StringResult' = StringResult()
+        greater_than_field: 'StringResult' = StringResult()
         less_than_eq_field: 'StringResult' = StringResult()
+        less_than_field: 'StringResult' = StringResult()
+        not_equality_field: 'StringResult' = StringResult()
+        or_op_field: 'StringResult' = StringResult()
         subtraction_field: 'StringResult' = StringResult()
-        addition_field: 'StringResult' = StringResult()
         c_t_code_file_parser_instance: 'CTCodeFileParser' = self.parser_network.GetCTCodeFileParser()
         external_definition_parser_instance: 'ExternalDefinitionParser' = self.parser_network.GetExternalDefinitionParser()
         unmanaged_type_parser_instance: 'UnmanagedTypeParser' = self.parser_network.GetUnmanagedTypeParser()
@@ -8777,16 +8777,16 @@ class BinaryOperatorParser:
         character_parser_instance: 'CharacterParser' = self.parser_network.GetCharacterParser()
         character_range_parser_instance: 'CharacterRangeParser' = self.parser_network.GetCharacterRangeParser()
         if True and string_parser_instance.ParseSingleSave(index,"+",addition_field):
+            instance.SetAddition(addition_field.GetValue())
             instance.SetAndOp(and_op_field.GetValue())
-            instance.SetNotEquality(not_equality_field.GetValue())
-            instance.SetOrOp(or_op_field.GetValue())
-            instance.SetGreaterThan(greater_than_field.GetValue())
-            instance.SetLessThan(less_than_field.GetValue())
             instance.SetEquality(equality_field.GetValue())
             instance.SetGreaterThanEq(greater_than_eq_field.GetValue())
+            instance.SetGreaterThan(greater_than_field.GetValue())
             instance.SetLessThanEq(less_than_eq_field.GetValue())
+            instance.SetLessThan(less_than_field.GetValue())
+            instance.SetNotEquality(not_equality_field.GetValue())
+            instance.SetOrOp(or_op_field.GetValue())
             instance.SetSubtraction(subtraction_field.GetValue())
-            instance.SetAddition(addition_field.GetValue())
             consumed_string.SetLength(index.GetStart()-index_start)
             instance.SetLengthString(consumed_string)
             result.SetValue(instance)
@@ -8795,27 +8795,27 @@ class BinaryOperatorParser:
         else:
             index.SetStart(index_start)
             index.SetLength(index_length)
+            addition_field = StringResult()
             and_op_field = StringResult()
-            not_equality_field = StringResult()
-            or_op_field = StringResult()
-            greater_than_field = StringResult()
-            less_than_field = StringResult()
             equality_field = StringResult()
             greater_than_eq_field = StringResult()
+            greater_than_field = StringResult()
             less_than_eq_field = StringResult()
+            less_than_field = StringResult()
+            not_equality_field = StringResult()
+            or_op_field = StringResult()
             subtraction_field = StringResult()
-            addition_field = StringResult()
         if True and string_parser_instance.ParseSingleSave(index,"-",subtraction_field):
+            instance.SetAddition(addition_field.GetValue())
             instance.SetAndOp(and_op_field.GetValue())
-            instance.SetNotEquality(not_equality_field.GetValue())
-            instance.SetOrOp(or_op_field.GetValue())
-            instance.SetGreaterThan(greater_than_field.GetValue())
-            instance.SetLessThan(less_than_field.GetValue())
             instance.SetEquality(equality_field.GetValue())
             instance.SetGreaterThanEq(greater_than_eq_field.GetValue())
+            instance.SetGreaterThan(greater_than_field.GetValue())
             instance.SetLessThanEq(less_than_eq_field.GetValue())
+            instance.SetLessThan(less_than_field.GetValue())
+            instance.SetNotEquality(not_equality_field.GetValue())
+            instance.SetOrOp(or_op_field.GetValue())
             instance.SetSubtraction(subtraction_field.GetValue())
-            instance.SetAddition(addition_field.GetValue())
             consumed_string.SetLength(index.GetStart()-index_start)
             instance.SetLengthString(consumed_string)
             result.SetValue(instance)
@@ -8824,27 +8824,27 @@ class BinaryOperatorParser:
         else:
             index.SetStart(index_start)
             index.SetLength(index_length)
+            addition_field = StringResult()
             and_op_field = StringResult()
-            not_equality_field = StringResult()
-            or_op_field = StringResult()
-            greater_than_field = StringResult()
-            less_than_field = StringResult()
             equality_field = StringResult()
             greater_than_eq_field = StringResult()
+            greater_than_field = StringResult()
             less_than_eq_field = StringResult()
+            less_than_field = StringResult()
+            not_equality_field = StringResult()
+            or_op_field = StringResult()
             subtraction_field = StringResult()
-            addition_field = StringResult()
         if True and string_parser_instance.ParseSingleSave(index,"<=",less_than_eq_field):
+            instance.SetAddition(addition_field.GetValue())
             instance.SetAndOp(and_op_field.GetValue())
-            instance.SetNotEquality(not_equality_field.GetValue())
-            instance.SetOrOp(or_op_field.GetValue())
-            instance.SetGreaterThan(greater_than_field.GetValue())
-            instance.SetLessThan(less_than_field.GetValue())
             instance.SetEquality(equality_field.GetValue())
             instance.SetGreaterThanEq(greater_than_eq_field.GetValue())
+            instance.SetGreaterThan(greater_than_field.GetValue())
             instance.SetLessThanEq(less_than_eq_field.GetValue())
+            instance.SetLessThan(less_than_field.GetValue())
+            instance.SetNotEquality(not_equality_field.GetValue())
+            instance.SetOrOp(or_op_field.GetValue())
             instance.SetSubtraction(subtraction_field.GetValue())
-            instance.SetAddition(addition_field.GetValue())
             consumed_string.SetLength(index.GetStart()-index_start)
             instance.SetLengthString(consumed_string)
             result.SetValue(instance)
@@ -8853,27 +8853,27 @@ class BinaryOperatorParser:
         else:
             index.SetStart(index_start)
             index.SetLength(index_length)
+            addition_field = StringResult()
             and_op_field = StringResult()
-            not_equality_field = StringResult()
-            or_op_field = StringResult()
-            greater_than_field = StringResult()
-            less_than_field = StringResult()
             equality_field = StringResult()
             greater_than_eq_field = StringResult()
+            greater_than_field = StringResult()
             less_than_eq_field = StringResult()
+            less_than_field = StringResult()
+            not_equality_field = StringResult()
+            or_op_field = StringResult()
             subtraction_field = StringResult()
-            addition_field = StringResult()
         if True and string_parser_instance.ParseSingleSave(index,">=",greater_than_eq_field):
+            instance.SetAddition(addition_field.GetValue())
             instance.SetAndOp(and_op_field.GetValue())
-            instance.SetNotEquality(not_equality_field.GetValue())
-            instance.SetOrOp(or_op_field.GetValue())
-            instance.SetGreaterThan(greater_than_field.GetValue())
-            instance.SetLessThan(less_than_field.GetValue())
             instance.SetEquality(equality_field.GetValue())
             instance.SetGreaterThanEq(greater_than_eq_field.GetValue())
+            instance.SetGreaterThan(greater_than_field.GetValue())
             instance.SetLessThanEq(less_than_eq_field.GetValue())
+            instance.SetLessThan(less_than_field.GetValue())
+            instance.SetNotEquality(not_equality_field.GetValue())
+            instance.SetOrOp(or_op_field.GetValue())
             instance.SetSubtraction(subtraction_field.GetValue())
-            instance.SetAddition(addition_field.GetValue())
             consumed_string.SetLength(index.GetStart()-index_start)
             instance.SetLengthString(consumed_string)
             result.SetValue(instance)
@@ -8882,27 +8882,27 @@ class BinaryOperatorParser:
         else:
             index.SetStart(index_start)
             index.SetLength(index_length)
+            addition_field = StringResult()
             and_op_field = StringResult()
-            not_equality_field = StringResult()
-            or_op_field = StringResult()
-            greater_than_field = StringResult()
-            less_than_field = StringResult()
             equality_field = StringResult()
             greater_than_eq_field = StringResult()
+            greater_than_field = StringResult()
             less_than_eq_field = StringResult()
+            less_than_field = StringResult()
+            not_equality_field = StringResult()
+            or_op_field = StringResult()
             subtraction_field = StringResult()
-            addition_field = StringResult()
         if True and string_parser_instance.ParseSingleSave(index,"==",equality_field):
+            instance.SetAddition(addition_field.GetValue())
             instance.SetAndOp(and_op_field.GetValue())
-            instance.SetNotEquality(not_equality_field.GetValue())
-            instance.SetOrOp(or_op_field.GetValue())
-            instance.SetGreaterThan(greater_than_field.GetValue())
-            instance.SetLessThan(less_than_field.GetValue())
             instance.SetEquality(equality_field.GetValue())
             instance.SetGreaterThanEq(greater_than_eq_field.GetValue())
+            instance.SetGreaterThan(greater_than_field.GetValue())
             instance.SetLessThanEq(less_than_eq_field.GetValue())
+            instance.SetLessThan(less_than_field.GetValue())
+            instance.SetNotEquality(not_equality_field.GetValue())
+            instance.SetOrOp(or_op_field.GetValue())
             instance.SetSubtraction(subtraction_field.GetValue())
-            instance.SetAddition(addition_field.GetValue())
             consumed_string.SetLength(index.GetStart()-index_start)
             instance.SetLengthString(consumed_string)
             result.SetValue(instance)
@@ -8911,27 +8911,27 @@ class BinaryOperatorParser:
         else:
             index.SetStart(index_start)
             index.SetLength(index_length)
+            addition_field = StringResult()
             and_op_field = StringResult()
-            not_equality_field = StringResult()
-            or_op_field = StringResult()
-            greater_than_field = StringResult()
-            less_than_field = StringResult()
             equality_field = StringResult()
             greater_than_eq_field = StringResult()
+            greater_than_field = StringResult()
             less_than_eq_field = StringResult()
+            less_than_field = StringResult()
+            not_equality_field = StringResult()
+            or_op_field = StringResult()
             subtraction_field = StringResult()
-            addition_field = StringResult()
         if True and string_parser_instance.ParseSingleSave(index,"!=",not_equality_field):
+            instance.SetAddition(addition_field.GetValue())
             instance.SetAndOp(and_op_field.GetValue())
-            instance.SetNotEquality(not_equality_field.GetValue())
-            instance.SetOrOp(or_op_field.GetValue())
-            instance.SetGreaterThan(greater_than_field.GetValue())
-            instance.SetLessThan(less_than_field.GetValue())
             instance.SetEquality(equality_field.GetValue())
             instance.SetGreaterThanEq(greater_than_eq_field.GetValue())
+            instance.SetGreaterThan(greater_than_field.GetValue())
             instance.SetLessThanEq(less_than_eq_field.GetValue())
+            instance.SetLessThan(less_than_field.GetValue())
+            instance.SetNotEquality(not_equality_field.GetValue())
+            instance.SetOrOp(or_op_field.GetValue())
             instance.SetSubtraction(subtraction_field.GetValue())
-            instance.SetAddition(addition_field.GetValue())
             consumed_string.SetLength(index.GetStart()-index_start)
             instance.SetLengthString(consumed_string)
             result.SetValue(instance)
@@ -8940,27 +8940,27 @@ class BinaryOperatorParser:
         else:
             index.SetStart(index_start)
             index.SetLength(index_length)
+            addition_field = StringResult()
             and_op_field = StringResult()
-            not_equality_field = StringResult()
-            or_op_field = StringResult()
-            greater_than_field = StringResult()
-            less_than_field = StringResult()
             equality_field = StringResult()
             greater_than_eq_field = StringResult()
+            greater_than_field = StringResult()
             less_than_eq_field = StringResult()
+            less_than_field = StringResult()
+            not_equality_field = StringResult()
+            or_op_field = StringResult()
             subtraction_field = StringResult()
-            addition_field = StringResult()
         if True and string_parser_instance.ParseSingleSave(index,"<",less_than_field):
+            instance.SetAddition(addition_field.GetValue())
             instance.SetAndOp(and_op_field.GetValue())
-            instance.SetNotEquality(not_equality_field.GetValue())
-            instance.SetOrOp(or_op_field.GetValue())
-            instance.SetGreaterThan(greater_than_field.GetValue())
-            instance.SetLessThan(less_than_field.GetValue())
             instance.SetEquality(equality_field.GetValue())
             instance.SetGreaterThanEq(greater_than_eq_field.GetValue())
+            instance.SetGreaterThan(greater_than_field.GetValue())
             instance.SetLessThanEq(less_than_eq_field.GetValue())
+            instance.SetLessThan(less_than_field.GetValue())
+            instance.SetNotEquality(not_equality_field.GetValue())
+            instance.SetOrOp(or_op_field.GetValue())
             instance.SetSubtraction(subtraction_field.GetValue())
-            instance.SetAddition(addition_field.GetValue())
             consumed_string.SetLength(index.GetStart()-index_start)
             instance.SetLengthString(consumed_string)
             result.SetValue(instance)
@@ -8969,27 +8969,27 @@ class BinaryOperatorParser:
         else:
             index.SetStart(index_start)
             index.SetLength(index_length)
+            addition_field = StringResult()
             and_op_field = StringResult()
-            not_equality_field = StringResult()
-            or_op_field = StringResult()
-            greater_than_field = StringResult()
-            less_than_field = StringResult()
             equality_field = StringResult()
             greater_than_eq_field = StringResult()
+            greater_than_field = StringResult()
             less_than_eq_field = StringResult()
+            less_than_field = StringResult()
+            not_equality_field = StringResult()
+            or_op_field = StringResult()
             subtraction_field = StringResult()
-            addition_field = StringResult()
         if True and string_parser_instance.ParseSingleSave(index,">",greater_than_field):
+            instance.SetAddition(addition_field.GetValue())
             instance.SetAndOp(and_op_field.GetValue())
-            instance.SetNotEquality(not_equality_field.GetValue())
-            instance.SetOrOp(or_op_field.GetValue())
-            instance.SetGreaterThan(greater_than_field.GetValue())
-            instance.SetLessThan(less_than_field.GetValue())
             instance.SetEquality(equality_field.GetValue())
             instance.SetGreaterThanEq(greater_than_eq_field.GetValue())
+            instance.SetGreaterThan(greater_than_field.GetValue())
             instance.SetLessThanEq(less_than_eq_field.GetValue())
+            instance.SetLessThan(less_than_field.GetValue())
+            instance.SetNotEquality(not_equality_field.GetValue())
+            instance.SetOrOp(or_op_field.GetValue())
             instance.SetSubtraction(subtraction_field.GetValue())
-            instance.SetAddition(addition_field.GetValue())
             consumed_string.SetLength(index.GetStart()-index_start)
             instance.SetLengthString(consumed_string)
             result.SetValue(instance)
@@ -8998,27 +8998,27 @@ class BinaryOperatorParser:
         else:
             index.SetStart(index_start)
             index.SetLength(index_length)
+            addition_field = StringResult()
             and_op_field = StringResult()
-            not_equality_field = StringResult()
-            or_op_field = StringResult()
-            greater_than_field = StringResult()
-            less_than_field = StringResult()
             equality_field = StringResult()
             greater_than_eq_field = StringResult()
+            greater_than_field = StringResult()
             less_than_eq_field = StringResult()
+            less_than_field = StringResult()
+            not_equality_field = StringResult()
+            or_op_field = StringResult()
             subtraction_field = StringResult()
-            addition_field = StringResult()
         if True and string_parser_instance.ParseSingleSave(index,"||",or_op_field):
+            instance.SetAddition(addition_field.GetValue())
             instance.SetAndOp(and_op_field.GetValue())
-            instance.SetNotEquality(not_equality_field.GetValue())
-            instance.SetOrOp(or_op_field.GetValue())
-            instance.SetGreaterThan(greater_than_field.GetValue())
-            instance.SetLessThan(less_than_field.GetValue())
             instance.SetEquality(equality_field.GetValue())
             instance.SetGreaterThanEq(greater_than_eq_field.GetValue())
+            instance.SetGreaterThan(greater_than_field.GetValue())
             instance.SetLessThanEq(less_than_eq_field.GetValue())
+            instance.SetLessThan(less_than_field.GetValue())
+            instance.SetNotEquality(not_equality_field.GetValue())
+            instance.SetOrOp(or_op_field.GetValue())
             instance.SetSubtraction(subtraction_field.GetValue())
-            instance.SetAddition(addition_field.GetValue())
             consumed_string.SetLength(index.GetStart()-index_start)
             instance.SetLengthString(consumed_string)
             result.SetValue(instance)
@@ -9027,27 +9027,27 @@ class BinaryOperatorParser:
         else:
             index.SetStart(index_start)
             index.SetLength(index_length)
+            addition_field = StringResult()
             and_op_field = StringResult()
-            not_equality_field = StringResult()
-            or_op_field = StringResult()
-            greater_than_field = StringResult()
-            less_than_field = StringResult()
             equality_field = StringResult()
             greater_than_eq_field = StringResult()
+            greater_than_field = StringResult()
             less_than_eq_field = StringResult()
+            less_than_field = StringResult()
+            not_equality_field = StringResult()
+            or_op_field = StringResult()
             subtraction_field = StringResult()
-            addition_field = StringResult()
         if True and string_parser_instance.ParseSingleSave(index,"&&",and_op_field):
+            instance.SetAddition(addition_field.GetValue())
             instance.SetAndOp(and_op_field.GetValue())
-            instance.SetNotEquality(not_equality_field.GetValue())
-            instance.SetOrOp(or_op_field.GetValue())
-            instance.SetGreaterThan(greater_than_field.GetValue())
-            instance.SetLessThan(less_than_field.GetValue())
             instance.SetEquality(equality_field.GetValue())
             instance.SetGreaterThanEq(greater_than_eq_field.GetValue())
+            instance.SetGreaterThan(greater_than_field.GetValue())
             instance.SetLessThanEq(less_than_eq_field.GetValue())
+            instance.SetLessThan(less_than_field.GetValue())
+            instance.SetNotEquality(not_equality_field.GetValue())
+            instance.SetOrOp(or_op_field.GetValue())
             instance.SetSubtraction(subtraction_field.GetValue())
-            instance.SetAddition(addition_field.GetValue())
             consumed_string.SetLength(index.GetStart()-index_start)
             instance.SetLengthString(consumed_string)
             result.SetValue(instance)
@@ -9056,16 +9056,16 @@ class BinaryOperatorParser:
         else:
             index.SetStart(index_start)
             index.SetLength(index_length)
+            addition_field = StringResult()
             and_op_field = StringResult()
-            not_equality_field = StringResult()
-            or_op_field = StringResult()
-            greater_than_field = StringResult()
-            less_than_field = StringResult()
             equality_field = StringResult()
             greater_than_eq_field = StringResult()
+            greater_than_field = StringResult()
             less_than_eq_field = StringResult()
+            less_than_field = StringResult()
+            not_equality_field = StringResult()
+            or_op_field = StringResult()
             subtraction_field = StringResult()
-            addition_field = StringResult()
         result.SetResult(False)
         return result.GetResult()
 
@@ -9150,16 +9150,16 @@ class BinaryOperatorListResult:
 class BinaryOperator:
     def __init__(self: 'BinaryOperator'):
         self.length_string: LengthString = None
+        self.addition_field: String = None
         self.and_op_field: String = None
-        self.not_equality_field: String = None
-        self.or_op_field: String = None
-        self.greater_than_field: String = None
-        self.less_than_field: String = None
         self.equality_field: String = None
         self.greater_than_eq_field: String = None
+        self.greater_than_field: String = None
         self.less_than_eq_field: String = None
+        self.less_than_field: String = None
+        self.not_equality_field: String = None
+        self.or_op_field: String = None
         self.subtraction_field: String = None
-        self.addition_field: String = None
 
     def SetLengthString(self: 'BinaryOperator',new_value: 'LengthString') -> 'None':
         self.length_string = LengthString()
@@ -9170,35 +9170,17 @@ class BinaryOperator:
     def UnParse(self: 'BinaryOperator') -> 'str':
         return self.length_string.GetString()
 
+    def SetAddition(self: 'BinaryOperator',input_value: 'String') -> 'None':
+        self.addition_field = input_value
+
+    def GetAddition(self: 'BinaryOperator') -> 'String':
+        return self.addition_field
+
     def SetAndOp(self: 'BinaryOperator',input_value: 'String') -> 'None':
         self.and_op_field = input_value
 
     def GetAndOp(self: 'BinaryOperator') -> 'String':
         return self.and_op_field
-
-    def SetNotEquality(self: 'BinaryOperator',input_value: 'String') -> 'None':
-        self.not_equality_field = input_value
-
-    def GetNotEquality(self: 'BinaryOperator') -> 'String':
-        return self.not_equality_field
-
-    def SetOrOp(self: 'BinaryOperator',input_value: 'String') -> 'None':
-        self.or_op_field = input_value
-
-    def GetOrOp(self: 'BinaryOperator') -> 'String':
-        return self.or_op_field
-
-    def SetGreaterThan(self: 'BinaryOperator',input_value: 'String') -> 'None':
-        self.greater_than_field = input_value
-
-    def GetGreaterThan(self: 'BinaryOperator') -> 'String':
-        return self.greater_than_field
-
-    def SetLessThan(self: 'BinaryOperator',input_value: 'String') -> 'None':
-        self.less_than_field = input_value
-
-    def GetLessThan(self: 'BinaryOperator') -> 'String':
-        return self.less_than_field
 
     def SetEquality(self: 'BinaryOperator',input_value: 'String') -> 'None':
         self.equality_field = input_value
@@ -9212,23 +9194,41 @@ class BinaryOperator:
     def GetGreaterThanEq(self: 'BinaryOperator') -> 'String':
         return self.greater_than_eq_field
 
+    def SetGreaterThan(self: 'BinaryOperator',input_value: 'String') -> 'None':
+        self.greater_than_field = input_value
+
+    def GetGreaterThan(self: 'BinaryOperator') -> 'String':
+        return self.greater_than_field
+
     def SetLessThanEq(self: 'BinaryOperator',input_value: 'String') -> 'None':
         self.less_than_eq_field = input_value
 
     def GetLessThanEq(self: 'BinaryOperator') -> 'String':
         return self.less_than_eq_field
 
+    def SetLessThan(self: 'BinaryOperator',input_value: 'String') -> 'None':
+        self.less_than_field = input_value
+
+    def GetLessThan(self: 'BinaryOperator') -> 'String':
+        return self.less_than_field
+
+    def SetNotEquality(self: 'BinaryOperator',input_value: 'String') -> 'None':
+        self.not_equality_field = input_value
+
+    def GetNotEquality(self: 'BinaryOperator') -> 'String':
+        return self.not_equality_field
+
+    def SetOrOp(self: 'BinaryOperator',input_value: 'String') -> 'None':
+        self.or_op_field = input_value
+
+    def GetOrOp(self: 'BinaryOperator') -> 'String':
+        return self.or_op_field
+
     def SetSubtraction(self: 'BinaryOperator',input_value: 'String') -> 'None':
         self.subtraction_field = input_value
 
     def GetSubtraction(self: 'BinaryOperator') -> 'String':
         return self.subtraction_field
-
-    def SetAddition(self: 'BinaryOperator',input_value: 'String') -> 'None':
-        self.addition_field = input_value
-
-    def GetAddition(self: 'BinaryOperator') -> 'String':
-        return self.addition_field
 
 class UnaryOperatorParser:
     def __init__(self: 'UnaryOperatorParser'):
@@ -10162,8 +10162,8 @@ class QualfiedNameParser:
         consumed_string.SetStart(index.GetStart())
         consumed_string.SetLength(0)
         instance: 'QualfiedName' = QualfiedName()
-        tail_field: 'NameTailResult' = NameTailResult()
         name_field: 'NameResult' = NameResult()
+        tail_field: 'NameTailResult' = NameTailResult()
         c_t_code_file_parser_instance: 'CTCodeFileParser' = self.parser_network.GetCTCodeFileParser()
         external_definition_parser_instance: 'ExternalDefinitionParser' = self.parser_network.GetExternalDefinitionParser()
         unmanaged_type_parser_instance: 'UnmanagedTypeParser' = self.parser_network.GetUnmanagedTypeParser()
@@ -10221,8 +10221,8 @@ class QualfiedNameParser:
         character_parser_instance: 'CharacterParser' = self.parser_network.GetCharacterParser()
         character_range_parser_instance: 'CharacterRangeParser' = self.parser_network.GetCharacterRangeParser()
         if True and name_parser_instance.ParseSingleSave(index,name_field) and name_tail_parser_instance.ParseOptionalSave(index,tail_field):
-            instance.SetTail(tail_field.GetValue())
             instance.SetName(name_field.GetValue())
+            instance.SetTail(tail_field.GetValue())
             consumed_string.SetLength(index.GetStart()-index_start)
             instance.SetLengthString(consumed_string)
             result.SetValue(instance)
@@ -10231,8 +10231,8 @@ class QualfiedNameParser:
         else:
             index.SetStart(index_start)
             index.SetLength(index_length)
-            tail_field = NameTailResult()
             name_field = NameResult()
+            tail_field = NameTailResult()
         result.SetResult(False)
         return result.GetResult()
 
@@ -10317,8 +10317,8 @@ class QualfiedNameListResult:
 class QualfiedName:
     def __init__(self: 'QualfiedName'):
         self.length_string: LengthString = None
-        self.tail_field: NameTail = None
         self.name_field: Name = None
+        self.tail_field: NameTail = None
 
     def SetLengthString(self: 'QualfiedName',new_value: 'LengthString') -> 'None':
         self.length_string = LengthString()
@@ -10329,17 +10329,17 @@ class QualfiedName:
     def UnParse(self: 'QualfiedName') -> 'str':
         return self.length_string.GetString()
 
-    def SetTail(self: 'QualfiedName',input_value: 'NameTail') -> 'None':
-        self.tail_field = input_value
-
-    def GetTail(self: 'QualfiedName') -> 'NameTail':
-        return self.tail_field
-
     def SetName(self: 'QualfiedName',input_value: 'Name') -> 'None':
         self.name_field = input_value
 
     def GetName(self: 'QualfiedName') -> 'Name':
         return self.name_field
+
+    def SetTail(self: 'QualfiedName',input_value: 'NameTail') -> 'None':
+        self.tail_field = input_value
+
+    def GetTail(self: 'QualfiedName') -> 'NameTail':
+        return self.tail_field
 
 class NameTailParser:
     def __init__(self: 'NameTailParser'):
@@ -10356,8 +10356,8 @@ class NameTailParser:
         consumed_string.SetStart(index.GetStart())
         consumed_string.SetLength(0)
         instance: 'NameTail' = NameTail()
-        tail_field: 'NameTailResult' = NameTailResult()
         name_field: 'NameResult' = NameResult()
+        tail_field: 'NameTailResult' = NameTailResult()
         c_t_code_file_parser_instance: 'CTCodeFileParser' = self.parser_network.GetCTCodeFileParser()
         external_definition_parser_instance: 'ExternalDefinitionParser' = self.parser_network.GetExternalDefinitionParser()
         unmanaged_type_parser_instance: 'UnmanagedTypeParser' = self.parser_network.GetUnmanagedTypeParser()
@@ -10415,8 +10415,8 @@ class NameTailParser:
         character_parser_instance: 'CharacterParser' = self.parser_network.GetCharacterParser()
         character_range_parser_instance: 'CharacterRangeParser' = self.parser_network.GetCharacterRangeParser()
         if True and string_parser_instance.ParseSingle(index,".") and name_parser_instance.ParseSingleSave(index,name_field) and name_tail_parser_instance.ParseOptionalSave(index,tail_field):
-            instance.SetTail(tail_field.GetValue())
             instance.SetName(name_field.GetValue())
+            instance.SetTail(tail_field.GetValue())
             consumed_string.SetLength(index.GetStart()-index_start)
             instance.SetLengthString(consumed_string)
             result.SetValue(instance)
@@ -10425,8 +10425,8 @@ class NameTailParser:
         else:
             index.SetStart(index_start)
             index.SetLength(index_length)
-            tail_field = NameTailResult()
             name_field = NameResult()
+            tail_field = NameTailResult()
         result.SetResult(False)
         return result.GetResult()
 
@@ -10511,8 +10511,8 @@ class NameTailListResult:
 class NameTail:
     def __init__(self: 'NameTail'):
         self.length_string: LengthString = None
-        self.tail_field: NameTail = None
         self.name_field: Name = None
+        self.tail_field: NameTail = None
 
     def SetLengthString(self: 'NameTail',new_value: 'LengthString') -> 'None':
         self.length_string = LengthString()
@@ -10523,17 +10523,17 @@ class NameTail:
     def UnParse(self: 'NameTail') -> 'str':
         return self.length_string.GetString()
 
-    def SetTail(self: 'NameTail',input_value: 'NameTail') -> 'None':
-        self.tail_field = input_value
-
-    def GetTail(self: 'NameTail') -> 'NameTail':
-        return self.tail_field
-
     def SetName(self: 'NameTail',input_value: 'Name') -> 'None':
         self.name_field = input_value
 
     def GetName(self: 'NameTail') -> 'Name':
         return self.name_field
+
+    def SetTail(self: 'NameTail',input_value: 'NameTail') -> 'None':
+        self.tail_field = input_value
+
+    def GetTail(self: 'NameTail') -> 'NameTail':
+        return self.tail_field
 
 class NameParser:
     def __init__(self: 'NameParser'):
@@ -11108,8 +11108,8 @@ class ByteParser:
         consumed_string.SetStart(index.GetStart())
         consumed_string.SetLength(0)
         instance: 'Byte' = Byte()
-        low_field: 'ByteDigitResult' = ByteDigitResult()
         high_field: 'ByteDigitResult' = ByteDigitResult()
+        low_field: 'ByteDigitResult' = ByteDigitResult()
         c_t_code_file_parser_instance: 'CTCodeFileParser' = self.parser_network.GetCTCodeFileParser()
         external_definition_parser_instance: 'ExternalDefinitionParser' = self.parser_network.GetExternalDefinitionParser()
         unmanaged_type_parser_instance: 'UnmanagedTypeParser' = self.parser_network.GetUnmanagedTypeParser()
@@ -11167,8 +11167,8 @@ class ByteParser:
         character_parser_instance: 'CharacterParser' = self.parser_network.GetCharacterParser()
         character_range_parser_instance: 'CharacterRangeParser' = self.parser_network.GetCharacterRangeParser()
         if True and string_parser_instance.ParseSingle(index,"0x") and byte_digit_parser_instance.ParseSingleSave(index,high_field) and byte_digit_parser_instance.ParseSingleSave(index,low_field):
-            instance.SetLow(low_field.GetValue())
             instance.SetHigh(high_field.GetValue())
+            instance.SetLow(low_field.GetValue())
             consumed_string.SetLength(index.GetStart()-index_start)
             instance.SetLengthString(consumed_string)
             result.SetValue(instance)
@@ -11177,8 +11177,8 @@ class ByteParser:
         else:
             index.SetStart(index_start)
             index.SetLength(index_length)
-            low_field = ByteDigitResult()
             high_field = ByteDigitResult()
+            low_field = ByteDigitResult()
         result.SetResult(False)
         return result.GetResult()
 
@@ -11263,8 +11263,8 @@ class ByteListResult:
 class Byte:
     def __init__(self: 'Byte'):
         self.length_string: LengthString = None
-        self.low_field: ByteDigit = None
         self.high_field: ByteDigit = None
+        self.low_field: ByteDigit = None
 
     def SetLengthString(self: 'Byte',new_value: 'LengthString') -> 'None':
         self.length_string = LengthString()
@@ -11275,17 +11275,17 @@ class Byte:
     def UnParse(self: 'Byte') -> 'str':
         return self.length_string.GetString()
 
-    def SetLow(self: 'Byte',input_value: 'ByteDigit') -> 'None':
-        self.low_field = input_value
-
-    def GetLow(self: 'Byte') -> 'ByteDigit':
-        return self.low_field
-
     def SetHigh(self: 'Byte',input_value: 'ByteDigit') -> 'None':
         self.high_field = input_value
 
     def GetHigh(self: 'Byte') -> 'ByteDigit':
         return self.high_field
+
+    def SetLow(self: 'Byte',input_value: 'ByteDigit') -> 'None':
+        self.low_field = input_value
+
+    def GetLow(self: 'Byte') -> 'ByteDigit':
+        return self.low_field
 
 class ByteDigitParser:
     def __init__(self: 'ByteDigitParser'):
