@@ -24,7 +24,7 @@ class System {
 
 function main() {
     var system = new System();
-    main = new S84_CTCode_Main_ctcode.Main();
+    var main = new S84_CTCode_Main_ctcode.Main();
     var c_t_code_file_name = "";
     var transpiler_name = "";
 
