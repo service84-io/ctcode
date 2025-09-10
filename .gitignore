@@ -1,3 +1,5 @@
-ctcode
+/ctcode
 .vscode
 __pycache__
+*.class
+*.jar

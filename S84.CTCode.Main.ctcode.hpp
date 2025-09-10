@@ -6,6 +6,7 @@
 #include "S84.CTCode.Transpiler.CPPTranspiler.ctcode.hpp"
 #include "S84.CTCode.Transpiler.Python3Transpiler.ctcode.hpp"
 #include "S84.CTCode.Transpiler.NodeJSTranspiler.ctcode.hpp"
+#include "S84.CTCode.Transpiler.Java11Transpiler.ctcode.hpp"
 #include "S84.CTCode.Transpiler.LogToConsole.ctcode.hpp"
 #include "S84.CTCode.dbnf.ctcode.hpp"
 
@@ -118,6 +119,7 @@ public:
     OmniPointer<s84::ctcode::transpiler::ctcode::Transpiler> GetCPPTranspiler();
     OmniPointer<s84::ctcode::transpiler::ctcode::Transpiler> GetPython3Transpiler();
     OmniPointer<s84::ctcode::transpiler::ctcode::Transpiler> GetNodeJSTranspiler();
+    OmniPointer<s84::ctcode::transpiler::ctcode::Transpiler> GetJava11Transpiler();
     OmniPointer<s84::ctcode::transpiler::ctcode::Transpiler> GetLogToConsole();
     int RunMain(OmniPointer<s84::ctcode::system::ctcode::System> system, std::string ctcode_file_name, std::string transpiler);
 };

@@ -3,6 +3,7 @@ import S84_CTCode_Transpiler_ctcode
 import S84_CTCode_Transpiler_CPPTranspiler_ctcode
 import S84_CTCode_Transpiler_Python3Transpiler_ctcode
 import S84_CTCode_Transpiler_NodeJSTranspiler_ctcode
+import S84_CTCode_Transpiler_Java11Transpiler_ctcode
 import S84_CTCode_Transpiler_LogToConsole_ctcode
 import S84_CTCode_dbnf_ctcode
 
@@ -37,6 +38,9 @@ class Main:
     def GetNodeJSTranspiler(self: 'Main') -> 'S84_CTCode_Transpiler_ctcode.Transpiler':
         return S84_CTCode_Transpiler_NodeJSTranspiler_ctcode.NodeJSTranspiler()
 
+    def GetJava11Transpiler(self: 'Main') -> 'S84_CTCode_Transpiler_ctcode.Transpiler':
+        return S84_CTCode_Transpiler_Java11Transpiler_ctcode.Java11Transpiler()
+
     def GetLogToConsole(self: 'Main') -> 'S84_CTCode_Transpiler_ctcode.Transpiler':
         return S84_CTCode_Transpiler_LogToConsole_ctcode.LogToConsole()
 
@@ -46,6 +50,7 @@ class Main:
         SetKV(transpilers,"CPPTranspiler",self.GetCPPTranspiler())
         SetKV(transpilers,"Python3Transpiler",self.GetPython3Transpiler())
         SetKV(transpilers,"NodeJSTranspiler",self.GetNodeJSTranspiler())
+        SetKV(transpilers,"Java11Transpiler",self.GetJava11Transpiler())
         SetKV(transpilers,"LogToConsole",self.GetLogToConsole())
         if ctcode_file_name=="" or not HasKV(transpilers,transpiler):
             logger.WriteLine("ctcode <CTCodeFile> <Transpiler>")

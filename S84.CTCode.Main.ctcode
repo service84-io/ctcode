@@ -3,6 +3,7 @@ exdef S84.CTCode.Transpiler.ctcode;
 exdef S84.CTCode.Transpiler.CPPTranspiler.ctcode;
 exdef S84.CTCode.Transpiler.Python3Transpiler.ctcode;
 exdef S84.CTCode.Transpiler.NodeJSTranspiler.ctcode;
+exdef S84.CTCode.Transpiler.Java11Transpiler.ctcode;
 exdef S84.CTCode.Transpiler.LogToConsole.ctcode;
 exdef S84.CTCode.dbnf.ctcode;
 
@@ -20,6 +21,10 @@ class Main
         return new S84.CTCode.Transpiler.NodeJSTranspiler.ctcode.NodeJSTranspiler;
     }
 
+    function S84.CTCode.Transpiler.ctcode.Transpiler GetJava11Transpiler() {
+        return new S84.CTCode.Transpiler.Java11Transpiler.ctcode.Java11Transpiler;
+    }
+
     function S84.CTCode.Transpiler.ctcode.Transpiler GetLogToConsole() {
         return new S84.CTCode.Transpiler.LogToConsole.ctcode.LogToConsole;
     }
@@ -32,6 +37,7 @@ class Main
         SetKV(transpilers, "CPPTranspiler", myself.GetCPPTranspiler());
         SetKV(transpilers, "Python3Transpiler", myself.GetPython3Transpiler());
         SetKV(transpilers, "NodeJSTranspiler", myself.GetNodeJSTranspiler());
+        SetKV(transpilers, "Java11Transpiler", myself.GetJava11Transpiler());
         SetKV(transpilers, "LogToConsole", myself.GetLogToConsole());
 
         if (ctcode_file_name == "" || !HasKV(transpilers, transpiler)) {

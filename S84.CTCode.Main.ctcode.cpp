@@ -24,6 +24,11 @@ OmniPointer<s84::ctcode::transpiler::ctcode::Transpiler> Main::GetNodeJSTranspil
     return std::shared_ptr<s84::ctcode::transpiler::nodejstranspiler::ctcode::NodeJSTranspiler>(new s84::ctcode::transpiler::nodejstranspiler::ctcode::NodeJSTranspiler());
 }
 
+OmniPointer<s84::ctcode::transpiler::ctcode::Transpiler> Main::GetJava11Transpiler()
+{
+    return std::shared_ptr<s84::ctcode::transpiler::java11transpiler::ctcode::Java11Transpiler>(new s84::ctcode::transpiler::java11transpiler::ctcode::Java11Transpiler());
+}
+
 OmniPointer<s84::ctcode::transpiler::ctcode::Transpiler> Main::GetLogToConsole()
 {
     return std::shared_ptr<s84::ctcode::transpiler::logtoconsole::ctcode::LogToConsole>(new s84::ctcode::transpiler::logtoconsole::ctcode::LogToConsole());
@@ -36,6 +41,7 @@ int Main::RunMain(OmniPointer<s84::ctcode::system::ctcode::System> system, std::
     SetKV(transpilers,std::string("CPPTranspiler"),this->GetCPPTranspiler());
     SetKV(transpilers,std::string("Python3Transpiler"),this->GetPython3Transpiler());
     SetKV(transpilers,std::string("NodeJSTranspiler"),this->GetNodeJSTranspiler());
+    SetKV(transpilers,std::string("Java11Transpiler"),this->GetJava11Transpiler());
     SetKV(transpilers,std::string("LogToConsole"),this->GetLogToConsole());
     if (ctcode_file_name==std::string("")||!HasKV(transpilers,transpiler))
     {

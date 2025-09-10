@@ -1,9 +1,15 @@
 import * as fs from "fs";
+import * as path from "path";
 import * as S84_CTCode_Main_ctcode from "./S84_CTCode_Main_ctcode.js";
 
 class FileWriter {
     constructor(file_name) {
         this.file_name = file_name;
+
+        try {
+            fs.mkdirSync(path.dirname(file_name), {recursive: true});
+        } catch {}
+
         fs.writeFileSync(this.file_name, "");
     }
     WriteLine(line) {

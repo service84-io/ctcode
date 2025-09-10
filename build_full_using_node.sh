@@ -27,6 +27,9 @@ for CTCodeFile in *.ctcode; do
   echo Generating NodeJS...
   node ctcode.js ${CTCodeFile} NodeJSTranspiler
   echo Done generating NodeJS!
+  echo Generating Java11...
+  node ctcode.js ${CTCodeFile} Java11Transpiler
+  echo Done generating Java11!
   echo Done processing ${CTCodeFile}!
   echo
 done
