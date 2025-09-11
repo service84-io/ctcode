@@ -106,6 +106,7 @@ namespace logtoconsole {
 namespace ctcode {
 
 class ParameterDeclaration;
+class IntegerReference;
 class LogToConsole;
 
 class ParameterDeclaration {
@@ -121,6 +122,18 @@ public:
 private:
     std::string type;
     std::string name;
+};
+
+class IntegerReference {
+public:
+    IntegerReference();
+    inline ~IntegerReference() {}
+
+    int GetValue();
+    void SetValue(int value);
+
+private:
+    int value;
 };
 
 class LogToConsole : public s84::ctcode::transpiler::ctcode::Transpiler {
@@ -191,7 +204,9 @@ public:
     std::string GetSingletonType(OmniPointer<s84::ctcode::dbnf::ctcode::SingletonType> singleton_type);
     std::string GetRValueSingleBasisInternal(OmniPointer<s84::ctcode::dbnf::ctcode::RValueSingle> r_value_single);
     std::string GetRValueSingleInternal(OmniPointer<s84::ctcode::dbnf::ctcode::RValueSingle> r_value_single);
-    std::string GetRValueBinaryInternal(std::string r_value_l, OmniPointer<s84::ctcode::dbnf::ctcode::RValueTail> r_value_tail);
+    void PopulateOperatorPrecedent();
+    bool OverPrecedent(std::string op, int precedent);
+    std::string BinaryOperatorPrecedentMerge(std::vector<std::string> values, std::vector<std::string> operators, OmniPointer<IntegerReference> index, int precedent);
     std::string GetRValueInternal(OmniPointer<s84::ctcode::dbnf::ctcode::RValue> r_value);
     std::string GetQualifiedTypeNameInternal(OmniPointer<s84::ctcode::dbnf::ctcode::QualfiedName> qualified_name);
     std::string GetType(OmniPointer<s84::ctcode::dbnf::ctcode::ValueType> type);
@@ -209,6 +224,7 @@ private:
     OmniPointer<s84::ctcode::system::ctcode::System> system;
     OmniPointer<s84::ctcode::dbnf::ctcode::CTCodeFile> c_t_code_file;
     std::string base_name;
+    std::vector<std::vector<std::string>> operator_precedent;
     OmniPointer<s84::ctcode::system::ctcode::OutputStream> logger;
 };
 

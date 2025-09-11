@@ -52,8 +52,8 @@ class Java11Transpiler(S84_CTCode_Transpiler_ctcode.Transpiler):
         self.system: S84_CTCode_System_ctcode.System = None
         self.c_t_code_file: S84_CTCode_dbnf_ctcode.CTCodeFile = None
         self.base_name: str = ""
-        self.logger: S84_CTCode_System_ctcode.OutputStream = None
         self.operator_precedent: list[list[str]] = []
+        self.logger: S84_CTCode_System_ctcode.OutputStream = None
         self.imports: list[str] = []
         self.current_interface: str = ""
         self.interface_definition: list[str] = []

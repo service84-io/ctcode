@@ -43,11 +43,28 @@ export class ParameterDeclaration {
     }
 }
 
+export class IntegerReference {
+    constructor() {
+        this.value = 0
+    }
+
+    GetValue()
+    {
+        return this.value
+    }
+
+    SetValue(value)
+    {
+        this.value = value
+    }
+}
+
 export class LogToConsole {
     constructor() {
         this.system = null
         this.c_t_code_file = null
         this.base_name = ""
+        this.operator_precedent = []
         this.logger = null
     }
 
@@ -419,6 +436,8 @@ export class LogToConsole {
 
     Transpile(system, c_t_code_file, base_name)
     {
+        ClearList(this.operator_precedent)
+        this.PopulateOperatorPrecedent()
         this.system = system
         this.c_t_code_file = c_t_code_file
         this.base_name = base_name
@@ -761,26 +780,89 @@ export class LogToConsole {
         return this.GetRValueSingleBasisInternal(r_value_single)
     }
 
-    GetRValueBinaryInternal(r_value_l, r_value_tail)
+    PopulateOperatorPrecedent()
     {
-        var r_value_r = this.GetRValueSingleInternal(r_value_tail.GetValue())
-        var binary_operator = r_value_tail.GetBinaryOperator()
-        r_value_l = this.BinaryOperator(binary_operator.UnParse(),r_value_l,r_value_r)
-        if (r_value_tail.GetTail())
+        var precedent__0_operators = []
+        Append(precedent__0_operators,"+")
+        Append(precedent__0_operators,"-")
+        Append(this.operator_precedent,precedent__0_operators)
+        var precedent__1_operators = []
+        Append(precedent__1_operators,"<=")
+        Append(precedent__1_operators,">=")
+        Append(precedent__1_operators,"==")
+        Append(precedent__1_operators,"!=")
+        Append(precedent__1_operators,"<")
+        Append(precedent__1_operators,">")
+        Append(this.operator_precedent,precedent__1_operators)
+        var precedent__2_operators = []
+        Append(precedent__2_operators,"&&")
+        Append(this.operator_precedent,precedent__2_operators)
+        var precedent__3_operators = []
+        Append(precedent__3_operators,"||")
+        Append(this.operator_precedent,precedent__3_operators)
+        var precedent__4_operators = []
+        Append(precedent__4_operators,"")
+        Append(this.operator_precedent,precedent__4_operators)
+    }
+
+    OverPrecedent(op, precedent)
+    {
+        precedent = precedent+1
+        while (precedent<Size(this.operator_precedent))
         {
-            return this.GetRValueBinaryInternal(r_value_l,r_value_tail.GetTail())
+            var precedent_operators = Element(this.operator_precedent,precedent)
+            var index = 0
+            while (index<Size(precedent_operators))
+            {
+                var checking_op = Element(precedent_operators,index)
+                if (checking_op==op)
+                {
+                    return true
+                }
+                index = index+1
+            }
+            precedent = precedent+1
+        }
+        return false
+    }
+
+    BinaryOperatorPrecedentMerge(values, operators, index, precedent)
+    {
+        if (precedent==-1)
+        {
+            return Element(values,index.GetValue())
+        }
+        var r_value_l = this.BinaryOperatorPrecedentMerge(values,operators,index,precedent-1)
+        while (index.GetValue()<Size(operators))
+        {
+            var op = Element(operators,index.GetValue())
+            if (this.OverPrecedent(op,precedent))
+            {
+                return r_value_l
+            }
+            index.SetValue(index.GetValue()+1)
+            var r_value_r = this.BinaryOperatorPrecedentMerge(values,operators,index,precedent-1)
+            r_value_l = this.BinaryOperator(op,r_value_l,r_value_r)
         }
         return r_value_l
     }
 
     GetRValueInternal(r_value)
     {
-        var r_value_l = this.GetRValueSingleInternal(r_value.GetValue())
-        if (r_value.GetTail())
+        var values = []
+        var operators = []
+        var index = new IntegerReference()
+        index.SetValue(0)
+        Append(values,this.GetRValueSingleInternal(r_value.GetValue()))
+        var r_value_tail = r_value.GetTail()
+        while (r_value_tail)
         {
-            return this.GetRValueBinaryInternal(r_value_l,r_value.GetTail())
+            var binary_operator = r_value_tail.GetBinaryOperator()
+            Append(values,this.GetRValueSingleInternal(r_value_tail.GetValue()))
+            Append(operators,binary_operator.UnParse())
+            r_value_tail = r_value_tail.GetTail()
         }
-        return r_value_l
+        return this.BinaryOperatorPrecedentMerge(values,operators,index,Size(this.operator_precedent))
     }
 
     GetQualifiedTypeNameInternal(qualified_name)

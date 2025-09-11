@@ -12,10 +12,19 @@ class ParameterDeclaration {
     function void SetName(string input) { myself.name = input; }
 }
 
+class IntegerReference {
+    int value;
+
+    function int GetValue() { return myself.value; }
+    function void SetValue(int value) { myself.value = value; }
+}
+
 class LogToConsole implements S84.CTCode.Transpiler.ctcode.Transpiler {
     S84.CTCode.System.ctcode.System system;
     S84.CTCode.dbnf.ctcode.CTCodeFile c_t_code_file;
     string base_name;
+
+    string[][] operator_precedent;
 
     S84.CTCode.System.ctcode.OutputStream logger;
 
@@ -364,6 +373,8 @@ class LogToConsole implements S84.CTCode.Transpiler.ctcode.Transpiler {
      * VVVVVVVV
     */
     function int Transpile(S84.CTCode.System.ctcode.System system, S84.CTCode.dbnf.ctcode.CTCodeFile c_t_code_file, string base_name) {
+        ClearList(myself.operator_precedent);
+        myself.PopulateOperatorPrecedent();
         myself.system = system;
         myself.c_t_code_file = c_t_code_file;
 		myself.base_name = base_name;
@@ -710,28 +721,96 @@ class LogToConsole implements S84.CTCode.Transpiler.ctcode.Transpiler {
         return myself.GetRValueSingleBasisInternal(r_value_single);
     }
 
-    function string GetRValueBinaryInternal(string r_value_l, S84.CTCode.dbnf.ctcode.RValueTail r_value_tail) {
-        string r_value_r = myself.GetRValueSingleInternal(r_value_tail.GetValue());
-        S84.CTCode.dbnf.ctcode.BinaryOperator binary_operator = r_value_tail.GetBinaryOperator();
-        r_value_l = myself.BinaryOperator(binary_operator.UnParse(), r_value_l, r_value_r);
+    function void PopulateOperatorPrecedent() {
+        string[] precedent_0_operators;
+        Append(precedent_0_operators, "+");
+        Append(precedent_0_operators, "-");
+        Append(myself.operator_precedent, precedent_0_operators);
 
-        if (r_value_tail.GetTail())
-        {
-            return myself.GetRValueBinaryInternal(r_value_l, r_value_tail.GetTail());
+        string[] precedent_1_operators;
+        Append(precedent_1_operators, "<=");
+        Append(precedent_1_operators, ">=");
+        Append(precedent_1_operators, "==");
+        Append(precedent_1_operators, "!=");
+        Append(precedent_1_operators, "<");
+        Append(precedent_1_operators, ">");
+        Append(myself.operator_precedent, precedent_1_operators);
+
+        string[] precedent_2_operators;
+        Append(precedent_2_operators, "&&");
+        Append(myself.operator_precedent, precedent_2_operators);
+
+        string[] precedent_3_operators;
+        Append(precedent_3_operators, "||");
+        Append(myself.operator_precedent, precedent_3_operators);
+
+        string[] precedent_4_operators;
+        Append(precedent_4_operators, "");
+        Append(myself.operator_precedent, precedent_4_operators);
+    }
+
+    function bool OverPrecedent(string op, int precedent) {
+        precedent = precedent + 1;
+
+        while (precedent < Size(myself.operator_precedent)) {
+            string[] precedent_operators = Element(myself.operator_precedent, precedent);
+            int index = 0;
+
+            while (index < Size(precedent_operators)) {
+                string checking_op = Element(precedent_operators, index);
+
+                if (checking_op == op) {
+                    return true;
+                }
+
+                index = index + 1;
+            }
+
+            precedent = precedent + 1;
+        }
+
+        return false;
+    }
+
+    function string BinaryOperatorPrecedentMerge(string[] values, string[] operators, IntegerReference index, int precedent) {
+        if (precedent == -1) {
+            return Element(values, index.GetValue());
+        }
+
+        string r_value_l = myself.BinaryOperatorPrecedentMerge(values, operators, index, precedent - 1);
+
+        while (index.GetValue() < Size(operators)) {
+            string op = Element(operators, index.GetValue());
+
+            if (myself.OverPrecedent(op, precedent)) {
+                return r_value_l;
+            }
+
+            index.SetValue(index.GetValue() + 1);
+            string r_value_r = myself.BinaryOperatorPrecedentMerge(values, operators, index, precedent - 1);
+            r_value_l = myself.BinaryOperator(op, r_value_l, r_value_r);
         }
 
         return r_value_l;
     }
 
     function string GetRValueInternal(S84.CTCode.dbnf.ctcode.RValue r_value) {
-        string r_value_l = myself.GetRValueSingleInternal(r_value.GetValue());
+        string[] values;
+        string[] operators;
+        IntegerReference index = new IntegerReference;
+        index.SetValue(0);
 
-        if (r_value.GetTail())
-        {
-            return myself.GetRValueBinaryInternal(r_value_l, r_value.GetTail());
+        Append(values, myself.GetRValueSingleInternal(r_value.GetValue()));
+        S84.CTCode.dbnf.ctcode.RValueTail r_value_tail = r_value.GetTail();
+
+        while (r_value_tail) {
+            S84.CTCode.dbnf.ctcode.BinaryOperator binary_operator = r_value_tail.GetBinaryOperator();
+            Append(values, myself.GetRValueSingleInternal(r_value_tail.GetValue()));
+            Append(operators, binary_operator.UnParse());
+            r_value_tail = r_value_tail.GetTail();
         }
 
-        return r_value_l;
+        return myself.BinaryOperatorPrecedentMerge(values, operators, index, Size(myself.operator_precedent));
     }
 
     function string GetQualifiedTypeNameInternal(S84.CTCode.dbnf.ctcode.QualfiedName qualified_name) {

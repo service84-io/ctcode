@@ -232,8 +232,8 @@ private:
     OmniPointer<s84::ctcode::system::ctcode::System> system;
     OmniPointer<s84::ctcode::dbnf::ctcode::CTCodeFile> c_t_code_file;
     std::string base_name;
-    OmniPointer<s84::ctcode::system::ctcode::OutputStream> logger;
     std::vector<std::vector<std::string>> operator_precedent;
+    OmniPointer<s84::ctcode::system::ctcode::OutputStream> logger;
     std::vector<std::string> imports;
     std::string current_interface;
     std::vector<std::string> interface_definition;

@@ -32,11 +32,27 @@ void ParameterDeclaration::SetName(std::string input)
     this->name = input;
 }
 
+IntegerReference::IntegerReference()
+{
+    this->value = 0;
+}
+
+int IntegerReference::GetValue()
+{
+    return this->value;
+}
+
+void IntegerReference::SetValue(int value)
+{
+    this->value = value;
+}
+
 Python3Transpiler::Python3Transpiler()
 {
     this->system = NULL;
     this->c_t_code_file = NULL;
     this->base_name = "";
+    /*this->operator_precedent = NO_DEFAULT;*/
     this->logger = NULL;
     /*this->imports = NO_DEFAULT;*/
     this->current_interface = "";
@@ -598,6 +614,8 @@ void Python3Transpiler::WriteLines(OmniPointer<s84::ctcode::system::ctcode::Outp
 
 int Python3Transpiler::Transpile(OmniPointer<s84::ctcode::system::ctcode::System> system, OmniPointer<s84::ctcode::dbnf::ctcode::CTCodeFile> c_t_code_file, std::string base_name)
 {
+    ClearList(this->operator_precedent);
+    this->PopulateOperatorPrecedent();
     this->system = system;
     this->c_t_code_file = c_t_code_file;
     this->base_name = base_name;
@@ -940,26 +958,89 @@ std::string Python3Transpiler::GetRValueSingleInternal(OmniPointer<s84::ctcode::
     return this->GetRValueSingleBasisInternal(r_value_single);
 }
 
-std::string Python3Transpiler::GetRValueBinaryInternal(std::string r_value_l, OmniPointer<s84::ctcode::dbnf::ctcode::RValueTail> r_value_tail)
+void Python3Transpiler::PopulateOperatorPrecedent()
 {
-    std::string r_value_r = this->GetRValueSingleInternal(r_value_tail->GetValue());
-    OmniPointer<s84::ctcode::dbnf::ctcode::BinaryOperator> binary_operator = r_value_tail->GetBinaryOperator();
-    r_value_l = this->BinaryOperator(binary_operator->UnParse(),r_value_l,r_value_r);
-    if (r_value_tail->GetTail())
+    std::vector<std::string> precedent__0_operators;
+    Append(precedent__0_operators,std::string("+"));
+    Append(precedent__0_operators,std::string("-"));
+    Append(this->operator_precedent,precedent__0_operators);
+    std::vector<std::string> precedent__1_operators;
+    Append(precedent__1_operators,std::string("<="));
+    Append(precedent__1_operators,std::string(">="));
+    Append(precedent__1_operators,std::string("=="));
+    Append(precedent__1_operators,std::string("!="));
+    Append(precedent__1_operators,std::string("<"));
+    Append(precedent__1_operators,std::string(">"));
+    Append(this->operator_precedent,precedent__1_operators);
+    std::vector<std::string> precedent__2_operators;
+    Append(precedent__2_operators,std::string("&&"));
+    Append(this->operator_precedent,precedent__2_operators);
+    std::vector<std::string> precedent__3_operators;
+    Append(precedent__3_operators,std::string("||"));
+    Append(this->operator_precedent,precedent__3_operators);
+    std::vector<std::string> precedent__4_operators;
+    Append(precedent__4_operators,std::string(""));
+    Append(this->operator_precedent,precedent__4_operators);
+}
+
+bool Python3Transpiler::OverPrecedent(std::string op, int precedent)
+{
+    precedent = precedent+1;
+    while (precedent<Size(this->operator_precedent))
     {
-        return this->GetRValueBinaryInternal(r_value_l,r_value_tail->GetTail());
+        std::vector<std::string> precedent_operators = Element(this->operator_precedent,precedent);
+        int index = 0;
+        while (index<Size(precedent_operators))
+        {
+            std::string checking_op = Element(precedent_operators,index);
+            if (checking_op==op)
+            {
+                return true;
+            }
+            index = index+1;
+        }
+        precedent = precedent+1;
+    }
+    return false;
+}
+
+std::string Python3Transpiler::BinaryOperatorPrecedentMerge(std::vector<std::string> values, std::vector<std::string> operators, OmniPointer<IntegerReference> index, int precedent)
+{
+    if (precedent==-1)
+    {
+        return Element(values,index->GetValue());
+    }
+    std::string r_value_l = this->BinaryOperatorPrecedentMerge(values,operators,index,precedent-1);
+    while (index->GetValue()<Size(operators))
+    {
+        std::string op = Element(operators,index->GetValue());
+        if (this->OverPrecedent(op,precedent))
+        {
+            return r_value_l;
+        }
+        index->SetValue(index->GetValue()+1);
+        std::string r_value_r = this->BinaryOperatorPrecedentMerge(values,operators,index,precedent-1);
+        r_value_l = this->BinaryOperator(op,r_value_l,r_value_r);
     }
     return r_value_l;
 }
 
 std::string Python3Transpiler::GetRValueInternal(OmniPointer<s84::ctcode::dbnf::ctcode::RValue> r_value)
 {
-    std::string r_value_l = this->GetRValueSingleInternal(r_value->GetValue());
-    if (r_value->GetTail())
+    std::vector<std::string> values;
+    std::vector<std::string> operators;
+    OmniPointer<IntegerReference> index = std::shared_ptr<IntegerReference>(new IntegerReference());
+    index->SetValue(0);
+    Append(values,this->GetRValueSingleInternal(r_value->GetValue()));
+    OmniPointer<s84::ctcode::dbnf::ctcode::RValueTail> r_value_tail = r_value->GetTail();
+    while (r_value_tail)
     {
-        return this->GetRValueBinaryInternal(r_value_l,r_value->GetTail());
+        OmniPointer<s84::ctcode::dbnf::ctcode::BinaryOperator> binary_operator = r_value_tail->GetBinaryOperator();
+        Append(values,this->GetRValueSingleInternal(r_value_tail->GetValue()));
+        Append(operators,binary_operator->UnParse());
+        r_value_tail = r_value_tail->GetTail();
     }
-    return r_value_l;
+    return this->BinaryOperatorPrecedentMerge(values,operators,index,Size(this->operator_precedent));
 }
 
 std::string Python3Transpiler::GetQualifiedTypeNameInternal(OmniPointer<s84::ctcode::dbnf::ctcode::QualfiedName> qualified_name)

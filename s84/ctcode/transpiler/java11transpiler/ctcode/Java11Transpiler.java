@@ -10,8 +10,8 @@ public class Java11Transpiler implements s84.ctcode.transpiler.ctcode.Transpiler
         this.system = null;
         this.c_t_code_file = null;
         this.base_name = "";
-        this.logger = null;
         this.operator_precedent = new java.util.ArrayList<>();
+        this.logger = null;
         this.imports = new java.util.ArrayList<>();
         this.current_interface = "";
         this.interface_definition = new java.util.ArrayList<>();
@@ -1451,8 +1451,8 @@ public class Java11Transpiler implements s84.ctcode.transpiler.ctcode.Transpiler
     private s84.ctcode.system.ctcode.System system;
     private s84.ctcode.dbnf.ctcode.CTCodeFile c_t_code_file;
     private java.lang.String base_name;
-    private s84.ctcode.system.ctcode.OutputStream logger;
     private java.util.ArrayList<java.util.ArrayList<java.lang.String>> operator_precedent;
+    private s84.ctcode.system.ctcode.OutputStream logger;
     private java.util.ArrayList<java.lang.String> imports;
     private java.lang.String current_interface;
     private java.util.ArrayList<java.lang.String> interface_definition;

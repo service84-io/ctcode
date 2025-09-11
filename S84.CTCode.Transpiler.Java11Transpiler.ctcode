@@ -24,9 +24,10 @@ class Java11Transpiler implements S84.CTCode.Transpiler.ctcode.Transpiler {
     S84.CTCode.dbnf.ctcode.CTCodeFile c_t_code_file;
     string base_name;
 
+    string[][] operator_precedent;
+
     S84.CTCode.System.ctcode.OutputStream logger;
 
-    string[][] operator_precedent;
     string[] imports;
     string current_interface;
     string[] interface_definition;

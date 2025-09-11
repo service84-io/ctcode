@@ -52,8 +52,8 @@ Java11Transpiler::Java11Transpiler()
     this->system = NULL;
     this->c_t_code_file = NULL;
     this->base_name = "";
-    this->logger = NULL;
     /*this->operator_precedent = NO_DEFAULT;*/
+    this->logger = NULL;
     /*this->imports = NO_DEFAULT;*/
     this->current_interface = "";
     /*this->interface_definition = NO_DEFAULT;*/

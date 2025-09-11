@@ -64,8 +64,8 @@ export class Java11Transpiler {
         this.system = null
         this.c_t_code_file = null
         this.base_name = ""
-        this.logger = null
         this.operator_precedent = []
+        this.logger = null
         this.imports = []
         this.current_interface = ""
         this.interface_definition = []

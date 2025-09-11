@@ -10,6 +10,7 @@ public class CPPTranspiler implements s84.ctcode.transpiler.ctcode.Transpiler {
         this.system = null;
         this.c_t_code_file = null;
         this.base_name = "";
+        this.operator_precedent = new java.util.ArrayList<>();
         this.logger = null;
         this.includes = new java.util.ArrayList<>();
         this.interface_declarations = new java.util.ArrayList<>();
@@ -786,6 +787,8 @@ public class CPPTranspiler implements s84.ctcode.transpiler.ctcode.Transpiler {
 
     public int Transpile(s84.ctcode.system.ctcode.System system, s84.ctcode.dbnf.ctcode.CTCodeFile c_t_code_file, java.lang.String base_name)
     {
+        ClearList(this.operator_precedent);
+        this.PopulateOperatorPrecedent();
         this.system = system;
         this.c_t_code_file = c_t_code_file;
         this.base_name = base_name;
@@ -1128,26 +1131,89 @@ public class CPPTranspiler implements s84.ctcode.transpiler.ctcode.Transpiler {
         return this.GetRValueSingleBasisInternal(r_value_single);
     }
 
-    public java.lang.String GetRValueBinaryInternal(java.lang.String r_value_l, s84.ctcode.dbnf.ctcode.RValueTail r_value_tail)
+    public void PopulateOperatorPrecedent()
     {
-        java.lang.String r_value_r = this.GetRValueSingleInternal(r_value_tail.GetValue());
-        s84.ctcode.dbnf.ctcode.BinaryOperator binary_operator = r_value_tail.GetBinaryOperator();
-        r_value_l = this.BinaryOperator(binary_operator.UnParse(), r_value_l, r_value_r);
-        if (AsBoolean(r_value_tail.GetTail()))
+        java.util.ArrayList<java.lang.String> precedent__0_operators = new java.util.ArrayList<>();
+        Append(precedent__0_operators, "+");
+        Append(precedent__0_operators, "-");
+        Append(this.operator_precedent, precedent__0_operators);
+        java.util.ArrayList<java.lang.String> precedent__1_operators = new java.util.ArrayList<>();
+        Append(precedent__1_operators, "<=");
+        Append(precedent__1_operators, ">=");
+        Append(precedent__1_operators, "==");
+        Append(precedent__1_operators, "!=");
+        Append(precedent__1_operators, "<");
+        Append(precedent__1_operators, ">");
+        Append(this.operator_precedent, precedent__1_operators);
+        java.util.ArrayList<java.lang.String> precedent__2_operators = new java.util.ArrayList<>();
+        Append(precedent__2_operators, "&&");
+        Append(this.operator_precedent, precedent__2_operators);
+        java.util.ArrayList<java.lang.String> precedent__3_operators = new java.util.ArrayList<>();
+        Append(precedent__3_operators, "||");
+        Append(this.operator_precedent, precedent__3_operators);
+        java.util.ArrayList<java.lang.String> precedent__4_operators = new java.util.ArrayList<>();
+        Append(precedent__4_operators, "");
+        Append(this.operator_precedent, precedent__4_operators);
+    }
+
+    public boolean OverPrecedent(java.lang.String op, int precedent)
+    {
+        precedent = (precedent+1);
+        while (AsBoolean((precedent<Size(this.operator_precedent))))
         {
-            return this.GetRValueBinaryInternal(r_value_l, r_value_tail.GetTail());
+            java.util.ArrayList<java.lang.String> precedent_operators = Element(this.operator_precedent, precedent);
+            int index = 0;
+            while (AsBoolean((index<Size(precedent_operators))))
+            {
+                java.lang.String checking_op = Element(precedent_operators, index);
+                if (AsBoolean(Equals(checking_op,op)))
+                {
+                    return true;
+                }
+                index = (index+1);
+            }
+            precedent = (precedent+1);
+        }
+        return false;
+    }
+
+    public java.lang.String BinaryOperatorPrecedentMerge(java.util.ArrayList<java.lang.String> values, java.util.ArrayList<java.lang.String> operators, IntegerReference index, int precedent)
+    {
+        if (AsBoolean(Equals(precedent,-1)))
+        {
+            return Element(values, index.GetValue());
+        }
+        java.lang.String r_value_l = this.BinaryOperatorPrecedentMerge(values, operators, index, (precedent-1));
+        while (AsBoolean((index.GetValue()<Size(operators))))
+        {
+            java.lang.String op = Element(operators, index.GetValue());
+            if (AsBoolean(this.OverPrecedent(op, precedent)))
+            {
+                return r_value_l;
+            }
+            index.SetValue((index.GetValue()+1));
+            java.lang.String r_value_r = this.BinaryOperatorPrecedentMerge(values, operators, index, (precedent-1));
+            r_value_l = this.BinaryOperator(op, r_value_l, r_value_r);
         }
         return r_value_l;
     }
 
     public java.lang.String GetRValueInternal(s84.ctcode.dbnf.ctcode.RValue r_value)
     {
-        java.lang.String r_value_l = this.GetRValueSingleInternal(r_value.GetValue());
-        if (AsBoolean(r_value.GetTail()))
+        java.util.ArrayList<java.lang.String> values = new java.util.ArrayList<>();
+        java.util.ArrayList<java.lang.String> operators = new java.util.ArrayList<>();
+        IntegerReference index = new IntegerReference();
+        index.SetValue(0);
+        Append(values, this.GetRValueSingleInternal(r_value.GetValue()));
+        s84.ctcode.dbnf.ctcode.RValueTail r_value_tail = r_value.GetTail();
+        while (AsBoolean(r_value_tail))
         {
-            return this.GetRValueBinaryInternal(r_value_l, r_value.GetTail());
+            s84.ctcode.dbnf.ctcode.BinaryOperator binary_operator = r_value_tail.GetBinaryOperator();
+            Append(values, this.GetRValueSingleInternal(r_value_tail.GetValue()));
+            Append(operators, binary_operator.UnParse());
+            r_value_tail = r_value_tail.GetTail();
         }
-        return r_value_l;
+        return this.BinaryOperatorPrecedentMerge(values, operators, index, Size(this.operator_precedent));
     }
 
     public java.lang.String GetQualifiedTypeNameInternal(s84.ctcode.dbnf.ctcode.QualfiedName qualified_name)
@@ -1551,6 +1617,7 @@ public class CPPTranspiler implements s84.ctcode.transpiler.ctcode.Transpiler {
     private s84.ctcode.system.ctcode.System system;
     private s84.ctcode.dbnf.ctcode.CTCodeFile c_t_code_file;
     private java.lang.String base_name;
+    private java.util.ArrayList<java.util.ArrayList<java.lang.String>> operator_precedent;
     private s84.ctcode.system.ctcode.OutputStream logger;
     private java.util.ArrayList<java.lang.String> includes;
     private java.util.ArrayList<java.lang.String> interface_declarations;

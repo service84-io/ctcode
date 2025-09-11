@@ -37,11 +37,22 @@ class ParameterDeclaration:
     def SetName(self: 'ParameterDeclaration',input: 'str') -> 'None':
         self.name = input
 
+class IntegerReference:
+    def __init__(self: 'IntegerReference'):
+        self.value: int = 0
+
+    def GetValue(self: 'IntegerReference') -> 'int':
+        return self.value
+
+    def SetValue(self: 'IntegerReference',value: 'int') -> 'None':
+        self.value = value
+
 class NodeJSTranspiler(S84_CTCode_Transpiler_ctcode.Transpiler):
     def __init__(self: 'NodeJSTranspiler'):
         self.system: S84_CTCode_System_ctcode.System = None
         self.c_t_code_file: S84_CTCode_dbnf_ctcode.CTCodeFile = None
         self.base_name: str = ""
+        self.operator_precedent: list[list[str]] = []
         self.logger: S84_CTCode_System_ctcode.OutputStream = None
         self.imports: list[str] = []
         self.current_interface: str = ""
@@ -383,6 +394,8 @@ class NodeJSTranspiler(S84_CTCode_Transpiler_ctcode.Transpiler):
             lines_index = lines_index+1
 
     def Transpile(self: 'NodeJSTranspiler',system: 'S84_CTCode_System_ctcode.System',c_t_code_file: 'S84_CTCode_dbnf_ctcode.CTCodeFile',base_name: 'str') -> 'int':
+        ClearList(self.operator_precedent)
+        self.PopulateOperatorPrecedent()
         self.system = system
         self.c_t_code_file = c_t_code_file
         self.base_name = base_name
@@ -604,19 +617,68 @@ class NodeJSTranspiler(S84_CTCode_Transpiler_ctcode.Transpiler):
             return self.UnaryOperator(unary_operator.UnParse(),self.GetRValueSingleBasisInternal(r_value_single))
         return self.GetRValueSingleBasisInternal(r_value_single)
 
-    def GetRValueBinaryInternal(self: 'NodeJSTranspiler',r_value_l: 'str',r_value_tail: 'S84_CTCode_dbnf_ctcode.RValueTail') -> 'str':
-        r_value_r: 'str' = self.GetRValueSingleInternal(r_value_tail.GetValue())
-        binary_operator: 'S84_CTCode_dbnf_ctcode.BinaryOperator' = r_value_tail.GetBinaryOperator()
-        r_value_l = self.BinaryOperator(binary_operator.UnParse(),r_value_l,r_value_r)
-        if r_value_tail.GetTail():
-            return self.GetRValueBinaryInternal(r_value_l,r_value_tail.GetTail())
+    def PopulateOperatorPrecedent(self: 'NodeJSTranspiler') -> 'None':
+        precedent__0_operators: 'list[str]' = []
+        Append(precedent__0_operators,"+")
+        Append(precedent__0_operators,"-")
+        Append(self.operator_precedent,precedent__0_operators)
+        precedent__1_operators: 'list[str]' = []
+        Append(precedent__1_operators,"<=")
+        Append(precedent__1_operators,">=")
+        Append(precedent__1_operators,"==")
+        Append(precedent__1_operators,"!=")
+        Append(precedent__1_operators,"<")
+        Append(precedent__1_operators,">")
+        Append(self.operator_precedent,precedent__1_operators)
+        precedent__2_operators: 'list[str]' = []
+        Append(precedent__2_operators,"&&")
+        Append(self.operator_precedent,precedent__2_operators)
+        precedent__3_operators: 'list[str]' = []
+        Append(precedent__3_operators,"||")
+        Append(self.operator_precedent,precedent__3_operators)
+        precedent__4_operators: 'list[str]' = []
+        Append(precedent__4_operators,"")
+        Append(self.operator_precedent,precedent__4_operators)
+
+    def OverPrecedent(self: 'NodeJSTranspiler',op: 'str',precedent: 'int') -> 'bool':
+        precedent = precedent+1
+        while precedent<Size(self.operator_precedent):
+            precedent_operators: 'list[str]' = Element(self.operator_precedent,precedent)
+            index: 'int' = 0
+            while index<Size(precedent_operators):
+                checking_op: 'str' = Element(precedent_operators,index)
+                if checking_op==op:
+                    return True
+                index = index+1
+            precedent = precedent+1
+        return False
+
+    def BinaryOperatorPrecedentMerge(self: 'NodeJSTranspiler',values: 'list[str]',operators: 'list[str]',index: 'IntegerReference',precedent: 'int') -> 'str':
+        if precedent==-1:
+            return Element(values,index.GetValue())
+        r_value_l: 'str' = self.BinaryOperatorPrecedentMerge(values,operators,index,precedent-1)
+        while index.GetValue()<Size(operators):
+            op: 'str' = Element(operators,index.GetValue())
+            if self.OverPrecedent(op,precedent):
+                return r_value_l
+            index.SetValue(index.GetValue()+1)
+            r_value_r: 'str' = self.BinaryOperatorPrecedentMerge(values,operators,index,precedent-1)
+            r_value_l = self.BinaryOperator(op,r_value_l,r_value_r)
         return r_value_l
 
     def GetRValueInternal(self: 'NodeJSTranspiler',r_value: 'S84_CTCode_dbnf_ctcode.RValue') -> 'str':
-        r_value_l: 'str' = self.GetRValueSingleInternal(r_value.GetValue())
-        if r_value.GetTail():
-            return self.GetRValueBinaryInternal(r_value_l,r_value.GetTail())
-        return r_value_l
+        values: 'list[str]' = []
+        operators: 'list[str]' = []
+        index: 'IntegerReference' = IntegerReference()
+        index.SetValue(0)
+        Append(values,self.GetRValueSingleInternal(r_value.GetValue()))
+        r_value_tail: 'S84_CTCode_dbnf_ctcode.RValueTail' = r_value.GetTail()
+        while r_value_tail:
+            binary_operator: 'S84_CTCode_dbnf_ctcode.BinaryOperator' = r_value_tail.GetBinaryOperator()
+            Append(values,self.GetRValueSingleInternal(r_value_tail.GetValue()))
+            Append(operators,binary_operator.UnParse())
+            r_value_tail = r_value_tail.GetTail()
+        return self.BinaryOperatorPrecedentMerge(values,operators,index,Size(self.operator_precedent))
 
     def GetQualifiedTypeNameInternal(self: 'NodeJSTranspiler',qualified_name: 'S84_CTCode_dbnf_ctcode.QualfiedName') -> 'str':
         name_parts: 'list[S84_CTCode_dbnf_ctcode.Name]' = []
