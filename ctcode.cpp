@@ -1,4 +1,5 @@
 #include <fstream>
+#include <filesystem>
 #include <iostream>
 #include <string>
 
@@ -32,7 +33,16 @@ char* ReadFileIntoBuffer(std::string file)
 
 class FileWriter : public s84::ctcode::system::ctcode::OutputStream {
 public:
-	FileWriter(std::string file_name) : destination(file_name, std::ofstream::trunc | std::ofstream::out) {}
+	FileWriter(std::string file_name) {
+		std::filesystem::path file_path(file_name);
+		std::filesystem::path file_parent_path = file_path.parent_path();
+
+		if (!file_parent_path.empty()) {
+			std::filesystem::create_directories(file_path.parent_path());
+		}
+
+		destination = std::ofstream(file_name, std::ofstream::trunc | std::ofstream::out);
+	}
 
     virtual void WriteLine(std::string line) {
 		destination << line << std::endl;

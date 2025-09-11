@@ -3,7 +3,7 @@
 echo Building cpp source...
 echo
 
-gcc *.cpp -lstdc++ -o ctcode
+g++ -std=c++17 *.cpp -o ctcode
 
 echo Done building cpp source!
 echo

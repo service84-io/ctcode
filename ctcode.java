@@ -3,6 +3,7 @@ import s84.ctcode.system.ctcode.OutputStream;
 import s84.ctcode.main.ctcode.Main;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.io.FileWriter;
 import java.io.BufferedWriter;
 
@@ -25,6 +26,12 @@ public class ctcode {
     private static class FileWriter implements s84.ctcode.system.ctcode.OutputStream {
         public FileWriter(java.lang.String file_name) {
             try {
+                java.nio.file.Path parent_directory = java.nio.file.Paths.get(file_name).getParent();
+
+                if (parent_directory != null) {
+                    java.nio.file.Files.createDirectories(parent_directory);
+                }
+
                 this.destination = new java.io.BufferedWriter(new java.io.FileWriter(file_name, false));
             } catch(Exception e) {
                 java.lang.System.out.println(e);

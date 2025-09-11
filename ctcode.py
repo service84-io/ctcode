@@ -1,11 +1,14 @@
 import sys
+import pathlib
 
 import S84_CTCode_System_ctcode
 import S84_CTCode_Main_ctcode
 
 class FileWriter(S84_CTCode_System_ctcode.OutputStream):
     def __init__(self: 'FileWriter', file_name: str):
-        self.target = open(file_name, 'w')
+        file_path = pathlib.Path(file_name)
+        file_path.parent.mkdir(parents=True, exist_ok=True)
+        self.target = open(file_path, 'w')
 
     def WriteLine(self: 'LoggerClass', line:  'str') -> None:
         self.target.write(line)
