@@ -494,6 +494,8 @@ public class CPPTranspiler implements s84.ctcode.transpiler.ctcode.Transpiler {
         destination.WriteLine("    OmniPointer(std::shared_ptr<T> value) { value_raw = NULL; value_shared = value; }");
         destination.WriteLine("    template<typename U>");
         destination.WriteLine("    OmniPointer(std::shared_ptr<U> value) { value_raw = NULL; value_shared = value; }");
+        destination.WriteLine("    template<typename U>");
+        destination.WriteLine("    OmniPointer(OmniPointer<U> value) { value_raw = value.value_raw; value_shared = value.value_shared; }");
         destination.WriteLine("");
         destination.WriteLine("    operator bool()");
         destination.WriteLine("    {");
@@ -516,7 +518,6 @@ public class CPPTranspiler implements s84.ctcode.transpiler.ctcode.Transpiler {
         destination.WriteLine("        return value_shared.get();");
         destination.WriteLine("    }");
         destination.WriteLine("");
-        destination.WriteLine("private:");
         destination.WriteLine("    T* value_raw;");
         destination.WriteLine("    std::shared_ptr<T> value_shared;");
         destination.WriteLine("};");

@@ -21,6 +21,8 @@ public:
     OmniPointer(std::shared_ptr<T> value) { value_raw = NULL; value_shared = value; }
     template<typename U>
     OmniPointer(std::shared_ptr<U> value) { value_raw = NULL; value_shared = value; }
+    template<typename U>
+    OmniPointer(OmniPointer<U> value) { value_raw = value.value_raw; value_shared = value.value_shared; }
 
     operator bool()
     {
@@ -43,7 +45,6 @@ public:
         return value_shared.get();
     }
 
-private:
     T* value_raw;
     std::shared_ptr<T> value_shared;
 };

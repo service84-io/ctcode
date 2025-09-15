@@ -536,6 +536,8 @@ void CPPTranspiler::WriteCommonFunctions(OmniPointer<s84::ctcode::system::ctcode
     destination->WriteLine(std::string("    OmniPointer(std::shared_ptr<T> value) { value_raw = NULL; value_shared = value; }"));
     destination->WriteLine(std::string("    template<typename U>"));
     destination->WriteLine(std::string("    OmniPointer(std::shared_ptr<U> value) { value_raw = NULL; value_shared = value; }"));
+    destination->WriteLine(std::string("    template<typename U>"));
+    destination->WriteLine(std::string("    OmniPointer(OmniPointer<U> value) { value_raw = value.value_raw; value_shared = value.value_shared; }"));
     destination->WriteLine(std::string(""));
     destination->WriteLine(std::string("    operator bool()"));
     destination->WriteLine(std::string("    {"));
@@ -558,7 +560,6 @@ void CPPTranspiler::WriteCommonFunctions(OmniPointer<s84::ctcode::system::ctcode
     destination->WriteLine(std::string("        return value_shared.get();"));
     destination->WriteLine(std::string("    }"));
     destination->WriteLine(std::string(""));
-    destination->WriteLine(std::string("private:"));
     destination->WriteLine(std::string("    T* value_raw;"));
     destination->WriteLine(std::string("    std::shared_ptr<T> value_shared;"));
     destination->WriteLine(std::string("};"));
