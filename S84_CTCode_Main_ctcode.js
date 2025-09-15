@@ -1,5 +1,6 @@
 import * as S84_CTCode_System_ctcode from "./S84_CTCode_System_ctcode.js"
 import * as S84_CTCode_Transpiler_ctcode from "./S84_CTCode_Transpiler_ctcode.js"
+import * as S84_CTCode_Transpiler_StandardStructure_ctcode from "./S84_CTCode_Transpiler_StandardStructure_ctcode.js"
 import * as S84_CTCode_Transpiler_CPPTranspiler_ctcode from "./S84_CTCode_Transpiler_CPPTranspiler_ctcode.js"
 import * as S84_CTCode_Transpiler_Python3Transpiler_ctcode from "./S84_CTCode_Transpiler_Python3Transpiler_ctcode.js"
 import * as S84_CTCode_Transpiler_NodeJSTranspiler_ctcode from "./S84_CTCode_Transpiler_NodeJSTranspiler_ctcode.js"
@@ -47,7 +48,11 @@ export class Main {
 
     GetLogToConsole()
     {
-        return new S84_CTCode_Transpiler_LogToConsole_ctcode.LogToConsole()
+        var specific = new S84_CTCode_Transpiler_LogToConsole_ctcode.LogToConsole()
+        specific.Initialize()
+        var structue = new S84_CTCode_Transpiler_StandardStructure_ctcode.StandardStructure()
+        structue.SetTargetSpecificFunctions(specific)
+        return structue
     }
 
     RunMain(system, ctcode_file_name, transpiler)

@@ -2,6 +2,7 @@ package s84.ctcode.main.ctcode;
 
 import s84.ctcode.system.ctcode.*;
 import s84.ctcode.transpiler.ctcode.*;
+import s84.ctcode.transpiler.standardstructure.ctcode.*;
 import s84.ctcode.transpiler.cpptranspiler.ctcode.*;
 import s84.ctcode.transpiler.python3transpiler.ctcode.*;
 import s84.ctcode.transpiler.nodejstranspiler.ctcode.*;
@@ -36,7 +37,11 @@ public class Main {
 
     public s84.ctcode.transpiler.ctcode.Transpiler GetLogToConsole()
     {
-        return new s84.ctcode.transpiler.logtoconsole.ctcode.LogToConsole();
+        s84.ctcode.transpiler.logtoconsole.ctcode.LogToConsole specific = new s84.ctcode.transpiler.logtoconsole.ctcode.LogToConsole();
+        specific.Initialize();
+        s84.ctcode.transpiler.standardstructure.ctcode.StandardStructure structue = new s84.ctcode.transpiler.standardstructure.ctcode.StandardStructure();
+        structue.SetTargetSpecificFunctions(specific);
+        return structue;
     }
 
     public int RunMain(s84.ctcode.system.ctcode.System system, java.lang.String ctcode_file_name, java.lang.String transpiler)

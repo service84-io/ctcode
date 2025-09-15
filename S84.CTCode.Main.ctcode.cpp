@@ -31,7 +31,11 @@ OmniPointer<s84::ctcode::transpiler::ctcode::Transpiler> Main::GetJava11Transpil
 
 OmniPointer<s84::ctcode::transpiler::ctcode::Transpiler> Main::GetLogToConsole()
 {
-    return std::shared_ptr<s84::ctcode::transpiler::logtoconsole::ctcode::LogToConsole>(new s84::ctcode::transpiler::logtoconsole::ctcode::LogToConsole());
+    OmniPointer<s84::ctcode::transpiler::logtoconsole::ctcode::LogToConsole> specific = std::shared_ptr<s84::ctcode::transpiler::logtoconsole::ctcode::LogToConsole>(new s84::ctcode::transpiler::logtoconsole::ctcode::LogToConsole());
+    specific->Initialize();
+    OmniPointer<s84::ctcode::transpiler::standardstructure::ctcode::StandardStructure> structue = std::shared_ptr<s84::ctcode::transpiler::standardstructure::ctcode::StandardStructure>(new s84::ctcode::transpiler::standardstructure::ctcode::StandardStructure());
+    structue->SetTargetSpecificFunctions(specific);
+    return structue;
 }
 
 int Main::RunMain(OmniPointer<s84::ctcode::system::ctcode::System> system, std::string ctcode_file_name, std::string transpiler)

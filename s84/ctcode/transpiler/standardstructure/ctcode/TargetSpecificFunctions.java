@@ -1,0 +1,55 @@
+package s84.ctcode.transpiler.standardstructure.ctcode;
+
+import s84.ctcode.dbnf.ctcode.*;
+import s84.ctcode.system.ctcode.*;
+import s84.ctcode.transpiler.ctcode.*;
+
+public interface TargetSpecificFunctions {
+    void Initialize();
+    void SetSystem(s84.ctcode.system.ctcode.System system);
+    void SetCTCodeFile(s84.ctcode.dbnf.ctcode.CTCodeFile c_t_code_file);
+    void SetBaseName(java.lang.String base_name);
+    void SetLogger(s84.ctcode.system.ctcode.OutputStream logger);
+    int GetBaseIndentation();
+    java.lang.String GetCallName(java.lang.String name);
+    java.lang.String GetVariableName(java.lang.String name);
+    java.lang.String GetVariableChain(java.util.ArrayList<java.lang.String> name_parts);
+    java.lang.String ConvertCall(java.util.ArrayList<java.lang.String> name_chain, java.util.ArrayList<java.lang.String> parameters);
+    java.lang.String ConvertAllocate(java.lang.String type);
+    java.lang.String ConvertByte(java.lang.String high, java.lang.String low);
+    java.lang.String ConvertDecimal(java.lang.String decimal);
+    java.lang.String ConvertNumber(java.lang.String number);
+    java.lang.String ConvertBoolean(java.lang.String reserved_prefix_boolean);
+    java.lang.String ConvertVariable(java.lang.String variable);
+    java.lang.String ConvertString(java.lang.String literal);
+    java.lang.String UnaryOperator(java.lang.String op, java.lang.String r_value);
+    java.lang.String BinaryOperator(java.lang.String op, java.lang.String r_value_l, java.lang.String r_value_r);
+    java.lang.String GetTypeName(java.lang.String name);
+    java.lang.String GetDimensionalType(java.lang.String singleton_type, int dimensions);
+    java.lang.String GetMapType(java.lang.String singleton_type);
+    java.lang.String GetPrimativeType(java.lang.String c_t_type);
+    java.lang.String GetQualifiedTypeName(java.util.ArrayList<java.lang.String> name_parts);
+    void BeginProcessingCTCodeFile();
+    void FinishProcessingCTCodeFile();
+    void ProcessExdef(java.lang.String exdef);
+    void ProcessUnmanagedType(java.lang.String unmanaged_type);
+    void BeginProcessingInterface(java.lang.String interface_name);
+    void ProcessInterfaceFunctionDeclaration(java.lang.String return_type, java.lang.String function_name, java.util.ArrayList<ParameterDeclaration> parameters);
+    void FinishProcessingInterface(java.lang.String interface_name);
+    void BeginProcessingClass(java.lang.String class_name, java.lang.String implementing);
+    void BeginProcessingClassFunctionDefinition(java.lang.String return_type, java.lang.String function_name, java.util.ArrayList<ParameterDeclaration> parameters);
+    void BeginProcessCodeBlock(int indent);
+    void FinishProcessCodeBlock(int indent);
+    void BeginProcessConditional(int indent, java.lang.String r_value);
+    void ProcessElse(int indent);
+    void FinishProcessConditional(int indent, java.lang.String r_value);
+    void BeginProcessLoop(int indent, java.lang.String r_value);
+    void FinishProcessLoop(int indent, java.lang.String r_value);
+    void ProcessRtn(int indent, java.lang.String r_value);
+    void ProcessDeclaration(int indent, java.lang.String type, java.lang.String l_value, java.lang.String r_value);
+    void ProcessAssignment(int indent, java.lang.String l_value, java.lang.String r_value);
+    void ProcessCall(int indent, java.lang.String call);
+    void FinishProcessingClassFunctionDefinition(java.lang.String return_type, java.lang.String function_name, java.util.ArrayList<ParameterDeclaration> parameters);
+    void ProcessClassMemberDeclaration(java.lang.String member_type, java.lang.String member_name);
+    void FinishProcessingClass(java.lang.String class_name, java.lang.String implementing);
+}

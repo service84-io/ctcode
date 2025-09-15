@@ -1,15 +1,5 @@
-#ifndef S84_CTCODE_MAIN_CTCODE_H
-#define S84_CTCODE_MAIN_CTCODE_H
-
-#include "S84.CTCode.System.ctcode.hpp"
-#include "S84.CTCode.Transpiler.ctcode.hpp"
-#include "S84.CTCode.Transpiler.StandardStructure.ctcode.hpp"
-#include "S84.CTCode.Transpiler.CPPTranspiler.ctcode.hpp"
-#include "S84.CTCode.Transpiler.Python3Transpiler.ctcode.hpp"
-#include "S84.CTCode.Transpiler.NodeJSTranspiler.ctcode.hpp"
-#include "S84.CTCode.Transpiler.Java11Transpiler.ctcode.hpp"
-#include "S84.CTCode.Transpiler.LogToConsole.ctcode.hpp"
-#include "S84.CTCode.dbnf.ctcode.hpp"
+#ifndef S84_CTCODE_TRANSPILER_STRINGHELPER_CTCODE_H
+#define S84_CTCODE_TRANSPILER_STRINGHELPER_CTCODE_H
 
 #include <cstring>
 #include <list>
@@ -108,24 +98,29 @@ inline std::string Concat(const std::string& left, const std::string& right) { r
 
 namespace s84 {
 namespace ctcode {
-namespace main {
+namespace transpiler {
+namespace stringhelper {
 namespace ctcode {
 
-class Main;
+class StringHelper;
 
-class Main {
+class StringHelper {
 public:
-    Main();
-    inline ~Main() {}
+    StringHelper();
+    inline ~StringHelper() {}
 
-    OmniPointer<s84::ctcode::transpiler::ctcode::Transpiler> GetCPPTranspiler();
-    OmniPointer<s84::ctcode::transpiler::ctcode::Transpiler> GetPython3Transpiler();
-    OmniPointer<s84::ctcode::transpiler::ctcode::Transpiler> GetNodeJSTranspiler();
-    OmniPointer<s84::ctcode::transpiler::ctcode::Transpiler> GetJava11Transpiler();
-    OmniPointer<s84::ctcode::transpiler::ctcode::Transpiler> GetLogToConsole();
-    int RunMain(OmniPointer<s84::ctcode::system::ctcode::System> system, std::string ctcode_file_name, std::string transpiler);
+    std::string Indentation(int indent);
+    std::string SnakeCaseToCamelCase(std::string snake_case);
+    std::string CamelCaseToSnakeCase(std::string camel_case);
+    bool IsUpper(std::string character);
+    bool IsDigit(std::string character);
+    std::string ToLower(std::string input);
+    std::string CharacterToLower(std::string input);
+    std::string ToUpper(std::string input);
+    std::string CharacterToUpper(std::string input);
 };
 
+};
 };
 };
 };

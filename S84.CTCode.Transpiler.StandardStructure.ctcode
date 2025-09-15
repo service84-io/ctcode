@@ -1,0 +1,602 @@
+exdef S84.CTCode.dbnf.ctcode;
+exdef S84.CTCode.System.ctcode;
+exdef S84.CTCode.Transpiler.ctcode;
+
+class ParameterDeclaration {
+    string type;
+    string name;
+
+    function string GetType() { return myself.type; }
+    function void SetType(string input) { myself.type = input; }
+    function string GetName() { return myself.name; }
+    function void SetName(string input) { myself.name = input; }
+}
+
+class IntegerReference {
+    int value;
+
+    function int GetValue() { return myself.value; }
+    function void SetValue(int value) { myself.value = value; }
+}
+
+interface TargetSpecificFunctions {
+    function void Initialize();
+    function void SetSystem(S84.CTCode.System.ctcode.System system);
+    function void SetCTCodeFile(S84.CTCode.dbnf.ctcode.CTCodeFile c_t_code_file);
+    function void SetBaseName(string base_name);
+    function void SetLogger(S84.CTCode.System.ctcode.OutputStream logger);
+
+    function int GetBaseIndentation();
+
+    function string GetCallName(string name);
+    function string GetVariableName(string name);
+
+    function string GetVariableChain(string[] name_parts);
+
+    function string ConvertCall(string[] name_chain, string[] parameters);
+    function string ConvertAllocate(string type);
+
+    function string ConvertByte(string high, string low);
+    function string ConvertDecimal(string decimal);
+    function string ConvertNumber(string number);
+    function string ConvertBoolean(string boolean);
+    function string ConvertVariable(string variable);
+    function string ConvertString(string literal);
+
+    function string UnaryOperator(string op, string r_value);
+    function string BinaryOperator(string op, string r_value_l, string r_value_r);
+
+    function string GetTypeName(string name);
+
+    function string GetDimensionalType(string singleton_type, int dimensions);
+    function string GetMapType(string singleton_type);
+    function string GetPrimativeType(string c_t_type);
+
+    function string GetQualifiedTypeName(string[] name_parts);
+
+    function void BeginProcessingCTCodeFile();
+    function void FinishProcessingCTCodeFile();
+
+    function void ProcessExdef(string exdef);
+    function void ProcessUnmanagedType(string unmanaged_type);
+
+    function void BeginProcessingInterface(string interface_name);
+    function void ProcessInterfaceFunctionDeclaration(string return_type, string function_name, ParameterDeclaration[] parameters);
+    function void FinishProcessingInterface(string interface_name);
+
+    function void BeginProcessingClass(string class_name, string implementing);
+    function void BeginProcessingClassFunctionDefinition(string return_type, string function_name, ParameterDeclaration[] parameters);
+    function void BeginProcessCodeBlock(int indent);
+    function void FinishProcessCodeBlock(int indent);
+    function void BeginProcessConditional(int indent, string r_value);
+    function void ProcessElse(int indent);
+    function void FinishProcessConditional(int indent, string r_value);
+    function void BeginProcessLoop(int indent, string r_value);
+    function void FinishProcessLoop(int indent, string r_value);
+    function void ProcessRtn(int indent, string r_value);
+    function void ProcessDeclaration(int indent, string type, string l_value, string r_value);
+    function void ProcessAssignment(int indent, string l_value, string r_value);
+    function void ProcessCall(int indent, string call);
+    function void FinishProcessingClassFunctionDefinition(string return_type, string function_name, ParameterDeclaration[] parameters);
+    function void ProcessClassMemberDeclaration(string member_type, string member_name);
+    function void FinishProcessingClass(string class_name, string implementing);
+}
+
+class StandardStructure implements S84.CTCode.Transpiler.ctcode.Transpiler {
+    S84.CTCode.System.ctcode.System system;
+    S84.CTCode.dbnf.ctcode.CTCodeFile c_t_code_file;
+    string base_name;
+
+    string[][] operator_precedent;
+
+    S84.CTCode.System.ctcode.OutputStream logger;
+
+    TargetSpecificFunctions target_specific_functions;
+
+    function void SetTargetSpecificFunctions(TargetSpecificFunctions target_specific_functions) {
+        myself.target_specific_functions = target_specific_functions;
+    }
+
+    /* These are structural functions
+     * VVVVVVVV
+     * VVVVVVVV
+     * VVVVVVVV
+     * VVVVVVVV
+    */
+    function int Transpile(S84.CTCode.System.ctcode.System system, S84.CTCode.dbnf.ctcode.CTCodeFile c_t_code_file, string base_name) {
+        ClearList(myself.operator_precedent);
+        myself.PopulateOperatorPrecedent();
+        myself.system = system;
+        myself.c_t_code_file = c_t_code_file;
+		myself.base_name = base_name;
+        myself.logger = system.GetLoggerDestination();
+        myself.target_specific_functions.SetSystem(myself.system);
+        myself.target_specific_functions.SetCTCodeFile(myself.c_t_code_file);
+        myself.target_specific_functions.SetBaseName(myself.base_name);
+        myself.target_specific_functions.SetLogger(myself.logger);
+        myself.ProcessCTCodeFile(c_t_code_file);
+        return 0;
+    }
+
+    function void ProcessCTCodeFile(S84.CTCode.dbnf.ctcode.CTCodeFile c_t_code_file)
+    {
+        myself.target_specific_functions.BeginProcessingCTCodeFile();
+        myself.ProcessExdefs(c_t_code_file);
+        myself.ProcessUnmanagedTypes(c_t_code_file);
+        myself.ProcessDefinitions(c_t_code_file);
+        myself.target_specific_functions.FinishProcessingCTCodeFile();
+    }
+
+    function void ProcessExdefs(S84.CTCode.dbnf.ctcode.CTCodeFile c_t_code_file)
+    {
+        S84.CTCode.dbnf.ctcode.ExternalDefinition[] exdefs = c_t_code_file.GetDeclarations();
+        int exdefs_index = 0;
+
+        while (exdefs_index < Size(exdefs)) {
+            S84.CTCode.dbnf.ctcode.ExternalDefinition exdef = Element(exdefs, exdefs_index);
+            S84.CTCode.dbnf.ctcode.QualfiedName exdef_name = exdef.GetExdef();
+            myself.target_specific_functions.ProcessExdef(exdef_name.UnParse());
+            exdefs_index = exdefs_index + 1;
+        }
+    }
+
+    function void ProcessUnmanagedTypes(S84.CTCode.dbnf.ctcode.CTCodeFile c_t_code_file)
+    {
+        S84.CTCode.dbnf.ctcode.UnmanagedType[] unmanaged_types = c_t_code_file.GetUnmanagedTypes();
+        int unmanaged_types_index = 0;
+
+        while (unmanaged_types_index < Size(unmanaged_types)) {
+            S84.CTCode.dbnf.ctcode.UnmanagedType unmanaged_type = Element(unmanaged_types, unmanaged_types_index);
+            myself.target_specific_functions.ProcessUnmanagedType(myself.GetQualifiedTypeNameInternal(unmanaged_type.GetUnmanagedType()));
+            unmanaged_types_index = unmanaged_types_index + 1;
+        }
+    }
+
+    function void ProcessDefinitions(S84.CTCode.dbnf.ctcode.CTCodeFile c_t_code_file)
+    {
+        S84.CTCode.dbnf.ctcode.Definition[] definitions = c_t_code_file.GetDefinitions();
+        int definitions_index = 0;
+
+        while(definitions_index < Size(definitions)) {
+            S84.CTCode.dbnf.ctcode.Definition definition;
+            definition = Element(definitions, definitions_index);
+
+            if (definition.GetInterfaceDef()) {
+                myself.ProcessInterfaceDefinition(definition.GetInterfaceDef());
+            }
+
+            if (definition.GetClassDef()) {
+                myself.ProcessClassDefinition(definition.GetClassDef());
+            }
+
+            definitions_index = definitions_index + 1;
+        }
+    }
+
+    function ParameterDeclaration[] GetParameters(S84.CTCode.dbnf.ctcode.ParameterListDef parameter_list_def) {
+        ParameterDeclaration[] result;
+
+        while (parameter_list_def) {
+            ParameterDeclaration parameter = new ParameterDeclaration;
+            parameter.SetType(myself.GetType(parameter_list_def.GetType()));
+            parameter.SetName(myself.target_specific_functions.GetVariableName(myself.NameToString(parameter_list_def.GetName())));
+            Append(result, parameter);
+            parameter_list_def = parameter_list_def.GetParameterTail();
+        }
+
+        return result;
+    }
+
+    function void ProcessInterfaceDefinition(S84.CTCode.dbnf.ctcode.InterfaceDef interfaceDefinition)
+    {
+        string interface_name = myself.target_specific_functions.GetTypeName(myself.NameToString(interfaceDefinition.GetName()));
+        myself.target_specific_functions.BeginProcessingInterface(interface_name);
+
+        S84.CTCode.dbnf.ctcode.ContentDeclaration[] declarations = interfaceDefinition.GetDeclarations();
+
+        int declarations_index = 0;
+
+        while(declarations_index < Size(declarations)) {
+            S84.CTCode.dbnf.ctcode.ContentDeclaration declaration = Element(declarations, declarations_index);
+            string return_type = myself.GetType(declaration.GetType());
+            string function_name = myself.target_specific_functions.GetCallName(myself.NameToString(declaration.GetName()));
+            ParameterDeclaration[] parameters = myself.GetParameters(declaration.GetParameters());
+            myself.target_specific_functions.ProcessInterfaceFunctionDeclaration(return_type, function_name, parameters);
+            declarations_index = declarations_index + 1;
+        }
+
+        myself.target_specific_functions.FinishProcessingInterface(interface_name);
+    }
+
+    function void ProcessClassDefinition(S84.CTCode.dbnf.ctcode.ClassDef classDefinition)
+    {
+        string class_name = myself.target_specific_functions.GetTypeName(myself.NameToString(classDefinition.GetName()));
+        string implementing = "";
+        S84.CTCode.dbnf.ctcode.ImplementationSpec implementation_spec = classDefinition.GetImplementing();
+
+        if (implementation_spec) {
+            implementing = myself.GetQualifiedTypeNameInternal(implementation_spec.GetInterface());
+        }
+
+        myself.target_specific_functions.BeginProcessingClass(class_name, implementing);
+
+        S84.CTCode.dbnf.ctcode.ContentDefinition[] definitions = classDefinition.GetDefinitions();
+        int definitions_index = 0;
+
+        while(definitions_index < Size(definitions)) {
+            S84.CTCode.dbnf.ctcode.ContentDefinition definition = Element(definitions, definitions_index);
+
+            if (definition.GetFunctionBody()) {
+                string return_type = myself.GetType(definition.GetType());
+                string function_name = myself.target_specific_functions.GetCallName(myself.NameToString(definition.GetName()));
+                ParameterDeclaration[] parameters = myself.GetParameters(definition.GetParameters());
+                myself.target_specific_functions.BeginProcessingClassFunctionDefinition(return_type, function_name, parameters);
+                myself.ProcessCodeBlockInternal(myself.target_specific_functions.GetBaseIndentation(), definition.GetFunctionBody());
+                myself.target_specific_functions.FinishProcessingClassFunctionDefinition(return_type, function_name, parameters);
+            } else {
+                string member_type = myself.GetType(definition.GetType());
+                string member_name = myself.target_specific_functions.GetVariableName(myself.NameToString(definition.GetName()));
+                myself.target_specific_functions.ProcessClassMemberDeclaration(member_type, member_name);
+            }
+
+            definitions_index = definitions_index + 1;
+        }
+
+        myself.target_specific_functions.FinishProcessingClass(class_name, implementing);
+    }
+
+    function void ProcessInstructionInternal(int indent, S84.CTCode.dbnf.ctcode.Instruction instruction) {
+        if (instruction.GetCodeBlock()) {
+            myself.ProcessCodeBlockInternal(indent, instruction.GetCodeBlock());
+        }
+
+        if (instruction.GetRtn()) {
+            myself.ProcessRtnInternal(indent, instruction.GetRtn());
+        }
+
+        if (instruction.GetDeclaration()) {
+            myself.ProcessDeclarationInternal(indent, instruction.GetDeclaration());
+        }
+
+        if (instruction.GetAssignment()) {
+            myself.ProcessAssignmentInternal(indent, instruction.GetAssignment());
+        }
+
+        if (instruction.GetCall()) {
+            myself.ProcessCallInternal(indent, instruction.GetCall());
+        }
+
+        if (instruction.GetConditional()) {
+            myself.ProcessConditionalInternal(indent, instruction.GetConditional());
+        }
+
+        if (instruction.GetLoop()) {
+            myself.ProcessLoopInternal(indent, instruction.GetLoop());
+        }
+    }
+
+    function void ProcessCodeBlockInternal(int indent, S84.CTCode.dbnf.ctcode.CodeBlock code_block) {
+        myself.target_specific_functions.BeginProcessCodeBlock(indent);
+
+        S84.CTCode.dbnf.ctcode.Instruction[] instructions = code_block.GetInstructions();
+        int instructions_index = 0;
+
+        while (instructions_index < Size(instructions)) {
+            myself.ProcessInstructionInternal(indent + 1, Element(instructions, instructions_index));
+            instructions_index = instructions_index + 1;
+        }
+
+        myself.target_specific_functions.FinishProcessCodeBlock(indent);
+    }
+
+    function void ProcessConditionalInternal(int indent, S84.CTCode.dbnf.ctcode.Conditional conditional) {
+        string r_value = myself.GetRValueInternal(conditional.GetRValue());
+        myself.target_specific_functions.BeginProcessConditional(indent, r_value);
+        myself.ProcessCodeBlockInternal(indent, conditional.GetCodeBlock());
+
+        if (conditional.GetElseTail()) {
+            S84.CTCode.dbnf.ctcode.ElseTail else_tail = conditional.GetElseTail();
+            myself.target_specific_functions.ProcessElse(indent);
+            myself.ProcessCodeBlockInternal(indent, else_tail.GetCodeBlock());
+        }
+
+        myself.target_specific_functions.FinishProcessConditional(indent, r_value);
+    }
+
+    function void ProcessLoopInternal(int indent, S84.CTCode.dbnf.ctcode.Loop loop) {
+        string r_value = myself.GetRValueInternal(loop.GetRValue());
+        myself.target_specific_functions.BeginProcessLoop(indent, r_value);
+        myself.ProcessCodeBlockInternal(indent, loop.GetCodeBlock());
+        myself.target_specific_functions.FinishProcessLoop(indent, r_value);
+    }
+
+    function void ProcessRtnInternal(int indent, S84.CTCode.dbnf.ctcode.Return rtn) {
+        string r_value = myself.GetRValueInternal(rtn.GetRValue());
+        myself.target_specific_functions.ProcessRtn(indent, r_value);
+    }
+
+    function void ProcessDeclarationInternal(int indent, S84.CTCode.dbnf.ctcode.Declaration declaration) {
+        string type = myself.GetType(declaration.GetType());
+        string l_value = myself.target_specific_functions.GetVariableName(myself.NameToString(declaration.GetName()));
+        string r_value = "";
+        S84.CTCode.dbnf.ctcode.DeclarationAssign declaration_assignment = declaration.GetAssignment();
+
+        if (declaration_assignment) {
+            r_value = myself.GetRValueInternal(declaration_assignment.GetRValue());
+        }
+
+        myself.target_specific_functions.ProcessDeclaration(indent, type, l_value, r_value);
+    }
+
+    function void ProcessAssignmentInternal(int indent, S84.CTCode.dbnf.ctcode.Assignment assignment) {
+        myself.target_specific_functions.ProcessAssignment(indent, myself.GetVariableChainInternal(assignment.GetLValue()), myself.GetRValueInternal(assignment.GetRValue()));
+    }
+
+    function void ProcessCallInternal(int indent, S84.CTCode.dbnf.ctcode.Call call) {
+        myself.target_specific_functions.ProcessCall(indent, myself.ConvertCallInternal(call));
+    }
+
+    function string ConvertCallInternal(S84.CTCode.dbnf.ctcode.Call call) {
+        string[] name_chain;
+        string[] parameters;
+
+        if (call.GetVariable()) {
+            Append(name_chain, myself.target_specific_functions.GetVariableName(myself.NameToString(call.GetVariable())));
+        }
+
+        if (call.GetFunction()) {
+            Append(name_chain, myself.target_specific_functions.GetCallName(myself.NameToString(call.GetFunction())));
+        }
+
+        if (call.GetFunctionChain()) {
+            S84.CTCode.dbnf.ctcode.QualfiedName function_chain = call.GetFunctionChain();
+            S84.CTCode.dbnf.ctcode.NameTail name_tail = function_chain.GetTail();
+
+            if (function_chain.GetTail()) {
+                Append(name_chain, myself.target_specific_functions.GetVariableName(myself.NameToString(function_chain.GetName())));
+            } else {
+                Append(name_chain, myself.target_specific_functions.GetCallName(myself.NameToString(function_chain.GetName())));
+            }
+
+            while (name_tail) {
+                if (name_tail.GetTail()) {
+                    Append(name_chain, myself.target_specific_functions.GetVariableName(myself.NameToString(name_tail.GetName())));
+                } else {
+                    Append(name_chain, myself.target_specific_functions.GetCallName(myself.NameToString(name_tail.GetName())));
+                }
+
+                name_tail = name_tail.GetTail();
+            }
+        }
+
+        S84.CTCode.dbnf.ctcode.ParameterList parameter_list = call.GetParameters();
+
+        while (parameter_list) {
+            Append(parameters, myself.GetRValueInternal(parameter_list.GetRValue()));
+            parameter_list = parameter_list.GetParameterTail();
+        }
+
+        return myself.target_specific_functions.ConvertCall(name_chain, parameters);
+    }
+
+    function string GetSingletonType(S84.CTCode.dbnf.ctcode.SingletonType singleton_type) {
+        if (singleton_type.GetPrimativeType()) {
+            return myself.target_specific_functions.GetPrimativeType(singleton_type.UnParse());
+        }
+
+        if (singleton_type.GetDefinedType()) {
+            S84.CTCode.dbnf.ctcode.DefinedType defined_type = singleton_type.GetDefinedType();
+            return myself.GetQualifiedTypeNameInternal(defined_type.GetName());
+        }
+
+        return "";
+    }
+
+    function string GetRValueSingleBasisInternal(S84.CTCode.dbnf.ctcode.RValueSingle r_value_single) {
+        S84.CTCode.dbnf.ctcode.Call call = r_value_single.GetCall();
+
+        if (call) {
+            return myself.ConvertCallInternal(call);
+        }
+
+        S84.CTCode.dbnf.ctcode.Allocate allocate = r_value_single.GetAllocate();
+
+        if (allocate) {
+            return myself.target_specific_functions.ConvertAllocate(myself.GetQualifiedTypeNameInternal(allocate.GetManagedType()));
+        }
+
+        S84.CTCode.dbnf.ctcode.Byte byte_literal = r_value_single.GetByteLiteral();
+
+        if (byte_literal) {
+            S84.CTCode.dbnf.ctcode.ByteDigit high = byte_literal.GetHigh();
+            S84.CTCode.dbnf.ctcode.ByteDigit low = byte_literal.GetLow();
+            return myself.target_specific_functions.ConvertByte(high.UnParse(), low.UnParse());
+        }
+
+        S84.CTCode.dbnf.ctcode.Decimal decimal_literal = r_value_single.GetDecimalLiteral();
+
+        if (decimal_literal) {
+            return myself.target_specific_functions.ConvertDecimal(decimal_literal.UnParse());
+        }
+
+        S84.CTCode.dbnf.ctcode.Number integer_literal = r_value_single.GetIntegerLiteral();
+
+        if (integer_literal) {
+            return myself.target_specific_functions.ConvertNumber(integer_literal.UnParse());
+        }
+
+        S84.CTCode.dbnf.ctcode.Boolean boolean_literal = r_value_single.GetBooleanLiteral();
+
+        if (boolean_literal) {
+            return myself.target_specific_functions.ConvertBoolean(boolean_literal.UnParse());
+        }
+
+        S84.CTCode.dbnf.ctcode.QualfiedName variable = r_value_single.GetVariable();
+
+        if (variable) {
+            return myself.target_specific_functions.ConvertVariable(myself.GetVariableChainInternal(variable));
+        }
+
+        S84.CTCode.dbnf.ctcode.Literal string_literal = r_value_single.GetStringLiteral();
+
+        if (string_literal) {
+            return myself.target_specific_functions.ConvertString(string_literal.UnParse());
+        }
+
+        return "";
+    }
+
+    function string GetRValueSingleInternal(S84.CTCode.dbnf.ctcode.RValueSingle r_value_single) {
+        S84.CTCode.dbnf.ctcode.UnaryOperator unary_operator = r_value_single.GetUnaryOperator();
+
+        if (unary_operator) {
+            return myself.target_specific_functions.UnaryOperator(unary_operator.UnParse(), myself.GetRValueSingleBasisInternal(r_value_single));
+        }
+
+        return myself.GetRValueSingleBasisInternal(r_value_single);
+    }
+
+    function void PopulateOperatorPrecedent() {
+        string[] precedent_0_operators;
+        Append(precedent_0_operators, "+");
+        Append(precedent_0_operators, "-");
+        Append(myself.operator_precedent, precedent_0_operators);
+
+        string[] precedent_1_operators;
+        Append(precedent_1_operators, "<=");
+        Append(precedent_1_operators, ">=");
+        Append(precedent_1_operators, "==");
+        Append(precedent_1_operators, "!=");
+        Append(precedent_1_operators, "<");
+        Append(precedent_1_operators, ">");
+        Append(myself.operator_precedent, precedent_1_operators);
+
+        string[] precedent_2_operators;
+        Append(precedent_2_operators, "&&");
+        Append(myself.operator_precedent, precedent_2_operators);
+
+        string[] precedent_3_operators;
+        Append(precedent_3_operators, "||");
+        Append(myself.operator_precedent, precedent_3_operators);
+
+        string[] precedent_4_operators;
+        Append(precedent_4_operators, "");
+        Append(myself.operator_precedent, precedent_4_operators);
+    }
+
+    function bool OverPrecedent(string op, int precedent) {
+        precedent = precedent + 1;
+
+        while (precedent < Size(myself.operator_precedent)) {
+            string[] precedent_operators = Element(myself.operator_precedent, precedent);
+            int index = 0;
+
+            while (index < Size(precedent_operators)) {
+                string checking_op = Element(precedent_operators, index);
+
+                if (checking_op == op) {
+                    return true;
+                }
+
+                index = index + 1;
+            }
+
+            precedent = precedent + 1;
+        }
+
+        return false;
+    }
+
+    function string BinaryOperatorPrecedentMerge(string[] values, string[] operators, IntegerReference index, int precedent) {
+        if (precedent == -1) {
+            return Element(values, index.GetValue());
+        }
+
+        string r_value_l = myself.BinaryOperatorPrecedentMerge(values, operators, index, precedent - 1);
+
+        while (index.GetValue() < Size(operators)) {
+            string op = Element(operators, index.GetValue());
+
+            if (myself.OverPrecedent(op, precedent)) {
+                return r_value_l;
+            }
+
+            index.SetValue(index.GetValue() + 1);
+            string r_value_r = myself.BinaryOperatorPrecedentMerge(values, operators, index, precedent - 1);
+            r_value_l = myself.target_specific_functions.BinaryOperator(op, r_value_l, r_value_r);
+        }
+
+        return r_value_l;
+    }
+
+    function string GetRValueInternal(S84.CTCode.dbnf.ctcode.RValue r_value) {
+        string[] values;
+        string[] operators;
+        IntegerReference index = new IntegerReference;
+        index.SetValue(0);
+
+        Append(values, myself.GetRValueSingleInternal(r_value.GetValue()));
+        S84.CTCode.dbnf.ctcode.RValueTail r_value_tail = r_value.GetTail();
+
+        while (r_value_tail) {
+            S84.CTCode.dbnf.ctcode.BinaryOperator binary_operator = r_value_tail.GetBinaryOperator();
+            Append(values, myself.GetRValueSingleInternal(r_value_tail.GetValue()));
+            Append(operators, binary_operator.UnParse());
+            r_value_tail = r_value_tail.GetTail();
+        }
+
+        return myself.BinaryOperatorPrecedentMerge(values, operators, index, Size(myself.operator_precedent));
+    }
+
+    function string GetQualifiedTypeNameInternal(S84.CTCode.dbnf.ctcode.QualfiedName qualified_name) {
+        string[] name_parts;
+        Append(name_parts, myself.NameToString(qualified_name.GetName()));
+        S84.CTCode.dbnf.ctcode.NameTail tail = qualified_name.GetTail();
+
+        while (tail) {
+            Append(name_parts, myself.NameToString(tail.GetName()));
+            tail = tail.GetTail();
+        }
+
+        return myself.target_specific_functions.GetQualifiedTypeName(name_parts);
+    }
+
+    function string GetVariableChainInternal(S84.CTCode.dbnf.ctcode.QualfiedName qualified_name) {
+        string[] name_parts;
+        Append(name_parts, myself.NameToString(qualified_name.GetName()));
+        S84.CTCode.dbnf.ctcode.NameTail tail = qualified_name.GetTail();
+
+        while (tail) {
+            Append(name_parts, myself.NameToString(tail.GetName()));
+            tail = tail.GetTail();
+        }
+
+        return myself.target_specific_functions.GetVariableChain(name_parts);
+    }
+
+    function string GetType(S84.CTCode.dbnf.ctcode.ValueType type) {
+        if (type.GetDimensionalType()) {
+            S84.CTCode.dbnf.ctcode.DimensionalType dimensional_type = type.GetDimensionalType();
+            S84.CTCode.dbnf.ctcode.SingletonType singleton_type = dimensional_type.GetSingletonType();
+            return myself.target_specific_functions.GetDimensionalType(myself.GetSingletonType(singleton_type), Size(dimensional_type.GetDimensionalNote()));
+        }
+
+        if (type.GetMapType()) {
+            S84.CTCode.dbnf.ctcode.MapType map_type = type.GetMapType();
+            S84.CTCode.dbnf.ctcode.SingletonType singleton_type = map_type.GetSingletonType();
+            return myself.target_specific_functions.GetMapType(myself.GetSingletonType(singleton_type));
+        }
+
+        if (type.GetSingletonType()) {
+            S84.CTCode.dbnf.ctcode.SingletonType singleton_type = type.GetSingletonType();
+            return myself.GetSingletonType(singleton_type);
+        }
+
+        return "";
+    }
+
+    function string NameToString(S84.CTCode.dbnf.ctcode.Name name)
+    {
+        return name.UnParse();
+    }
+}

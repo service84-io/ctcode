@@ -1,0 +1,359 @@
+class StringHelper {
+    function string Indentation(int indent) {
+        string result;
+        result = "";
+
+        while (indent > 0) {
+            indent = indent - 1;
+            result = Concat(result, "    ");
+        }
+
+        return result;
+    }
+
+    function string SnakeCaseToCamelCase(string snake_case)
+    {
+        bool capitalize_this_letter = true;
+        string camel_case = "";
+        int index;
+        index = 0;
+
+        while (index < Length(snake_case)) {
+            string source_character = At(snake_case, index);
+
+            if (source_character == "_") {
+                capitalize_this_letter = true;
+            } else {
+                if (capitalize_this_letter == true)
+                {
+                    string upper_character = myself.CharacterToUpper(source_character);
+                    capitalize_this_letter = false;
+                    camel_case = Concat(camel_case, upper_character);
+                } else {
+                    capitalize_this_letter = false;
+                    camel_case = Concat(camel_case, source_character);
+                }
+            }
+
+            index = index + 1;
+        }
+
+        return camel_case;
+    }
+
+    function string CamelCaseToSnakeCase(string camel_case) {
+        string delimiter = "_";
+        string snake_case = "";
+        int index = 0;
+
+        while (index < Length(camel_case)) {
+            string source_character = At(camel_case, index);
+            string lower_character = myself.CharacterToLower(source_character);
+
+            if (myself.IsUpper(source_character) || myself.IsDigit(source_character)) {
+                bool is_first_character = Length(snake_case) == 0;
+
+                if (!is_first_character) {
+                    snake_case = Concat(snake_case, delimiter);
+                }
+            }
+
+            snake_case = Concat(snake_case, lower_character);
+            index = index + 1;
+        }
+
+        return snake_case;
+    }
+
+    function bool IsUpper(string character) {
+        bool result;
+        result = false;
+        result = result || character == "A";
+        result = result || character == "B";
+        result = result || character == "C";
+        result = result || character == "D";
+        result = result || character == "E";
+        result = result || character == "F";
+        result = result || character == "G";
+        result = result || character == "H";
+        result = result || character == "I";
+        result = result || character == "J";
+        result = result || character == "K";
+        result = result || character == "L";
+        result = result || character == "M";
+        result = result || character == "N";
+        result = result || character == "O";
+        result = result || character == "P";
+        result = result || character == "Q";
+        result = result || character == "R";
+        result = result || character == "S";
+        result = result || character == "T";
+        result = result || character == "U";
+        result = result || character == "V";
+        result = result || character == "W";
+        result = result || character == "X";
+        result = result || character == "Y";
+        result = result || character == "Z";
+        return result;
+    }
+
+    function bool IsDigit(string character) {
+        bool result;
+        result = false;
+        result = result || character == "0";
+        result = result || character == "1";
+        result = result || character == "2";
+        result = result || character == "3";
+        result = result || character == "4";
+        result = result || character == "5";
+        result = result || character == "6";
+        result = result || character == "7";
+        result = result || character == "8";
+        result = result || character == "9";
+        return result;
+    }
+
+    function string ToLower(string input) {
+        int index = 0;
+        string result = "";
+
+        while (index < Length(input)) {
+            string character = At(input, index);
+            string lowerCharacter = myself.CharacterToLower(character);
+            result = Concat(result, lowerCharacter);
+            index = index + 1;
+        }
+
+        return result;
+    }
+
+    function string CharacterToLower(string input) {
+        if (input == "A") {
+            return "a";
+        }
+
+        if (input == "B") {
+            return "b";
+        }
+
+        if (input == "C") {
+            return "c";
+        }
+
+        if (input == "D") {
+            return "d";
+        }
+
+        if (input == "E") {
+            return "e";
+        }
+
+        if (input == "F") {
+            return "f";
+        }
+
+        if (input == "G") {
+            return "g";
+        }
+
+        if (input == "H") {
+            return "h";
+        }
+
+        if (input == "I") {
+            return "i";
+        }
+
+        if (input == "J") {
+            return "j";
+        }
+
+        if (input == "K") {
+            return "k";
+        }
+
+        if (input == "L") {
+            return "l";
+        }
+
+        if (input == "M") {
+            return "m";
+        }
+
+        if (input == "N") {
+            return "n";
+        }
+
+        if (input == "O") {
+            return "o";
+        }
+
+        if (input == "P") {
+            return "p";
+        }
+
+        if (input == "Q") {
+            return "q";
+        }
+
+        if (input == "R") {
+            return "r";
+        }
+
+        if (input == "S") {
+            return "s";
+        }
+
+        if (input == "T") {
+            return "t";
+        }
+
+        if (input == "U") {
+            return "u";
+        }
+
+        if (input == "V") {
+            return "v";
+        }
+
+        if (input == "W") {
+            return "w";
+        }
+
+        if (input == "X") {
+            return "x";
+        }
+
+        if (input == "Y") {
+            return "y";
+        }
+
+        if (input == "Z") {
+            return "z";
+        }
+
+        return input;
+    }
+
+    function string ToUpper(string input) {
+        int index = 0;
+        string result = "";
+
+        while (index < Length(input)) {
+            string character = At(input, index);
+            string upperCharacter = myself.CharacterToUpper(character);
+            result = Concat(result, upperCharacter);
+            index = index + 1;
+        }
+
+        return result;
+    }
+
+    function string CharacterToUpper(string input) {
+        if (input == "a") {
+            return "A";
+        }
+
+        if (input == "b") {
+            return "B";
+        }
+
+        if (input == "c") {
+            return "C";
+        }
+
+        if (input == "d") {
+            return "D";
+        }
+
+        if (input == "e") {
+            return "E";
+        }
+
+        if (input == "f") {
+            return "F";
+        }
+
+        if (input == "g") {
+            return "G";
+        }
+
+        if (input == "h") {
+            return "H";
+        }
+
+        if (input == "i") {
+            return "I";
+        }
+
+        if (input == "j") {
+            return "J";
+        }
+
+        if (input == "k") {
+            return "K";
+        }
+
+        if (input == "l") {
+            return "L";
+        }
+
+        if (input == "m") {
+            return "M";
+        }
+
+        if (input == "n") {
+            return "N";
+        }
+
+        if (input == "o") {
+            return "O";
+        }
+
+        if (input == "p") {
+            return "P";
+        }
+
+        if (input == "q") {
+            return "Q";
+        }
+
+        if (input == "r") {
+            return "R";
+        }
+
+        if (input == "s") {
+            return "S";
+        }
+
+        if (input == "t") {
+            return "T";
+        }
+
+        if (input == "u") {
+            return "U";
+        }
+
+        if (input == "v") {
+            return "V";
+        }
+
+        if (input == "w") {
+            return "W";
+        }
+
+        if (input == "x") {
+            return "X";
+        }
+
+        if (input == "y") {
+            return "Y";
+        }
+
+        if (input == "z") {
+            return "Z";
+        }
+
+        return input;
+    }
+}

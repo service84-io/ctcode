@@ -1,5 +1,6 @@
 import S84_CTCode_System_ctcode
 import S84_CTCode_Transpiler_ctcode
+import S84_CTCode_Transpiler_StandardStructure_ctcode
 import S84_CTCode_Transpiler_CPPTranspiler_ctcode
 import S84_CTCode_Transpiler_Python3Transpiler_ctcode
 import S84_CTCode_Transpiler_NodeJSTranspiler_ctcode
@@ -42,7 +43,11 @@ class Main:
         return S84_CTCode_Transpiler_Java11Transpiler_ctcode.Java11Transpiler()
 
     def GetLogToConsole(self: 'Main') -> 'S84_CTCode_Transpiler_ctcode.Transpiler':
-        return S84_CTCode_Transpiler_LogToConsole_ctcode.LogToConsole()
+        specific: 'S84_CTCode_Transpiler_LogToConsole_ctcode.LogToConsole' = S84_CTCode_Transpiler_LogToConsole_ctcode.LogToConsole()
+        specific.Initialize()
+        structue: 'S84_CTCode_Transpiler_StandardStructure_ctcode.StandardStructure' = S84_CTCode_Transpiler_StandardStructure_ctcode.StandardStructure()
+        structue.SetTargetSpecificFunctions(specific)
+        return structue
 
     def RunMain(self: 'Main',system: 'S84_CTCode_System_ctcode.System',ctcode_file_name: 'str',transpiler: 'str') -> 'int':
         logger: 'S84_CTCode_System_ctcode.OutputStream' = system.GetLoggerDestination()
