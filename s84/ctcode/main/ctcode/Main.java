@@ -35,7 +35,11 @@ public class Main {
 
     public s84.ctcode.transpiler.ctcode.Transpiler GetNodeJSTranspiler()
     {
-        return new s84.ctcode.transpiler.nodejstranspiler.ctcode.NodeJSTranspiler();
+        s84.ctcode.transpiler.nodejstranspiler.ctcode.NodeJSTranspiler specific = new s84.ctcode.transpiler.nodejstranspiler.ctcode.NodeJSTranspiler();
+        specific.Initialize();
+        s84.ctcode.transpiler.standardstructure.ctcode.StandardStructure structue = new s84.ctcode.transpiler.standardstructure.ctcode.StandardStructure();
+        structue.SetTargetSpecificFunctions(specific);
+        return structue;
     }
 
     public s84.ctcode.transpiler.ctcode.Transpiler GetJava11Transpiler()

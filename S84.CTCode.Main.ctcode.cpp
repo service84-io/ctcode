@@ -29,7 +29,11 @@ OmniPointer<s84::ctcode::transpiler::ctcode::Transpiler> Main::GetPython3Transpi
 
 OmniPointer<s84::ctcode::transpiler::ctcode::Transpiler> Main::GetNodeJSTranspiler()
 {
-    return std::shared_ptr<s84::ctcode::transpiler::nodejstranspiler::ctcode::NodeJSTranspiler>(new s84::ctcode::transpiler::nodejstranspiler::ctcode::NodeJSTranspiler());
+    OmniPointer<s84::ctcode::transpiler::nodejstranspiler::ctcode::NodeJSTranspiler> specific = std::shared_ptr<s84::ctcode::transpiler::nodejstranspiler::ctcode::NodeJSTranspiler>(new s84::ctcode::transpiler::nodejstranspiler::ctcode::NodeJSTranspiler());
+    specific->Initialize();
+    OmniPointer<s84::ctcode::transpiler::standardstructure::ctcode::StandardStructure> structue = std::shared_ptr<s84::ctcode::transpiler::standardstructure::ctcode::StandardStructure>(new s84::ctcode::transpiler::standardstructure::ctcode::StandardStructure());
+    structue->SetTargetSpecificFunctions(specific);
+    return structue;
 }
 
 OmniPointer<s84::ctcode::transpiler::ctcode::Transpiler> Main::GetJava11Transpiler()

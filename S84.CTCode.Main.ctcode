@@ -27,7 +27,11 @@ class Main
     }
 
     function S84.CTCode.Transpiler.ctcode.Transpiler GetNodeJSTranspiler() {
-        return new S84.CTCode.Transpiler.NodeJSTranspiler.ctcode.NodeJSTranspiler;
+        S84.CTCode.Transpiler.NodeJSTranspiler.ctcode.NodeJSTranspiler specific = new S84.CTCode.Transpiler.NodeJSTranspiler.ctcode.NodeJSTranspiler;
+        specific.Initialize();
+        S84.CTCode.Transpiler.StandardStructure.ctcode.StandardStructure structue = new S84.CTCode.Transpiler.StandardStructure.ctcode.StandardStructure;
+        structue.SetTargetSpecificFunctions(specific);
+        return structue;
     }
 
     function S84.CTCode.Transpiler.ctcode.Transpiler GetJava11Transpiler() {

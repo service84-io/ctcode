@@ -46,7 +46,11 @@ export class Main {
 
     GetNodeJSTranspiler()
     {
-        return new S84_CTCode_Transpiler_NodeJSTranspiler_ctcode.NodeJSTranspiler()
+        var specific = new S84_CTCode_Transpiler_NodeJSTranspiler_ctcode.NodeJSTranspiler()
+        specific.Initialize()
+        var structue = new S84_CTCode_Transpiler_StandardStructure_ctcode.StandardStructure()
+        structue.SetTargetSpecificFunctions(specific)
+        return structue
     }
 
     GetJava11Transpiler()

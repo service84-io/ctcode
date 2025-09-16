@@ -45,7 +45,11 @@ class Main:
         return structue
 
     def GetNodeJSTranspiler(self: 'Main') -> 'S84_CTCode_Transpiler_ctcode.Transpiler':
-        return S84_CTCode_Transpiler_NodeJSTranspiler_ctcode.NodeJSTranspiler()
+        specific: 'S84_CTCode_Transpiler_NodeJSTranspiler_ctcode.NodeJSTranspiler' = S84_CTCode_Transpiler_NodeJSTranspiler_ctcode.NodeJSTranspiler()
+        specific.Initialize()
+        structue: 'S84_CTCode_Transpiler_StandardStructure_ctcode.StandardStructure' = S84_CTCode_Transpiler_StandardStructure_ctcode.StandardStructure()
+        structue.SetTargetSpecificFunctions(specific)
+        return structue
 
     def GetJava11Transpiler(self: 'Main') -> 'S84_CTCode_Transpiler_ctcode.Transpiler':
         return S84_CTCode_Transpiler_Java11Transpiler_ctcode.Java11Transpiler()
