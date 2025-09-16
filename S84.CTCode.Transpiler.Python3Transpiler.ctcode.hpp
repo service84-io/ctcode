@@ -137,6 +137,7 @@ public:
     std::string GetDimensionalType(std::string singleton_type, int dimensions);
     std::string GetMapType(std::string singleton_type);
     std::string GetPrimativeType(std::string c_t_type);
+    std::string GetDefinedType(std::string c_t_type);
     std::string GetQualifiedTypeName(std::vector<std::string> name_parts);
     void BeginProcessingCTCodeFile();
     void ProcessExdef(std::string exdef);

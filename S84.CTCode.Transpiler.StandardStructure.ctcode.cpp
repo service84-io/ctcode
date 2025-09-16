@@ -350,7 +350,7 @@ std::string StandardStructure::GetSingletonType(OmniPointer<s84::ctcode::dbnf::c
     if (singleton_type->GetDefinedType())
     {
         OmniPointer<s84::ctcode::dbnf::ctcode::DefinedType> defined_type = singleton_type->GetDefinedType();
-        return this->GetQualifiedTypeNameInternal(defined_type->GetName());
+        return this->target_specific_functions->GetDefinedType(this->GetQualifiedTypeNameInternal(defined_type->GetName()));
     }
     return std::string("");
 }

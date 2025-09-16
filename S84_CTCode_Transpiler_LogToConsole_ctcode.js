@@ -262,6 +262,11 @@ export class LogToConsole {
         return ""
     }
 
+    GetDefinedType(c_t_type)
+    {
+        return c_t_type
+    }
+
     GetQualifiedTypeName(name_parts)
     {
         var delimiter = "."

@@ -263,6 +263,11 @@ export class Python3Transpiler {
         return ""
     }
 
+    GetDefinedType(c_t_type)
+    {
+        return c_t_type
+    }
+
     GetQualifiedTypeName(name_parts)
     {
         var package_delimiter = "_"

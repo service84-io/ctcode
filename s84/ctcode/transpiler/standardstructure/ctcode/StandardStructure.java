@@ -308,7 +308,7 @@ public class StandardStructure implements s84.ctcode.transpiler.ctcode.Transpile
         if (AsBoolean(singleton_type.GetDefinedType()))
         {
             s84.ctcode.dbnf.ctcode.DefinedType defined_type = singleton_type.GetDefinedType();
-            return this.GetQualifiedTypeNameInternal(defined_type.GetName());
+            return this.target_specific_functions.GetDefinedType(this.GetQualifiedTypeNameInternal(defined_type.GetName()));
         }
         return "";
     }

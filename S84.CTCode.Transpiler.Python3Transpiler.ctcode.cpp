@@ -252,6 +252,11 @@ std::string Python3Transpiler::GetPrimativeType(std::string c_t_type)
     return std::string("");
 }
 
+std::string Python3Transpiler::GetDefinedType(std::string c_t_type)
+{
+    return c_t_type;
+}
+
 std::string Python3Transpiler::GetQualifiedTypeName(std::vector<std::string> name_parts)
 {
     std::string package_delimiter = std::string("_");

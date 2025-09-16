@@ -217,6 +217,10 @@ class LogToConsole implements S84.CTCode.Transpiler.StandardStructure.ctcode.Tar
         return "";
     }
 
+    function string GetDefinedType(string c_t_type) {
+        return c_t_type;
+    }
+
     function string GetQualifiedTypeName(string[] name_parts) {
         string delimiter = ".";
         string first_name = Element(name_parts, 0);

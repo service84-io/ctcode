@@ -40,6 +40,7 @@ export class TargetSpecificFunctions {
     GetDimensionalType(singleton_type, dimensions) {}
     GetMapType(singleton_type) {}
     GetPrimativeType(c_t_type) {}
+    GetDefinedType(c_t_type) {}
     GetQualifiedTypeName(name_parts) {}
     BeginProcessingCTCodeFile() {}
     FinishProcessingCTCodeFile() {}
@@ -412,7 +413,7 @@ export class StandardStructure {
         if (singleton_type.GetDefinedType())
         {
             var defined_type = singleton_type.GetDefinedType()
-            return this.GetQualifiedTypeNameInternal(defined_type.GetName())
+            return this.target_specific_functions.GetDefinedType(this.GetQualifiedTypeNameInternal(defined_type.GetName()))
         }
         return ""
     }

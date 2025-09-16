@@ -167,6 +167,9 @@ class LogToConsole(S84_CTCode_Transpiler_StandardStructure_ctcode.TargetSpecific
             return "void"
         return ""
 
+    def GetDefinedType(self: 'LogToConsole',c_t_type: 'str') -> 'str':
+        return c_t_type
+
     def GetQualifiedTypeName(self: 'LogToConsole',name_parts: 'list[str]') -> 'str':
         delimiter: 'str' = "."
         first_name: 'str' = Element(name_parts,0)

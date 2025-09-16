@@ -172,6 +172,9 @@ class Python3Transpiler(S84_CTCode_Transpiler_StandardStructure_ctcode.TargetSpe
             return "None"
         return ""
 
+    def GetDefinedType(self: 'Python3Transpiler',c_t_type: 'str') -> 'str':
+        return c_t_type
+
     def GetQualifiedTypeName(self: 'Python3Transpiler',name_parts: 'list[str]') -> 'str':
         package_delimiter: 'str' = "_"
         package_name_delimiter: 'str' = "."

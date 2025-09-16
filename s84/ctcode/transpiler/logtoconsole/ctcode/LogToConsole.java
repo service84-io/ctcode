@@ -251,6 +251,11 @@ public class LogToConsole implements s84.ctcode.transpiler.standardstructure.ctc
         return "";
     }
 
+    public java.lang.String GetDefinedType(java.lang.String c_t_type)
+    {
+        return c_t_type;
+    }
+
     public java.lang.String GetQualifiedTypeName(java.util.ArrayList<java.lang.String> name_parts)
     {
         java.lang.String delimiter = ".";

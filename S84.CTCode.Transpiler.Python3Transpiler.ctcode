@@ -219,6 +219,10 @@ class Python3Transpiler implements S84.CTCode.Transpiler.StandardStructure.ctcod
         return "";
     }
 
+    function string GetDefinedType(string c_t_type) {
+        return c_t_type;
+    }
+
     function string GetQualifiedTypeName(string[] name_parts) {
         string package_delimiter = "_";
         string package_name_delimiter = ".";

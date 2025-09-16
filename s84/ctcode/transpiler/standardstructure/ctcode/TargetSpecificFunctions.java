@@ -28,6 +28,7 @@ public interface TargetSpecificFunctions {
     java.lang.String GetDimensionalType(java.lang.String singleton_type, int dimensions);
     java.lang.String GetMapType(java.lang.String singleton_type);
     java.lang.String GetPrimativeType(java.lang.String c_t_type);
+    java.lang.String GetDefinedType(java.lang.String c_t_type);
     java.lang.String GetQualifiedTypeName(java.util.ArrayList<java.lang.String> name_parts);
     void BeginProcessingCTCodeFile();
     void FinishProcessingCTCodeFile();

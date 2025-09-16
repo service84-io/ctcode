@@ -252,6 +252,11 @@ std::string LogToConsole::GetPrimativeType(std::string c_t_type)
     return std::string("");
 }
 
+std::string LogToConsole::GetDefinedType(std::string c_t_type)
+{
+    return c_t_type;
+}
+
 std::string LogToConsole::GetQualifiedTypeName(std::vector<std::string> name_parts)
 {
     std::string delimiter = std::string(".");

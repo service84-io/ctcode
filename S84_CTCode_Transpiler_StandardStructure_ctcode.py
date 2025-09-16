@@ -44,6 +44,7 @@ class TargetSpecificFunctions:
     def GetDimensionalType(self: 'TargetSpecificFunctions',singleton_type: 'str',dimensions: 'int') -> 'str': pass
     def GetMapType(self: 'TargetSpecificFunctions',singleton_type: 'str') -> 'str': pass
     def GetPrimativeType(self: 'TargetSpecificFunctions',c_t_type: 'str') -> 'str': pass
+    def GetDefinedType(self: 'TargetSpecificFunctions',c_t_type: 'str') -> 'str': pass
     def GetQualifiedTypeName(self: 'TargetSpecificFunctions',name_parts: 'list[str]') -> 'str': pass
     def BeginProcessingCTCodeFile(self: 'TargetSpecificFunctions') -> 'None': pass
     def FinishProcessingCTCodeFile(self: 'TargetSpecificFunctions') -> 'None': pass
@@ -298,7 +299,7 @@ class StandardStructure(S84_CTCode_Transpiler_ctcode.Transpiler):
             return self.target_specific_functions.GetPrimativeType(singleton_type.UnParse())
         if singleton_type.GetDefinedType():
             defined_type: 'S84_CTCode_dbnf_ctcode.DefinedType' = singleton_type.GetDefinedType()
-            return self.GetQualifiedTypeNameInternal(defined_type.GetName())
+            return self.target_specific_functions.GetDefinedType(self.GetQualifiedTypeNameInternal(defined_type.GetName()))
         return ""
 
     def GetRValueSingleBasisInternal(self: 'StandardStructure',r_value_single: 'S84_CTCode_dbnf_ctcode.RValueSingle') -> 'str':

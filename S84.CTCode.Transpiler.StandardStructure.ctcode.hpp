@@ -137,6 +137,7 @@ public:
     virtual std::string GetDimensionalType(std::string singleton_type, int dimensions) = 0;
     virtual std::string GetMapType(std::string singleton_type) = 0;
     virtual std::string GetPrimativeType(std::string c_t_type) = 0;
+    virtual std::string GetDefinedType(std::string c_t_type) = 0;
     virtual std::string GetQualifiedTypeName(std::vector<std::string> name_parts) = 0;
     virtual void BeginProcessingCTCodeFile() = 0;
     virtual void FinishProcessingCTCodeFile() = 0;

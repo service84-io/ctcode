@@ -51,6 +51,7 @@ interface TargetSpecificFunctions {
     function string GetDimensionalType(string singleton_type, int dimensions);
     function string GetMapType(string singleton_type);
     function string GetPrimativeType(string c_t_type);
+    function string GetDefinedType(string c_t_type);
 
     function string GetQualifiedTypeName(string[] name_parts);
 
@@ -386,7 +387,7 @@ class StandardStructure implements S84.CTCode.Transpiler.ctcode.Transpiler {
 
         if (singleton_type.GetDefinedType()) {
             S84.CTCode.dbnf.ctcode.DefinedType defined_type = singleton_type.GetDefinedType();
-            return myself.GetQualifiedTypeNameInternal(defined_type.GetName());
+            return myself.target_specific_functions.GetDefinedType(myself.GetQualifiedTypeNameInternal(defined_type.GetName()));
         }
 
         return "";
