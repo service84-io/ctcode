@@ -31,7 +31,11 @@ class Main:
         pass
 
     def GetCPPTranspiler(self: 'Main') -> 'S84_CTCode_Transpiler_ctcode.Transpiler':
-        return S84_CTCode_Transpiler_CPPTranspiler_ctcode.CPPTranspiler()
+        specific: 'S84_CTCode_Transpiler_CPPTranspiler_ctcode.CPPTranspiler' = S84_CTCode_Transpiler_CPPTranspiler_ctcode.CPPTranspiler()
+        specific.Initialize()
+        structue: 'S84_CTCode_Transpiler_StandardStructure_ctcode.StandardStructure' = S84_CTCode_Transpiler_StandardStructure_ctcode.StandardStructure()
+        structue.SetTargetSpecificFunctions(specific)
+        return structue
 
     def GetPython3Transpiler(self: 'Main') -> 'S84_CTCode_Transpiler_ctcode.Transpiler':
         specific: 'S84_CTCode_Transpiler_Python3Transpiler_ctcode.Python3Transpiler' = S84_CTCode_Transpiler_Python3Transpiler_ctcode.Python3Transpiler()

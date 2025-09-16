@@ -28,7 +28,11 @@ export class Main {
 
     GetCPPTranspiler()
     {
-        return new S84_CTCode_Transpiler_CPPTranspiler_ctcode.CPPTranspiler()
+        var specific = new S84_CTCode_Transpiler_CPPTranspiler_ctcode.CPPTranspiler()
+        specific.Initialize()
+        var structue = new S84_CTCode_Transpiler_StandardStructure_ctcode.StandardStructure()
+        structue.SetTargetSpecificFunctions(specific)
+        return structue
     }
 
     GetPython3Transpiler()

@@ -11,7 +11,11 @@ exdef S84.CTCode.dbnf.ctcode;
 class Main
 {
     function S84.CTCode.Transpiler.ctcode.Transpiler GetCPPTranspiler() {
-        return new S84.CTCode.Transpiler.CPPTranspiler.ctcode.CPPTranspiler;
+        S84.CTCode.Transpiler.CPPTranspiler.ctcode.CPPTranspiler specific = new S84.CTCode.Transpiler.CPPTranspiler.ctcode.CPPTranspiler;
+        specific.Initialize();
+        S84.CTCode.Transpiler.StandardStructure.ctcode.StandardStructure structue = new S84.CTCode.Transpiler.StandardStructure.ctcode.StandardStructure;
+        structue.SetTargetSpecificFunctions(specific);
+        return structue;
     }
 
     function S84.CTCode.Transpiler.ctcode.Transpiler GetPython3Transpiler() {

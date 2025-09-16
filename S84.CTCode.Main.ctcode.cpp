@@ -11,7 +11,11 @@ Main::Main()
 
 OmniPointer<s84::ctcode::transpiler::ctcode::Transpiler> Main::GetCPPTranspiler()
 {
-    return std::shared_ptr<s84::ctcode::transpiler::cpptranspiler::ctcode::CPPTranspiler>(new s84::ctcode::transpiler::cpptranspiler::ctcode::CPPTranspiler());
+    OmniPointer<s84::ctcode::transpiler::cpptranspiler::ctcode::CPPTranspiler> specific = std::shared_ptr<s84::ctcode::transpiler::cpptranspiler::ctcode::CPPTranspiler>(new s84::ctcode::transpiler::cpptranspiler::ctcode::CPPTranspiler());
+    specific->Initialize();
+    OmniPointer<s84::ctcode::transpiler::standardstructure::ctcode::StandardStructure> structue = std::shared_ptr<s84::ctcode::transpiler::standardstructure::ctcode::StandardStructure>(new s84::ctcode::transpiler::standardstructure::ctcode::StandardStructure());
+    structue->SetTargetSpecificFunctions(specific);
+    return structue;
 }
 
 OmniPointer<s84::ctcode::transpiler::ctcode::Transpiler> Main::GetPython3Transpiler()

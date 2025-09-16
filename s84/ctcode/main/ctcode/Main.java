@@ -17,7 +17,11 @@ public class Main {
 
     public s84.ctcode.transpiler.ctcode.Transpiler GetCPPTranspiler()
     {
-        return new s84.ctcode.transpiler.cpptranspiler.ctcode.CPPTranspiler();
+        s84.ctcode.transpiler.cpptranspiler.ctcode.CPPTranspiler specific = new s84.ctcode.transpiler.cpptranspiler.ctcode.CPPTranspiler();
+        specific.Initialize();
+        s84.ctcode.transpiler.standardstructure.ctcode.StandardStructure structue = new s84.ctcode.transpiler.standardstructure.ctcode.StandardStructure();
+        structue.SetTargetSpecificFunctions(specific);
+        return structue;
     }
 
     public s84.ctcode.transpiler.ctcode.Transpiler GetPython3Transpiler()
