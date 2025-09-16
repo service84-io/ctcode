@@ -1,3 +1,5 @@
+import * as S84_CTCode_System_ctcode from "./S84_CTCode_System_ctcode.js"
+
 function ClearList(input) { input.length = 0; }
 function Size(input) { return input.length; }
 function Element(input, element) { return input[element]; }
@@ -16,6 +18,17 @@ export class StringHelper {
     constructor() {
     }
 
+    WriteLines(destination, lines)
+    {
+        var lines_index = 0
+        while (lines_index<Size(lines))
+        {
+            var line = Element(lines,lines_index)
+            destination.WriteLine(line)
+            lines_index = lines_index+1
+        }
+    }
+
     Indentation(indent)
     {
         var result = ""
@@ -24,6 +37,47 @@ export class StringHelper {
         {
             indent = indent-1
             result = Concat(result,"    ")
+        }
+        return result
+    }
+
+    BeginsWith(prefix, value)
+    {
+        if (Length(prefix)>Length(value))
+        {
+            return false
+        }
+        var prefix_index = 0
+        while (prefix_index<Length(prefix))
+        {
+            if (At(prefix,prefix_index)!=At(value,prefix_index))
+            {
+                return false
+            }
+            prefix_index = prefix_index+1
+        }
+        return true
+    }
+
+    StripDot(input)
+    {
+        var index = 0
+        index = 0
+        var result = ""
+        result = ""
+        while (index<Length(input))
+        {
+            var character = ""
+            character = At(input,index)
+            if (character==".")
+            {
+                result = Concat(result,"_")
+            }
+            else
+            {
+                result = Concat(result,character)
+            }
+            index = index+1
         }
         return result
     }

@@ -1,6 +1,8 @@
 #ifndef S84_CTCODE_TRANSPILER_STRINGHELPER_CTCODE_H
 #define S84_CTCODE_TRANSPILER_STRINGHELPER_CTCODE_H
 
+#include "S84.CTCode.System.ctcode.hpp"
+
 #include <cstring>
 #include <list>
 #include <unordered_map>
@@ -109,7 +111,10 @@ public:
     StringHelper();
     inline ~StringHelper() {}
 
+    void WriteLines(OmniPointer<s84::ctcode::system::ctcode::OutputStream> destination, std::vector<std::string> lines);
     std::string Indentation(int indent);
+    bool BeginsWith(std::string prefix, std::string value);
+    std::string StripDot(std::string input);
     std::string SnakeCaseToCamelCase(std::string snake_case);
     std::string CamelCaseToSnakeCase(std::string camel_case);
     bool IsUpper(std::string character);

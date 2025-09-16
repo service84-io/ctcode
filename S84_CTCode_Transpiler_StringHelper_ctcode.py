@@ -1,3 +1,5 @@
+import S84_CTCode_System_ctcode
+
 def ClearList(input: list) -> None: input.clear()
 def Size(input: list) -> int: return len(input)
 def Element(input: list, element: int ) -> any: return input[element]
@@ -20,12 +22,44 @@ class StringHelper:
     def __init__(self: 'StringHelper'):
         pass
 
+    def WriteLines(self: 'StringHelper',destination: 'S84_CTCode_System_ctcode.OutputStream',lines: 'list[str]') -> 'None':
+        lines_index: 'int' = 0
+        while lines_index<Size(lines):
+            line: 'str' = Element(lines,lines_index)
+            destination.WriteLine(line)
+            lines_index = lines_index+1
+
     def Indentation(self: 'StringHelper',indent: 'int') -> 'str':
         result: 'str' = ""
         result = ""
         while indent>0:
             indent = indent-1
             result = Concat(result,"    ")
+        return result
+
+    def BeginsWith(self: 'StringHelper',prefix: 'str',value: 'str') -> 'bool':
+        if Length(prefix)>Length(value):
+            return False
+        prefix_index: 'int' = 0
+        while prefix_index<Length(prefix):
+            if At(prefix,prefix_index)!=At(value,prefix_index):
+                return False
+            prefix_index = prefix_index+1
+        return True
+
+    def StripDot(self: 'StringHelper',input: 'str') -> 'str':
+        index: 'int' = 0
+        index = 0
+        result: 'str' = ""
+        result = ""
+        while index<Length(input):
+            character: 'str' = ""
+            character = At(input,index)
+            if character==".":
+                result = Concat(result,"_")
+            else:
+                result = Concat(result,character)
+            index = index+1
         return result
 
     def SnakeCaseToCamelCase(self: 'StringHelper',snake_case: 'str') -> 'str':

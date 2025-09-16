@@ -16,7 +16,11 @@ OmniPointer<s84::ctcode::transpiler::ctcode::Transpiler> Main::GetCPPTranspiler(
 
 OmniPointer<s84::ctcode::transpiler::ctcode::Transpiler> Main::GetPython3Transpiler()
 {
-    return std::shared_ptr<s84::ctcode::transpiler::python3transpiler::ctcode::Python3Transpiler>(new s84::ctcode::transpiler::python3transpiler::ctcode::Python3Transpiler());
+    OmniPointer<s84::ctcode::transpiler::python3transpiler::ctcode::Python3Transpiler> specific = std::shared_ptr<s84::ctcode::transpiler::python3transpiler::ctcode::Python3Transpiler>(new s84::ctcode::transpiler::python3transpiler::ctcode::Python3Transpiler());
+    specific->Initialize();
+    OmniPointer<s84::ctcode::transpiler::standardstructure::ctcode::StandardStructure> structue = std::shared_ptr<s84::ctcode::transpiler::standardstructure::ctcode::StandardStructure>(new s84::ctcode::transpiler::standardstructure::ctcode::StandardStructure());
+    structue->SetTargetSpecificFunctions(specific);
+    return structue;
 }
 
 OmniPointer<s84::ctcode::transpiler::ctcode::Transpiler> Main::GetNodeJSTranspiler()

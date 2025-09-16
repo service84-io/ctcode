@@ -1,4 +1,16 @@
+exdef S84.CTCode.System.ctcode;
+
 class StringHelper {
+    function void WriteLines(S84.CTCode.System.ctcode.OutputStream destination, string[] lines) {
+        int lines_index = 0;
+
+        while (lines_index < Size(lines)) {
+            string line = Element(lines, lines_index);
+            destination.WriteLine(line);
+            lines_index = lines_index + 1;
+        }
+    }
+
     function string Indentation(int indent) {
         string result;
         result = "";
@@ -6,6 +18,45 @@ class StringHelper {
         while (indent > 0) {
             indent = indent - 1;
             result = Concat(result, "    ");
+        }
+
+        return result;
+    }
+
+    function bool BeginsWith(string prefix, string value) {
+        if (Length(prefix) > Length(value)) {
+            return false;
+        }
+
+        int prefix_index = 0;
+
+        while (prefix_index < Length(prefix)) {
+            if (At(prefix, prefix_index) != At(value, prefix_index)) {
+                return false;
+            }
+            prefix_index = prefix_index + 1;
+        }
+
+        return true;
+    }
+
+    function string StripDot(string input) {
+        int index;
+        index = 0;
+        string result;
+        result = "";
+
+        while (index < Length(input)) {
+            string character;
+            character = At(input, index);
+
+            if (character == ".") {
+                result = Concat(result, "_");
+            } else {
+                result = Concat(result, character);
+            }
+
+            index = index + 1;
         }
 
         return result;

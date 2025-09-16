@@ -22,7 +22,11 @@ public class Main {
 
     public s84.ctcode.transpiler.ctcode.Transpiler GetPython3Transpiler()
     {
-        return new s84.ctcode.transpiler.python3transpiler.ctcode.Python3Transpiler();
+        s84.ctcode.transpiler.python3transpiler.ctcode.Python3Transpiler specific = new s84.ctcode.transpiler.python3transpiler.ctcode.Python3Transpiler();
+        specific.Initialize();
+        s84.ctcode.transpiler.standardstructure.ctcode.StandardStructure structue = new s84.ctcode.transpiler.standardstructure.ctcode.StandardStructure();
+        structue.SetTargetSpecificFunctions(specific);
+        return structue;
     }
 
     public s84.ctcode.transpiler.ctcode.Transpiler GetNodeJSTranspiler()

@@ -1,8 +1,21 @@
 package s84.ctcode.transpiler.stringhelper.ctcode;
 
+import s84.ctcode.system.ctcode.*;
+
 public class StringHelper {
     public StringHelper()
     {
+    }
+
+    public void WriteLines(s84.ctcode.system.ctcode.OutputStream destination, java.util.ArrayList<java.lang.String> lines)
+    {
+        int lines_index = 0;
+        while (AsBoolean((lines_index<Size(lines))))
+        {
+            java.lang.String line = Element(lines, lines_index);
+            destination.WriteLine(line);
+            lines_index = (lines_index+1);
+        }
     }
 
     public java.lang.String Indentation(int indent)
@@ -13,6 +26,47 @@ public class StringHelper {
         {
             indent = (indent-1);
             result = Concat(result, "    ");
+        }
+        return result;
+    }
+
+    public boolean BeginsWith(java.lang.String prefix, java.lang.String value)
+    {
+        if (AsBoolean((Length(prefix)>Length(value))))
+        {
+            return false;
+        }
+        int prefix_index = 0;
+        while (AsBoolean((prefix_index<Length(prefix))))
+        {
+            if (AsBoolean(!Equals(At(prefix, prefix_index),At(value, prefix_index))))
+            {
+                return false;
+            }
+            prefix_index = (prefix_index+1);
+        }
+        return true;
+    }
+
+    public java.lang.String StripDot(java.lang.String input)
+    {
+        int index = 0;
+        index = 0;
+        java.lang.String result = "";
+        result = "";
+        while (AsBoolean((index<Length(input))))
+        {
+            java.lang.String character = "";
+            character = At(input, index);
+            if (AsBoolean(Equals(character,".")))
+            {
+                result = Concat(result, "_");
+            }
+            else
+            {
+                result = Concat(result, character);
+            }
+            index = (index+1);
         }
         return result;
     }

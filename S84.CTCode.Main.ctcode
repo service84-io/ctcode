@@ -15,7 +15,11 @@ class Main
     }
 
     function S84.CTCode.Transpiler.ctcode.Transpiler GetPython3Transpiler() {
-        return new S84.CTCode.Transpiler.Python3Transpiler.ctcode.Python3Transpiler;
+        S84.CTCode.Transpiler.Python3Transpiler.ctcode.Python3Transpiler specific = new S84.CTCode.Transpiler.Python3Transpiler.ctcode.Python3Transpiler;
+        specific.Initialize();
+        S84.CTCode.Transpiler.StandardStructure.ctcode.StandardStructure structue = new S84.CTCode.Transpiler.StandardStructure.ctcode.StandardStructure;
+        structue.SetTargetSpecificFunctions(specific);
+        return structue;
     }
 
     function S84.CTCode.Transpiler.ctcode.Transpiler GetNodeJSTranspiler() {

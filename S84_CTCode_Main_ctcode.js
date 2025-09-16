@@ -33,7 +33,11 @@ export class Main {
 
     GetPython3Transpiler()
     {
-        return new S84_CTCode_Transpiler_Python3Transpiler_ctcode.Python3Transpiler()
+        var specific = new S84_CTCode_Transpiler_Python3Transpiler_ctcode.Python3Transpiler()
+        specific.Initialize()
+        var structue = new S84_CTCode_Transpiler_StandardStructure_ctcode.StandardStructure()
+        structue.SetTargetSpecificFunctions(specific)
+        return structue
     }
 
     GetNodeJSTranspiler()

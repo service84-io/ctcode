@@ -10,6 +10,17 @@ StringHelper::StringHelper()
 {
 }
 
+void StringHelper::WriteLines(OmniPointer<s84::ctcode::system::ctcode::OutputStream> destination, std::vector<std::string> lines)
+{
+    int lines_index = 0;
+    while (lines_index<Size(lines))
+    {
+        std::string line = Element(lines,lines_index);
+        destination->WriteLine(line);
+        lines_index = lines_index+1;
+    }
+}
+
 std::string StringHelper::Indentation(int indent)
 {
     std::string result = "";
@@ -18,6 +29,47 @@ std::string StringHelper::Indentation(int indent)
     {
         indent = indent-1;
         result = Concat(result,std::string("    "));
+    }
+    return result;
+}
+
+bool StringHelper::BeginsWith(std::string prefix, std::string value)
+{
+    if (Length(prefix)>Length(value))
+    {
+        return false;
+    }
+    int prefix_index = 0;
+    while (prefix_index<Length(prefix))
+    {
+        if (At(prefix,prefix_index)!=At(value,prefix_index))
+        {
+            return false;
+        }
+        prefix_index = prefix_index+1;
+    }
+    return true;
+}
+
+std::string StringHelper::StripDot(std::string input)
+{
+    int index = 0;
+    index = 0;
+    std::string result = "";
+    result = std::string("");
+    while (index<Length(input))
+    {
+        std::string character = "";
+        character = At(input,index);
+        if (character==std::string("."))
+        {
+            result = Concat(result,std::string("_"));
+        }
+        else
+        {
+            result = Concat(result,character);
+        }
+        index = index+1;
     }
     return result;
 }
