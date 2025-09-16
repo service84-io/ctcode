@@ -35,7 +35,11 @@ class Main
     }
 
     function S84.CTCode.Transpiler.ctcode.Transpiler GetJava11Transpiler() {
-        return new S84.CTCode.Transpiler.Java11Transpiler.ctcode.Java11Transpiler;
+        S84.CTCode.Transpiler.Java11Transpiler.ctcode.Java11Transpiler specific = new S84.CTCode.Transpiler.Java11Transpiler.ctcode.Java11Transpiler;
+        specific.Initialize();
+        S84.CTCode.Transpiler.StandardStructure.ctcode.StandardStructure structue = new S84.CTCode.Transpiler.StandardStructure.ctcode.StandardStructure;
+        structue.SetTargetSpecificFunctions(specific);
+        return structue;
     }
 
     function S84.CTCode.Transpiler.ctcode.Transpiler GetLogToConsole() {

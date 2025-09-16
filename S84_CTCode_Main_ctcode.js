@@ -55,7 +55,11 @@ export class Main {
 
     GetJava11Transpiler()
     {
-        return new S84_CTCode_Transpiler_Java11Transpiler_ctcode.Java11Transpiler()
+        var specific = new S84_CTCode_Transpiler_Java11Transpiler_ctcode.Java11Transpiler()
+        specific.Initialize()
+        var structue = new S84_CTCode_Transpiler_StandardStructure_ctcode.StandardStructure()
+        structue.SetTargetSpecificFunctions(specific)
+        return structue
     }
 
     GetLogToConsole()

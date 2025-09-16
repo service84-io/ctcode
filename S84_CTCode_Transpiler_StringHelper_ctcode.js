@@ -59,6 +59,26 @@ export class StringHelper {
         return true
     }
 
+    DotToSlash(input)
+    {
+        var result = ""
+        var input_index = 0
+        while (input_index<Length(input))
+        {
+            var character = At(input,input_index)
+            if (character==".")
+            {
+                result = Concat(result,"/")
+            }
+            else
+            {
+                result = Concat(result,character)
+            }
+            input_index = input_index+1
+        }
+        return result
+    }
+
     StripDot(input)
     {
         var index = 0

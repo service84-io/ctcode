@@ -40,6 +40,25 @@ class StringHelper {
         return true;
     }
 
+    function string DotToSlash(string input) {
+        string result = "";
+        int input_index = 0;
+
+        while (input_index < Length(input)) {
+            string character = At(input, input_index);
+
+            if (character == ".") {
+                result = Concat(result, "/");
+            } else {
+                result = Concat(result, character);
+            }
+
+            input_index = input_index + 1;
+        }
+
+        return result;
+    }
+
     function string StripDot(string input) {
         int index;
         index = 0;

@@ -52,7 +52,11 @@ class Main:
         return structue
 
     def GetJava11Transpiler(self: 'Main') -> 'S84_CTCode_Transpiler_ctcode.Transpiler':
-        return S84_CTCode_Transpiler_Java11Transpiler_ctcode.Java11Transpiler()
+        specific: 'S84_CTCode_Transpiler_Java11Transpiler_ctcode.Java11Transpiler' = S84_CTCode_Transpiler_Java11Transpiler_ctcode.Java11Transpiler()
+        specific.Initialize()
+        structue: 'S84_CTCode_Transpiler_StandardStructure_ctcode.StandardStructure' = S84_CTCode_Transpiler_StandardStructure_ctcode.StandardStructure()
+        structue.SetTargetSpecificFunctions(specific)
+        return structue
 
     def GetLogToConsole(self: 'Main') -> 'S84_CTCode_Transpiler_ctcode.Transpiler':
         specific: 'S84_CTCode_Transpiler_LogToConsole_ctcode.LogToConsole' = S84_CTCode_Transpiler_LogToConsole_ctcode.LogToConsole()

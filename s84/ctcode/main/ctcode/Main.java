@@ -44,7 +44,11 @@ public class Main {
 
     public s84.ctcode.transpiler.ctcode.Transpiler GetJava11Transpiler()
     {
-        return new s84.ctcode.transpiler.java11transpiler.ctcode.Java11Transpiler();
+        s84.ctcode.transpiler.java11transpiler.ctcode.Java11Transpiler specific = new s84.ctcode.transpiler.java11transpiler.ctcode.Java11Transpiler();
+        specific.Initialize();
+        s84.ctcode.transpiler.standardstructure.ctcode.StandardStructure structue = new s84.ctcode.transpiler.standardstructure.ctcode.StandardStructure();
+        structue.SetTargetSpecificFunctions(specific);
+        return structue;
     }
 
     public s84.ctcode.transpiler.ctcode.Transpiler GetLogToConsole()

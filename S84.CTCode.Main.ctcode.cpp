@@ -38,7 +38,11 @@ OmniPointer<s84::ctcode::transpiler::ctcode::Transpiler> Main::GetNodeJSTranspil
 
 OmniPointer<s84::ctcode::transpiler::ctcode::Transpiler> Main::GetJava11Transpiler()
 {
-    return std::shared_ptr<s84::ctcode::transpiler::java11transpiler::ctcode::Java11Transpiler>(new s84::ctcode::transpiler::java11transpiler::ctcode::Java11Transpiler());
+    OmniPointer<s84::ctcode::transpiler::java11transpiler::ctcode::Java11Transpiler> specific = std::shared_ptr<s84::ctcode::transpiler::java11transpiler::ctcode::Java11Transpiler>(new s84::ctcode::transpiler::java11transpiler::ctcode::Java11Transpiler());
+    specific->Initialize();
+    OmniPointer<s84::ctcode::transpiler::standardstructure::ctcode::StandardStructure> structue = std::shared_ptr<s84::ctcode::transpiler::standardstructure::ctcode::StandardStructure>(new s84::ctcode::transpiler::standardstructure::ctcode::StandardStructure());
+    structue->SetTargetSpecificFunctions(specific);
+    return structue;
 }
 
 OmniPointer<s84::ctcode::transpiler::ctcode::Transpiler> Main::GetLogToConsole()

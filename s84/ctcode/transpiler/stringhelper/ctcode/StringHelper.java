@@ -48,6 +48,26 @@ public class StringHelper {
         return true;
     }
 
+    public java.lang.String DotToSlash(java.lang.String input)
+    {
+        java.lang.String result = "";
+        int input_index = 0;
+        while (AsBoolean((input_index<Length(input))))
+        {
+            java.lang.String character = At(input, input_index);
+            if (AsBoolean(Equals(character,".")))
+            {
+                result = Concat(result, "/");
+            }
+            else
+            {
+                result = Concat(result, character);
+            }
+            input_index = (input_index+1);
+        }
+        return result;
+    }
+
     public java.lang.String StripDot(java.lang.String input)
     {
         int index = 0;

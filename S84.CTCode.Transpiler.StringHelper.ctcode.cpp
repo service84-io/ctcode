@@ -51,6 +51,26 @@ bool StringHelper::BeginsWith(std::string prefix, std::string value)
     return true;
 }
 
+std::string StringHelper::DotToSlash(std::string input)
+{
+    std::string result = std::string("");
+    int input_index = 0;
+    while (input_index<Length(input))
+    {
+        std::string character = At(input,input_index);
+        if (character==std::string("."))
+        {
+            result = Concat(result,std::string("/"));
+        }
+        else
+        {
+            result = Concat(result,character);
+        }
+        input_index = input_index+1;
+    }
+    return result;
+}
+
 std::string StringHelper::StripDot(std::string input)
 {
     int index = 0;

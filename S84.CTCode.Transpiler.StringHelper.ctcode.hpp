@@ -114,6 +114,7 @@ public:
     void WriteLines(OmniPointer<s84::ctcode::system::ctcode::OutputStream> destination, std::vector<std::string> lines);
     std::string Indentation(int indent);
     bool BeginsWith(std::string prefix, std::string value);
+    std::string DotToSlash(std::string input);
     std::string StripDot(std::string input);
     std::string SnakeCaseToCamelCase(std::string snake_case);
     std::string CamelCaseToSnakeCase(std::string camel_case);
