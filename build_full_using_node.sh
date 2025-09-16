@@ -1,5 +1,9 @@
 #!/bin/bash
 
+$(dirname $0)/clean_cpp.sh
+$(dirname $0)/clean_java.sh
+$(dirname $0)/clean_python.sh
+
 echo Processing DBNF files...
 echo
 
@@ -21,9 +25,9 @@ for CTCodeFile in *.ctcode; do
   echo Generating CPP...
   node ctcode.js ${CTCodeFile} CPPTranspiler
   echo Done generating CPP!
-  echo Generating Python...
+  echo Generating Python3...
   node ctcode.js ${CTCodeFile} Python3Transpiler
-  echo Done generating Python!
+  echo Done generating Python3!
   echo Generating NodeJS...
   node ctcode.js ${CTCodeFile} NodeJSTranspiler
   echo Done generating NodeJS!
