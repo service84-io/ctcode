@@ -21,32 +21,18 @@ class LogToConsole implements S84.CTCode.Transpiler.StandardStructure.ctcode.Tar
 
     function string GetCallName(string name)
     {
-        if (name != "")
-        {
-            return myself.string_helper.SnakeCaseToCamelCase(name);
-        }
-        else
-        {
-            return "";
-        }
+        return myself.string_helper.SnakeCaseToCamelCase(name);
     }
 
     function string GetVariableName(string name)
     {
-        if (name != "")
-        {
-            string value = myself.string_helper.CamelCaseToSnakeCase(name);
+        string value = myself.string_helper.CamelCaseToSnakeCase(name);
 
-            if (value == "myself") {
-                return "thyself";
-            }
+        if (value == "myself") {
+            return "thyself";
+        }
 
-            return value;
-        }
-        else
-        {
-            return "";
-        }
+        return value;
     }
 
     function string GetVariableChain(string[] name_parts) {

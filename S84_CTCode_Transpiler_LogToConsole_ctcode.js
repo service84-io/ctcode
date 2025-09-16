@@ -57,31 +57,17 @@ export class LogToConsole {
 
     GetCallName(name)
     {
-        if (name!="")
-        {
-            return this.string_helper.SnakeCaseToCamelCase(name)
-        }
-        else
-        {
-            return ""
-        }
+        return this.string_helper.SnakeCaseToCamelCase(name)
     }
 
     GetVariableName(name)
     {
-        if (name!="")
+        var value = this.string_helper.CamelCaseToSnakeCase(name)
+        if (value=="myself")
         {
-            var value = this.string_helper.CamelCaseToSnakeCase(name)
-            if (value=="myself")
-            {
-                return "thyself"
-            }
-            return value
+            return "thyself"
         }
-        else
-        {
-            return ""
-        }
+        return value
     }
 
     GetVariableChain(name_parts)

@@ -547,7 +547,14 @@ std::string StandardStructure::GetType(OmniPointer<s84::ctcode::dbnf::ctcode::Va
 
 std::string StandardStructure::NameToString(OmniPointer<s84::ctcode::dbnf::ctcode::Name> name)
 {
-    return name->UnParse();
+    if (name)
+    {
+        return name->UnParse();
+    }
+    else
+    {
+        return std::string("");
+    }
 }
 
 

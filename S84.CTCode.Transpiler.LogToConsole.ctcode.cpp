@@ -47,31 +47,17 @@ int LogToConsole::GetBaseIndentation()
 
 std::string LogToConsole::GetCallName(std::string name)
 {
-    if (name!=std::string(""))
-    {
-        return this->string_helper->SnakeCaseToCamelCase(name);
-    }
-    else
-    {
-        return std::string("");
-    }
+    return this->string_helper->SnakeCaseToCamelCase(name);
 }
 
 std::string LogToConsole::GetVariableName(std::string name)
 {
-    if (name!=std::string(""))
+    std::string value = this->string_helper->CamelCaseToSnakeCase(name);
+    if (value==std::string("myself"))
     {
-        std::string value = this->string_helper->CamelCaseToSnakeCase(name);
-        if (value==std::string("myself"))
-        {
-            return std::string("thyself");
-        }
-        return value;
+        return std::string("thyself");
     }
-    else
-    {
-        return std::string("");
-    }
+    return value;
 }
 
 std::string LogToConsole::GetVariableChain(std::vector<std::string> name_parts)

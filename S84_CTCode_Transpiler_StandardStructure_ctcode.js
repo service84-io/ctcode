@@ -609,7 +609,14 @@ export class StandardStructure {
 
     NameToString(name)
     {
-        return name.UnParse()
+        if (name)
+        {
+            return name.UnParse()
+        }
+        else
+        {
+            return ""
+        }
     }
 }
 

@@ -46,31 +46,17 @@ public class LogToConsole implements s84.ctcode.transpiler.standardstructure.ctc
 
     public java.lang.String GetCallName(java.lang.String name)
     {
-        if (AsBoolean(!Equals(name,"")))
-        {
-            return this.string_helper.SnakeCaseToCamelCase(name);
-        }
-        else
-        {
-            return "";
-        }
+        return this.string_helper.SnakeCaseToCamelCase(name);
     }
 
     public java.lang.String GetVariableName(java.lang.String name)
     {
-        if (AsBoolean(!Equals(name,"")))
+        java.lang.String value = this.string_helper.CamelCaseToSnakeCase(name);
+        if (AsBoolean(Equals(value,"myself")))
         {
-            java.lang.String value = this.string_helper.CamelCaseToSnakeCase(name);
-            if (AsBoolean(Equals(value,"myself")))
-            {
-                return "thyself";
-            }
-            return value;
+            return "thyself";
         }
-        else
-        {
-            return "";
-        }
+        return value;
     }
 
     public java.lang.String GetVariableChain(java.util.ArrayList<java.lang.String> name_parts)

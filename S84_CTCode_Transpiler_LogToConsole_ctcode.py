@@ -47,19 +47,13 @@ class LogToConsole(S84_CTCode_Transpiler_StandardStructure_ctcode.TargetSpecific
         return 3
 
     def GetCallName(self: 'LogToConsole',name: 'str') -> 'str':
-        if name!="":
-            return self.string_helper.SnakeCaseToCamelCase(name)
-        else:
-            return ""
+        return self.string_helper.SnakeCaseToCamelCase(name)
 
     def GetVariableName(self: 'LogToConsole',name: 'str') -> 'str':
-        if name!="":
-            value: 'str' = self.string_helper.CamelCaseToSnakeCase(name)
-            if value=="myself":
-                return "thyself"
-            return value
-        else:
-            return ""
+        value: 'str' = self.string_helper.CamelCaseToSnakeCase(name)
+        if value=="myself":
+            return "thyself"
+        return value
 
     def GetVariableChain(self: 'LogToConsole',name_parts: 'list[str]') -> 'str':
         delimiter: 'str' = "."

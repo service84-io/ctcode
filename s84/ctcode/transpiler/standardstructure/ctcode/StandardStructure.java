@@ -505,7 +505,14 @@ public class StandardStructure implements s84.ctcode.transpiler.ctcode.Transpile
 
     public java.lang.String NameToString(s84.ctcode.dbnf.ctcode.Name name)
     {
-        return name.UnParse();
+        if (AsBoolean(name))
+        {
+            return name.UnParse();
+        }
+        else
+        {
+            return "";
+        }
     }
 
     private s84.ctcode.system.ctcode.System system;

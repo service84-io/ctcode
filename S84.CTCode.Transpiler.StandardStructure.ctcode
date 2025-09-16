@@ -597,6 +597,10 @@ class StandardStructure implements S84.CTCode.Transpiler.ctcode.Transpiler {
 
     function string NameToString(S84.CTCode.dbnf.ctcode.Name name)
     {
-        return name.UnParse();
+        if (name) {
+            return name.UnParse();
+        } else {
+            return "";
+        }
     }
 }

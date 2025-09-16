@@ -432,5 +432,8 @@ class StandardStructure(S84_CTCode_Transpiler_ctcode.Transpiler):
         return ""
 
     def NameToString(self: 'StandardStructure',name: 'S84_CTCode_dbnf_ctcode.Name') -> 'str':
-        return name.UnParse()
+        if name:
+            return name.UnParse()
+        else:
+            return ""
 
