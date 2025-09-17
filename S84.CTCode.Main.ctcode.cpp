@@ -18,18 +18,9 @@ OmniPointer<s84::ctcode::transpiler::ctcode::Transpiler> Main::GetCPPTranspiler(
     return structue;
 }
 
-OmniPointer<s84::ctcode::transpiler::ctcode::Transpiler> Main::GetPython3Transpiler()
+OmniPointer<s84::ctcode::transpiler::ctcode::Transpiler> Main::GetCSharpTranspiler()
 {
-    OmniPointer<s84::ctcode::transpiler::python3transpiler::ctcode::Python3Transpiler> specific = std::shared_ptr<s84::ctcode::transpiler::python3transpiler::ctcode::Python3Transpiler>(new s84::ctcode::transpiler::python3transpiler::ctcode::Python3Transpiler());
-    specific->Initialize();
-    OmniPointer<s84::ctcode::transpiler::standardstructure::ctcode::StandardStructure> structue = std::shared_ptr<s84::ctcode::transpiler::standardstructure::ctcode::StandardStructure>(new s84::ctcode::transpiler::standardstructure::ctcode::StandardStructure());
-    structue->SetTargetSpecificFunctions(specific);
-    return structue;
-}
-
-OmniPointer<s84::ctcode::transpiler::ctcode::Transpiler> Main::GetNodeJSTranspiler()
-{
-    OmniPointer<s84::ctcode::transpiler::nodejstranspiler::ctcode::NodeJSTranspiler> specific = std::shared_ptr<s84::ctcode::transpiler::nodejstranspiler::ctcode::NodeJSTranspiler>(new s84::ctcode::transpiler::nodejstranspiler::ctcode::NodeJSTranspiler());
+    OmniPointer<s84::ctcode::transpiler::csharptranspiler::ctcode::CSharpTranspiler> specific = std::shared_ptr<s84::ctcode::transpiler::csharptranspiler::ctcode::CSharpTranspiler>(new s84::ctcode::transpiler::csharptranspiler::ctcode::CSharpTranspiler());
     specific->Initialize();
     OmniPointer<s84::ctcode::transpiler::standardstructure::ctcode::StandardStructure> structue = std::shared_ptr<s84::ctcode::transpiler::standardstructure::ctcode::StandardStructure>(new s84::ctcode::transpiler::standardstructure::ctcode::StandardStructure());
     structue->SetTargetSpecificFunctions(specific);
@@ -54,15 +45,54 @@ OmniPointer<s84::ctcode::transpiler::ctcode::Transpiler> Main::GetLogToConsole()
     return structue;
 }
 
+OmniPointer<s84::ctcode::transpiler::ctcode::Transpiler> Main::GetNodeJSTranspiler()
+{
+    OmniPointer<s84::ctcode::transpiler::nodejstranspiler::ctcode::NodeJSTranspiler> specific = std::shared_ptr<s84::ctcode::transpiler::nodejstranspiler::ctcode::NodeJSTranspiler>(new s84::ctcode::transpiler::nodejstranspiler::ctcode::NodeJSTranspiler());
+    specific->Initialize();
+    OmniPointer<s84::ctcode::transpiler::standardstructure::ctcode::StandardStructure> structue = std::shared_ptr<s84::ctcode::transpiler::standardstructure::ctcode::StandardStructure>(new s84::ctcode::transpiler::standardstructure::ctcode::StandardStructure());
+    structue->SetTargetSpecificFunctions(specific);
+    return structue;
+}
+
+OmniPointer<s84::ctcode::transpiler::ctcode::Transpiler> Main::GetPHPTranspiler()
+{
+    OmniPointer<s84::ctcode::transpiler::phptranspiler::ctcode::PHPTranspiler> specific = std::shared_ptr<s84::ctcode::transpiler::phptranspiler::ctcode::PHPTranspiler>(new s84::ctcode::transpiler::phptranspiler::ctcode::PHPTranspiler());
+    specific->Initialize();
+    OmniPointer<s84::ctcode::transpiler::standardstructure::ctcode::StandardStructure> structue = std::shared_ptr<s84::ctcode::transpiler::standardstructure::ctcode::StandardStructure>(new s84::ctcode::transpiler::standardstructure::ctcode::StandardStructure());
+    structue->SetTargetSpecificFunctions(specific);
+    return structue;
+}
+
+OmniPointer<s84::ctcode::transpiler::ctcode::Transpiler> Main::GetPython3Transpiler()
+{
+    OmniPointer<s84::ctcode::transpiler::python3transpiler::ctcode::Python3Transpiler> specific = std::shared_ptr<s84::ctcode::transpiler::python3transpiler::ctcode::Python3Transpiler>(new s84::ctcode::transpiler::python3transpiler::ctcode::Python3Transpiler());
+    specific->Initialize();
+    OmniPointer<s84::ctcode::transpiler::standardstructure::ctcode::StandardStructure> structue = std::shared_ptr<s84::ctcode::transpiler::standardstructure::ctcode::StandardStructure>(new s84::ctcode::transpiler::standardstructure::ctcode::StandardStructure());
+    structue->SetTargetSpecificFunctions(specific);
+    return structue;
+}
+
+OmniPointer<s84::ctcode::transpiler::ctcode::Transpiler> Main::GetRubyTranspiler()
+{
+    OmniPointer<s84::ctcode::transpiler::rubytranspiler::ctcode::RubyTranspiler> specific = std::shared_ptr<s84::ctcode::transpiler::rubytranspiler::ctcode::RubyTranspiler>(new s84::ctcode::transpiler::rubytranspiler::ctcode::RubyTranspiler());
+    specific->Initialize();
+    OmniPointer<s84::ctcode::transpiler::standardstructure::ctcode::StandardStructure> structue = std::shared_ptr<s84::ctcode::transpiler::standardstructure::ctcode::StandardStructure>(new s84::ctcode::transpiler::standardstructure::ctcode::StandardStructure());
+    structue->SetTargetSpecificFunctions(specific);
+    return structue;
+}
+
 int Main::RunMain(OmniPointer<s84::ctcode::system::ctcode::System> system, std::string ctcode_file_name, std::string transpiler)
 {
     OmniPointer<s84::ctcode::system::ctcode::OutputStream> logger = system->GetLoggerDestination();
     std::unordered_map<std::string, OmniPointer<s84::ctcode::transpiler::ctcode::Transpiler>> transpilers;
     SetKV(transpilers,std::string("CPPTranspiler"),this->GetCPPTranspiler());
-    SetKV(transpilers,std::string("Python3Transpiler"),this->GetPython3Transpiler());
-    SetKV(transpilers,std::string("NodeJSTranspiler"),this->GetNodeJSTranspiler());
+    SetKV(transpilers,std::string("CSharpTranspiler"),this->GetCSharpTranspiler());
     SetKV(transpilers,std::string("Java11Transpiler"),this->GetJava11Transpiler());
     SetKV(transpilers,std::string("LogToConsole"),this->GetLogToConsole());
+    SetKV(transpilers,std::string("NodeJSTranspiler"),this->GetNodeJSTranspiler());
+    SetKV(transpilers,std::string("GetPHPTranspiler"),this->GetPHPTranspiler());
+    SetKV(transpilers,std::string("Python3Transpiler"),this->GetPython3Transpiler());
+    SetKV(transpilers,std::string("RubyTranspiler"),this->GetRubyTranspiler());
     if (ctcode_file_name==std::string("")||!HasKV(transpilers,transpiler))
     {
         logger->WriteLine(std::string("ctcode <CTCodeFile> <Transpiler>"));

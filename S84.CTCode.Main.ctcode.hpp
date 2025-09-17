@@ -3,13 +3,16 @@
 
 #include "S84.CTCode.System.ctcode.hpp"
 #include "S84.CTCode.Transpiler.ctcode.hpp"
+#include "S84.CTCode.dbnf.ctcode.hpp"
 #include "S84.CTCode.Transpiler.StandardStructure.ctcode.hpp"
 #include "S84.CTCode.Transpiler.CPPTranspiler.ctcode.hpp"
-#include "S84.CTCode.Transpiler.Python3Transpiler.ctcode.hpp"
-#include "S84.CTCode.Transpiler.NodeJSTranspiler.ctcode.hpp"
+#include "S84.CTCode.Transpiler.CSharpTranspiler.ctcode.hpp"
 #include "S84.CTCode.Transpiler.Java11Transpiler.ctcode.hpp"
 #include "S84.CTCode.Transpiler.LogToConsole.ctcode.hpp"
-#include "S84.CTCode.dbnf.ctcode.hpp"
+#include "S84.CTCode.Transpiler.NodeJSTranspiler.ctcode.hpp"
+#include "S84.CTCode.Transpiler.PHPTranspiler.ctcode.hpp"
+#include "S84.CTCode.Transpiler.Python3Transpiler.ctcode.hpp"
+#include "S84.CTCode.Transpiler.RubyTranspiler.ctcode.hpp"
 
 #include <cstring>
 #include <list>
@@ -119,10 +122,13 @@ public:
     inline ~Main() {}
 
     OmniPointer<s84::ctcode::transpiler::ctcode::Transpiler> GetCPPTranspiler();
-    OmniPointer<s84::ctcode::transpiler::ctcode::Transpiler> GetPython3Transpiler();
-    OmniPointer<s84::ctcode::transpiler::ctcode::Transpiler> GetNodeJSTranspiler();
+    OmniPointer<s84::ctcode::transpiler::ctcode::Transpiler> GetCSharpTranspiler();
     OmniPointer<s84::ctcode::transpiler::ctcode::Transpiler> GetJava11Transpiler();
     OmniPointer<s84::ctcode::transpiler::ctcode::Transpiler> GetLogToConsole();
+    OmniPointer<s84::ctcode::transpiler::ctcode::Transpiler> GetNodeJSTranspiler();
+    OmniPointer<s84::ctcode::transpiler::ctcode::Transpiler> GetPHPTranspiler();
+    OmniPointer<s84::ctcode::transpiler::ctcode::Transpiler> GetPython3Transpiler();
+    OmniPointer<s84::ctcode::transpiler::ctcode::Transpiler> GetRubyTranspiler();
     int RunMain(OmniPointer<s84::ctcode::system::ctcode::System> system, std::string ctcode_file_name, std::string transpiler);
 };
 

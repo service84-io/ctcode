@@ -1,12 +1,15 @@
 import S84_CTCode_System_ctcode
 import S84_CTCode_Transpiler_ctcode
+import S84_CTCode_dbnf_ctcode
 import S84_CTCode_Transpiler_StandardStructure_ctcode
 import S84_CTCode_Transpiler_CPPTranspiler_ctcode
-import S84_CTCode_Transpiler_Python3Transpiler_ctcode
-import S84_CTCode_Transpiler_NodeJSTranspiler_ctcode
+import S84_CTCode_Transpiler_CSharpTranspiler_ctcode
 import S84_CTCode_Transpiler_Java11Transpiler_ctcode
 import S84_CTCode_Transpiler_LogToConsole_ctcode
-import S84_CTCode_dbnf_ctcode
+import S84_CTCode_Transpiler_NodeJSTranspiler_ctcode
+import S84_CTCode_Transpiler_PHPTranspiler_ctcode
+import S84_CTCode_Transpiler_Python3Transpiler_ctcode
+import S84_CTCode_Transpiler_RubyTranspiler_ctcode
 
 def ClearList(input: list) -> None: input.clear()
 def Size(input: list) -> int: return len(input)
@@ -37,15 +40,8 @@ class Main:
         structue.SetTargetSpecificFunctions(specific)
         return structue
 
-    def GetPython3Transpiler(self: 'Main') -> 'S84_CTCode_Transpiler_ctcode.Transpiler':
-        specific: 'S84_CTCode_Transpiler_Python3Transpiler_ctcode.Python3Transpiler' = S84_CTCode_Transpiler_Python3Transpiler_ctcode.Python3Transpiler()
-        specific.Initialize()
-        structue: 'S84_CTCode_Transpiler_StandardStructure_ctcode.StandardStructure' = S84_CTCode_Transpiler_StandardStructure_ctcode.StandardStructure()
-        structue.SetTargetSpecificFunctions(specific)
-        return structue
-
-    def GetNodeJSTranspiler(self: 'Main') -> 'S84_CTCode_Transpiler_ctcode.Transpiler':
-        specific: 'S84_CTCode_Transpiler_NodeJSTranspiler_ctcode.NodeJSTranspiler' = S84_CTCode_Transpiler_NodeJSTranspiler_ctcode.NodeJSTranspiler()
+    def GetCSharpTranspiler(self: 'Main') -> 'S84_CTCode_Transpiler_ctcode.Transpiler':
+        specific: 'S84_CTCode_Transpiler_CSharpTranspiler_ctcode.CSharpTranspiler' = S84_CTCode_Transpiler_CSharpTranspiler_ctcode.CSharpTranspiler()
         specific.Initialize()
         structue: 'S84_CTCode_Transpiler_StandardStructure_ctcode.StandardStructure' = S84_CTCode_Transpiler_StandardStructure_ctcode.StandardStructure()
         structue.SetTargetSpecificFunctions(specific)
@@ -65,14 +61,45 @@ class Main:
         structue.SetTargetSpecificFunctions(specific)
         return structue
 
+    def GetNodeJSTranspiler(self: 'Main') -> 'S84_CTCode_Transpiler_ctcode.Transpiler':
+        specific: 'S84_CTCode_Transpiler_NodeJSTranspiler_ctcode.NodeJSTranspiler' = S84_CTCode_Transpiler_NodeJSTranspiler_ctcode.NodeJSTranspiler()
+        specific.Initialize()
+        structue: 'S84_CTCode_Transpiler_StandardStructure_ctcode.StandardStructure' = S84_CTCode_Transpiler_StandardStructure_ctcode.StandardStructure()
+        structue.SetTargetSpecificFunctions(specific)
+        return structue
+
+    def GetPHPTranspiler(self: 'Main') -> 'S84_CTCode_Transpiler_ctcode.Transpiler':
+        specific: 'S84_CTCode_Transpiler_PHPTranspiler_ctcode.PHPTranspiler' = S84_CTCode_Transpiler_PHPTranspiler_ctcode.PHPTranspiler()
+        specific.Initialize()
+        structue: 'S84_CTCode_Transpiler_StandardStructure_ctcode.StandardStructure' = S84_CTCode_Transpiler_StandardStructure_ctcode.StandardStructure()
+        structue.SetTargetSpecificFunctions(specific)
+        return structue
+
+    def GetPython3Transpiler(self: 'Main') -> 'S84_CTCode_Transpiler_ctcode.Transpiler':
+        specific: 'S84_CTCode_Transpiler_Python3Transpiler_ctcode.Python3Transpiler' = S84_CTCode_Transpiler_Python3Transpiler_ctcode.Python3Transpiler()
+        specific.Initialize()
+        structue: 'S84_CTCode_Transpiler_StandardStructure_ctcode.StandardStructure' = S84_CTCode_Transpiler_StandardStructure_ctcode.StandardStructure()
+        structue.SetTargetSpecificFunctions(specific)
+        return structue
+
+    def GetRubyTranspiler(self: 'Main') -> 'S84_CTCode_Transpiler_ctcode.Transpiler':
+        specific: 'S84_CTCode_Transpiler_RubyTranspiler_ctcode.RubyTranspiler' = S84_CTCode_Transpiler_RubyTranspiler_ctcode.RubyTranspiler()
+        specific.Initialize()
+        structue: 'S84_CTCode_Transpiler_StandardStructure_ctcode.StandardStructure' = S84_CTCode_Transpiler_StandardStructure_ctcode.StandardStructure()
+        structue.SetTargetSpecificFunctions(specific)
+        return structue
+
     def RunMain(self: 'Main',system: 'S84_CTCode_System_ctcode.System',ctcode_file_name: 'str',transpiler: 'str') -> 'int':
         logger: 'S84_CTCode_System_ctcode.OutputStream' = system.GetLoggerDestination()
         transpilers: 'dict[str, S84_CTCode_Transpiler_ctcode.Transpiler]' = {}
         SetKV(transpilers,"CPPTranspiler",self.GetCPPTranspiler())
-        SetKV(transpilers,"Python3Transpiler",self.GetPython3Transpiler())
-        SetKV(transpilers,"NodeJSTranspiler",self.GetNodeJSTranspiler())
+        SetKV(transpilers,"CSharpTranspiler",self.GetCSharpTranspiler())
         SetKV(transpilers,"Java11Transpiler",self.GetJava11Transpiler())
         SetKV(transpilers,"LogToConsole",self.GetLogToConsole())
+        SetKV(transpilers,"NodeJSTranspiler",self.GetNodeJSTranspiler())
+        SetKV(transpilers,"GetPHPTranspiler",self.GetPHPTranspiler())
+        SetKV(transpilers,"Python3Transpiler",self.GetPython3Transpiler())
+        SetKV(transpilers,"RubyTranspiler",self.GetRubyTranspiler())
         if ctcode_file_name=="" or not HasKV(transpilers,transpiler):
             logger.WriteLine("ctcode <CTCodeFile> <Transpiler>")
             logger.WriteLine("Known transpilers:")

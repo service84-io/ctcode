@@ -2,13 +2,16 @@ package s84.ctcode.main.ctcode;
 
 import s84.ctcode.system.ctcode.*;
 import s84.ctcode.transpiler.ctcode.*;
+import s84.ctcode.dbnf.ctcode.*;
 import s84.ctcode.transpiler.standardstructure.ctcode.*;
 import s84.ctcode.transpiler.cpptranspiler.ctcode.*;
-import s84.ctcode.transpiler.python3transpiler.ctcode.*;
-import s84.ctcode.transpiler.nodejstranspiler.ctcode.*;
+import s84.ctcode.transpiler.csharptranspiler.ctcode.*;
 import s84.ctcode.transpiler.java11transpiler.ctcode.*;
 import s84.ctcode.transpiler.logtoconsole.ctcode.*;
-import s84.ctcode.dbnf.ctcode.*;
+import s84.ctcode.transpiler.nodejstranspiler.ctcode.*;
+import s84.ctcode.transpiler.phptranspiler.ctcode.*;
+import s84.ctcode.transpiler.python3transpiler.ctcode.*;
+import s84.ctcode.transpiler.rubytranspiler.ctcode.*;
 
 public class Main {
     public Main()
@@ -24,18 +27,9 @@ public class Main {
         return structue;
     }
 
-    public s84.ctcode.transpiler.ctcode.Transpiler GetPython3Transpiler()
+    public s84.ctcode.transpiler.ctcode.Transpiler GetCSharpTranspiler()
     {
-        s84.ctcode.transpiler.python3transpiler.ctcode.Python3Transpiler specific = new s84.ctcode.transpiler.python3transpiler.ctcode.Python3Transpiler();
-        specific.Initialize();
-        s84.ctcode.transpiler.standardstructure.ctcode.StandardStructure structue = new s84.ctcode.transpiler.standardstructure.ctcode.StandardStructure();
-        structue.SetTargetSpecificFunctions(specific);
-        return structue;
-    }
-
-    public s84.ctcode.transpiler.ctcode.Transpiler GetNodeJSTranspiler()
-    {
-        s84.ctcode.transpiler.nodejstranspiler.ctcode.NodeJSTranspiler specific = new s84.ctcode.transpiler.nodejstranspiler.ctcode.NodeJSTranspiler();
+        s84.ctcode.transpiler.csharptranspiler.ctcode.CSharpTranspiler specific = new s84.ctcode.transpiler.csharptranspiler.ctcode.CSharpTranspiler();
         specific.Initialize();
         s84.ctcode.transpiler.standardstructure.ctcode.StandardStructure structue = new s84.ctcode.transpiler.standardstructure.ctcode.StandardStructure();
         structue.SetTargetSpecificFunctions(specific);
@@ -60,15 +54,54 @@ public class Main {
         return structue;
     }
 
+    public s84.ctcode.transpiler.ctcode.Transpiler GetNodeJSTranspiler()
+    {
+        s84.ctcode.transpiler.nodejstranspiler.ctcode.NodeJSTranspiler specific = new s84.ctcode.transpiler.nodejstranspiler.ctcode.NodeJSTranspiler();
+        specific.Initialize();
+        s84.ctcode.transpiler.standardstructure.ctcode.StandardStructure structue = new s84.ctcode.transpiler.standardstructure.ctcode.StandardStructure();
+        structue.SetTargetSpecificFunctions(specific);
+        return structue;
+    }
+
+    public s84.ctcode.transpiler.ctcode.Transpiler GetPHPTranspiler()
+    {
+        s84.ctcode.transpiler.phptranspiler.ctcode.PHPTranspiler specific = new s84.ctcode.transpiler.phptranspiler.ctcode.PHPTranspiler();
+        specific.Initialize();
+        s84.ctcode.transpiler.standardstructure.ctcode.StandardStructure structue = new s84.ctcode.transpiler.standardstructure.ctcode.StandardStructure();
+        structue.SetTargetSpecificFunctions(specific);
+        return structue;
+    }
+
+    public s84.ctcode.transpiler.ctcode.Transpiler GetPython3Transpiler()
+    {
+        s84.ctcode.transpiler.python3transpiler.ctcode.Python3Transpiler specific = new s84.ctcode.transpiler.python3transpiler.ctcode.Python3Transpiler();
+        specific.Initialize();
+        s84.ctcode.transpiler.standardstructure.ctcode.StandardStructure structue = new s84.ctcode.transpiler.standardstructure.ctcode.StandardStructure();
+        structue.SetTargetSpecificFunctions(specific);
+        return structue;
+    }
+
+    public s84.ctcode.transpiler.ctcode.Transpiler GetRubyTranspiler()
+    {
+        s84.ctcode.transpiler.rubytranspiler.ctcode.RubyTranspiler specific = new s84.ctcode.transpiler.rubytranspiler.ctcode.RubyTranspiler();
+        specific.Initialize();
+        s84.ctcode.transpiler.standardstructure.ctcode.StandardStructure structue = new s84.ctcode.transpiler.standardstructure.ctcode.StandardStructure();
+        structue.SetTargetSpecificFunctions(specific);
+        return structue;
+    }
+
     public int RunMain(s84.ctcode.system.ctcode.System system, java.lang.String ctcode_file_name, java.lang.String transpiler)
     {
         s84.ctcode.system.ctcode.OutputStream logger = system.GetLoggerDestination();
         java.util.HashMap<java.lang.String, s84.ctcode.transpiler.ctcode.Transpiler> transpilers = new java.util.HashMap<>();
         SetKV(transpilers, "CPPTranspiler", this.GetCPPTranspiler());
-        SetKV(transpilers, "Python3Transpiler", this.GetPython3Transpiler());
-        SetKV(transpilers, "NodeJSTranspiler", this.GetNodeJSTranspiler());
+        SetKV(transpilers, "CSharpTranspiler", this.GetCSharpTranspiler());
         SetKV(transpilers, "Java11Transpiler", this.GetJava11Transpiler());
         SetKV(transpilers, "LogToConsole", this.GetLogToConsole());
+        SetKV(transpilers, "NodeJSTranspiler", this.GetNodeJSTranspiler());
+        SetKV(transpilers, "GetPHPTranspiler", this.GetPHPTranspiler());
+        SetKV(transpilers, "Python3Transpiler", this.GetPython3Transpiler());
+        SetKV(transpilers, "RubyTranspiler", this.GetRubyTranspiler());
         if (AsBoolean((AsBoolean(Equals(ctcode_file_name,"")) || AsBoolean((! AsBoolean(HasKV(transpilers, transpiler)))))))
         {
             logger.WriteLine("ctcode <CTCodeFile> <Transpiler>");

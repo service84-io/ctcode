@@ -1,0 +1,330 @@
+exdef S84.CTCode.dbnf.ctcode;
+exdef S84.CTCode.Transpiler.StandardStructure.ctcode;
+exdef S84.CTCode.Transpiler.StringHelper.ctcode;
+
+class RubyTranspiler implements S84.CTCode.Transpiler.StandardStructure.ctcode.TargetSpecificFunctions {
+    S84.CTCode.System.ctcode.System system;
+    S84.CTCode.dbnf.ctcode.CTCodeFile c_t_code_file;
+    string base_name;
+
+    S84.CTCode.System.ctcode.OutputStream logger;
+
+    S84.CTCode.Transpiler.StringHelper.ctcode.StringHelper string_helper;
+
+    function void Initialize() { myself.string_helper = new S84.CTCode.Transpiler.StringHelper.ctcode.StringHelper;}
+    function void SetSystem(S84.CTCode.System.ctcode.System system) { myself.system = system; }
+    function void SetCTCodeFile(S84.CTCode.dbnf.ctcode.CTCodeFile c_t_code_file) { myself.c_t_code_file = c_t_code_file; }
+    function void SetBaseName(string base_name) { myself.base_name = base_name; }
+    function void SetLogger(S84.CTCode.System.ctcode.OutputStream logger) { myself.logger = logger; }
+
+    function int GetBaseIndentation() { return 3; }
+
+    function string GetCallName(string name)
+    {
+        return myself.string_helper.SnakeCaseToCamelCase(name);
+    }
+
+    function string GetVariableName(string name)
+    {
+        string value = myself.string_helper.CamelCaseToSnakeCase(name);
+
+        if (value == "myself") {
+            return "thyself";
+        }
+
+        return value;
+    }
+
+    function string GetVariableChain(string[] name_parts) {
+        string delimiter = ".";
+        string first_name = Element(name_parts, 0);
+        string result = myself.GetVariableName(first_name);
+        int name_parts_index = 1;
+
+        while (name_parts_index < size(name_parts)) {
+            string name = Element(name_parts, name_parts_index);
+            result = Concat(Concat(result, delimiter), myself.GetVariableName(name));
+            name_parts_index = name_parts_index + 1;
+        }
+
+        return result;
+    }
+
+    function string ConvertCall(string[] name_chain, string[] parameters) {
+        string result = Element(name_chain, 0);
+        int name_chain_index = 1;
+
+        while (name_chain_index < Size(name_chain)) {
+            string name_part = Element(name_chain, name_chain_index);
+            result = Concat(Concat(result, "."), name_part);
+            name_chain_index = name_chain_index + 1;
+        }
+
+        result = Concat(result, "(");
+
+        if (Size(parameters) > 0) {
+            result = Concat(result, Element(parameters, 0));
+            int parameters_index = 1;
+
+            while (parameters_index < Size(parameters)) {
+                string parameter = Element(parameters, parameters_index);
+                result = Concat(result, ",");
+                result = Concat(result, parameter);
+                parameters_index = parameters_index + 1;
+            }
+        }
+
+        result = Concat(result, ")");
+        return result;
+    }
+
+    function string ConvertAllocate(string type) {
+        return Concat("new ", type);
+    }
+
+    function string ConvertByte(string high, string low) {
+        return Concat(Concat("0x", high), low);
+    }
+
+    function string ConvertDecimal(string decimal) {
+        return decimal;
+    }
+
+    function string ConvertNumber(string number) {
+        return number;
+    }
+
+    function string ConvertBoolean(string boolean) {
+        if (boolean == "true") {
+            return "true";
+        }
+
+        if (boolean == "false") {
+            return "false";
+        }
+
+        return "";
+    }
+
+    function string ConvertVariable(string variable) {
+        return variable;
+    }
+
+    function string ConvertString(string literal) {
+        return Concat(Concat("\"", literal), "\"");
+    }
+
+    function string UnaryOperator(string op, string r_value) {
+        if (op == "!") {
+            return Concat("!", r_value);
+        }
+
+        return r_value;
+    }
+
+    function string BinaryOperator(string op, string r_value_l, string r_value_r) {
+        if (op == "+") {
+            return Concat(Concat(r_value_l, "+"), r_value_r);
+        }
+
+        if (op == "-") {
+            return Concat(Concat(r_value_l, "-"), r_value_r);
+        }
+
+        if (op == "<=") {
+            return Concat(Concat(r_value_l, "<="), r_value_r);
+        }
+
+        if (op == ">=") {
+            return Concat(Concat(r_value_l, ">="), r_value_r);
+        }
+
+        if (op == "==") {
+            return Concat(Concat(r_value_l, "=="), r_value_r);
+        }
+
+        if (op == "!=") {
+            return Concat(Concat(r_value_l, "!="), r_value_r);
+        }
+
+        if (op == "<") {
+            return Concat(Concat(r_value_l, "<"), r_value_r);
+        }
+
+        if (op == ">") {
+            return Concat(Concat(r_value_l, ">"), r_value_r);
+        }
+
+        if (op == "||") {
+            return Concat(Concat(r_value_l, "||"), r_value_r);
+        }
+
+        if (op == "&&") {
+            return Concat(Concat(r_value_l, "&&"), r_value_r);
+        }
+
+        return "";
+    }
+
+    function string GetTypeName(string name)
+    {
+        if (name != "")
+        {
+            return myself.string_helper.SnakeCaseToCamelCase(name);
+        }
+        else
+        {
+            return "";
+        }
+    }
+
+    function string GetDimensionalType(string singleton_type, int dimensions) {
+        string result = singleton_type;
+
+        while (dimensions > 0) {
+            result = Concat(result, "[]");
+            dimensions = dimensions - 1;
+        }
+
+        return result;
+    }
+
+    function string GetMapType(string singleton_type) {
+        return Concat(singleton_type, "{}");
+    }
+
+    function string GetPrimativeType(string c_t_type) {
+        if (c_t_type == "int") {
+            return "int";
+        }
+
+        if (c_t_type == "string") {
+            return "string";
+        }
+
+        if (c_t_type == "bool") {
+            return "bool";
+        }
+
+        if (c_t_type == "float") {
+            return "float";
+        }
+
+        if (c_t_type == "void") {
+            return "void";
+        }
+
+        return "";
+    }
+
+    function string GetDefinedType(string c_t_type) {
+        return c_t_type;
+    }
+
+    function string GetQualifiedTypeName(string[] name_parts) {
+        string delimiter = ".";
+        string first_name = Element(name_parts, 0);
+        string result = first_name;
+        int name_parts_index = 1;
+
+        while (name_parts_index < size(name_parts)) {
+            string name = Element(name_parts, name_parts_index);
+            result = Concat(Concat(result, delimiter), name);
+            name_parts_index = name_parts_index + 1;
+        }
+
+        return result;
+    }
+
+    function void BeginProcessingCTCodeFile() {
+        myself.logger.WriteLine("BeginProcessingCTCodeFile");
+    }
+
+    function void FinishProcessingCTCodeFile() {
+        myself.logger.WriteLine("FinishProcessingCTCodeFile");
+    }
+
+    function void ProcessExdef(string exdef) {
+        myself.logger.WriteLine(Concat(Concat(myself.string_helper.Indentation(1), "ProcessExdef: "), exdef));
+    }
+
+    function void ProcessUnmanagedType(string unmanaged_type) {
+        myself.logger.WriteLine(Concat(Concat(myself.string_helper.Indentation(1), "ProcessUnmanagedType: "), unmanaged_type));
+    }
+
+    function void BeginProcessingInterface(string interface_name) {
+        myself.logger.WriteLine(Concat(Concat(myself.string_helper.Indentation(1), "BeginProcessingInterface: "), interface_name));
+    }
+
+    function void ProcessInterfaceFunctionDeclaration(string return_type, string function_name, S84.CTCode.Transpiler.StandardStructure.ctcode.ParameterDeclaration[] parameters) {
+        myself.logger.WriteLine(Concat(Concat(Concat(Concat(myself.string_helper.Indentation(2), "ProcessInterfaceFunctionDeclaration: "), return_type), " "), function_name));
+    }
+
+    function void FinishProcessingInterface(string interface_name) {
+        myself.logger.WriteLine(Concat(Concat(myself.string_helper.Indentation(1), "FinishProcessingInterface: "), interface_name));
+    }
+
+    function void BeginProcessingClass(string class_name, string implementing) {
+        myself.logger.WriteLine(Concat(Concat(Concat(Concat(myself.string_helper.Indentation(1), "BeginProcessingClass: "), class_name), " "), implementing));
+    }
+
+    function void BeginProcessingClassFunctionDefinition(string return_type, string function_name, S84.CTCode.Transpiler.StandardStructure.ctcode.ParameterDeclaration[] parameters) {
+        myself.logger.WriteLine(Concat(Concat(Concat(Concat(myself.string_helper.Indentation(2), "BeginProcessingClassFunctionDefinition: "), return_type), " "), function_name));
+    }
+
+    function void BeginProcessCodeBlock(int indent) {
+        myself.logger.WriteLine(Concat(myself.string_helper.Indentation(indent), "BeginProcessCodeBlock"));
+    }
+
+    function void FinishProcessCodeBlock(int indent) {
+        myself.logger.WriteLine(Concat(myself.string_helper.Indentation(indent), "FinishProcessCodeBlock"));
+    }
+
+    function void BeginProcessConditional(int indent, string r_value) {
+        myself.logger.WriteLine(Concat(Concat(myself.string_helper.Indentation(indent), "BeginProcessConditional: "), r_value));
+    }
+
+    function void ProcessElse(int indent) {
+        myself.logger.WriteLine(Concat(myself.string_helper.Indentation(indent), "ProcessElse"));
+    }
+
+    function void FinishProcessConditional(int indent, string r_value) {
+        myself.logger.WriteLine(Concat(Concat(myself.string_helper.Indentation(indent), "FinishProcessConditional: "), r_value));
+    }
+
+    function void BeginProcessLoop(int indent, string r_value) {
+        myself.logger.WriteLine(Concat(Concat(myself.string_helper.Indentation(indent), "BeginProcessLoop: "), r_value));
+    }
+
+    function void FinishProcessLoop(int indent, string r_value) {
+        myself.logger.WriteLine(Concat(Concat(myself.string_helper.Indentation(indent), "FinishProcessLoop: "), r_value));
+    }
+
+    function void ProcessRtn(int indent, string r_value) {
+        myself.logger.WriteLine(Concat(Concat(myself.string_helper.Indentation(indent), "ProcessRtn: "), r_value));
+    }
+
+    function void ProcessDeclaration(int indent, string type, string l_value, string r_value) {
+        myself.logger.WriteLine(Concat(Concat(Concat(Concat(Concat(Concat(myself.string_helper.Indentation(indent), "ProcessDeclaration: "), type), " "),l_value), " "),r_value));
+    }
+
+    function void ProcessAssignment(int indent, string l_value, string r_value) {
+        myself.logger.WriteLine(Concat(Concat(Concat(Concat(myself.string_helper.Indentation(indent), "ProcessAssignment: "), l_value), " "),r_value));
+    }
+
+    function void ProcessCall(int indent, string call) {
+        myself.logger.WriteLine(Concat(Concat(myself.string_helper.Indentation(indent), "ProcessCall: "), call));
+    }
+
+    function void FinishProcessingClassFunctionDefinition(string return_type, string function_name, S84.CTCode.Transpiler.StandardStructure.ctcode.ParameterDeclaration[] parameters) {
+        myself.logger.WriteLine(Concat(Concat(Concat(Concat(myself.string_helper.Indentation(2), "FinishProcessingClassFunctionDefinition: "), return_type), " "), function_name));
+    }
+
+    function void ProcessClassMemberDeclaration(string member_type, string member_name) {
+        myself.logger.WriteLine(Concat(Concat(Concat(Concat(myself.string_helper.Indentation(2), "ProcessClassMemberDeclaration: "), member_type), " "), member_name));
+    }
+
+    function void FinishProcessingClass(string class_name, string implementing) {
+        myself.logger.WriteLine(Concat(Concat(myself.string_helper.Indentation(1), "FinishProcessingClass: "), class_name));
+    }
+}

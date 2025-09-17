@@ -1,12 +1,15 @@
 import * as S84_CTCode_System_ctcode from "./S84_CTCode_System_ctcode.js"
 import * as S84_CTCode_Transpiler_ctcode from "./S84_CTCode_Transpiler_ctcode.js"
+import * as S84_CTCode_dbnf_ctcode from "./S84_CTCode_dbnf_ctcode.js"
 import * as S84_CTCode_Transpiler_StandardStructure_ctcode from "./S84_CTCode_Transpiler_StandardStructure_ctcode.js"
 import * as S84_CTCode_Transpiler_CPPTranspiler_ctcode from "./S84_CTCode_Transpiler_CPPTranspiler_ctcode.js"
-import * as S84_CTCode_Transpiler_Python3Transpiler_ctcode from "./S84_CTCode_Transpiler_Python3Transpiler_ctcode.js"
-import * as S84_CTCode_Transpiler_NodeJSTranspiler_ctcode from "./S84_CTCode_Transpiler_NodeJSTranspiler_ctcode.js"
+import * as S84_CTCode_Transpiler_CSharpTranspiler_ctcode from "./S84_CTCode_Transpiler_CSharpTranspiler_ctcode.js"
 import * as S84_CTCode_Transpiler_Java11Transpiler_ctcode from "./S84_CTCode_Transpiler_Java11Transpiler_ctcode.js"
 import * as S84_CTCode_Transpiler_LogToConsole_ctcode from "./S84_CTCode_Transpiler_LogToConsole_ctcode.js"
-import * as S84_CTCode_dbnf_ctcode from "./S84_CTCode_dbnf_ctcode.js"
+import * as S84_CTCode_Transpiler_NodeJSTranspiler_ctcode from "./S84_CTCode_Transpiler_NodeJSTranspiler_ctcode.js"
+import * as S84_CTCode_Transpiler_PHPTranspiler_ctcode from "./S84_CTCode_Transpiler_PHPTranspiler_ctcode.js"
+import * as S84_CTCode_Transpiler_Python3Transpiler_ctcode from "./S84_CTCode_Transpiler_Python3Transpiler_ctcode.js"
+import * as S84_CTCode_Transpiler_RubyTranspiler_ctcode from "./S84_CTCode_Transpiler_RubyTranspiler_ctcode.js"
 
 function ClearList(input) { input.length = 0; }
 function Size(input) { return input.length; }
@@ -35,18 +38,9 @@ export class Main {
         return structue
     }
 
-    GetPython3Transpiler()
+    GetCSharpTranspiler()
     {
-        var specific = new S84_CTCode_Transpiler_Python3Transpiler_ctcode.Python3Transpiler()
-        specific.Initialize()
-        var structue = new S84_CTCode_Transpiler_StandardStructure_ctcode.StandardStructure()
-        structue.SetTargetSpecificFunctions(specific)
-        return structue
-    }
-
-    GetNodeJSTranspiler()
-    {
-        var specific = new S84_CTCode_Transpiler_NodeJSTranspiler_ctcode.NodeJSTranspiler()
+        var specific = new S84_CTCode_Transpiler_CSharpTranspiler_ctcode.CSharpTranspiler()
         specific.Initialize()
         var structue = new S84_CTCode_Transpiler_StandardStructure_ctcode.StandardStructure()
         structue.SetTargetSpecificFunctions(specific)
@@ -71,15 +65,54 @@ export class Main {
         return structue
     }
 
+    GetNodeJSTranspiler()
+    {
+        var specific = new S84_CTCode_Transpiler_NodeJSTranspiler_ctcode.NodeJSTranspiler()
+        specific.Initialize()
+        var structue = new S84_CTCode_Transpiler_StandardStructure_ctcode.StandardStructure()
+        structue.SetTargetSpecificFunctions(specific)
+        return structue
+    }
+
+    GetPHPTranspiler()
+    {
+        var specific = new S84_CTCode_Transpiler_PHPTranspiler_ctcode.PHPTranspiler()
+        specific.Initialize()
+        var structue = new S84_CTCode_Transpiler_StandardStructure_ctcode.StandardStructure()
+        structue.SetTargetSpecificFunctions(specific)
+        return structue
+    }
+
+    GetPython3Transpiler()
+    {
+        var specific = new S84_CTCode_Transpiler_Python3Transpiler_ctcode.Python3Transpiler()
+        specific.Initialize()
+        var structue = new S84_CTCode_Transpiler_StandardStructure_ctcode.StandardStructure()
+        structue.SetTargetSpecificFunctions(specific)
+        return structue
+    }
+
+    GetRubyTranspiler()
+    {
+        var specific = new S84_CTCode_Transpiler_RubyTranspiler_ctcode.RubyTranspiler()
+        specific.Initialize()
+        var structue = new S84_CTCode_Transpiler_StandardStructure_ctcode.StandardStructure()
+        structue.SetTargetSpecificFunctions(specific)
+        return structue
+    }
+
     RunMain(system, ctcode_file_name, transpiler)
     {
         var logger = system.GetLoggerDestination()
         var transpilers = new Map()
         SetKV(transpilers,"CPPTranspiler",this.GetCPPTranspiler())
-        SetKV(transpilers,"Python3Transpiler",this.GetPython3Transpiler())
-        SetKV(transpilers,"NodeJSTranspiler",this.GetNodeJSTranspiler())
+        SetKV(transpilers,"CSharpTranspiler",this.GetCSharpTranspiler())
         SetKV(transpilers,"Java11Transpiler",this.GetJava11Transpiler())
         SetKV(transpilers,"LogToConsole",this.GetLogToConsole())
+        SetKV(transpilers,"NodeJSTranspiler",this.GetNodeJSTranspiler())
+        SetKV(transpilers,"GetPHPTranspiler",this.GetPHPTranspiler())
+        SetKV(transpilers,"Python3Transpiler",this.GetPython3Transpiler())
+        SetKV(transpilers,"RubyTranspiler",this.GetRubyTranspiler())
         if (ctcode_file_name=="" || ! HasKV(transpilers,transpiler))
         {
             logger.WriteLine("ctcode <CTCodeFile> <Transpiler>")
