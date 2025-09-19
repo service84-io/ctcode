@@ -118,11 +118,11 @@ export class Main {
             logger.WriteLine("ctcode <CTCodeFile> <Transpiler>")
             logger.WriteLine("Known transpilers:")
             var registered_transpilers = Keys(transpilers)
-            var index = 0
-            while (index<Size(registered_transpilers))
+            var registered_transpilers_index = 0
+            while (registered_transpilers_index<Size(registered_transpilers))
             {
-                logger.WriteLine(Concat("    ",Element(registered_transpilers,index)))
-                index = index+1
+                logger.WriteLine(Concat("    ",Element(registered_transpilers,registered_transpilers_index)))
+                registered_transpilers_index = registered_transpilers_index+1
             }
             return 1
         }

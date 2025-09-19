@@ -107,11 +107,11 @@ public class Main {
             logger.WriteLine("ctcode <CTCodeFile> <Transpiler>");
             logger.WriteLine("Known transpilers:");
             java.util.ArrayList<java.lang.String> registered_transpilers = Keys(transpilers);
-            int index = 0;
-            while (AsBoolean((index<Size(registered_transpilers))))
+            int registered_transpilers_index = 0;
+            while (AsBoolean((registered_transpilers_index<Size(registered_transpilers))))
             {
-                logger.WriteLine(Concat("    ", Element(registered_transpilers, index)));
-                index = (index+1);
+                logger.WriteLine(Concat("    ", Element(registered_transpilers, registered_transpilers_index)));
+                registered_transpilers_index = (registered_transpilers_index+1);
             }
             return 1;
         }

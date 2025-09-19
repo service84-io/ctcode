@@ -1,6 +1,7 @@
 #!/bin/bash
 
 $(dirname $0)/clean_cpp.sh
+$(dirname $0)/clean_csharp.sh
 $(dirname $0)/clean_java.sh
 $(dirname $0)/clean_node.sh
 
@@ -25,6 +26,9 @@ for CTCodeFile in *.ctcode; do
   echo Generating CPP...
   python3.13 ctcode.py ${CTCodeFile} CPPTranspiler
   echo Done generating CPP!
+  echo Generating CSharp...
+  python3.13 ctcode.py ${CTCodeFile} CSharpTranspiler
+  echo Done generating CSharp!
   echo Generating Python3...
   python3.13 ctcode.py ${CTCodeFile} Python3Transpiler
   echo Done generating Python3!

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-$(dirname $0)/clean_csharp.sh
+$(dirname $0)/clean_cpp.sh
 $(dirname $0)/clean_java.sh
 $(dirname $0)/clean_node.sh
 $(dirname $0)/clean_python.sh
@@ -24,19 +24,19 @@ echo
 for CTCodeFile in *.ctcode; do
   echo Processing ${CTCodeFile}...
   echo Generating CPP...
-  ctcode ${CTCodeFile} CPPTranspiler
+  ./bin/Release/net8.0/ctcode ${CTCodeFile} CPPTranspiler
   echo Done generating CPP!
   echo Generating CSharp...
-  ctcode ${CTCodeFile} CSharpTranspiler
+  ./bin/Release/net8.0/ctcode ${CTCodeFile} CSharpTranspiler
   echo Done generating CSharp!
   echo Generating Python3...
-  ctcode ${CTCodeFile} Python3Transpiler
+  ./bin/Release/net8.0/ctcode ${CTCodeFile} Python3Transpiler
   echo Done generating Python3!
   echo Generating NodeJS...
-  ctcode ${CTCodeFile} NodeJSTranspiler
+  ./bin/Release/net8.0/ctcode ${CTCodeFile} NodeJSTranspiler
   echo Done generating NodeJS!
   echo Generating Java11...
-  ctcode ${CTCodeFile} Java11Transpiler
+  ./bin/Release/net8.0/ctcode ${CTCodeFile} Java11Transpiler
   echo Done generating Java11!
   echo Done processing ${CTCodeFile}!
   echo

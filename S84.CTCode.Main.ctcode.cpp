@@ -98,11 +98,11 @@ int Main::RunMain(OmniPointer<s84::ctcode::system::ctcode::System> system, std::
         logger->WriteLine(std::string("ctcode <CTCodeFile> <Transpiler>"));
         logger->WriteLine(std::string("Known transpilers:"));
         std::vector<std::string> registered_transpilers = Keys(transpilers);
-        int index = 0;
-        while (index<Size(registered_transpilers))
+        int registered_transpilers_index = 0;
+        while (registered_transpilers_index<Size(registered_transpilers))
         {
-            logger->WriteLine(Concat(std::string("    "),Element(registered_transpilers,index)));
-            index = index+1;
+            logger->WriteLine(Concat(std::string("    "),Element(registered_transpilers,registered_transpilers_index)));
+            registered_transpilers_index = registered_transpilers_index+1;
         }
         return 1;
     }

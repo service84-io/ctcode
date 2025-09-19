@@ -119,6 +119,7 @@ public:
     void SetBaseName(std::string base_name);
     void SetLogger(OmniPointer<s84::ctcode::system::ctcode::OutputStream> logger);
     int GetBaseIndentation();
+    bool IsReserved(std::string name);
     std::string GetCallName(std::string name);
     std::string GetVariableName(std::string name);
     std::string GetVariableChain(std::vector<std::string> name_parts);
@@ -161,6 +162,10 @@ public:
     void FinishProcessingClassFunctionDefinition(std::string return_type, std::string function_name, std::vector<OmniPointer<s84::ctcode::transpiler::standardstructure::ctcode::ParameterDeclaration>> parameters);
     void ProcessClassMemberDeclaration(std::string member_type, std::string member_name);
     void FinishProcessingClass(std::string class_name, std::string implementing);
+    void WriteCommonFunctions();
+    std::string StripLast(std::string input);
+    std::string GetDefault(std::string csharp_type);
+    std::string MakeParametersString(std::string self_type, std::vector<OmniPointer<s84::ctcode::transpiler::standardstructure::ctcode::ParameterDeclaration>> parameters);
 
 private:
     OmniPointer<s84::ctcode::system::ctcode::System> system;
@@ -168,6 +173,14 @@ private:
     std::string base_name;
     OmniPointer<s84::ctcode::system::ctcode::OutputStream> logger;
     OmniPointer<s84::ctcode::transpiler::stringhelper::ctcode::StringHelper> string_helper;
+    std::vector<std::string> imports;
+    std::string current_interface;
+    std::vector<std::string> interface_definitions;
+    std::string current_class;
+    std::vector<std::string> class_definitions;
+    std::vector<std::string> class_members;
+    std::vector<std::string> class_init;
+    std::vector<std::string> class_functions;
 };
 
 };

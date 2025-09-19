@@ -8,6 +8,14 @@ g++ -std=c++17 *.cpp -o ctcode
 echo Done building CPP source!
 echo
 
+echo Building CSharp source...
+echo
+
+dotnet build -c Release
+
+echo Done building CSharp source!
+echo
+
 echo Building Java11 source...
 echo
 

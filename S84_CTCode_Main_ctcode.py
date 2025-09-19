@@ -104,10 +104,10 @@ class Main:
             logger.WriteLine("ctcode <CTCodeFile> <Transpiler>")
             logger.WriteLine("Known transpilers:")
             registered_transpilers: 'list[str]' = Keys(transpilers)
-            index: 'int' = 0
-            while index<Size(registered_transpilers):
-                logger.WriteLine(Concat("    ",Element(registered_transpilers,index)))
-                index = index+1
+            registered_transpilers_index: 'int' = 0
+            while registered_transpilers_index<Size(registered_transpilers):
+                logger.WriteLine(Concat("    ",Element(registered_transpilers,registered_transpilers_index)))
+                registered_transpilers_index = registered_transpilers_index+1
             return 1
         dbnf: 'str' = system.ReadFileToString(ctcode_file_name)
         if dbnf=="":
