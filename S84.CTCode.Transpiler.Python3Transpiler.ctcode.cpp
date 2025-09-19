@@ -20,6 +20,7 @@ Python3Transpiler::Python3Transpiler()
     /*this->class_definitions = NO_DEFAULT;*/
     /*this->class_init = NO_DEFAULT;*/
     /*this->class_functions = NO_DEFAULT;*/
+    this->current_class_function_has_operation = false;
 }
 
 void Python3Transpiler::Initialize()
@@ -291,6 +292,7 @@ void Python3Transpiler::BeginProcessingCTCodeFile()
     ClearList(this->class_definitions);
     ClearList(this->class_init);
     ClearList(this->class_functions);
+    this->current_class_function_has_operation = false;
 }
 
 void Python3Transpiler::ProcessExdef(std::string exdef)
@@ -300,7 +302,6 @@ void Python3Transpiler::ProcessExdef(std::string exdef)
 
 void Python3Transpiler::ProcessUnmanagedType(std::string unmanaged_type)
 {
-    int noop = 0;
 }
 
 void Python3Transpiler::BeginProcessingInterface(std::string interface_name)
@@ -333,56 +334,61 @@ void Python3Transpiler::BeginProcessingClass(std::string class_name, std::string
     }
     ClearList(this->class_init);
     ClearList(this->class_functions);
+    this->current_class_function_has_operation = false;
     Append(this->class_init,Concat(Concat(Concat(this->string_helper->Indentation(1),std::string("def __init__(self: '")),class_name),std::string("'):")));
 }
 
 void Python3Transpiler::BeginProcessingClassFunctionDefinition(std::string return_type, std::string function_name, std::vector<OmniPointer<s84::ctcode::transpiler::standardstructure::ctcode::ParameterDeclaration>> parameters)
 {
     Append(this->class_functions,Concat(Concat(Concat(Concat(Concat(Concat(this->string_helper->Indentation(1),std::string("def ")),function_name),this->MakeParametersString(this->current_class,parameters)),std::string(" -> '")),return_type),std::string("':")));
+    this->current_class_function_has_operation = false;
 }
 
 void Python3Transpiler::BeginProcessCodeBlock(int indent)
 {
-    int noop = 0;
 }
 
 void Python3Transpiler::FinishProcessCodeBlock(int indent)
 {
-    int noop = 0;
 }
 
 void Python3Transpiler::BeginProcessConditional(int indent, std::string r_value)
 {
+    this->current_class_function_has_operation = true;
     Append(this->class_functions,Concat(Concat(Concat(this->string_helper->Indentation(indent),std::string("if ")),r_value),std::string(":")));
 }
 
 void Python3Transpiler::ProcessElse(int indent)
 {
+    this->current_class_function_has_operation = true;
     Append(this->class_functions,Concat(this->string_helper->Indentation(indent),std::string("else:")));
 }
 
 void Python3Transpiler::FinishProcessConditional(int indent, std::string r_value)
 {
-    int noop = 0;
+    this->current_class_function_has_operation = true;
 }
 
 void Python3Transpiler::BeginProcessLoop(int indent, std::string r_value)
 {
+    this->current_class_function_has_operation = true;
     Append(this->class_functions,Concat(Concat(Concat(this->string_helper->Indentation(indent),std::string("while ")),r_value),std::string(":")));
 }
 
 void Python3Transpiler::FinishProcessLoop(int indent, std::string r_value)
 {
-    int noop = 0;
+    this->current_class_function_has_operation = true;
 }
 
 void Python3Transpiler::ProcessRtn(int indent, std::string r_value)
 {
+    this->current_class_function_has_operation = true;
     Append(this->class_functions,Concat(Concat(this->string_helper->Indentation(indent),std::string("return ")),r_value));
 }
 
 void Python3Transpiler::ProcessDeclaration(int indent, std::string type, std::string l_value, std::string r_value)
 {
+    this->current_class_function_has_operation = true;
     if (r_value==std::string(""))
     {
         r_value = this->GetDefault(type);
@@ -392,16 +398,22 @@ void Python3Transpiler::ProcessDeclaration(int indent, std::string type, std::st
 
 void Python3Transpiler::ProcessAssignment(int indent, std::string l_value, std::string r_value)
 {
+    this->current_class_function_has_operation = true;
     Append(this->class_functions,Concat(Concat(Concat(this->string_helper->Indentation(indent),l_value),std::string(" = ")),r_value));
 }
 
 void Python3Transpiler::ProcessCall(int indent, std::string call)
 {
+    this->current_class_function_has_operation = true;
     Append(this->class_functions,Concat(this->string_helper->Indentation(indent),call));
 }
 
 void Python3Transpiler::FinishProcessingClassFunctionDefinition(std::string return_type, std::string function_name, std::vector<OmniPointer<s84::ctcode::transpiler::standardstructure::ctcode::ParameterDeclaration>> parameters)
 {
+    if (!this->current_class_function_has_operation)
+    {
+        Append(this->class_functions,Concat(this->string_helper->Indentation(2),std::string("pass")));
+    }
     Append(this->class_functions,std::string(""));
 }
 

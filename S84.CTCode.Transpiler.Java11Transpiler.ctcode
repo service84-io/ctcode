@@ -273,9 +273,7 @@ class Java11Transpiler implements S84.CTCode.Transpiler.StandardStructure.ctcode
         Append(myself.imports, Concat(Concat("import ", myself.string_helper.ToLower(exdef)), ".*;"));
     }
 
-    function void ProcessUnmanagedType(string unmanaged_type) {
-        int noop = 0;
-    }
+    function void ProcessUnmanagedType(string unmanaged_type) {}
 
     function void BeginProcessingInterface(string interface_name) {
         ClearList(myself.interface_definition);
@@ -331,17 +329,13 @@ class Java11Transpiler implements S84.CTCode.Transpiler.StandardStructure.ctcode
         Append(myself.class_definition, Concat(myself.string_helper.Indentation(indent), "else"));
     }
 
-    function void FinishProcessConditional(int indent, string r_value) {
-        int noop = 0;
-    }
+    function void FinishProcessConditional(int indent, string r_value) {}
 
     function void BeginProcessLoop(int indent, string r_value) {
         Append(myself.class_definition, Concat(Concat(Concat(myself.string_helper.Indentation(indent), "while (AsBoolean("), r_value), "))"));
     }
 
-    function void FinishProcessLoop(int indent, string r_value) {
-        int noop = 0;
-    }
+    function void FinishProcessLoop(int indent, string r_value) {}
 
     function void ProcessRtn(int indent, string r_value) {
         Append(myself.class_definition, Concat(Concat(Concat(myself.string_helper.Indentation(indent), "return "), r_value), ";"));
@@ -425,9 +419,7 @@ class Java11Transpiler implements S84.CTCode.Transpiler.StandardStructure.ctcode
         destination_file.WriteLine(Concat(myself.string_helper.Indentation(1), "private static boolean Equals(float left, float right) { return left == right; }"));
     }
 
-    function void FinishProcessingCTCodeFile() {
-        int noop = 0;
-    }
+    function void FinishProcessingCTCodeFile() {}
 
     function string GetDefault(string java_type) {
         if (java_type == "int") {

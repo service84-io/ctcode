@@ -300,7 +300,6 @@ void NodeJSTranspiler::ProcessExdef(std::string exdef)
 
 void NodeJSTranspiler::ProcessUnmanagedType(std::string unmanaged_type)
 {
-    int noop = 0;
 }
 
 void NodeJSTranspiler::BeginProcessingInterface(std::string interface_name)
@@ -358,7 +357,6 @@ void NodeJSTranspiler::ProcessElse(int indent)
 
 void NodeJSTranspiler::FinishProcessConditional(int indent, std::string r_value)
 {
-    int noop = 0;
 }
 
 void NodeJSTranspiler::BeginProcessLoop(int indent, std::string r_value)
@@ -368,7 +366,6 @@ void NodeJSTranspiler::BeginProcessLoop(int indent, std::string r_value)
 
 void NodeJSTranspiler::FinishProcessLoop(int indent, std::string r_value)
 {
-    int noop = 0;
 }
 
 void NodeJSTranspiler::ProcessRtn(int indent, std::string r_value)
@@ -397,7 +394,6 @@ void NodeJSTranspiler::ProcessCall(int indent, std::string call)
 
 void NodeJSTranspiler::FinishProcessingClassFunctionDefinition(std::string return_type, std::string function_name, std::vector<OmniPointer<s84::ctcode::transpiler::standardstructure::ctcode::ParameterDeclaration>> parameters)
 {
-    int noop = 0;
 }
 
 void NodeJSTranspiler::ProcessClassMemberDeclaration(std::string member_type, std::string member_name)

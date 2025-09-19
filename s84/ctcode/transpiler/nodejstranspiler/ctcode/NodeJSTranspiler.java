@@ -300,7 +300,6 @@ public class NodeJSTranspiler implements s84.ctcode.transpiler.standardstructure
 
     public void ProcessUnmanagedType(java.lang.String unmanaged_type)
     {
-        int noop = 0;
     }
 
     public void BeginProcessingInterface(java.lang.String interface_name)
@@ -358,7 +357,6 @@ public class NodeJSTranspiler implements s84.ctcode.transpiler.standardstructure
 
     public void FinishProcessConditional(int indent, java.lang.String r_value)
     {
-        int noop = 0;
     }
 
     public void BeginProcessLoop(int indent, java.lang.String r_value)
@@ -368,7 +366,6 @@ public class NodeJSTranspiler implements s84.ctcode.transpiler.standardstructure
 
     public void FinishProcessLoop(int indent, java.lang.String r_value)
     {
-        int noop = 0;
     }
 
     public void ProcessRtn(int indent, java.lang.String r_value)
@@ -397,7 +394,6 @@ public class NodeJSTranspiler implements s84.ctcode.transpiler.standardstructure
 
     public void FinishProcessingClassFunctionDefinition(java.lang.String return_type, java.lang.String function_name, java.util.ArrayList<s84.ctcode.transpiler.standardstructure.ctcode.ParameterDeclaration> parameters)
     {
-        int noop = 0;
     }
 
     public void ProcessClassMemberDeclaration(java.lang.String member_type, java.lang.String member_name)

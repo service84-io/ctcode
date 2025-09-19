@@ -20,6 +20,7 @@ public class Python3Transpiler implements s84.ctcode.transpiler.standardstructur
         this.class_definitions = new java.util.ArrayList<>();
         this.class_init = new java.util.ArrayList<>();
         this.class_functions = new java.util.ArrayList<>();
+        this.current_class_function_has_operation = false;
     }
 
     public void Initialize()
@@ -291,6 +292,7 @@ public class Python3Transpiler implements s84.ctcode.transpiler.standardstructur
         ClearList(this.class_definitions);
         ClearList(this.class_init);
         ClearList(this.class_functions);
+        this.current_class_function_has_operation = false;
     }
 
     public void ProcessExdef(java.lang.String exdef)
@@ -300,7 +302,6 @@ public class Python3Transpiler implements s84.ctcode.transpiler.standardstructur
 
     public void ProcessUnmanagedType(java.lang.String unmanaged_type)
     {
-        int noop = 0;
     }
 
     public void BeginProcessingInterface(java.lang.String interface_name)
@@ -333,56 +334,61 @@ public class Python3Transpiler implements s84.ctcode.transpiler.standardstructur
         }
         ClearList(this.class_init);
         ClearList(this.class_functions);
+        this.current_class_function_has_operation = false;
         Append(this.class_init, Concat(Concat(Concat(this.string_helper.Indentation(1), "def __init__(self: '"), class_name), "'):"));
     }
 
     public void BeginProcessingClassFunctionDefinition(java.lang.String return_type, java.lang.String function_name, java.util.ArrayList<s84.ctcode.transpiler.standardstructure.ctcode.ParameterDeclaration> parameters)
     {
         Append(this.class_functions, Concat(Concat(Concat(Concat(Concat(Concat(this.string_helper.Indentation(1), "def "), function_name), this.MakeParametersString(this.current_class, parameters)), " -> '"), return_type), "':"));
+        this.current_class_function_has_operation = false;
     }
 
     public void BeginProcessCodeBlock(int indent)
     {
-        int noop = 0;
     }
 
     public void FinishProcessCodeBlock(int indent)
     {
-        int noop = 0;
     }
 
     public void BeginProcessConditional(int indent, java.lang.String r_value)
     {
+        this.current_class_function_has_operation = true;
         Append(this.class_functions, Concat(Concat(Concat(this.string_helper.Indentation(indent), "if "), r_value), ":"));
     }
 
     public void ProcessElse(int indent)
     {
+        this.current_class_function_has_operation = true;
         Append(this.class_functions, Concat(this.string_helper.Indentation(indent), "else:"));
     }
 
     public void FinishProcessConditional(int indent, java.lang.String r_value)
     {
-        int noop = 0;
+        this.current_class_function_has_operation = true;
     }
 
     public void BeginProcessLoop(int indent, java.lang.String r_value)
     {
+        this.current_class_function_has_operation = true;
         Append(this.class_functions, Concat(Concat(Concat(this.string_helper.Indentation(indent), "while "), r_value), ":"));
     }
 
     public void FinishProcessLoop(int indent, java.lang.String r_value)
     {
-        int noop = 0;
+        this.current_class_function_has_operation = true;
     }
 
     public void ProcessRtn(int indent, java.lang.String r_value)
     {
+        this.current_class_function_has_operation = true;
         Append(this.class_functions, Concat(Concat(this.string_helper.Indentation(indent), "return "), r_value));
     }
 
     public void ProcessDeclaration(int indent, java.lang.String type, java.lang.String l_value, java.lang.String r_value)
     {
+        this.current_class_function_has_operation = true;
         if (AsBoolean(Equals(r_value,"")))
         {
             r_value = this.GetDefault(type);
@@ -392,16 +398,22 @@ public class Python3Transpiler implements s84.ctcode.transpiler.standardstructur
 
     public void ProcessAssignment(int indent, java.lang.String l_value, java.lang.String r_value)
     {
+        this.current_class_function_has_operation = true;
         Append(this.class_functions, Concat(Concat(Concat(this.string_helper.Indentation(indent), l_value), " = "), r_value));
     }
 
     public void ProcessCall(int indent, java.lang.String call)
     {
+        this.current_class_function_has_operation = true;
         Append(this.class_functions, Concat(this.string_helper.Indentation(indent), call));
     }
 
     public void FinishProcessingClassFunctionDefinition(java.lang.String return_type, java.lang.String function_name, java.util.ArrayList<s84.ctcode.transpiler.standardstructure.ctcode.ParameterDeclaration> parameters)
     {
+        if (AsBoolean((! AsBoolean(this.current_class_function_has_operation))))
+        {
+            Append(this.class_functions, Concat(this.string_helper.Indentation(2), "pass"));
+        }
         Append(this.class_functions, "");
     }
 
@@ -530,6 +542,7 @@ public class Python3Transpiler implements s84.ctcode.transpiler.standardstructur
     private java.util.ArrayList<java.lang.String> class_definitions;
     private java.util.ArrayList<java.lang.String> class_init;
     private java.util.ArrayList<java.lang.String> class_functions;
+    private boolean current_class_function_has_operation;
 
     private static <T> void ClearList(java.util.ArrayList<T> input) { input.clear(); }
     private static <T> int Size(java.util.ArrayList<T> input) { return input.size(); }

@@ -205,7 +205,7 @@ class NodeJSTranspiler(S84_CTCode_Transpiler_StandardStructure_ctcode.TargetSpec
         Append(self.imports,Concat(Concat(Concat(Concat("import * as ",self.string_helper.StripDot(exdef))," from \"./"),self.string_helper.StripDot(exdef)),".js\""))
 
     def ProcessUnmanagedType(self: 'NodeJSTranspiler',unmanaged_type: 'str') -> 'None':
-        noop: 'int' = 0
+        pass
 
     def BeginProcessingInterface(self: 'NodeJSTranspiler',interface_name: 'str') -> 'None':
         self.current_interface = interface_name
@@ -243,13 +243,13 @@ class NodeJSTranspiler(S84_CTCode_Transpiler_StandardStructure_ctcode.TargetSpec
         Append(self.class_functions,Concat(self.string_helper.Indentation(indent),"else"))
 
     def FinishProcessConditional(self: 'NodeJSTranspiler',indent: 'int',r_value: 'str') -> 'None':
-        noop: 'int' = 0
+        pass
 
     def BeginProcessLoop(self: 'NodeJSTranspiler',indent: 'int',r_value: 'str') -> 'None':
         Append(self.class_functions,Concat(Concat(Concat(self.string_helper.Indentation(indent),"while ("),r_value),")"))
 
     def FinishProcessLoop(self: 'NodeJSTranspiler',indent: 'int',r_value: 'str') -> 'None':
-        noop: 'int' = 0
+        pass
 
     def ProcessRtn(self: 'NodeJSTranspiler',indent: 'int',r_value: 'str') -> 'None':
         Append(self.class_functions,Concat(Concat(self.string_helper.Indentation(indent),"return "),r_value))
@@ -266,7 +266,7 @@ class NodeJSTranspiler(S84_CTCode_Transpiler_StandardStructure_ctcode.TargetSpec
         Append(self.class_functions,Concat(self.string_helper.Indentation(indent),call))
 
     def FinishProcessingClassFunctionDefinition(self: 'NodeJSTranspiler',return_type: 'str',function_name: 'str',parameters: 'list[S84_CTCode_Transpiler_StandardStructure_ctcode.ParameterDeclaration]') -> 'None':
-        noop: 'int' = 0
+        pass
 
     def ProcessClassMemberDeclaration(self: 'NodeJSTranspiler',member_type: 'str',member_name: 'str') -> 'None':
         Append(self.class_init,Concat(Concat(Concat(Concat(self.string_helper.Indentation(2),"this."),member_name)," = "),self.GetDefault(member_type)))

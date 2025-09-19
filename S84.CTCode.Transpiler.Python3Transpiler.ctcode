@@ -25,6 +25,7 @@ class Python3Transpiler implements S84.CTCode.Transpiler.StandardStructure.ctcod
     string[] class_definitions;
     string[] class_init;
     string[] class_functions;
+    bool current_class_function_has_operation;
 
     function int GetBaseIndentation() { return 1; }
 
@@ -257,15 +258,14 @@ class Python3Transpiler implements S84.CTCode.Transpiler.StandardStructure.ctcod
         ClearList(myself.class_definitions);
         ClearList(myself.class_init);
         ClearList(myself.class_functions);
+        myself.current_class_function_has_operation = false;
     }
 
     function void ProcessExdef(string exdef) {
         Append(myself.imports, Concat("import ", myself.string_helper.StripDot(exdef)));
     }
 
-    function void ProcessUnmanagedType(string unmanaged_type) {
-        int noop = 0;
-    }
+    function void ProcessUnmanagedType(string unmanaged_type) {}
 
     function void BeginProcessingInterface(string interface_name) {
         myself.current_interface = interface_name;
@@ -292,47 +292,50 @@ class Python3Transpiler implements S84.CTCode.Transpiler.StandardStructure.ctcod
 
         ClearList(myself.class_init);
         ClearList(myself.class_functions);
+        myself.current_class_function_has_operation = false;
 
         Append(myself.class_init, Concat(Concat(Concat(myself.string_helper.Indentation(1), "def __init__(self: '"), class_name), "'):"));
     }
 
     function void BeginProcessingClassFunctionDefinition(string return_type, string function_name, S84.CTCode.Transpiler.StandardStructure.ctcode.ParameterDeclaration[] parameters) {
         Append(myself.class_functions, Concat(Concat(Concat(Concat(Concat(Concat(myself.string_helper.Indentation(1), "def "), function_name), myself.MakeParametersString(myself.current_class, parameters)), " -> '"), return_type), "':"));
+        myself.current_class_function_has_operation = false;
     }
 
-    function void BeginProcessCodeBlock(int indent) {
-        int noop = 0;
-    }
+    function void BeginProcessCodeBlock(int indent) {}
 
-    function void FinishProcessCodeBlock(int indent) {
-        int noop = 0;
-    }
+    function void FinishProcessCodeBlock(int indent) {}
 
     function void BeginProcessConditional(int indent, string r_value) {
+        myself.current_class_function_has_operation = true;
         Append(myself.class_functions, Concat(Concat(Concat(myself.string_helper.Indentation(indent), "if "), r_value), ":"));
     }
 
     function void ProcessElse(int indent) {
+        myself.current_class_function_has_operation = true;
         Append(myself.class_functions, Concat(myself.string_helper.Indentation(indent), "else:"));
     }
 
     function void FinishProcessConditional(int indent, string r_value) {
-        int noop = 0;
+        myself.current_class_function_has_operation = true;
     }
 
     function void BeginProcessLoop(int indent, string r_value) {
+        myself.current_class_function_has_operation = true;
         Append(myself.class_functions, Concat(Concat(Concat(myself.string_helper.Indentation(indent), "while "), r_value), ":"));
     }
 
     function void FinishProcessLoop(int indent, string r_value) {
-        int noop = 0;
+        myself.current_class_function_has_operation = true;
     }
 
     function void ProcessRtn(int indent, string r_value) {
+        myself.current_class_function_has_operation = true;
         Append(myself.class_functions, Concat(Concat(myself.string_helper.Indentation(indent), "return "), r_value));
     }
 
     function void ProcessDeclaration(int indent, string type, string l_value, string r_value) {
+        myself.current_class_function_has_operation = true;
         if (r_value == "") {
             r_value = myself.GetDefault(type);
         }
@@ -341,14 +344,20 @@ class Python3Transpiler implements S84.CTCode.Transpiler.StandardStructure.ctcod
     }
 
     function void ProcessAssignment(int indent, string l_value, string r_value) {
+        myself.current_class_function_has_operation = true;
         Append(myself.class_functions, Concat(Concat(Concat(myself.string_helper.Indentation(indent), l_value), " = "), r_value));
     }
 
     function void ProcessCall(int indent, string call) {
+        myself.current_class_function_has_operation = true;
         Append(myself.class_functions, Concat(myself.string_helper.Indentation(indent), call));
     }
 
     function void FinishProcessingClassFunctionDefinition(string return_type, string function_name, S84.CTCode.Transpiler.StandardStructure.ctcode.ParameterDeclaration[] parameters) {
+        if (!myself.current_class_function_has_operation) {
+            Append(myself.class_functions, Concat(myself.string_helper.Indentation(2), "pass"));
+        }
+
         Append(myself.class_functions, "");
     }
 

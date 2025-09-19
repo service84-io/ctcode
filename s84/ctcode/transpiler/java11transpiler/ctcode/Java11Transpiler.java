@@ -308,7 +308,6 @@ public class Java11Transpiler implements s84.ctcode.transpiler.standardstructure
 
     public void ProcessUnmanagedType(java.lang.String unmanaged_type)
     {
-        int noop = 0;
     }
 
     public void BeginProcessingInterface(java.lang.String interface_name)
@@ -375,7 +374,6 @@ public class Java11Transpiler implements s84.ctcode.transpiler.standardstructure
 
     public void FinishProcessConditional(int indent, java.lang.String r_value)
     {
-        int noop = 0;
     }
 
     public void BeginProcessLoop(int indent, java.lang.String r_value)
@@ -385,7 +383,6 @@ public class Java11Transpiler implements s84.ctcode.transpiler.standardstructure
 
     public void FinishProcessLoop(int indent, java.lang.String r_value)
     {
-        int noop = 0;
     }
 
     public void ProcessRtn(int indent, java.lang.String r_value)
@@ -480,7 +477,6 @@ public class Java11Transpiler implements s84.ctcode.transpiler.standardstructure
 
     public void FinishProcessingCTCodeFile()
     {
-        int noop = 0;
     }
 
     public java.lang.String GetDefault(java.lang.String java_type)

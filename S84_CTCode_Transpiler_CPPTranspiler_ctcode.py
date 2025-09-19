@@ -212,7 +212,7 @@ class CPPTranspiler(S84_CTCode_Transpiler_StandardStructure_ctcode.TargetSpecifi
         Append(self.includes,Concat("#include \"",Concat(exdef,".hpp\"")))
 
     def ProcessUnmanagedType(self: 'CPPTranspiler',unmanaged_type: 'str') -> 'None':
-        noop: 'int' = 0
+        pass
 
     def BeginProcessingInterface(self: 'CPPTranspiler',interface_name: 'str') -> 'None':
         self.current_interface = interface_name
@@ -262,13 +262,13 @@ class CPPTranspiler(S84_CTCode_Transpiler_StandardStructure_ctcode.TargetSpecifi
         Append(self.class_functions,Concat(self.string_helper.Indentation(indent),"else"))
 
     def FinishProcessConditional(self: 'CPPTranspiler',indent: 'int',r_value: 'str') -> 'None':
-        noop: 'int' = 0
+        pass
 
     def BeginProcessLoop(self: 'CPPTranspiler',indent: 'int',r_value: 'str') -> 'None':
         Append(self.class_functions,Concat(Concat(Concat(self.string_helper.Indentation(indent),"while ("),r_value),")"))
 
     def FinishProcessLoop(self: 'CPPTranspiler',indent: 'int',r_value: 'str') -> 'None':
-        noop: 'int' = 0
+        pass
 
     def ProcessRtn(self: 'CPPTranspiler',indent: 'int',r_value: 'str') -> 'None':
         Append(self.class_functions,Concat(Concat(Concat(self.string_helper.Indentation(indent),"return "),r_value),";"))

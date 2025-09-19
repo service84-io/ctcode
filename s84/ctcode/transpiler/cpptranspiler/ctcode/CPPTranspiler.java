@@ -307,7 +307,6 @@ public class CPPTranspiler implements s84.ctcode.transpiler.standardstructure.ct
 
     public void ProcessUnmanagedType(java.lang.String unmanaged_type)
     {
-        int noop = 0;
     }
 
     public void BeginProcessingInterface(java.lang.String interface_name)
@@ -381,7 +380,6 @@ public class CPPTranspiler implements s84.ctcode.transpiler.standardstructure.ct
 
     public void FinishProcessConditional(int indent, java.lang.String r_value)
     {
-        int noop = 0;
     }
 
     public void BeginProcessLoop(int indent, java.lang.String r_value)
@@ -391,7 +389,6 @@ public class CPPTranspiler implements s84.ctcode.transpiler.standardstructure.ct
 
     public void FinishProcessLoop(int indent, java.lang.String r_value)
     {
-        int noop = 0;
     }
 
     public void ProcessRtn(int indent, java.lang.String r_value)

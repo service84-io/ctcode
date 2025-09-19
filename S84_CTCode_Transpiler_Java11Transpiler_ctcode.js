@@ -319,7 +319,6 @@ export class Java11Transpiler {
 
     ProcessUnmanagedType(unmanaged_type)
     {
-        var noop = 0
     }
 
     BeginProcessingInterface(interface_name)
@@ -386,7 +385,6 @@ export class Java11Transpiler {
 
     FinishProcessConditional(indent, r_value)
     {
-        var noop = 0
     }
 
     BeginProcessLoop(indent, r_value)
@@ -396,7 +394,6 @@ export class Java11Transpiler {
 
     FinishProcessLoop(indent, r_value)
     {
-        var noop = 0
     }
 
     ProcessRtn(indent, r_value)
@@ -491,7 +488,6 @@ export class Java11Transpiler {
 
     FinishProcessingCTCodeFile()
     {
-        var noop = 0
     }
 
     GetDefault(java_type)

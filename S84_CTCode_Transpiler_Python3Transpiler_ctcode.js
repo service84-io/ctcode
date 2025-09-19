@@ -31,6 +31,7 @@ export class Python3Transpiler {
         this.class_definitions = []
         this.class_init = []
         this.class_functions = []
+        this.current_class_function_has_operation = false
     }
 
     Initialize()
@@ -302,6 +303,7 @@ export class Python3Transpiler {
         ClearList(this.class_definitions)
         ClearList(this.class_init)
         ClearList(this.class_functions)
+        this.current_class_function_has_operation = false
     }
 
     ProcessExdef(exdef)
@@ -311,7 +313,6 @@ export class Python3Transpiler {
 
     ProcessUnmanagedType(unmanaged_type)
     {
-        var noop = 0
     }
 
     BeginProcessingInterface(interface_name)
@@ -344,56 +345,61 @@ export class Python3Transpiler {
         }
         ClearList(this.class_init)
         ClearList(this.class_functions)
+        this.current_class_function_has_operation = false
         Append(this.class_init,Concat(Concat(Concat(this.string_helper.Indentation(1),"def __init__(self: '"),class_name),"'):"))
     }
 
     BeginProcessingClassFunctionDefinition(return_type, function_name, parameters)
     {
         Append(this.class_functions,Concat(Concat(Concat(Concat(Concat(Concat(this.string_helper.Indentation(1),"def "),function_name),this.MakeParametersString(this.current_class,parameters))," -> '"),return_type),"':"))
+        this.current_class_function_has_operation = false
     }
 
     BeginProcessCodeBlock(indent)
     {
-        var noop = 0
     }
 
     FinishProcessCodeBlock(indent)
     {
-        var noop = 0
     }
 
     BeginProcessConditional(indent, r_value)
     {
+        this.current_class_function_has_operation = true
         Append(this.class_functions,Concat(Concat(Concat(this.string_helper.Indentation(indent),"if "),r_value),":"))
     }
 
     ProcessElse(indent)
     {
+        this.current_class_function_has_operation = true
         Append(this.class_functions,Concat(this.string_helper.Indentation(indent),"else:"))
     }
 
     FinishProcessConditional(indent, r_value)
     {
-        var noop = 0
+        this.current_class_function_has_operation = true
     }
 
     BeginProcessLoop(indent, r_value)
     {
+        this.current_class_function_has_operation = true
         Append(this.class_functions,Concat(Concat(Concat(this.string_helper.Indentation(indent),"while "),r_value),":"))
     }
 
     FinishProcessLoop(indent, r_value)
     {
-        var noop = 0
+        this.current_class_function_has_operation = true
     }
 
     ProcessRtn(indent, r_value)
     {
+        this.current_class_function_has_operation = true
         Append(this.class_functions,Concat(Concat(this.string_helper.Indentation(indent),"return "),r_value))
     }
 
     ProcessDeclaration(indent, type, l_value, r_value)
     {
+        this.current_class_function_has_operation = true
         if (r_value=="")
         {
             r_value = this.GetDefault(type)
@@ -403,16 +409,22 @@ export class Python3Transpiler {
 
     ProcessAssignment(indent, l_value, r_value)
     {
+        this.current_class_function_has_operation = true
         Append(this.class_functions,Concat(Concat(Concat(this.string_helper.Indentation(indent),l_value)," = "),r_value))
     }
 
     ProcessCall(indent, call)
     {
+        this.current_class_function_has_operation = true
         Append(this.class_functions,Concat(this.string_helper.Indentation(indent),call))
     }
 
     FinishProcessingClassFunctionDefinition(return_type, function_name, parameters)
     {
+        if (! this.current_class_function_has_operation)
+        {
+            Append(this.class_functions,Concat(this.string_helper.Indentation(2),"pass"))
+        }
         Append(this.class_functions,"")
     }
 

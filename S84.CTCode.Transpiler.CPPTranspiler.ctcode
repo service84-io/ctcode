@@ -270,9 +270,7 @@ class CPPTranspiler implements S84.CTCode.Transpiler.StandardStructure.ctcode.Ta
         Append(myself.includes, Concat("#include \"", Concat(exdef, ".hpp\"")));
     }
 
-    function void ProcessUnmanagedType(string unmanaged_type) {
-        int noop = 0;
-    }
+    function void ProcessUnmanagedType(string unmanaged_type) {}
 
     function void BeginProcessingInterface(string interface_name) {
         myself.current_interface = interface_name;
@@ -336,17 +334,13 @@ class CPPTranspiler implements S84.CTCode.Transpiler.StandardStructure.ctcode.Ta
         Append(myself.class_functions, Concat(myself.string_helper.Indentation(indent), "else"));
     }
 
-    function void FinishProcessConditional(int indent, string r_value) {
-        int noop = 0;
-    }
+    function void FinishProcessConditional(int indent, string r_value) {}
 
     function void BeginProcessLoop(int indent, string r_value) {
         Append(myself.class_functions, Concat(Concat(Concat(myself.string_helper.Indentation(indent), "while ("), r_value), ")"));
     }
 
-    function void FinishProcessLoop(int indent, string r_value) {
-        int noop = 0;
-    }
+    function void FinishProcessLoop(int indent, string r_value) {}
 
     function void ProcessRtn(int indent, string r_value) {
         Append(myself.class_functions, Concat(Concat(Concat(myself.string_helper.Indentation(indent), "return "), r_value), ";"));

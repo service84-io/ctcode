@@ -263,9 +263,7 @@ class NodeJSTranspiler implements S84.CTCode.Transpiler.StandardStructure.ctcode
         Append(myself.imports, Concat(Concat(Concat(Concat("import * as ", myself.string_helper.StripDot(exdef)), " from \"./"), myself.string_helper.StripDot(exdef)), ".js\""));
     }
 
-    function void ProcessUnmanagedType(string unmanaged_type) {
-        int noop = 0;
-    }
+    function void ProcessUnmanagedType(string unmanaged_type) {}
 
     function void BeginProcessingInterface(string interface_name) {
         myself.current_interface = interface_name;
@@ -312,17 +310,13 @@ class NodeJSTranspiler implements S84.CTCode.Transpiler.StandardStructure.ctcode
         Append(myself.class_functions, Concat(myself.string_helper.Indentation(indent), "else"));
     }
 
-    function void FinishProcessConditional(int indent, string r_value) {
-        int noop = 0;
-    }
+    function void FinishProcessConditional(int indent, string r_value) {}
 
     function void BeginProcessLoop(int indent, string r_value) {
         Append(myself.class_functions, Concat(Concat(Concat(myself.string_helper.Indentation(indent), "while ("), r_value), ")"));
     }
 
-    function void FinishProcessLoop(int indent, string r_value) {
-        int noop = 0;
-    }
+    function void FinishProcessLoop(int indent, string r_value) {}
 
     function void ProcessRtn(int indent, string r_value) {
         Append(myself.class_functions, Concat(Concat(myself.string_helper.Indentation(indent), "return "), r_value));
@@ -344,9 +338,7 @@ class NodeJSTranspiler implements S84.CTCode.Transpiler.StandardStructure.ctcode
         Append(myself.class_functions, Concat(myself.string_helper.Indentation(indent), call));
     }
 
-    function void FinishProcessingClassFunctionDefinition(string return_type, string function_name, S84.CTCode.Transpiler.StandardStructure.ctcode.ParameterDeclaration[] parameters) {
-        int noop = 0;
-    }
+    function void FinishProcessingClassFunctionDefinition(string return_type, string function_name, S84.CTCode.Transpiler.StandardStructure.ctcode.ParameterDeclaration[] parameters) {}
 
     function void ProcessClassMemberDeclaration(string member_type, string member_name) {
         Append(myself.class_init, Concat(Concat(Concat(Concat(myself.string_helper.Indentation(2), "this."), member_name), " = "), myself.GetDefault(member_type)));

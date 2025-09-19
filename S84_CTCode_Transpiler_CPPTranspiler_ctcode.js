@@ -318,7 +318,6 @@ export class CPPTranspiler {
 
     ProcessUnmanagedType(unmanaged_type)
     {
-        var noop = 0
     }
 
     BeginProcessingInterface(interface_name)
@@ -392,7 +391,6 @@ export class CPPTranspiler {
 
     FinishProcessConditional(indent, r_value)
     {
-        var noop = 0
     }
 
     BeginProcessLoop(indent, r_value)
@@ -402,7 +400,6 @@ export class CPPTranspiler {
 
     FinishProcessLoop(indent, r_value)
     {
-        var noop = 0
     }
 
     ProcessRtn(indent, r_value)

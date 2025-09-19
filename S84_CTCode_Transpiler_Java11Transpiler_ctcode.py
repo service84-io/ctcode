@@ -209,7 +209,7 @@ class Java11Transpiler(S84_CTCode_Transpiler_StandardStructure_ctcode.TargetSpec
         Append(self.imports,Concat(Concat("import ",self.string_helper.ToLower(exdef)),".*;"))
 
     def ProcessUnmanagedType(self: 'Java11Transpiler',unmanaged_type: 'str') -> 'None':
-        noop: 'int' = 0
+        pass
 
     def BeginProcessingInterface(self: 'Java11Transpiler',interface_name: 'str') -> 'None':
         ClearList(self.interface_definition)
@@ -254,13 +254,13 @@ class Java11Transpiler(S84_CTCode_Transpiler_StandardStructure_ctcode.TargetSpec
         Append(self.class_definition,Concat(self.string_helper.Indentation(indent),"else"))
 
     def FinishProcessConditional(self: 'Java11Transpiler',indent: 'int',r_value: 'str') -> 'None':
-        noop: 'int' = 0
+        pass
 
     def BeginProcessLoop(self: 'Java11Transpiler',indent: 'int',r_value: 'str') -> 'None':
         Append(self.class_definition,Concat(Concat(Concat(self.string_helper.Indentation(indent),"while (AsBoolean("),r_value),"))"))
 
     def FinishProcessLoop(self: 'Java11Transpiler',indent: 'int',r_value: 'str') -> 'None':
-        noop: 'int' = 0
+        pass
 
     def ProcessRtn(self: 'Java11Transpiler',indent: 'int',r_value: 'str') -> 'None':
         Append(self.class_definition,Concat(Concat(Concat(self.string_helper.Indentation(indent),"return "),r_value),";"))
@@ -327,7 +327,7 @@ class Java11Transpiler(S84_CTCode_Transpiler_StandardStructure_ctcode.TargetSpec
         destination_file.WriteLine(Concat(self.string_helper.Indentation(1),"private static boolean Equals(float left, float right) { return left == right; }"))
 
     def FinishProcessingCTCodeFile(self: 'Java11Transpiler') -> 'None':
-        noop: 'int' = 0
+        pass
 
     def GetDefault(self: 'Java11Transpiler',java_type: 'str') -> 'str':
         if java_type=="int":

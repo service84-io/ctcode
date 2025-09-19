@@ -308,7 +308,6 @@ void Java11Transpiler::ProcessExdef(std::string exdef)
 
 void Java11Transpiler::ProcessUnmanagedType(std::string unmanaged_type)
 {
-    int noop = 0;
 }
 
 void Java11Transpiler::BeginProcessingInterface(std::string interface_name)
@@ -375,7 +374,6 @@ void Java11Transpiler::ProcessElse(int indent)
 
 void Java11Transpiler::FinishProcessConditional(int indent, std::string r_value)
 {
-    int noop = 0;
 }
 
 void Java11Transpiler::BeginProcessLoop(int indent, std::string r_value)
@@ -385,7 +383,6 @@ void Java11Transpiler::BeginProcessLoop(int indent, std::string r_value)
 
 void Java11Transpiler::FinishProcessLoop(int indent, std::string r_value)
 {
-    int noop = 0;
 }
 
 void Java11Transpiler::ProcessRtn(int indent, std::string r_value)
@@ -480,7 +477,6 @@ void Java11Transpiler::WriteCommonFunctions(OmniPointer<s84::ctcode::system::ctc
 
 void Java11Transpiler::FinishProcessingCTCodeFile()
 {
-    int noop = 0;
 }
 
 std::string Java11Transpiler::GetDefault(std::string java_type)

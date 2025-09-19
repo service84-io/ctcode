@@ -311,7 +311,6 @@ export class NodeJSTranspiler {
 
     ProcessUnmanagedType(unmanaged_type)
     {
-        var noop = 0
     }
 
     BeginProcessingInterface(interface_name)
@@ -369,7 +368,6 @@ export class NodeJSTranspiler {
 
     FinishProcessConditional(indent, r_value)
     {
-        var noop = 0
     }
 
     BeginProcessLoop(indent, r_value)
@@ -379,7 +377,6 @@ export class NodeJSTranspiler {
 
     FinishProcessLoop(indent, r_value)
     {
-        var noop = 0
     }
 
     ProcessRtn(indent, r_value)
@@ -408,7 +405,6 @@ export class NodeJSTranspiler {
 
     FinishProcessingClassFunctionDefinition(return_type, function_name, parameters)
     {
-        var noop = 0
     }
 
     ProcessClassMemberDeclaration(member_type, member_name)

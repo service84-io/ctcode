@@ -307,7 +307,6 @@ void CPPTranspiler::ProcessExdef(std::string exdef)
 
 void CPPTranspiler::ProcessUnmanagedType(std::string unmanaged_type)
 {
-    int noop = 0;
 }
 
 void CPPTranspiler::BeginProcessingInterface(std::string interface_name)
@@ -381,7 +380,6 @@ void CPPTranspiler::ProcessElse(int indent)
 
 void CPPTranspiler::FinishProcessConditional(int indent, std::string r_value)
 {
-    int noop = 0;
 }
 
 void CPPTranspiler::BeginProcessLoop(int indent, std::string r_value)
@@ -391,7 +389,6 @@ void CPPTranspiler::BeginProcessLoop(int indent, std::string r_value)
 
 void CPPTranspiler::FinishProcessLoop(int indent, std::string r_value)
 {
-    int noop = 0;
 }
 
 void CPPTranspiler::ProcessRtn(int indent, std::string r_value)

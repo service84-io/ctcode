@@ -179,6 +179,7 @@ private:
     std::vector<std::string> class_definitions;
     std::vector<std::string> class_init;
     std::vector<std::string> class_functions;
+    bool current_class_function_has_operation;
 };
 
 };

@@ -35,6 +35,7 @@ class Python3Transpiler(S84_CTCode_Transpiler_StandardStructure_ctcode.TargetSpe
         self.class_definitions: list[str] = []
         self.class_init: list[str] = []
         self.class_functions: list[str] = []
+        self.current_class_function_has_operation: bool = False
 
     def Initialize(self: 'Python3Transpiler') -> 'None':
         self.string_helper = S84_CTCode_Transpiler_StringHelper_ctcode.StringHelper()
@@ -200,12 +201,13 @@ class Python3Transpiler(S84_CTCode_Transpiler_StandardStructure_ctcode.TargetSpe
         ClearList(self.class_definitions)
         ClearList(self.class_init)
         ClearList(self.class_functions)
+        self.current_class_function_has_operation = False
 
     def ProcessExdef(self: 'Python3Transpiler',exdef: 'str') -> 'None':
         Append(self.imports,Concat("import ",self.string_helper.StripDot(exdef)))
 
     def ProcessUnmanagedType(self: 'Python3Transpiler',unmanaged_type: 'str') -> 'None':
-        noop: 'int' = 0
+        pass
 
     def BeginProcessingInterface(self: 'Python3Transpiler',interface_name: 'str') -> 'None':
         self.current_interface = interface_name
@@ -226,47 +228,58 @@ class Python3Transpiler(S84_CTCode_Transpiler_StandardStructure_ctcode.TargetSpe
             Append(self.class_definitions,Concat(Concat(Concat(Concat("class ",class_name),"("),implementing),"):"))
         ClearList(self.class_init)
         ClearList(self.class_functions)
+        self.current_class_function_has_operation = False
         Append(self.class_init,Concat(Concat(Concat(self.string_helper.Indentation(1),"def __init__(self: '"),class_name),"'):"))
 
     def BeginProcessingClassFunctionDefinition(self: 'Python3Transpiler',return_type: 'str',function_name: 'str',parameters: 'list[S84_CTCode_Transpiler_StandardStructure_ctcode.ParameterDeclaration]') -> 'None':
         Append(self.class_functions,Concat(Concat(Concat(Concat(Concat(Concat(self.string_helper.Indentation(1),"def "),function_name),self.MakeParametersString(self.current_class,parameters))," -> '"),return_type),"':"))
+        self.current_class_function_has_operation = False
 
     def BeginProcessCodeBlock(self: 'Python3Transpiler',indent: 'int') -> 'None':
-        noop: 'int' = 0
+        pass
 
     def FinishProcessCodeBlock(self: 'Python3Transpiler',indent: 'int') -> 'None':
-        noop: 'int' = 0
+        pass
 
     def BeginProcessConditional(self: 'Python3Transpiler',indent: 'int',r_value: 'str') -> 'None':
+        self.current_class_function_has_operation = True
         Append(self.class_functions,Concat(Concat(Concat(self.string_helper.Indentation(indent),"if "),r_value),":"))
 
     def ProcessElse(self: 'Python3Transpiler',indent: 'int') -> 'None':
+        self.current_class_function_has_operation = True
         Append(self.class_functions,Concat(self.string_helper.Indentation(indent),"else:"))
 
     def FinishProcessConditional(self: 'Python3Transpiler',indent: 'int',r_value: 'str') -> 'None':
-        noop: 'int' = 0
+        self.current_class_function_has_operation = True
 
     def BeginProcessLoop(self: 'Python3Transpiler',indent: 'int',r_value: 'str') -> 'None':
+        self.current_class_function_has_operation = True
         Append(self.class_functions,Concat(Concat(Concat(self.string_helper.Indentation(indent),"while "),r_value),":"))
 
     def FinishProcessLoop(self: 'Python3Transpiler',indent: 'int',r_value: 'str') -> 'None':
-        noop: 'int' = 0
+        self.current_class_function_has_operation = True
 
     def ProcessRtn(self: 'Python3Transpiler',indent: 'int',r_value: 'str') -> 'None':
+        self.current_class_function_has_operation = True
         Append(self.class_functions,Concat(Concat(self.string_helper.Indentation(indent),"return "),r_value))
 
     def ProcessDeclaration(self: 'Python3Transpiler',indent: 'int',type: 'str',l_value: 'str',r_value: 'str') -> 'None':
+        self.current_class_function_has_operation = True
         if r_value=="":
             r_value = self.GetDefault(type)
         Append(self.class_functions,Concat(Concat(Concat(Concat(Concat(self.string_helper.Indentation(indent),l_value),": '"),type),"' = "),r_value))
 
     def ProcessAssignment(self: 'Python3Transpiler',indent: 'int',l_value: 'str',r_value: 'str') -> 'None':
+        self.current_class_function_has_operation = True
         Append(self.class_functions,Concat(Concat(Concat(self.string_helper.Indentation(indent),l_value)," = "),r_value))
 
     def ProcessCall(self: 'Python3Transpiler',indent: 'int',call: 'str') -> 'None':
+        self.current_class_function_has_operation = True
         Append(self.class_functions,Concat(self.string_helper.Indentation(indent),call))
 
     def FinishProcessingClassFunctionDefinition(self: 'Python3Transpiler',return_type: 'str',function_name: 'str',parameters: 'list[S84_CTCode_Transpiler_StandardStructure_ctcode.ParameterDeclaration]') -> 'None':
+        if not self.current_class_function_has_operation:
+            Append(self.class_functions,Concat(self.string_helper.Indentation(2),"pass"))
         Append(self.class_functions,"")
 
     def ProcessClassMemberDeclaration(self: 'Python3Transpiler',member_type: 'str',member_name: 'str') -> 'None':
