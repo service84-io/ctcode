@@ -44,7 +44,7 @@ class PHPTranspiler(S84_CTCode_Transpiler_StandardStructure_ctcode.TargetSpecifi
         self.logger = logger
 
     def GetBaseIndentation(self: 'PHPTranspiler') -> 'int':
-        return 3
+        return 1
 
     def GetCallName(self: 'PHPTranspiler',name: 'str') -> 'str':
         return self.string_helper.SnakeCaseToCamelCase(name)
@@ -52,11 +52,11 @@ class PHPTranspiler(S84_CTCode_Transpiler_StandardStructure_ctcode.TargetSpecifi
     def GetVariableName(self: 'PHPTranspiler',name: 'str') -> 'str':
         value: 'str' = self.string_helper.CamelCaseToSnakeCase(name)
         if value=="myself":
-            return "thyself"
+            return "this"
         return value
 
     def GetVariableChain(self: 'PHPTranspiler',name_parts: 'list[str]') -> 'str':
-        delimiter: 'str' = "."
+        delimiter: 'str' = "->"
         first_name: 'str' = Element(name_parts,0)
         result: 'str' = self.GetVariableName(first_name)
         name_parts_index: 'int' = 1
@@ -71,7 +71,7 @@ class PHPTranspiler(S84_CTCode_Transpiler_StandardStructure_ctcode.TargetSpecifi
         name_chain_index: 'int' = 1
         while name_chain_index<Size(name_chain):
             name_part: 'str' = Element(name_chain,name_chain_index)
-            result = Concat(Concat(result,"."),name_part)
+            result = Concat(Concat(result,"->"),name_part)
             name_chain_index = name_chain_index+1
         result = Concat(result,"(")
         if Size(parameters)>0:
@@ -139,10 +139,7 @@ class PHPTranspiler(S84_CTCode_Transpiler_StandardStructure_ctcode.TargetSpecifi
         return ""
 
     def GetTypeName(self: 'PHPTranspiler',name: 'str') -> 'str':
-        if name!="":
-            return self.string_helper.SnakeCaseToCamelCase(name)
-        else:
-            return ""
+        return self.string_helper.SnakeCaseToCamelCase(name)
 
     def GetDimensionalType(self: 'PHPTranspiler',singleton_type: 'str',dimensions: 'int') -> 'str':
         result: 'str' = singleton_type

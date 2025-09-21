@@ -139,10 +139,7 @@ class LogToConsole(S84_CTCode_Transpiler_StandardStructure_ctcode.TargetSpecific
         return ""
 
     def GetTypeName(self: 'LogToConsole',name: 'str') -> 'str':
-        if name!="":
-            return self.string_helper.SnakeCaseToCamelCase(name)
-        else:
-            return ""
+        return self.string_helper.SnakeCaseToCamelCase(name)
 
     def GetDimensionalType(self: 'LogToConsole',singleton_type: 'str',dimensions: 'int') -> 'str':
         result: 'str' = singleton_type

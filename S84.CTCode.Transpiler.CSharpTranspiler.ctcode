@@ -212,14 +212,7 @@ class CSharpTranspiler implements S84.CTCode.Transpiler.StandardStructure.ctcode
 
     function string GetTypeName(string name)
     {
-        if (name != "")
-        {
-            return myself.string_helper.SnakeCaseToCamelCase(name);
-        }
-        else
-        {
-            return "";
-        }
+        return myself.string_helper.SnakeCaseToCamelCase(name);
     }
 
     function string GetDimensionalType(string singleton_type, int dimensions) {

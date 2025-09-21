@@ -245,14 +245,7 @@ export class CSharpTranspiler {
 
     GetTypeName(name)
     {
-        if (name!="")
-        {
-            return this.string_helper.SnakeCaseToCamelCase(name)
-        }
-        else
-        {
-            return ""
-        }
+        return this.string_helper.SnakeCaseToCamelCase(name)
     }
 
     GetDimensionalType(singleton_type, dimensions)

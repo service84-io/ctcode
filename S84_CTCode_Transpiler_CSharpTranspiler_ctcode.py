@@ -163,10 +163,7 @@ class CSharpTranspiler(S84_CTCode_Transpiler_StandardStructure_ctcode.TargetSpec
         return ""
 
     def GetTypeName(self: 'CSharpTranspiler',name: 'str') -> 'str':
-        if name!="":
-            return self.string_helper.SnakeCaseToCamelCase(name)
-        else:
-            return ""
+        return self.string_helper.SnakeCaseToCamelCase(name)
 
     def GetDimensionalType(self: 'CSharpTranspiler',singleton_type: 'str',dimensions: 'int') -> 'str':
         result: 'str' = singleton_type

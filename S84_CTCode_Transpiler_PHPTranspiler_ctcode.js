@@ -52,7 +52,7 @@ export class PHPTranspiler {
 
     GetBaseIndentation()
     {
-        return 3
+        return 1
     }
 
     GetCallName(name)
@@ -65,14 +65,14 @@ export class PHPTranspiler {
         var value = this.string_helper.CamelCaseToSnakeCase(name)
         if (value=="myself")
         {
-            return "thyself"
+            return "this"
         }
         return value
     }
 
     GetVariableChain(name_parts)
     {
-        var delimiter = "."
+        var delimiter = "->"
         var first_name = Element(name_parts,0)
         var result = this.GetVariableName(first_name)
         var name_parts_index = 1
@@ -92,7 +92,7 @@ export class PHPTranspiler {
         while (name_chain_index<Size(name_chain))
         {
             var name_part = Element(name_chain,name_chain_index)
-            result = Concat(Concat(result,"."),name_part)
+            result = Concat(Concat(result,"->"),name_part)
             name_chain_index = name_chain_index+1
         }
         result = Concat(result,"(")
@@ -211,14 +211,7 @@ export class PHPTranspiler {
 
     GetTypeName(name)
     {
-        if (name!="")
-        {
-            return this.string_helper.SnakeCaseToCamelCase(name)
-        }
-        else
-        {
-            return ""
-        }
+        return this.string_helper.SnakeCaseToCamelCase(name)
     }
 
     GetDimensionalType(singleton_type, dimensions)

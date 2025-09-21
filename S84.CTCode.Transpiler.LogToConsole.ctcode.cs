@@ -203,14 +203,7 @@ public class LogToConsole : S84.CTCode.Transpiler.StandardStructure.ctcode.Targe
 
     public string? GetTypeName(string? name)
     {
-        if (AsBoolean(name!=""))
-        {
-            return this?.string_helper?.SnakeCaseToCamelCase(name);
-        }
-        else
-        {
-            return "";
-        }
+        return this?.string_helper?.SnakeCaseToCamelCase(name);
     }
 
     public string? GetDimensionalType(string? singleton_type,int? dimensions)

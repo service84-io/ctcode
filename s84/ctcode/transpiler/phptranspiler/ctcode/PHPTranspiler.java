@@ -41,7 +41,7 @@ public class PHPTranspiler implements s84.ctcode.transpiler.standardstructure.ct
 
     public int GetBaseIndentation()
     {
-        return 3;
+        return 1;
     }
 
     public java.lang.String GetCallName(java.lang.String name)
@@ -54,14 +54,14 @@ public class PHPTranspiler implements s84.ctcode.transpiler.standardstructure.ct
         java.lang.String value = this.string_helper.CamelCaseToSnakeCase(name);
         if (AsBoolean(Equals(value,"myself")))
         {
-            return "thyself";
+            return "this";
         }
         return value;
     }
 
     public java.lang.String GetVariableChain(java.util.ArrayList<java.lang.String> name_parts)
     {
-        java.lang.String delimiter = ".";
+        java.lang.String delimiter = "->";
         java.lang.String first_name = Element(name_parts, 0);
         java.lang.String result = this.GetVariableName(first_name);
         int name_parts_index = 1;
@@ -81,7 +81,7 @@ public class PHPTranspiler implements s84.ctcode.transpiler.standardstructure.ct
         while (AsBoolean((name_chain_index<Size(name_chain))))
         {
             java.lang.String name_part = Element(name_chain, name_chain_index);
-            result = Concat(Concat(result, "."), name_part);
+            result = Concat(Concat(result, "->"), name_part);
             name_chain_index = (name_chain_index+1);
         }
         result = Concat(result, "(");
@@ -200,14 +200,7 @@ public class PHPTranspiler implements s84.ctcode.transpiler.standardstructure.ct
 
     public java.lang.String GetTypeName(java.lang.String name)
     {
-        if (AsBoolean(!Equals(name,"")))
-        {
-            return this.string_helper.SnakeCaseToCamelCase(name);
-        }
-        else
-        {
-            return "";
-        }
+        return this.string_helper.SnakeCaseToCamelCase(name);
     }
 
     public java.lang.String GetDimensionalType(java.lang.String singleton_type, int dimensions)

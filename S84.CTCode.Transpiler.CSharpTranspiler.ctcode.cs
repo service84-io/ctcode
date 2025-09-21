@@ -245,14 +245,7 @@ public class CSharpTranspiler : S84.CTCode.Transpiler.StandardStructure.ctcode.T
 
     public string? GetTypeName(string? name)
     {
-        if (AsBoolean(name!=""))
-        {
-            return this?.string_helper?.SnakeCaseToCamelCase(name);
-        }
-        else
-        {
-            return "";
-        }
+        return this?.string_helper?.SnakeCaseToCamelCase(name);
     }
 
     public string? GetDimensionalType(string? singleton_type,int? dimensions)

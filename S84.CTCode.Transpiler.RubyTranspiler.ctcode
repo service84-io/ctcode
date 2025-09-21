@@ -168,14 +168,7 @@ class RubyTranspiler implements S84.CTCode.Transpiler.StandardStructure.ctcode.T
 
     function string GetTypeName(string name)
     {
-        if (name != "")
-        {
-            return myself.string_helper.SnakeCaseToCamelCase(name);
-        }
-        else
-        {
-            return "";
-        }
+        return myself.string_helper.SnakeCaseToCamelCase(name);
     }
 
     function string GetDimensionalType(string singleton_type, int dimensions) {

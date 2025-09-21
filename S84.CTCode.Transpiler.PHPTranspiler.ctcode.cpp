@@ -42,7 +42,7 @@ void PHPTranspiler::SetLogger(OmniPointer<s84::ctcode::system::ctcode::OutputStr
 
 int PHPTranspiler::GetBaseIndentation()
 {
-    return 3;
+    return 1;
 }
 
 std::string PHPTranspiler::GetCallName(std::string name)
@@ -55,14 +55,14 @@ std::string PHPTranspiler::GetVariableName(std::string name)
     std::string value = this->string_helper->CamelCaseToSnakeCase(name);
     if (value==std::string("myself"))
     {
-        return std::string("thyself");
+        return std::string("this");
     }
     return value;
 }
 
 std::string PHPTranspiler::GetVariableChain(std::vector<std::string> name_parts)
 {
-    std::string delimiter = std::string(".");
+    std::string delimiter = std::string("->");
     std::string first_name = Element(name_parts,0);
     std::string result = this->GetVariableName(first_name);
     int name_parts_index = 1;
@@ -82,7 +82,7 @@ std::string PHPTranspiler::ConvertCall(std::vector<std::string> name_chain, std:
     while (name_chain_index<Size(name_chain))
     {
         std::string name_part = Element(name_chain,name_chain_index);
-        result = Concat(Concat(result,std::string(".")),name_part);
+        result = Concat(Concat(result,std::string("->")),name_part);
         name_chain_index = name_chain_index+1;
     }
     result = Concat(result,std::string("("));
@@ -201,14 +201,7 @@ std::string PHPTranspiler::BinaryOperator(std::string op, std::string r_value_l,
 
 std::string PHPTranspiler::GetTypeName(std::string name)
 {
-    if (name!=std::string(""))
-    {
-        return this->string_helper->SnakeCaseToCamelCase(name);
-    }
-    else
-    {
-        return std::string("");
-    }
+    return this->string_helper->SnakeCaseToCamelCase(name);
 }
 
 std::string PHPTranspiler::GetDimensionalType(std::string singleton_type, int dimensions)

@@ -200,14 +200,7 @@ public class RubyTranspiler implements s84.ctcode.transpiler.standardstructure.c
 
     public java.lang.String GetTypeName(java.lang.String name)
     {
-        if (AsBoolean(!Equals(name,"")))
-        {
-            return this.string_helper.SnakeCaseToCamelCase(name);
-        }
-        else
-        {
-            return "";
-        }
+        return this.string_helper.SnakeCaseToCamelCase(name);
     }
 
     public java.lang.String GetDimensionalType(java.lang.String singleton_type, int dimensions)

@@ -44,7 +44,7 @@ public class PHPTranspiler : S84.CTCode.Transpiler.StandardStructure.ctcode.Targ
 
     public int? GetBaseIndentation()
     {
-        return 3;
+        return 1;
     }
 
     public string? GetCallName(string? name)
@@ -57,14 +57,14 @@ public class PHPTranspiler : S84.CTCode.Transpiler.StandardStructure.ctcode.Targ
         string? value = this?.string_helper?.CamelCaseToSnakeCase(name);
         if (AsBoolean(value=="myself"))
         {
-            return "thyself";
+            return "this";
         }
         return value;
     }
 
     public string? GetVariableChain(List<string?>? name_parts)
     {
-        string? delimiter = ".";
+        string? delimiter = "->";
         string? first_name = Element(name_parts,0);
         string? result = this?.GetVariableName(first_name);
         int? name_parts_index = 1;
@@ -84,7 +84,7 @@ public class PHPTranspiler : S84.CTCode.Transpiler.StandardStructure.ctcode.Targ
         while (AsBoolean(name_chain_index<Size(name_chain)))
         {
             string? name_part = Element(name_chain,name_chain_index);
-            result = Concat(Concat(result,"."),name_part);
+            result = Concat(Concat(result,"->"),name_part);
             name_chain_index = name_chain_index+1;
         }
         result = Concat(result,"(");
@@ -203,14 +203,7 @@ public class PHPTranspiler : S84.CTCode.Transpiler.StandardStructure.ctcode.Targ
 
     public string? GetTypeName(string? name)
     {
-        if (AsBoolean(name!=""))
-        {
-            return this?.string_helper?.SnakeCaseToCamelCase(name);
-        }
-        else
-        {
-            return "";
-        }
+        return this?.string_helper?.SnakeCaseToCamelCase(name);
     }
 
     public string? GetDimensionalType(string? singleton_type,int? dimensions)

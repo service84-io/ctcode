@@ -139,10 +139,7 @@ class RubyTranspiler(S84_CTCode_Transpiler_StandardStructure_ctcode.TargetSpecif
         return ""
 
     def GetTypeName(self: 'RubyTranspiler',name: 'str') -> 'str':
-        if name!="":
-            return self.string_helper.SnakeCaseToCamelCase(name)
-        else:
-            return ""
+        return self.string_helper.SnakeCaseToCamelCase(name)
 
     def GetDimensionalType(self: 'RubyTranspiler',singleton_type: 'str',dimensions: 'int') -> 'str':
         result: 'str' = singleton_type

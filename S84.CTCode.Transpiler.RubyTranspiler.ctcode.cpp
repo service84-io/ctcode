@@ -201,14 +201,7 @@ std::string RubyTranspiler::BinaryOperator(std::string op, std::string r_value_l
 
 std::string RubyTranspiler::GetTypeName(std::string name)
 {
-    if (name!=std::string(""))
-    {
-        return this->string_helper->SnakeCaseToCamelCase(name);
-    }
-    else
-    {
-        return std::string("");
-    }
+    return this->string_helper->SnakeCaseToCamelCase(name);
 }
 
 std::string RubyTranspiler::GetDimensionalType(std::string singleton_type, int dimensions)
