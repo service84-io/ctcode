@@ -24,19 +24,19 @@ echo
 for CTCodeFile in *.ctcode; do
   echo Processing ${CTCodeFile}...
   echo Generating CPP...
-  ctcode ${CTCodeFile} CPPTranspiler
+  ./ctcode ${CTCodeFile} CPPTranspiler
   echo Done generating CPP!
   echo Generating CSharp...
-  ctcode ${CTCodeFile} CSharpTranspiler
+  ./ctcode ${CTCodeFile} CSharpTranspiler
   echo Done generating CSharp!
   echo Generating Python3...
-  ctcode ${CTCodeFile} Python3Transpiler
+  ./ctcode ${CTCodeFile} Python3Transpiler
   echo Done generating Python3!
   echo Generating NodeJS...
-  ctcode ${CTCodeFile} NodeJSTranspiler
+  ./ctcode ${CTCodeFile} NodeJSTranspiler
   echo Done generating NodeJS!
   echo Generating Java11...
-  ctcode ${CTCodeFile} Java11Transpiler
+  ./ctcode ${CTCodeFile} Java11Transpiler
   echo Done generating Java11!
   echo Done processing ${CTCodeFile}!
   echo
