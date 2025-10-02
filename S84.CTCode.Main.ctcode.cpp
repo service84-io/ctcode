@@ -90,7 +90,7 @@ int Main::RunMain(OmniPointer<s84::ctcode::system::ctcode::System> system, std::
     SetKV(transpilers,std::string("Java11Transpiler"),this->GetJava11Transpiler());
     SetKV(transpilers,std::string("LogToConsole"),this->GetLogToConsole());
     SetKV(transpilers,std::string("NodeJSTranspiler"),this->GetNodeJSTranspiler());
-    SetKV(transpilers,std::string("GetPHPTranspiler"),this->GetPHPTranspiler());
+    SetKV(transpilers,std::string("PHPTranspiler"),this->GetPHPTranspiler());
     SetKV(transpilers,std::string("Python3Transpiler"),this->GetPython3Transpiler());
     SetKV(transpilers,std::string("RubyTranspiler"),this->GetRubyTranspiler());
     if (ctcode_file_name==std::string("")||!HasKV(transpilers,transpiler))

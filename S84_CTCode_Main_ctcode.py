@@ -97,7 +97,7 @@ class Main:
         SetKV(transpilers,"Java11Transpiler",self.GetJava11Transpiler())
         SetKV(transpilers,"LogToConsole",self.GetLogToConsole())
         SetKV(transpilers,"NodeJSTranspiler",self.GetNodeJSTranspiler())
-        SetKV(transpilers,"GetPHPTranspiler",self.GetPHPTranspiler())
+        SetKV(transpilers,"PHPTranspiler",self.GetPHPTranspiler())
         SetKV(transpilers,"Python3Transpiler",self.GetPython3Transpiler())
         SetKV(transpilers,"RubyTranspiler",self.GetRubyTranspiler())
         if ctcode_file_name=="" or not HasKV(transpilers,transpiler):

@@ -99,7 +99,7 @@ public class Main {
         SetKV(transpilers, "Java11Transpiler", this.GetJava11Transpiler());
         SetKV(transpilers, "LogToConsole", this.GetLogToConsole());
         SetKV(transpilers, "NodeJSTranspiler", this.GetNodeJSTranspiler());
-        SetKV(transpilers, "GetPHPTranspiler", this.GetPHPTranspiler());
+        SetKV(transpilers, "PHPTranspiler", this.GetPHPTranspiler());
         SetKV(transpilers, "Python3Transpiler", this.GetPython3Transpiler());
         SetKV(transpilers, "RubyTranspiler", this.GetRubyTranspiler());
         if (AsBoolean((AsBoolean(Equals(ctcode_file_name,"")) || AsBoolean((! AsBoolean(HasKV(transpilers, transpiler)))))))

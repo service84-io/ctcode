@@ -88,7 +88,7 @@ class Main
         SetKV(transpilers, "Java11Transpiler", myself.GetJava11Transpiler());
         SetKV(transpilers, "LogToConsole", myself.GetLogToConsole());
         SetKV(transpilers, "NodeJSTranspiler", myself.GetNodeJSTranspiler());
-        SetKV(transpilers, "GetPHPTranspiler", myself.GetPHPTranspiler());
+        SetKV(transpilers, "PHPTranspiler", myself.GetPHPTranspiler());
         SetKV(transpilers, "Python3Transpiler", myself.GetPython3Transpiler());
         SetKV(transpilers, "RubyTranspiler", myself.GetRubyTranspiler());
 
