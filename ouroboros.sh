@@ -1,5 +1,7 @@
 #!/bin/bash
 
+$(dirname $0)/build_source.sh
+
 $(dirname $0)/build_full_using_cpp.sh
 $(dirname $0)/build_full_using_csharp.sh
 $(dirname $0)/build_full_using_java.sh
