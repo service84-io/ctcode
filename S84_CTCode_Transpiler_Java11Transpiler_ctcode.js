@@ -70,7 +70,7 @@ export class Java11Transpiler {
 
     IsReserved(name)
     {
-        return false || this.string_helper.BeginsWith("reserved_prefix_",name) || name=="boolean" || name=="float"
+        return false || this.string_helper.BeginsWith("reserved_prefix_",name) || name=="boolean" || name=="char" || name=="float"
     }
 
     GetVariableName(name)
@@ -281,20 +281,15 @@ export class Java11Transpiler {
     {
         var delimiter = "."
         var name_parts_index = Size(name_parts)-1
-        var last_package_index = Size(name_parts)-2
         var type_part = Element(name_parts,name_parts_index)
         var result = this.GetTypeName(type_part)
         if (name_parts_index>0)
         {
-            result = Concat(delimiter,result)
             while (name_parts_index>0)
             {
                 name_parts_index = name_parts_index-1
+                result = Concat(delimiter,result)
                 var name_part = Element(name_parts,name_parts_index)
-                if (name_parts_index!=last_package_index)
-                {
-                    result = Concat(delimiter,result)
-                }
                 result = Concat(this.string_helper.ToLower(name_part),result)
             }
         }

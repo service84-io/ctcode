@@ -255,14 +255,18 @@ public class RubyTranspiler : S84.CTCode.Transpiler.StandardStructure.ctcode.Tar
     public string? GetQualifiedTypeName(List<string?>? name_parts)
     {
         string? delimiter = ".";
-        string? first_name = Element(name_parts,0);
-        string? result = first_name;
-        int? name_parts_index = 1;
-        while (AsBoolean(name_parts_index<Size(name_parts)))
+        int? name_parts_index = Size(name_parts)-1;
+        string? type_part = Element(name_parts,name_parts_index);
+        string? result = this?.GetTypeName(type_part);
+        if (AsBoolean(name_parts_index>0))
         {
-            string? name = Element(name_parts,name_parts_index);
-            result = Concat(Concat(result,delimiter),name);
-            name_parts_index = name_parts_index+1;
+            while (AsBoolean(name_parts_index>0))
+            {
+                name_parts_index = name_parts_index-1;
+                result = Concat(delimiter,result);
+                string? name_part = Element(name_parts,name_parts_index);
+                result = Concat(name_part,result);
+            }
         }
         return result;
     }

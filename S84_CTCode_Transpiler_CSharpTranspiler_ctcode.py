@@ -193,13 +193,15 @@ class CSharpTranspiler(S84_CTCode_Transpiler_StandardStructure_ctcode.TargetSpec
 
     def GetQualifiedTypeName(self: 'CSharpTranspiler',name_parts: 'list[str]') -> 'str':
         delimiter: 'str' = "."
-        first_name: 'str' = Element(name_parts,0)
-        result: 'str' = first_name
-        name_parts_index: 'int' = 1
-        while name_parts_index<Size(name_parts):
-            name: 'str' = Element(name_parts,name_parts_index)
-            result = Concat(Concat(result,delimiter),name)
-            name_parts_index = name_parts_index+1
+        name_parts_index: 'int' = Size(name_parts)-1
+        type_part: 'str' = Element(name_parts,name_parts_index)
+        result: 'str' = self.GetTypeName(type_part)
+        if name_parts_index>0:
+            while name_parts_index>0:
+                name_parts_index = name_parts_index-1
+                result = Concat(delimiter,result)
+                name_part: 'str' = Element(name_parts,name_parts_index)
+                result = Concat(name_part,result)
         return result
 
     def BeginProcessingCTCodeFile(self: 'CSharpTranspiler') -> 'None':

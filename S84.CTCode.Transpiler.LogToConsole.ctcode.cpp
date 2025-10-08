@@ -253,14 +253,18 @@ std::string LogToConsole::GetDefinedType(std::string c_t_type)
 std::string LogToConsole::GetQualifiedTypeName(std::vector<std::string> name_parts)
 {
     std::string delimiter = std::string(".");
-    std::string first_name = Element(name_parts,0);
-    std::string result = first_name;
-    int name_parts_index = 1;
-    while (name_parts_index<Size(name_parts))
+    int name_parts_index = Size(name_parts)-1;
+    std::string type_part = Element(name_parts,name_parts_index);
+    std::string result = this->GetTypeName(type_part);
+    if (name_parts_index>0)
     {
-        std::string name = Element(name_parts,name_parts_index);
-        result = Concat(Concat(result,delimiter),name);
-        name_parts_index = name_parts_index+1;
+        while (name_parts_index>0)
+        {
+            name_parts_index = name_parts_index-1;
+            result = Concat(delimiter,result);
+            std::string name_part = Element(name_parts,name_parts_index);
+            result = Concat(name_part,result);
+        }
     }
     return result;
 }

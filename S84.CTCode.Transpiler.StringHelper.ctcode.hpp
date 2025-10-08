@@ -115,6 +115,7 @@ public:
     std::string Indentation(int indent);
     bool BeginsWith(std::string prefix, std::string value);
     std::string DotToSlash(std::string input);
+    std::string DotToFwdSlash(std::string input);
     std::string StripDot(std::string input);
     std::string SnakeCaseToCamelCase(std::string snake_case);
     std::string CamelCaseToSnakeCase(std::string camel_case);

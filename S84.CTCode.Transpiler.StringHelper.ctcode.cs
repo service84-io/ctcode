@@ -67,6 +67,26 @@ public class StringHelper
         return result;
     }
 
+    public string? DotToFwdSlash(string? input)
+    {
+        string? result = "";
+        int? input_index = 0;
+        while (AsBoolean(input_index<Length(input)))
+        {
+            string? character = At(input,input_index);
+            if (AsBoolean(character=="."))
+            {
+                result = Concat(result,"\\");
+            }
+            else
+            {
+                result = Concat(result,character);
+            }
+            input_index = input_index+1;
+        }
+        return result;
+    }
+
     public string? StripDot(string? input)
     {
         int? index = 0;

@@ -27,6 +27,14 @@ class PHPTranspiler(S84_CTCode_Transpiler_StandardStructure_ctcode.TargetSpecifi
         self.base_name: str = ""
         self.logger: S84_CTCode_System_ctcode.OutputStream = None
         self.string_helper: S84_CTCode_Transpiler_StringHelper_ctcode.StringHelper = None
+        self.imports: list[str] = []
+        self.current_interface: str = ""
+        self.interface_definitions: list[str] = []
+        self.current_class: str = ""
+        self.class_definitions: list[str] = []
+        self.class_init: list[str] = []
+        self.class_functions: list[str] = []
+        self.class_members: list[str] = []
 
     def Initialize(self: 'PHPTranspiler') -> 'None':
         self.string_helper = S84_CTCode_Transpiler_StringHelper_ctcode.StringHelper()
@@ -46,13 +54,21 @@ class PHPTranspiler(S84_CTCode_Transpiler_StandardStructure_ctcode.TargetSpecifi
     def GetBaseIndentation(self: 'PHPTranspiler') -> 'int':
         return 1
 
+    def IsReserved(self: 'PHPTranspiler',name: 'str') -> 'bool':
+        return False or self.string_helper.BeginsWith("ReservedPrefix",name) or self.string_helper.BeginsWith("reserved_prefix_",name) or name=="Return" or name=="String" or name=="GetType" or name=="string" or name=="boolean" or name=="char" or name=="float" or name=="decimal"
+
     def GetCallName(self: 'PHPTranspiler',name: 'str') -> 'str':
-        return self.string_helper.SnakeCaseToCamelCase(name)
+        value: 'str' = self.string_helper.SnakeCaseToCamelCase(name)
+        if self.IsReserved(value):
+            return Concat("ReservedPrefix",value)
+        return value
 
     def GetVariableName(self: 'PHPTranspiler',name: 'str') -> 'str':
         value: 'str' = self.string_helper.CamelCaseToSnakeCase(name)
         if value=="myself":
             return "this"
+        if self.IsReserved(value):
+            return Concat("reserved_prefix_",value)
         return value
 
     def GetVariableChain(self: 'PHPTranspiler',name_parts: 'list[str]') -> 'str':
@@ -64,10 +80,12 @@ class PHPTranspiler(S84_CTCode_Transpiler_StandardStructure_ctcode.TargetSpecifi
             name: 'str' = Element(name_parts,name_parts_index)
             result = Concat(Concat(result,delimiter),self.GetVariableName(name))
             name_parts_index = name_parts_index+1
-        return result
+        return Concat("$",result)
 
     def ConvertCall(self: 'PHPTranspiler',name_chain: 'list[str]',parameters: 'list[str]') -> 'str':
         result: 'str' = Element(name_chain,0)
+        if Size(name_chain)>1:
+            result = Concat("$",result)
         name_chain_index: 'int' = 1
         while name_chain_index<Size(name_chain):
             name_part: 'str' = Element(name_chain,name_chain_index)
@@ -86,7 +104,7 @@ class PHPTranspiler(S84_CTCode_Transpiler_StandardStructure_ctcode.TargetSpecifi
         return result
 
     def ConvertAllocate(self: 'PHPTranspiler',type: 'str') -> 'str':
-        return Concat("new ",type)
+        return Concat(Concat("new ",type),"()")
 
     def ConvertByte(self: 'PHPTranspiler',high: 'str',low: 'str') -> 'str':
         return Concat(Concat("0x",high),low)
@@ -107,8 +125,26 @@ class PHPTranspiler(S84_CTCode_Transpiler_StandardStructure_ctcode.TargetSpecifi
     def ConvertVariable(self: 'PHPTranspiler',variable: 'str') -> 'str':
         return variable
 
+    def Escape(self: 'PHPTranspiler',input: 'str') -> 'str':
+        result: 'str' = ""
+        input_index: 'int' = 0
+        in_escape: 'bool' = False
+        while input_index<Length(input):
+            character: 'str' = At(input,input_index)
+            if character=="'":
+                result = Concat(result,"\\")
+            if not in_escape and character=="\\":
+                in_escape = True
+            else:
+                in_escape = False
+                if character=="\\":
+                    result = Concat(result,"\\")
+                result = Concat(result,character)
+            input_index = input_index+1
+        return result
+
     def ConvertString(self: 'PHPTranspiler',literal: 'str') -> 'str':
-        return Concat(Concat("\"",literal),"\"")
+        return Concat(Concat("'",self.Escape(literal)),"'")
 
     def UnaryOperator(self: 'PHPTranspiler',op: 'str',r_value: 'str') -> 'str':
         if op=="!":
@@ -139,111 +175,208 @@ class PHPTranspiler(S84_CTCode_Transpiler_StandardStructure_ctcode.TargetSpecifi
         return ""
 
     def GetTypeName(self: 'PHPTranspiler',name: 'str') -> 'str':
-        return self.string_helper.SnakeCaseToCamelCase(name)
+        value: 'str' = self.string_helper.SnakeCaseToCamelCase(name)
+        if self.IsReserved(value):
+            return Concat("ReservedPrefix",value)
+        return value
 
     def GetDimensionalType(self: 'PHPTranspiler',singleton_type: 'str',dimensions: 'int') -> 'str':
-        result: 'str' = singleton_type
-        while dimensions>0:
-            result = Concat(result,"[]")
-            dimensions = dimensions-1
-        return result
+        return "?array"
 
     def GetMapType(self: 'PHPTranspiler',singleton_type: 'str') -> 'str':
-        return Concat(singleton_type,"{}")
+        return "?array"
 
     def GetPrimativeType(self: 'PHPTranspiler',c_t_type: 'str') -> 'str':
         if c_t_type=="int":
-            return "int"
+            return "?int"
         if c_t_type=="string":
-            return "string"
+            return "?string"
         if c_t_type=="bool":
-            return "bool"
+            return "?bool"
         if c_t_type=="float":
-            return "float"
+            return "?float"
         if c_t_type=="void":
             return "void"
         return ""
 
     def GetDefinedType(self: 'PHPTranspiler',c_t_type: 'str') -> 'str':
-        return c_t_type
+        return Concat("?",c_t_type)
 
     def GetQualifiedTypeName(self: 'PHPTranspiler',name_parts: 'list[str]') -> 'str':
-        delimiter: 'str' = "."
-        first_name: 'str' = Element(name_parts,0)
-        result: 'str' = first_name
-        name_parts_index: 'int' = 1
-        while name_parts_index<Size(name_parts):
-            name: 'str' = Element(name_parts,name_parts_index)
-            result = Concat(Concat(result,delimiter),name)
-            name_parts_index = name_parts_index+1
+        delimiter: 'str' = "\\"
+        name_parts_index: 'int' = Size(name_parts)-1
+        type_part: 'str' = Element(name_parts,name_parts_index)
+        result: 'str' = self.GetTypeName(type_part)
+        if name_parts_index>0:
+            while name_parts_index>0:
+                name_parts_index = name_parts_index-1
+                result = Concat(delimiter,result)
+                name_part: 'str' = Element(name_parts,name_parts_index)
+                result = Concat(name_part,result)
+            result = Concat(delimiter,result)
         return result
 
     def BeginProcessingCTCodeFile(self: 'PHPTranspiler') -> 'None':
-        self.logger.WriteLine("BeginProcessingCTCodeFile")
+        ClearList(self.imports)
+        self.current_interface = ""
+        ClearList(self.interface_definitions)
+        self.current_class = ""
+        ClearList(self.class_definitions)
+        ClearList(self.class_init)
+        ClearList(self.class_functions)
+        ClearList(self.class_members)
 
     def FinishProcessingCTCodeFile(self: 'PHPTranspiler') -> 'None':
-        self.logger.WriteLine("FinishProcessingCTCodeFile")
+        destination_file_name: 'str' = Concat(self.base_name,".php")
+        destination_file: 'S84_CTCode_System_ctcode.OutputStream' = self.system.OpenFileWriter(destination_file_name)
+        destination_file.WriteLine("<?php")
+        destination_file.WriteLine(Concat(Concat("namespace ",self.string_helper.DotToFwdSlash(self.base_name)),";"))
+        destination_file.WriteLine("")
+        if Size(self.imports)>0:
+            self.string_helper.WriteLines(destination_file,self.imports)
+            destination_file.WriteLine("")
+        self.WriteCommonFunctions(destination_file)
+        destination_file.WriteLine("")
+        self.string_helper.WriteLines(destination_file,self.interface_definitions)
+        self.string_helper.WriteLines(destination_file,self.class_definitions)
+        destination_file.WriteLine("?>")
 
     def ProcessExdef(self: 'PHPTranspiler',exdef: 'str') -> 'None':
-        self.logger.WriteLine(Concat(Concat(self.string_helper.Indentation(1),"ProcessExdef: "),exdef))
+        Append(self.imports,Concat(Concat("include_once \"",exdef),".php\";"))
 
     def ProcessUnmanagedType(self: 'PHPTranspiler',unmanaged_type: 'str') -> 'None':
-        self.logger.WriteLine(Concat(Concat(self.string_helper.Indentation(1),"ProcessUnmanagedType: "),unmanaged_type))
+        pass
 
     def BeginProcessingInterface(self: 'PHPTranspiler',interface_name: 'str') -> 'None':
-        self.logger.WriteLine(Concat(Concat(self.string_helper.Indentation(1),"BeginProcessingInterface: "),interface_name))
+        self.current_interface = interface_name
+        Append(self.interface_definitions,Concat(Concat("interface ",interface_name)," {"))
 
     def ProcessInterfaceFunctionDeclaration(self: 'PHPTranspiler',return_type: 'str',function_name: 'str',parameters: 'list[S84_CTCode_Transpiler_StandardStructure_ctcode.ParameterDeclaration]') -> 'None':
-        self.logger.WriteLine(Concat(Concat(Concat(Concat(self.string_helper.Indentation(2),"ProcessInterfaceFunctionDeclaration: "),return_type)," "),function_name))
+        Append(self.interface_definitions,Concat(Concat(Concat(Concat(Concat(Concat(self.string_helper.Indentation(1),"public function "),function_name),self.MakeParametersString(parameters)),": "),return_type),";"))
 
     def FinishProcessingInterface(self: 'PHPTranspiler',interface_name: 'str') -> 'None':
-        self.logger.WriteLine(Concat(Concat(self.string_helper.Indentation(1),"FinishProcessingInterface: "),interface_name))
+        Append(self.interface_definitions,"}")
+        Append(self.interface_definitions,"")
+        self.current_interface = ""
 
     def BeginProcessingClass(self: 'PHPTranspiler',class_name: 'str',implementing: 'str') -> 'None':
-        self.logger.WriteLine(Concat(Concat(Concat(Concat(self.string_helper.Indentation(1),"BeginProcessingClass: "),class_name)," "),implementing))
+        self.current_class = class_name
+        if implementing=="":
+            Append(self.class_definitions,Concat(Concat("class ",class_name)," {"))
+        else:
+            Append(self.class_definitions,Concat(Concat(Concat(Concat("class ",class_name)," implements "),implementing)," {"))
+        ClearList(self.class_init)
+        ClearList(self.class_functions)
+        ClearList(self.class_members)
+        Append(self.class_init,Concat(self.string_helper.Indentation(1),"public function __construct() {"))
 
     def BeginProcessingClassFunctionDefinition(self: 'PHPTranspiler',return_type: 'str',function_name: 'str',parameters: 'list[S84_CTCode_Transpiler_StandardStructure_ctcode.ParameterDeclaration]') -> 'None':
-        self.logger.WriteLine(Concat(Concat(Concat(Concat(self.string_helper.Indentation(2),"BeginProcessingClassFunctionDefinition: "),return_type)," "),function_name))
+        Append(self.class_functions,"")
+        Append(self.class_functions,Concat(Concat(Concat(Concat(Concat(self.string_helper.Indentation(1),"public function "),function_name),self.MakeParametersString(parameters)),": "),return_type))
 
     def BeginProcessCodeBlock(self: 'PHPTranspiler',indent: 'int') -> 'None':
-        self.logger.WriteLine(Concat(self.string_helper.Indentation(indent),"BeginProcessCodeBlock"))
+        Append(self.class_functions,Concat(self.string_helper.Indentation(indent),"{"))
 
     def FinishProcessCodeBlock(self: 'PHPTranspiler',indent: 'int') -> 'None':
-        self.logger.WriteLine(Concat(self.string_helper.Indentation(indent),"FinishProcessCodeBlock"))
+        Append(self.class_functions,Concat(self.string_helper.Indentation(indent),"}"))
 
     def BeginProcessConditional(self: 'PHPTranspiler',indent: 'int',r_value: 'str') -> 'None':
-        self.logger.WriteLine(Concat(Concat(self.string_helper.Indentation(indent),"BeginProcessConditional: "),r_value))
+        Append(self.class_functions,Concat(Concat(Concat(self.string_helper.Indentation(indent),"if ("),r_value),")"))
 
     def ProcessElse(self: 'PHPTranspiler',indent: 'int') -> 'None':
-        self.logger.WriteLine(Concat(self.string_helper.Indentation(indent),"ProcessElse"))
+        Append(self.class_functions,Concat(self.string_helper.Indentation(indent),"else"))
 
     def FinishProcessConditional(self: 'PHPTranspiler',indent: 'int',r_value: 'str') -> 'None':
-        self.logger.WriteLine(Concat(Concat(self.string_helper.Indentation(indent),"FinishProcessConditional: "),r_value))
+        pass
 
     def BeginProcessLoop(self: 'PHPTranspiler',indent: 'int',r_value: 'str') -> 'None':
-        self.logger.WriteLine(Concat(Concat(self.string_helper.Indentation(indent),"BeginProcessLoop: "),r_value))
+        Append(self.class_functions,Concat(Concat(Concat(self.string_helper.Indentation(indent),"while ("),r_value),")"))
 
     def FinishProcessLoop(self: 'PHPTranspiler',indent: 'int',r_value: 'str') -> 'None':
-        self.logger.WriteLine(Concat(Concat(self.string_helper.Indentation(indent),"FinishProcessLoop: "),r_value))
+        pass
 
     def ProcessRtn(self: 'PHPTranspiler',indent: 'int',r_value: 'str') -> 'None':
-        self.logger.WriteLine(Concat(Concat(self.string_helper.Indentation(indent),"ProcessRtn: "),r_value))
+        Append(self.class_functions,Concat(Concat(Concat(self.string_helper.Indentation(indent),"return "),r_value),";"))
 
     def ProcessDeclaration(self: 'PHPTranspiler',indent: 'int',type: 'str',l_value: 'str',r_value: 'str') -> 'None':
-        self.logger.WriteLine(Concat(Concat(Concat(Concat(Concat(Concat(self.string_helper.Indentation(indent),"ProcessDeclaration: "),type)," "),l_value)," "),r_value))
+        if r_value=="":
+            r_value = self.GetDefault(type)
+        Append(self.class_functions,Concat(Concat(Concat(Concat(Concat(self.string_helper.Indentation(indent),"$"),l_value)," = "),r_value),";"))
 
     def ProcessAssignment(self: 'PHPTranspiler',indent: 'int',l_value: 'str',r_value: 'str') -> 'None':
-        self.logger.WriteLine(Concat(Concat(Concat(Concat(self.string_helper.Indentation(indent),"ProcessAssignment: "),l_value)," "),r_value))
+        Append(self.class_functions,Concat(Concat(Concat(Concat(self.string_helper.Indentation(indent),l_value)," = "),r_value),";"))
 
     def ProcessCall(self: 'PHPTranspiler',indent: 'int',call: 'str') -> 'None':
-        self.logger.WriteLine(Concat(Concat(self.string_helper.Indentation(indent),"ProcessCall: "),call))
+        Append(self.class_functions,Concat(Concat(self.string_helper.Indentation(indent),call),";"))
 
     def FinishProcessingClassFunctionDefinition(self: 'PHPTranspiler',return_type: 'str',function_name: 'str',parameters: 'list[S84_CTCode_Transpiler_StandardStructure_ctcode.ParameterDeclaration]') -> 'None':
-        self.logger.WriteLine(Concat(Concat(Concat(Concat(self.string_helper.Indentation(2),"FinishProcessingClassFunctionDefinition: "),return_type)," "),function_name))
+        pass
 
     def ProcessClassMemberDeclaration(self: 'PHPTranspiler',member_type: 'str',member_name: 'str') -> 'None':
-        self.logger.WriteLine(Concat(Concat(Concat(Concat(self.string_helper.Indentation(2),"ProcessClassMemberDeclaration: "),member_type)," "),member_name))
+        Append(self.class_init,Concat(Concat(Concat(Concat(Concat(self.string_helper.Indentation(2),"$this->"),member_name)," = "),self.GetDefault(member_type)),";"))
+        Append(self.class_members,Concat(Concat(Concat(self.string_helper.Indentation(1),"private $"),member_name),";"))
 
     def FinishProcessingClass(self: 'PHPTranspiler',class_name: 'str',implementing: 'str') -> 'None':
-        self.logger.WriteLine(Concat(Concat(self.string_helper.Indentation(1),"FinishProcessingClass: "),class_name))
+        Append(self.class_init,Concat(self.string_helper.Indentation(1),"}"))
+        class_init_index: 'int' = 0
+        while class_init_index<Size(self.class_init):
+            line: 'str' = Element(self.class_init,class_init_index)
+            Append(self.class_definitions,line)
+            class_init_index = class_init_index+1
+        class_functions_index: 'int' = 0
+        while class_functions_index<Size(self.class_functions):
+            line: 'str' = Element(self.class_functions,class_functions_index)
+            Append(self.class_definitions,line)
+            class_functions_index = class_functions_index+1
+        Append(self.class_definitions,"")
+        class_members_index: 'int' = 0
+        while class_members_index<Size(self.class_members):
+            line: 'str' = Element(self.class_members,class_members_index)
+            Append(self.class_definitions,line)
+            class_members_index = class_members_index+1
+        Append(self.class_definitions,"}")
+        Append(self.class_definitions,"")
+        self.current_class = ""
+
+    def WriteCommonFunctions(self: 'PHPTranspiler',destination_file: 'S84_CTCode_System_ctcode.OutputStream') -> 'None':
+        destination_file.WriteLine("function ClearList(array & $input): void { $input = array(); }")
+        destination_file.WriteLine("function Size(array $input): int { return count($input); }")
+        destination_file.WriteLine("function Element(array $input, int $element) { return $input[$element]; }")
+        destination_file.WriteLine("function Append(array & $input, mixed $element): void { $input[] = $element; }")
+        destination_file.WriteLine("function ClearMap(array & $input): void { reset($input); }")
+        destination_file.WriteLine("function SetKV(array & $input, string $key, mixed $element): void { $input[$key] = $element; }")
+        destination_file.WriteLine("function Keys(array $input): array { return array_keys($input); }")
+        destination_file.WriteLine("function HasKV(array $input, string $key): bool { return array_key_exists($key, $input); }")
+        destination_file.WriteLine("function GetKV(array $input, string $key) { return $input[$key]; }")
+        destination_file.WriteLine("function Length(string $input): int { return strlen($input); }")
+        destination_file.WriteLine("function At(string $input, int $index): string { return substr($input, $index, 1); }")
+        destination_file.WriteLine("function IntAt(string $input, int $index): int { return ord(substr($input, $index, 1)); }")
+        destination_file.WriteLine("function Concat(string $left, string $right): string { return $left . $right; }")
+
+    def GetDefault(self: 'PHPTranspiler',php_type: 'str') -> 'str':
+        if php_type=="?int":
+            return "0"
+        if php_type=="?string":
+            return "\"\""
+        if php_type=="?bool":
+            return "false"
+        if php_type=="?float":
+            return "0.0"
+        if php_type=="void":
+            return "null"
+        if php_type=="?array":
+            return "array()"
+        return "null"
+
+    def MakeParametersString(self: 'PHPTranspiler',parameters: 'list[S84_CTCode_Transpiler_StandardStructure_ctcode.ParameterDeclaration]') -> 'str':
+        result: 'str' = "("
+        parameters_index: 'int' = 0
+        while parameters_index<Size(parameters):
+            parameter: 'S84_CTCode_Transpiler_StandardStructure_ctcode.ParameterDeclaration' = Element(parameters,parameters_index)
+            if parameters_index!=0:
+                result = Concat(result,", ")
+            result = Concat(Concat(Concat(result,parameter.GetType())," $"),parameter.GetName())
+            parameters_index = parameters_index+1
+        result = Concat(result,")")
+        return result
 

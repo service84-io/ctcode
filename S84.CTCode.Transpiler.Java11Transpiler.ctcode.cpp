@@ -59,7 +59,7 @@ std::string Java11Transpiler::GetCallName(std::string name)
 
 bool Java11Transpiler::IsReserved(std::string name)
 {
-    return false||this->string_helper->BeginsWith(std::string("reserved_prefix_"),name)||name==std::string("boolean")||name==std::string("float");
+    return false||this->string_helper->BeginsWith(std::string("reserved_prefix_"),name)||name==std::string("boolean")||name==std::string("char")||name==std::string("float");
 }
 
 std::string Java11Transpiler::GetVariableName(std::string name)
@@ -270,20 +270,15 @@ std::string Java11Transpiler::GetQualifiedTypeName(std::vector<std::string> name
 {
     std::string delimiter = std::string(".");
     int name_parts_index = Size(name_parts)-1;
-    int last_package_index = Size(name_parts)-2;
     std::string type_part = Element(name_parts,name_parts_index);
     std::string result = this->GetTypeName(type_part);
     if (name_parts_index>0)
     {
-        result = Concat(delimiter,result);
         while (name_parts_index>0)
         {
             name_parts_index = name_parts_index-1;
+            result = Concat(delimiter,result);
             std::string name_part = Element(name_parts,name_parts_index);
-            if (name_parts_index!=last_package_index)
-            {
-                result = Concat(delimiter,result);
-            }
             result = Concat(this->string_helper->ToLower(name_part),result);
         }
     }

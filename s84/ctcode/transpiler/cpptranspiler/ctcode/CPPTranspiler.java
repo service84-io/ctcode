@@ -265,20 +265,15 @@ public class CPPTranspiler implements s84.ctcode.transpiler.standardstructure.ct
     {
         java.lang.String delimiter = "::";
         int name_parts_index = (Size(name_parts)-1);
-        int last_package_index = (Size(name_parts)-2);
         java.lang.String type_part = Element(name_parts, name_parts_index);
         java.lang.String result = this.GetTypeName(type_part);
         if (AsBoolean((name_parts_index>0)))
         {
-            result = Concat(delimiter, result);
             while (AsBoolean((name_parts_index>0)))
             {
                 name_parts_index = (name_parts_index-1);
+                result = Concat(delimiter, result);
                 java.lang.String name_part = Element(name_parts, name_parts_index);
-                if (AsBoolean(!Equals(name_parts_index,last_package_index)))
-                {
-                    result = Concat(delimiter, result);
-                }
                 result = Concat(this.string_helper.ToLower(name_part), result);
             }
         }

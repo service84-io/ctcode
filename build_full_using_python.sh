@@ -4,6 +4,7 @@ $(dirname $0)/clean_cpp.sh
 $(dirname $0)/clean_csharp.sh
 $(dirname $0)/clean_java.sh
 $(dirname $0)/clean_node.sh
+$(dirname $0)/clean_php.sh
 
 echo Processing DBNF files...
 echo
@@ -29,15 +30,18 @@ for CTCodeFile in *.ctcode; do
   echo Generating CSharp...
   python3 ctcode.py ${CTCodeFile} CSharpTranspiler
   echo Done generating CSharp!
-  echo Generating Python3...
-  python3 ctcode.py ${CTCodeFile} Python3Transpiler
-  echo Done generating Python3!
-  echo Generating NodeJS...
-  python3 ctcode.py ${CTCodeFile} NodeJSTranspiler
-  echo Done generating NodeJS!
   echo Generating Java11...
   python3 ctcode.py ${CTCodeFile} Java11Transpiler
   echo Done generating Java11!
+  echo Generating NodeJS...
+  python3 ctcode.py ${CTCodeFile} NodeJSTranspiler
+  echo Done generating NodeJS!
+  echo Generating PHP...
+  python3 ctcode.py ${CTCodeFile} PHPTranspiler
+  echo Done generating PHP!
+  echo Generating Python3...
+  python3 ctcode.py ${CTCodeFile} Python3Transpiler
+  echo Done generating Python3!
   echo Done processing ${CTCodeFile}!
   echo
 done

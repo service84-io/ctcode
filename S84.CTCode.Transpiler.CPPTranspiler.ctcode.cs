@@ -278,20 +278,15 @@ public class CPPTranspiler : S84.CTCode.Transpiler.StandardStructure.ctcode.Targ
     {
         string? delimiter = "::";
         int? name_parts_index = Size(name_parts)-1;
-        int? last_package_index = Size(name_parts)-2;
         string? type_part = Element(name_parts,name_parts_index);
         string? result = this?.GetTypeName(type_part);
         if (AsBoolean(name_parts_index>0))
         {
-            result = Concat(delimiter,result);
             while (AsBoolean(name_parts_index>0))
             {
                 name_parts_index = name_parts_index-1;
+                result = Concat(delimiter,result);
                 string? name_part = Element(name_parts,name_parts_index);
-                if (AsBoolean(name_parts_index!=last_package_index))
-                {
-                    result = Concat(delimiter,result);
-                }
                 result = Concat(this?.string_helper?.ToLower(name_part),result);
             }
         }

@@ -59,6 +59,18 @@ class StringHelper:
             input_index = input_index+1
         return result
 
+    def DotToFwdSlash(self: 'StringHelper',input: 'str') -> 'str':
+        result: 'str' = ""
+        input_index: 'int' = 0
+        while input_index<Length(input):
+            character: 'str' = At(input,input_index)
+            if character==".":
+                result = Concat(result,"\\")
+            else:
+                result = Concat(result,character)
+            input_index = input_index+1
+        return result
+
     def StripDot(self: 'StringHelper',input: 'str') -> 'str':
         index: 'int' = 0
         index = 0

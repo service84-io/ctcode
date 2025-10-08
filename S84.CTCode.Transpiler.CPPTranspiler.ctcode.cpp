@@ -265,20 +265,15 @@ std::string CPPTranspiler::GetQualifiedTypeName(std::vector<std::string> name_pa
 {
     std::string delimiter = std::string("::");
     int name_parts_index = Size(name_parts)-1;
-    int last_package_index = Size(name_parts)-2;
     std::string type_part = Element(name_parts,name_parts_index);
     std::string result = this->GetTypeName(type_part);
     if (name_parts_index>0)
     {
-        result = Concat(delimiter,result);
         while (name_parts_index>0)
         {
             name_parts_index = name_parts_index-1;
+            result = Concat(delimiter,result);
             std::string name_part = Element(name_parts,name_parts_index);
-            if (name_parts_index!=last_package_index)
-            {
-                result = Concat(delimiter,result);
-            }
             result = Concat(this->string_helper->ToLower(name_part),result);
         }
     }

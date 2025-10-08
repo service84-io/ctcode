@@ -17,11 +17,40 @@ class PHPTranspiler implements S84.CTCode.Transpiler.StandardStructure.ctcode.Ta
     function void SetBaseName(string base_name) { myself.base_name = base_name; }
     function void SetLogger(S84.CTCode.System.ctcode.OutputStream logger) { myself.logger = logger; }
 
+    string[] imports;
+    string current_interface;
+    string[] interface_definitions;
+    string current_class;
+    string[] class_definitions;
+    string[] class_init;
+    string[] class_functions;
+    string[] class_members;
+
     function int GetBaseIndentation() { return 1; }
+
+    function bool IsReserved(string name) {
+        return false ||
+            myself.string_helper.BeginsWith("ReservedPrefix", name) ||
+            myself.string_helper.BeginsWith("reserved_prefix_", name) ||
+            name == "Return" ||
+            name == "String" ||
+            name == "GetType" ||
+            name == "string" ||
+            name == "boolean" ||
+            name == "char" ||
+            name == "float" ||
+            name == "decimal";
+    }
 
     function string GetCallName(string name)
     {
-        return myself.string_helper.SnakeCaseToCamelCase(name);
+        string value = myself.string_helper.SnakeCaseToCamelCase(name);
+
+        if (myself.IsReserved(value)) {
+            return Concat("ReservedPrefix", value);
+        }
+
+        return value;
     }
 
     function string GetVariableName(string name)
@@ -30,6 +59,10 @@ class PHPTranspiler implements S84.CTCode.Transpiler.StandardStructure.ctcode.Ta
 
         if (value == "myself") {
             return "this";
+        }
+
+        if (myself.IsReserved(value)) {
+            return Concat("reserved_prefix_", value);
         }
 
         return value;
@@ -47,11 +80,16 @@ class PHPTranspiler implements S84.CTCode.Transpiler.StandardStructure.ctcode.Ta
             name_parts_index = name_parts_index + 1;
         }
 
-        return result;
+        return Concat("$", result);
     }
 
     function string ConvertCall(string[] name_chain, string[] parameters) {
         string result = Element(name_chain, 0);
+
+        if (Size(name_chain) > 1) {
+            result = Concat("$", result);
+        }
+
         int name_chain_index = 1;
 
         while (name_chain_index < Size(name_chain)) {
@@ -79,7 +117,7 @@ class PHPTranspiler implements S84.CTCode.Transpiler.StandardStructure.ctcode.Ta
     }
 
     function string ConvertAllocate(string type) {
-        return Concat("new ", type);
+        return Concat(Concat("new ", type), "()");
     }
 
     function string ConvertByte(string high, string low) {
@@ -110,8 +148,38 @@ class PHPTranspiler implements S84.CTCode.Transpiler.StandardStructure.ctcode.Ta
         return variable;
     }
 
+    function string Escape(string input) {
+        string result = "";
+        int input_index = 0;
+        bool in_escape = false;
+
+        while (input_index < Length(input)) {
+            string character = At(input, input_index);
+
+            if (character == "'") {
+                result = Concat(result, "\\");
+            }
+
+            if (!in_escape && character == "\\") {
+                in_escape = true;
+            } else {
+                in_escape = false;
+
+                if (character == "\\") {
+                    result = Concat(result, "\\");
+                }
+
+                result = Concat(result, character);
+            }
+
+            input_index = input_index + 1;
+        }
+
+        return result;
+    }
+
     function string ConvertString(string literal) {
-        return Concat(Concat("\"", literal), "\"");
+        return Concat(Concat("'", myself.Escape(literal)), "'");
     }
 
     function string UnaryOperator(string op, string r_value) {
@@ -168,39 +236,38 @@ class PHPTranspiler implements S84.CTCode.Transpiler.StandardStructure.ctcode.Ta
 
     function string GetTypeName(string name)
     {
-        return myself.string_helper.SnakeCaseToCamelCase(name);
+        string value = myself.string_helper.SnakeCaseToCamelCase(name);
+
+        if (myself.IsReserved(value)) {
+            return Concat("ReservedPrefix", value);
+        }
+
+        return value;
     }
 
     function string GetDimensionalType(string singleton_type, int dimensions) {
-        string result = singleton_type;
-
-        while (dimensions > 0) {
-            result = Concat(result, "[]");
-            dimensions = dimensions - 1;
-        }
-
-        return result;
+        return "?array";
     }
 
     function string GetMapType(string singleton_type) {
-        return Concat(singleton_type, "{}");
+        return "?array";
     }
 
     function string GetPrimativeType(string c_t_type) {
         if (c_t_type == "int") {
-            return "int";
+            return "?int";
         }
 
         if (c_t_type == "string") {
-            return "string";
+            return "?string";
         }
 
         if (c_t_type == "bool") {
-            return "bool";
+            return "?bool";
         }
 
         if (c_t_type == "float") {
-            return "float";
+            return "?float";
         }
 
         if (c_t_type == "void") {
@@ -211,113 +278,247 @@ class PHPTranspiler implements S84.CTCode.Transpiler.StandardStructure.ctcode.Ta
     }
 
     function string GetDefinedType(string c_t_type) {
-        return c_t_type;
+        return Concat("?", c_t_type);
     }
 
     function string GetQualifiedTypeName(string[] name_parts) {
-        string delimiter = ".";
-        string first_name = Element(name_parts, 0);
-        string result = first_name;
-        int name_parts_index = 1;
+        string delimiter = "\\";
+        int name_parts_index = Size(name_parts) - 1;
+        string type_part = Element(name_parts, name_parts_index);
+        string result = myself.GetTypeName(type_part);
 
-        while (name_parts_index < size(name_parts)) {
-            string name = Element(name_parts, name_parts_index);
-            result = Concat(Concat(result, delimiter), name);
-            name_parts_index = name_parts_index + 1;
+        if (name_parts_index > 0) {
+            while (name_parts_index > 0) {
+                name_parts_index = name_parts_index - 1;
+                result = Concat(delimiter, result);
+                string name_part = Element(name_parts, name_parts_index);
+                result = Concat(name_part, result);
+            }
+
+            result = Concat(delimiter, result);
         }
 
         return result;
     }
 
     function void BeginProcessingCTCodeFile() {
-        myself.logger.WriteLine("BeginProcessingCTCodeFile");
+        ClearList(myself.imports);
+        myself.current_interface = "";
+        ClearList(myself.interface_definitions);
+        myself.current_class = "";
+        ClearList(myself.class_definitions);
+        ClearList(myself.class_init);
+        ClearList(myself.class_functions);
+        ClearList(myself.class_members);
     }
 
     function void FinishProcessingCTCodeFile() {
-        myself.logger.WriteLine("FinishProcessingCTCodeFile");
+        string destination_file_name = Concat(myself.base_name, ".php");
+        S84.CTCode.System.ctcode.OutputStream destination_file = myself.system.OpenFileWriter(destination_file_name);
+
+        destination_file.WriteLine("<?php");
+        destination_file.WriteLine(Concat(Concat("namespace ", myself.string_helper.DotToFwdSlash(myself.base_name)), ";"));
+        destination_file.WriteLine("");
+
+        if (Size(myself.imports) > 0) {
+            myself.string_helper.WriteLines(destination_file, myself.imports);
+            destination_file.WriteLine("");
+        }
+
+        myself.WriteCommonFunctions(destination_file);
+        destination_file.WriteLine("");
+        myself.string_helper.WriteLines(destination_file, myself.interface_definitions);
+        myself.string_helper.WriteLines(destination_file, myself.class_definitions);
+        destination_file.WriteLine("?>");
     }
 
     function void ProcessExdef(string exdef) {
-        myself.logger.WriteLine(Concat(Concat(myself.string_helper.Indentation(1), "ProcessExdef: "), exdef));
+        Append(myself.imports, Concat(Concat("include_once \"", exdef), ".php\";"));
     }
 
-    function void ProcessUnmanagedType(string unmanaged_type) {
-        myself.logger.WriteLine(Concat(Concat(myself.string_helper.Indentation(1), "ProcessUnmanagedType: "), unmanaged_type));
-    }
+    function void ProcessUnmanagedType(string unmanaged_type) {}
 
     function void BeginProcessingInterface(string interface_name) {
-        myself.logger.WriteLine(Concat(Concat(myself.string_helper.Indentation(1), "BeginProcessingInterface: "), interface_name));
+        myself.current_interface = interface_name;
+        Append(myself.interface_definitions, Concat(Concat("interface ", interface_name), " {"));
     }
 
     function void ProcessInterfaceFunctionDeclaration(string return_type, string function_name, S84.CTCode.Transpiler.StandardStructure.ctcode.ParameterDeclaration[] parameters) {
-        myself.logger.WriteLine(Concat(Concat(Concat(Concat(myself.string_helper.Indentation(2), "ProcessInterfaceFunctionDeclaration: "), return_type), " "), function_name));
+        Append(myself.interface_definitions, Concat(Concat(Concat(Concat(Concat(Concat(myself.string_helper.Indentation(1), "public function "), function_name), myself.MakeParametersString(parameters)), ": "), return_type), ";"));
     }
 
     function void FinishProcessingInterface(string interface_name) {
-        myself.logger.WriteLine(Concat(Concat(myself.string_helper.Indentation(1), "FinishProcessingInterface: "), interface_name));
+        Append(myself.interface_definitions, "}");
+        Append(myself.interface_definitions, "");
+        myself.current_interface = "";
     }
 
     function void BeginProcessingClass(string class_name, string implementing) {
-        myself.logger.WriteLine(Concat(Concat(Concat(Concat(myself.string_helper.Indentation(1), "BeginProcessingClass: "), class_name), " "), implementing));
+        myself.current_class = class_name;
+
+        if (implementing == "") {
+            Append(myself.class_definitions, Concat(Concat("class ", class_name), " {"));
+        } else {
+            Append(myself.class_definitions, Concat(Concat(Concat(Concat("class ", class_name), " implements "), implementing), " {"));
+        }
+
+        ClearList(myself.class_init);
+        ClearList(myself.class_functions);
+        ClearList(myself.class_members);
+
+        Append(myself.class_init, Concat(myself.string_helper.Indentation(1), "public function __construct() {"));
     }
 
     function void BeginProcessingClassFunctionDefinition(string return_type, string function_name, S84.CTCode.Transpiler.StandardStructure.ctcode.ParameterDeclaration[] parameters) {
-        myself.logger.WriteLine(Concat(Concat(Concat(Concat(myself.string_helper.Indentation(2), "BeginProcessingClassFunctionDefinition: "), return_type), " "), function_name));
+        Append(myself.class_functions, "");
+        Append(myself.class_functions, Concat(Concat(Concat(Concat(Concat(myself.string_helper.Indentation(1), "public function "), function_name), myself.MakeParametersString(parameters)), ": "), return_type));
     }
 
     function void BeginProcessCodeBlock(int indent) {
-        myself.logger.WriteLine(Concat(myself.string_helper.Indentation(indent), "BeginProcessCodeBlock"));
+        Append(myself.class_functions, Concat(myself.string_helper.Indentation(indent), "{"));
     }
 
     function void FinishProcessCodeBlock(int indent) {
-        myself.logger.WriteLine(Concat(myself.string_helper.Indentation(indent), "FinishProcessCodeBlock"));
+        Append(myself.class_functions, Concat(myself.string_helper.Indentation(indent), "}"));
     }
 
     function void BeginProcessConditional(int indent, string r_value) {
-        myself.logger.WriteLine(Concat(Concat(myself.string_helper.Indentation(indent), "BeginProcessConditional: "), r_value));
+        Append(myself.class_functions, Concat(Concat(Concat(myself.string_helper.Indentation(indent), "if ("), r_value), ")"));
     }
 
     function void ProcessElse(int indent) {
-        myself.logger.WriteLine(Concat(myself.string_helper.Indentation(indent), "ProcessElse"));
+        Append(myself.class_functions, Concat(myself.string_helper.Indentation(indent), "else"));
     }
 
-    function void FinishProcessConditional(int indent, string r_value) {
-        myself.logger.WriteLine(Concat(Concat(myself.string_helper.Indentation(indent), "FinishProcessConditional: "), r_value));
-    }
+    function void FinishProcessConditional(int indent, string r_value) {}
 
     function void BeginProcessLoop(int indent, string r_value) {
-        myself.logger.WriteLine(Concat(Concat(myself.string_helper.Indentation(indent), "BeginProcessLoop: "), r_value));
+        Append(myself.class_functions, Concat(Concat(Concat(myself.string_helper.Indentation(indent), "while ("), r_value), ")"));
     }
 
-    function void FinishProcessLoop(int indent, string r_value) {
-        myself.logger.WriteLine(Concat(Concat(myself.string_helper.Indentation(indent), "FinishProcessLoop: "), r_value));
-    }
+    function void FinishProcessLoop(int indent, string r_value) {}
 
     function void ProcessRtn(int indent, string r_value) {
-        myself.logger.WriteLine(Concat(Concat(myself.string_helper.Indentation(indent), "ProcessRtn: "), r_value));
+        Append(myself.class_functions, Concat(Concat(Concat(myself.string_helper.Indentation(indent), "return "), r_value), ";"));
     }
 
     function void ProcessDeclaration(int indent, string type, string l_value, string r_value) {
-        myself.logger.WriteLine(Concat(Concat(Concat(Concat(Concat(Concat(myself.string_helper.Indentation(indent), "ProcessDeclaration: "), type), " "),l_value), " "),r_value));
+        if (r_value == "") {
+            r_value = myself.GetDefault(type);
+        }
+
+        Append(myself.class_functions, Concat(Concat(Concat(Concat(Concat(myself.string_helper.Indentation(indent), "$"), l_value), " = "), r_value), ";"));
     }
 
     function void ProcessAssignment(int indent, string l_value, string r_value) {
-        myself.logger.WriteLine(Concat(Concat(Concat(Concat(myself.string_helper.Indentation(indent), "ProcessAssignment: "), l_value), " "),r_value));
+        Append(myself.class_functions, Concat(Concat(Concat(Concat(myself.string_helper.Indentation(indent), l_value), " = "), r_value), ";"));
     }
 
     function void ProcessCall(int indent, string call) {
-        myself.logger.WriteLine(Concat(Concat(myself.string_helper.Indentation(indent), "ProcessCall: "), call));
+        Append(myself.class_functions, Concat(Concat(myself.string_helper.Indentation(indent), call), ";"));
     }
 
-    function void FinishProcessingClassFunctionDefinition(string return_type, string function_name, S84.CTCode.Transpiler.StandardStructure.ctcode.ParameterDeclaration[] parameters) {
-        myself.logger.WriteLine(Concat(Concat(Concat(Concat(myself.string_helper.Indentation(2), "FinishProcessingClassFunctionDefinition: "), return_type), " "), function_name));
-    }
+    function void FinishProcessingClassFunctionDefinition(string return_type, string function_name, S84.CTCode.Transpiler.StandardStructure.ctcode.ParameterDeclaration[] parameters) {}
 
     function void ProcessClassMemberDeclaration(string member_type, string member_name) {
-        myself.logger.WriteLine(Concat(Concat(Concat(Concat(myself.string_helper.Indentation(2), "ProcessClassMemberDeclaration: "), member_type), " "), member_name));
+        Append(myself.class_init, Concat(Concat(Concat(Concat(Concat(myself.string_helper.Indentation(2), "$this->"), member_name), " = "), myself.GetDefault(member_type)), ";"));
+        Append(myself.class_members, Concat(Concat(Concat(myself.string_helper.Indentation(1), "private $"), member_name), ";"));
     }
 
     function void FinishProcessingClass(string class_name, string implementing) {
-        myself.logger.WriteLine(Concat(Concat(myself.string_helper.Indentation(1), "FinishProcessingClass: "), class_name));
+        Append(myself.class_init, Concat(myself.string_helper.Indentation(1), "}"));
+
+        int class_init_index = 0;
+
+        while (class_init_index < Size(myself.class_init)) {
+            string line = Element(myself.class_init, class_init_index);
+            Append(myself.class_definitions, line);
+            class_init_index = class_init_index + 1;
+        }
+
+        int class_functions_index = 0;
+
+        while (class_functions_index < Size(myself.class_functions)) {
+            string line = Element(myself.class_functions, class_functions_index);
+            Append(myself.class_definitions, line);
+            class_functions_index = class_functions_index + 1;
+        }
+
+        Append(myself.class_definitions, "");
+
+        int class_members_index = 0;
+
+        while (class_members_index < Size(myself.class_members)) {
+            string line = Element(myself.class_members, class_members_index);
+            Append(myself.class_definitions, line);
+            class_members_index = class_members_index + 1;
+        }
+
+        Append(myself.class_definitions, "}");
+        Append(myself.class_definitions, "");
+        myself.current_class = "";
+    }
+
+    function void WriteCommonFunctions(S84.CTCode.System.ctcode.OutputStream destination_file) {
+        destination_file.WriteLine("function ClearList(array & $input): void { $input = array(); }");
+        destination_file.WriteLine("function Size(array $input): int { return count($input); }");
+        destination_file.WriteLine("function Element(array $input, int $element) { return $input[$element]; }");
+        destination_file.WriteLine("function Append(array & $input, mixed $element): void { $input[] = $element; }");
+        destination_file.WriteLine("function ClearMap(array & $input): void { reset($input); }");
+        destination_file.WriteLine("function SetKV(array & $input, string $key, mixed $element): void { $input[$key] = $element; }");
+        destination_file.WriteLine("function Keys(array $input): array { return array_keys($input); }");
+        destination_file.WriteLine("function HasKV(array $input, string $key): bool { return array_key_exists($key, $input); }");
+        destination_file.WriteLine("function GetKV(array $input, string $key) { return $input[$key]; }");
+        destination_file.WriteLine("function Length(string $input): int { return strlen($input); }");
+        destination_file.WriteLine("function At(string $input, int $index): string { return substr($input, $index, 1); }");
+        destination_file.WriteLine("function IntAt(string $input, int $index): int { return ord(substr($input, $index, 1)); }");
+        destination_file.WriteLine("function Concat(string $left, string $right): string { return $left . $right; }");
+    }
+
+    function string GetDefault(string php_type) {
+        if (php_type == "?int") {
+            return "0";
+        }
+
+        if (php_type == "?string") {
+            return "\"\"";
+        }
+
+        if (php_type == "?bool") {
+            return "false";
+        }
+
+        if (php_type == "?float") {
+            return "0.0";
+        }
+
+        if (php_type == "void") {
+            return "null";
+        }
+
+        if (php_type == "?array") {
+            return "array()";
+        }
+
+        return "null";
+    }
+
+    function string MakeParametersString(S84.CTCode.Transpiler.StandardStructure.ctcode.ParameterDeclaration[] parameters) {
+        string result = "(";
+        int parameters_index = 0;
+
+        while (parameters_index < Size(parameters)) {
+            S84.CTCode.Transpiler.StandardStructure.ctcode.ParameterDeclaration parameter = Element(parameters, parameters_index);
+
+            if (parameters_index != 0) {
+                result = Concat(result, ", ");
+            }
+
+            result = Concat(Concat(Concat(result, parameter.GetType()), " $"), parameter.GetName());
+            parameters_index = parameters_index + 1;
+        }
+
+        result = Concat(result, ")");
+        return result;
     }
 }

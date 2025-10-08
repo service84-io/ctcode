@@ -119,6 +119,7 @@ public:
     void SetBaseName(std::string base_name);
     void SetLogger(OmniPointer<s84::ctcode::system::ctcode::OutputStream> logger);
     int GetBaseIndentation();
+    bool IsReserved(std::string name);
     std::string GetCallName(std::string name);
     std::string GetVariableName(std::string name);
     std::string GetVariableChain(std::vector<std::string> name_parts);
@@ -129,6 +130,7 @@ public:
     std::string ConvertNumber(std::string number);
     std::string ConvertBoolean(std::string boolean);
     std::string ConvertVariable(std::string variable);
+    std::string Escape(std::string input);
     std::string ConvertString(std::string literal);
     std::string UnaryOperator(std::string op, std::string r_value);
     std::string BinaryOperator(std::string op, std::string r_value_l, std::string r_value_r);
@@ -161,6 +163,9 @@ public:
     void FinishProcessingClassFunctionDefinition(std::string return_type, std::string function_name, std::vector<OmniPointer<s84::ctcode::transpiler::standardstructure::ctcode::ParameterDeclaration>> parameters);
     void ProcessClassMemberDeclaration(std::string member_type, std::string member_name);
     void FinishProcessingClass(std::string class_name, std::string implementing);
+    void WriteCommonFunctions(OmniPointer<s84::ctcode::system::ctcode::OutputStream> destination_file);
+    std::string GetDefault(std::string php_type);
+    std::string MakeParametersString(std::vector<OmniPointer<s84::ctcode::transpiler::standardstructure::ctcode::ParameterDeclaration>> parameters);
 
 private:
     OmniPointer<s84::ctcode::system::ctcode::System> system;
@@ -168,6 +173,14 @@ private:
     std::string base_name;
     OmniPointer<s84::ctcode::system::ctcode::OutputStream> logger;
     OmniPointer<s84::ctcode::transpiler::stringhelper::ctcode::StringHelper> string_helper;
+    std::vector<std::string> imports;
+    std::string current_interface;
+    std::vector<std::string> interface_definitions;
+    std::string current_class;
+    std::vector<std::string> class_definitions;
+    std::vector<std::string> class_init;
+    std::vector<std::string> class_functions;
+    std::vector<std::string> class_members;
 };
 
 };

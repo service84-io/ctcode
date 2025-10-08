@@ -263,14 +263,18 @@ export class LogToConsole {
     GetQualifiedTypeName(name_parts)
     {
         var delimiter = "."
-        var first_name = Element(name_parts,0)
-        var result = first_name
-        var name_parts_index = 1
-        while (name_parts_index<Size(name_parts))
+        var name_parts_index = Size(name_parts)-1
+        var type_part = Element(name_parts,name_parts_index)
+        var result = this.GetTypeName(type_part)
+        if (name_parts_index>0)
         {
-            var name = Element(name_parts,name_parts_index)
-            result = Concat(Concat(result,delimiter),name)
-            name_parts_index = name_parts_index+1
+            while (name_parts_index>0)
+            {
+                name_parts_index = name_parts_index-1
+                result = Concat(delimiter,result)
+                var name_part = Element(name_parts,name_parts_index)
+                result = Concat(name_part,result)
+            }
         }
         return result
     }

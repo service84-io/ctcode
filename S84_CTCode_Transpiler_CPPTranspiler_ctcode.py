@@ -182,16 +182,13 @@ class CPPTranspiler(S84_CTCode_Transpiler_StandardStructure_ctcode.TargetSpecifi
     def GetQualifiedTypeName(self: 'CPPTranspiler',name_parts: 'list[str]') -> 'str':
         delimiter: 'str' = "::"
         name_parts_index: 'int' = Size(name_parts)-1
-        last_package_index: 'int' = Size(name_parts)-2
         type_part: 'str' = Element(name_parts,name_parts_index)
         result: 'str' = self.GetTypeName(type_part)
         if name_parts_index>0:
-            result = Concat(delimiter,result)
             while name_parts_index>0:
                 name_parts_index = name_parts_index-1
+                result = Concat(delimiter,result)
                 name_part: 'str' = Element(name_parts,name_parts_index)
-                if name_parts_index!=last_package_index:
-                    result = Concat(delimiter,result)
                 result = Concat(self.string_helper.ToLower(name_part),result)
         return result
 

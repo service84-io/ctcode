@@ -252,14 +252,18 @@ public class LogToConsole implements s84.ctcode.transpiler.standardstructure.ctc
     public java.lang.String GetQualifiedTypeName(java.util.ArrayList<java.lang.String> name_parts)
     {
         java.lang.String delimiter = ".";
-        java.lang.String first_name = Element(name_parts, 0);
-        java.lang.String result = first_name;
-        int name_parts_index = 1;
-        while (AsBoolean((name_parts_index<Size(name_parts))))
+        int name_parts_index = (Size(name_parts)-1);
+        java.lang.String type_part = Element(name_parts, name_parts_index);
+        java.lang.String result = this.GetTypeName(type_part);
+        if (AsBoolean((name_parts_index>0)))
         {
-            java.lang.String name = Element(name_parts, name_parts_index);
-            result = Concat(Concat(result, delimiter), name);
-            name_parts_index = (name_parts_index+1);
+            while (AsBoolean((name_parts_index>0)))
+            {
+                name_parts_index = (name_parts_index-1);
+                result = Concat(delimiter, result);
+                java.lang.String name_part = Element(name_parts, name_parts_index);
+                result = Concat(name_part, result);
+            }
         }
         return result;
     }

@@ -23,6 +23,14 @@ export class PHPTranspiler {
         this.base_name = ""
         this.logger = null
         this.string_helper = null
+        this.imports = []
+        this.current_interface = ""
+        this.interface_definitions = []
+        this.current_class = ""
+        this.class_definitions = []
+        this.class_init = []
+        this.class_functions = []
+        this.class_members = []
     }
 
     Initialize()
@@ -55,9 +63,19 @@ export class PHPTranspiler {
         return 1
     }
 
+    IsReserved(name)
+    {
+        return false || this.string_helper.BeginsWith("ReservedPrefix",name) || this.string_helper.BeginsWith("reserved_prefix_",name) || name=="Return" || name=="String" || name=="GetType" || name=="string" || name=="boolean" || name=="char" || name=="float" || name=="decimal"
+    }
+
     GetCallName(name)
     {
-        return this.string_helper.SnakeCaseToCamelCase(name)
+        var value = this.string_helper.SnakeCaseToCamelCase(name)
+        if (this.IsReserved(value))
+        {
+            return Concat("ReservedPrefix",value)
+        }
+        return value
     }
 
     GetVariableName(name)
@@ -66,6 +84,10 @@ export class PHPTranspiler {
         if (value=="myself")
         {
             return "this"
+        }
+        if (this.IsReserved(value))
+        {
+            return Concat("reserved_prefix_",value)
         }
         return value
     }
@@ -82,12 +104,16 @@ export class PHPTranspiler {
             result = Concat(Concat(result,delimiter),this.GetVariableName(name))
             name_parts_index = name_parts_index+1
         }
-        return result
+        return Concat("$",result)
     }
 
     ConvertCall(name_chain, parameters)
     {
         var result = Element(name_chain,0)
+        if (Size(name_chain)>1)
+        {
+            result = Concat("$",result)
+        }
         var name_chain_index = 1
         while (name_chain_index<Size(name_chain))
         {
@@ -114,7 +140,7 @@ export class PHPTranspiler {
 
     ConvertAllocate(type)
     {
-        return Concat("new ",type)
+        return Concat(Concat("new ",type),"()")
     }
 
     ConvertByte(high, low)
@@ -150,9 +176,39 @@ export class PHPTranspiler {
         return variable
     }
 
+    Escape(input)
+    {
+        var result = ""
+        var input_index = 0
+        var in_escape = false
+        while (input_index<Length(input))
+        {
+            var character = At(input,input_index)
+            if (character=="'")
+            {
+                result = Concat(result,"\\")
+            }
+            if (! in_escape && character=="\\")
+            {
+                in_escape = true
+            }
+            else
+            {
+                in_escape = false
+                if (character=="\\")
+                {
+                    result = Concat(result,"\\")
+                }
+                result = Concat(result,character)
+            }
+            input_index = input_index+1
+        }
+        return result
+    }
+
     ConvertString(literal)
     {
-        return Concat(Concat("\"",literal),"\"")
+        return Concat(Concat("'",this.Escape(literal)),"'")
     }
 
     UnaryOperator(op, r_value)
@@ -211,42 +267,41 @@ export class PHPTranspiler {
 
     GetTypeName(name)
     {
-        return this.string_helper.SnakeCaseToCamelCase(name)
+        var value = this.string_helper.SnakeCaseToCamelCase(name)
+        if (this.IsReserved(value))
+        {
+            return Concat("ReservedPrefix",value)
+        }
+        return value
     }
 
     GetDimensionalType(singleton_type, dimensions)
     {
-        var result = singleton_type
-        while (dimensions>0)
-        {
-            result = Concat(result,"[]")
-            dimensions = dimensions-1
-        }
-        return result
+        return "?array"
     }
 
     GetMapType(singleton_type)
     {
-        return Concat(singleton_type,"{}")
+        return "?array"
     }
 
     GetPrimativeType(c_t_type)
     {
         if (c_t_type=="int")
         {
-            return "int"
+            return "?int"
         }
         if (c_t_type=="string")
         {
-            return "string"
+            return "?string"
         }
         if (c_t_type=="bool")
         {
-            return "bool"
+            return "?bool"
         }
         if (c_t_type=="float")
         {
-            return "float"
+            return "?float"
         }
         if (c_t_type=="void")
         {
@@ -257,137 +312,269 @@ export class PHPTranspiler {
 
     GetDefinedType(c_t_type)
     {
-        return c_t_type
+        return Concat("?",c_t_type)
     }
 
     GetQualifiedTypeName(name_parts)
     {
-        var delimiter = "."
-        var first_name = Element(name_parts,0)
-        var result = first_name
-        var name_parts_index = 1
-        while (name_parts_index<Size(name_parts))
+        var delimiter = "\\"
+        var name_parts_index = Size(name_parts)-1
+        var type_part = Element(name_parts,name_parts_index)
+        var result = this.GetTypeName(type_part)
+        if (name_parts_index>0)
         {
-            var name = Element(name_parts,name_parts_index)
-            result = Concat(Concat(result,delimiter),name)
-            name_parts_index = name_parts_index+1
+            while (name_parts_index>0)
+            {
+                name_parts_index = name_parts_index-1
+                result = Concat(delimiter,result)
+                var name_part = Element(name_parts,name_parts_index)
+                result = Concat(name_part,result)
+            }
+            result = Concat(delimiter,result)
         }
         return result
     }
 
     BeginProcessingCTCodeFile()
     {
-        this.logger.WriteLine("BeginProcessingCTCodeFile")
+        ClearList(this.imports)
+        this.current_interface = ""
+        ClearList(this.interface_definitions)
+        this.current_class = ""
+        ClearList(this.class_definitions)
+        ClearList(this.class_init)
+        ClearList(this.class_functions)
+        ClearList(this.class_members)
     }
 
     FinishProcessingCTCodeFile()
     {
-        this.logger.WriteLine("FinishProcessingCTCodeFile")
+        var destination_file_name = Concat(this.base_name,".php")
+        var destination_file = this.system.OpenFileWriter(destination_file_name)
+        destination_file.WriteLine("<?php")
+        destination_file.WriteLine(Concat(Concat("namespace ",this.string_helper.DotToFwdSlash(this.base_name)),";"))
+        destination_file.WriteLine("")
+        if (Size(this.imports)>0)
+        {
+            this.string_helper.WriteLines(destination_file,this.imports)
+            destination_file.WriteLine("")
+        }
+        this.WriteCommonFunctions(destination_file)
+        destination_file.WriteLine("")
+        this.string_helper.WriteLines(destination_file,this.interface_definitions)
+        this.string_helper.WriteLines(destination_file,this.class_definitions)
+        destination_file.WriteLine("?>")
     }
 
     ProcessExdef(exdef)
     {
-        this.logger.WriteLine(Concat(Concat(this.string_helper.Indentation(1),"ProcessExdef: "),exdef))
+        Append(this.imports,Concat(Concat("include_once \"",exdef),".php\";"))
     }
 
     ProcessUnmanagedType(unmanaged_type)
     {
-        this.logger.WriteLine(Concat(Concat(this.string_helper.Indentation(1),"ProcessUnmanagedType: "),unmanaged_type))
     }
 
     BeginProcessingInterface(interface_name)
     {
-        this.logger.WriteLine(Concat(Concat(this.string_helper.Indentation(1),"BeginProcessingInterface: "),interface_name))
+        this.current_interface = interface_name
+        Append(this.interface_definitions,Concat(Concat("interface ",interface_name)," {"))
     }
 
     ProcessInterfaceFunctionDeclaration(return_type, function_name, parameters)
     {
-        this.logger.WriteLine(Concat(Concat(Concat(Concat(this.string_helper.Indentation(2),"ProcessInterfaceFunctionDeclaration: "),return_type)," "),function_name))
+        Append(this.interface_definitions,Concat(Concat(Concat(Concat(Concat(Concat(this.string_helper.Indentation(1),"public function "),function_name),this.MakeParametersString(parameters)),": "),return_type),";"))
     }
 
     FinishProcessingInterface(interface_name)
     {
-        this.logger.WriteLine(Concat(Concat(this.string_helper.Indentation(1),"FinishProcessingInterface: "),interface_name))
+        Append(this.interface_definitions,"}")
+        Append(this.interface_definitions,"")
+        this.current_interface = ""
     }
 
     BeginProcessingClass(class_name, implementing)
     {
-        this.logger.WriteLine(Concat(Concat(Concat(Concat(this.string_helper.Indentation(1),"BeginProcessingClass: "),class_name)," "),implementing))
+        this.current_class = class_name
+        if (implementing=="")
+        {
+            Append(this.class_definitions,Concat(Concat("class ",class_name)," {"))
+        }
+        else
+        {
+            Append(this.class_definitions,Concat(Concat(Concat(Concat("class ",class_name)," implements "),implementing)," {"))
+        }
+        ClearList(this.class_init)
+        ClearList(this.class_functions)
+        ClearList(this.class_members)
+        Append(this.class_init,Concat(this.string_helper.Indentation(1),"public function __construct() {"))
     }
 
     BeginProcessingClassFunctionDefinition(return_type, function_name, parameters)
     {
-        this.logger.WriteLine(Concat(Concat(Concat(Concat(this.string_helper.Indentation(2),"BeginProcessingClassFunctionDefinition: "),return_type)," "),function_name))
+        Append(this.class_functions,"")
+        Append(this.class_functions,Concat(Concat(Concat(Concat(Concat(this.string_helper.Indentation(1),"public function "),function_name),this.MakeParametersString(parameters)),": "),return_type))
     }
 
     BeginProcessCodeBlock(indent)
     {
-        this.logger.WriteLine(Concat(this.string_helper.Indentation(indent),"BeginProcessCodeBlock"))
+        Append(this.class_functions,Concat(this.string_helper.Indentation(indent),"{"))
     }
 
     FinishProcessCodeBlock(indent)
     {
-        this.logger.WriteLine(Concat(this.string_helper.Indentation(indent),"FinishProcessCodeBlock"))
+        Append(this.class_functions,Concat(this.string_helper.Indentation(indent),"}"))
     }
 
     BeginProcessConditional(indent, r_value)
     {
-        this.logger.WriteLine(Concat(Concat(this.string_helper.Indentation(indent),"BeginProcessConditional: "),r_value))
+        Append(this.class_functions,Concat(Concat(Concat(this.string_helper.Indentation(indent),"if ("),r_value),")"))
     }
 
     ProcessElse(indent)
     {
-        this.logger.WriteLine(Concat(this.string_helper.Indentation(indent),"ProcessElse"))
+        Append(this.class_functions,Concat(this.string_helper.Indentation(indent),"else"))
     }
 
     FinishProcessConditional(indent, r_value)
     {
-        this.logger.WriteLine(Concat(Concat(this.string_helper.Indentation(indent),"FinishProcessConditional: "),r_value))
     }
 
     BeginProcessLoop(indent, r_value)
     {
-        this.logger.WriteLine(Concat(Concat(this.string_helper.Indentation(indent),"BeginProcessLoop: "),r_value))
+        Append(this.class_functions,Concat(Concat(Concat(this.string_helper.Indentation(indent),"while ("),r_value),")"))
     }
 
     FinishProcessLoop(indent, r_value)
     {
-        this.logger.WriteLine(Concat(Concat(this.string_helper.Indentation(indent),"FinishProcessLoop: "),r_value))
     }
 
     ProcessRtn(indent, r_value)
     {
-        this.logger.WriteLine(Concat(Concat(this.string_helper.Indentation(indent),"ProcessRtn: "),r_value))
+        Append(this.class_functions,Concat(Concat(Concat(this.string_helper.Indentation(indent),"return "),r_value),";"))
     }
 
     ProcessDeclaration(indent, type, l_value, r_value)
     {
-        this.logger.WriteLine(Concat(Concat(Concat(Concat(Concat(Concat(this.string_helper.Indentation(indent),"ProcessDeclaration: "),type)," "),l_value)," "),r_value))
+        if (r_value=="")
+        {
+            r_value = this.GetDefault(type)
+        }
+        Append(this.class_functions,Concat(Concat(Concat(Concat(Concat(this.string_helper.Indentation(indent),"$"),l_value)," = "),r_value),";"))
     }
 
     ProcessAssignment(indent, l_value, r_value)
     {
-        this.logger.WriteLine(Concat(Concat(Concat(Concat(this.string_helper.Indentation(indent),"ProcessAssignment: "),l_value)," "),r_value))
+        Append(this.class_functions,Concat(Concat(Concat(Concat(this.string_helper.Indentation(indent),l_value)," = "),r_value),";"))
     }
 
     ProcessCall(indent, call)
     {
-        this.logger.WriteLine(Concat(Concat(this.string_helper.Indentation(indent),"ProcessCall: "),call))
+        Append(this.class_functions,Concat(Concat(this.string_helper.Indentation(indent),call),";"))
     }
 
     FinishProcessingClassFunctionDefinition(return_type, function_name, parameters)
     {
-        this.logger.WriteLine(Concat(Concat(Concat(Concat(this.string_helper.Indentation(2),"FinishProcessingClassFunctionDefinition: "),return_type)," "),function_name))
     }
 
     ProcessClassMemberDeclaration(member_type, member_name)
     {
-        this.logger.WriteLine(Concat(Concat(Concat(Concat(this.string_helper.Indentation(2),"ProcessClassMemberDeclaration: "),member_type)," "),member_name))
+        Append(this.class_init,Concat(Concat(Concat(Concat(Concat(this.string_helper.Indentation(2),"$this->"),member_name)," = "),this.GetDefault(member_type)),";"))
+        Append(this.class_members,Concat(Concat(Concat(this.string_helper.Indentation(1),"private $"),member_name),";"))
     }
 
     FinishProcessingClass(class_name, implementing)
     {
-        this.logger.WriteLine(Concat(Concat(this.string_helper.Indentation(1),"FinishProcessingClass: "),class_name))
+        Append(this.class_init,Concat(this.string_helper.Indentation(1),"}"))
+        var class_init_index = 0
+        while (class_init_index<Size(this.class_init))
+        {
+            var line = Element(this.class_init,class_init_index)
+            Append(this.class_definitions,line)
+            class_init_index = class_init_index+1
+        }
+        var class_functions_index = 0
+        while (class_functions_index<Size(this.class_functions))
+        {
+            var line = Element(this.class_functions,class_functions_index)
+            Append(this.class_definitions,line)
+            class_functions_index = class_functions_index+1
+        }
+        Append(this.class_definitions,"")
+        var class_members_index = 0
+        while (class_members_index<Size(this.class_members))
+        {
+            var line = Element(this.class_members,class_members_index)
+            Append(this.class_definitions,line)
+            class_members_index = class_members_index+1
+        }
+        Append(this.class_definitions,"}")
+        Append(this.class_definitions,"")
+        this.current_class = ""
+    }
+
+    WriteCommonFunctions(destination_file)
+    {
+        destination_file.WriteLine("function ClearList(array & $input): void { $input = array(); }")
+        destination_file.WriteLine("function Size(array $input): int { return count($input); }")
+        destination_file.WriteLine("function Element(array $input, int $element) { return $input[$element]; }")
+        destination_file.WriteLine("function Append(array & $input, mixed $element): void { $input[] = $element; }")
+        destination_file.WriteLine("function ClearMap(array & $input): void { reset($input); }")
+        destination_file.WriteLine("function SetKV(array & $input, string $key, mixed $element): void { $input[$key] = $element; }")
+        destination_file.WriteLine("function Keys(array $input): array { return array_keys($input); }")
+        destination_file.WriteLine("function HasKV(array $input, string $key): bool { return array_key_exists($key, $input); }")
+        destination_file.WriteLine("function GetKV(array $input, string $key) { return $input[$key]; }")
+        destination_file.WriteLine("function Length(string $input): int { return strlen($input); }")
+        destination_file.WriteLine("function At(string $input, int $index): string { return substr($input, $index, 1); }")
+        destination_file.WriteLine("function IntAt(string $input, int $index): int { return ord(substr($input, $index, 1)); }")
+        destination_file.WriteLine("function Concat(string $left, string $right): string { return $left . $right; }")
+    }
+
+    GetDefault(php_type)
+    {
+        if (php_type=="?int")
+        {
+            return "0"
+        }
+        if (php_type=="?string")
+        {
+            return "\"\""
+        }
+        if (php_type=="?bool")
+        {
+            return "false"
+        }
+        if (php_type=="?float")
+        {
+            return "0.0"
+        }
+        if (php_type=="void")
+        {
+            return "null"
+        }
+        if (php_type=="?array")
+        {
+            return "array()"
+        }
+        return "null"
+    }
+
+    MakeParametersString(parameters)
+    {
+        var result = "("
+        var parameters_index = 0
+        while (parameters_index<Size(parameters))
+        {
+            var parameter = Element(parameters,parameters_index)
+            if (parameters_index!=0)
+            {
+                result = Concat(result,", ")
+            }
+            result = Concat(Concat(Concat(result,parameter.GetType())," $"),parameter.GetName())
+            parameters_index = parameters_index+1
+        }
+        result = Concat(result,")")
+        return result
     }
 }
 
