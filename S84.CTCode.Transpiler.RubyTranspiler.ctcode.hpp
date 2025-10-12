@@ -2,6 +2,7 @@
 #define S84_CTCODE_TRANSPILER_RUBYTRANSPILER_CTCODE_H
 
 #include "S84.CTCode.dbnf.ctcode.hpp"
+#include "S84.CTCode.System.ctcode.hpp"
 #include "S84.CTCode.Transpiler.StandardStructure.ctcode.hpp"
 #include "S84.CTCode.Transpiler.StringHelper.ctcode.hpp"
 
@@ -119,6 +120,7 @@ public:
     void SetBaseName(std::string base_name);
     void SetLogger(OmniPointer<s84::ctcode::system::ctcode::OutputStream> logger);
     int GetBaseIndentation();
+    bool IsReserved(std::string name);
     std::string GetCallName(std::string name);
     std::string GetVariableName(std::string name);
     std::string GetVariableChain(std::vector<std::string> name_parts);
@@ -139,7 +141,6 @@ public:
     std::string GetDefinedType(std::string c_t_type);
     std::string GetQualifiedTypeName(std::vector<std::string> name_parts);
     void BeginProcessingCTCodeFile();
-    void FinishProcessingCTCodeFile();
     void ProcessExdef(std::string exdef);
     void ProcessUnmanagedType(std::string unmanaged_type);
     void BeginProcessingInterface(std::string interface_name);
@@ -161,6 +162,13 @@ public:
     void FinishProcessingClassFunctionDefinition(std::string return_type, std::string function_name, std::vector<OmniPointer<s84::ctcode::transpiler::standardstructure::ctcode::ParameterDeclaration>> parameters);
     void ProcessClassMemberDeclaration(std::string member_type, std::string member_name);
     void FinishProcessingClass(std::string class_name, std::string implementing);
+    void WriteCommonFunctions(OmniPointer<s84::ctcode::system::ctcode::OutputStream> destination_file);
+    std::vector<std::string> TokenizeBaseName(std::string name);
+    void WriteBeginingNamespace(OmniPointer<s84::ctcode::system::ctcode::OutputStream> file);
+    void WriteEndingNamespace(OmniPointer<s84::ctcode::system::ctcode::OutputStream> file);
+    void FinishProcessingCTCodeFile();
+    std::string GetDefault(std::string javascript_type);
+    std::string MakeParametersString(std::vector<OmniPointer<s84::ctcode::transpiler::standardstructure::ctcode::ParameterDeclaration>> parameters);
 
 private:
     OmniPointer<s84::ctcode::system::ctcode::System> system;
@@ -168,6 +176,13 @@ private:
     std::string base_name;
     OmniPointer<s84::ctcode::system::ctcode::OutputStream> logger;
     OmniPointer<s84::ctcode::transpiler::stringhelper::ctcode::StringHelper> string_helper;
+    std::vector<std::string> imports;
+    std::string current_interface;
+    std::vector<std::string> interface_definitions;
+    std::string current_class;
+    std::vector<std::string> class_definitions;
+    std::vector<std::string> class_init;
+    std::vector<std::string> class_functions;
 };
 
 };

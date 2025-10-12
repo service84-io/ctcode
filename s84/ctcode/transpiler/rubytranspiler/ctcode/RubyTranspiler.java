@@ -1,6 +1,7 @@
 package s84.ctcode.transpiler.rubytranspiler.ctcode;
 
 import s84.ctcode.dbnf.ctcode.*;
+import s84.ctcode.system.ctcode.*;
 import s84.ctcode.transpiler.standardstructure.ctcode.*;
 import s84.ctcode.transpiler.stringhelper.ctcode.*;
 
@@ -12,6 +13,13 @@ public class RubyTranspiler implements s84.ctcode.transpiler.standardstructure.c
         this.base_name = "";
         this.logger = null;
         this.string_helper = null;
+        this.imports = new java.util.ArrayList<>();
+        this.current_interface = "";
+        this.interface_definitions = new java.util.ArrayList<>();
+        this.current_class = "";
+        this.class_definitions = new java.util.ArrayList<>();
+        this.class_init = new java.util.ArrayList<>();
+        this.class_functions = new java.util.ArrayList<>();
     }
 
     public void Initialize()
@@ -41,12 +49,22 @@ public class RubyTranspiler implements s84.ctcode.transpiler.standardstructure.c
 
     public int GetBaseIndentation()
     {
-        return 3;
+        return 1;
+    }
+
+    public boolean IsReserved(java.lang.String name)
+    {
+        return (AsBoolean((AsBoolean((AsBoolean((AsBoolean((AsBoolean((AsBoolean((AsBoolean((AsBoolean((AsBoolean((AsBoolean((AsBoolean(false) || AsBoolean(this.string_helper.BeginsWith("ReservedPrefix", name)))) || AsBoolean(this.string_helper.BeginsWith("reserved_prefix_", name)))) || AsBoolean(Equals(name,"end")))) || AsBoolean(Equals(name,"Return")))) || AsBoolean(Equals(name,"String")))) || AsBoolean(Equals(name,"GetType")))) || AsBoolean(Equals(name,"string")))) || AsBoolean(Equals(name,"boolean")))) || AsBoolean(Equals(name,"char")))) || AsBoolean(Equals(name,"float")))) || AsBoolean(Equals(name,"decimal")));
     }
 
     public java.lang.String GetCallName(java.lang.String name)
     {
-        return this.string_helper.SnakeCaseToCamelCase(name);
+        java.lang.String value = this.string_helper.SnakeCaseToCamelCase(name);
+        if (AsBoolean(this.IsReserved(value)))
+        {
+            return Concat("ReservedPrefix", value);
+        }
+        return value;
     }
 
     public java.lang.String GetVariableName(java.lang.String name)
@@ -54,7 +72,11 @@ public class RubyTranspiler implements s84.ctcode.transpiler.standardstructure.c
         java.lang.String value = this.string_helper.CamelCaseToSnakeCase(name);
         if (AsBoolean(Equals(value,"myself")))
         {
-            return "thyself";
+            return "self";
+        }
+        if (AsBoolean(this.IsReserved(value)))
+        {
+            return Concat("reserved_prefix_", value);
         }
         return value;
     }
@@ -68,7 +90,12 @@ public class RubyTranspiler implements s84.ctcode.transpiler.standardstructure.c
         while (AsBoolean((name_parts_index<Size(name_parts))))
         {
             java.lang.String name = Element(name_parts, name_parts_index);
-            result = Concat(Concat(result, delimiter), this.GetVariableName(name));
+            result = Concat(result, delimiter);
+            if (AsBoolean(Equals(result,"self.")))
+            {
+                result = "@";
+            }
+            result = Concat(result, this.GetVariableName(name));
             name_parts_index = (name_parts_index+1);
         }
         return result;
@@ -78,10 +105,19 @@ public class RubyTranspiler implements s84.ctcode.transpiler.standardstructure.c
     {
         java.lang.String result = Element(name_chain, 0);
         int name_chain_index = 1;
+        int last_name_chain_index = (Size(name_chain)-1);
         while (AsBoolean((name_chain_index<Size(name_chain))))
         {
             java.lang.String name_part = Element(name_chain, name_chain_index);
-            result = Concat(Concat(result, "."), name_part);
+            result = Concat(result, ".");
+            if (AsBoolean(!Equals(name_chain_index,last_name_chain_index)))
+            {
+                if (AsBoolean(Equals(result,"self.")))
+                {
+                    result = "@";
+                }
+            }
+            result = Concat(result, name_part);
             name_chain_index = (name_chain_index+1);
         }
         result = Concat(result, "(");
@@ -103,7 +139,7 @@ public class RubyTranspiler implements s84.ctcode.transpiler.standardstructure.c
 
     public java.lang.String ConvertAllocate(java.lang.String type)
     {
-        return Concat("new ", type);
+        return Concat(type, ".new()");
     }
 
     public java.lang.String ConvertByte(java.lang.String high, java.lang.String low)
@@ -148,7 +184,7 @@ public class RubyTranspiler implements s84.ctcode.transpiler.standardstructure.c
     {
         if (AsBoolean(Equals(op,"!")))
         {
-            return Concat("!", r_value);
+            return Concat("! ", r_value);
         }
         return r_value;
     }
@@ -189,18 +225,23 @@ public class RubyTranspiler implements s84.ctcode.transpiler.standardstructure.c
         }
         if (AsBoolean(Equals(op,"||")))
         {
-            return Concat(Concat(r_value_l, "||"), r_value_r);
+            return Concat(Concat(r_value_l, " || "), r_value_r);
         }
         if (AsBoolean(Equals(op,"&&")))
         {
-            return Concat(Concat(r_value_l, "&&"), r_value_r);
+            return Concat(Concat(r_value_l, " && "), r_value_r);
         }
         return "";
     }
 
     public java.lang.String GetTypeName(java.lang.String name)
     {
-        return this.string_helper.SnakeCaseToCamelCase(name);
+        java.lang.String value = this.string_helper.SnakeCaseToCamelCase(name);
+        if (AsBoolean(this.IsReserved(value)))
+        {
+            return Concat("ReservedPrefix", value);
+        }
+        return value;
     }
 
     public java.lang.String GetDimensionalType(java.lang.String singleton_type, int dimensions)
@@ -208,7 +249,7 @@ public class RubyTranspiler implements s84.ctcode.transpiler.standardstructure.c
         java.lang.String result = singleton_type;
         while (AsBoolean((dimensions>0)))
         {
-            result = Concat(result, "[]");
+            result = Concat(Concat("list[", result), "]");
             dimensions = (dimensions-1);
         }
         return result;
@@ -216,7 +257,7 @@ public class RubyTranspiler implements s84.ctcode.transpiler.standardstructure.c
 
     public java.lang.String GetMapType(java.lang.String singleton_type)
     {
-        return Concat(singleton_type, "{}");
+        return Concat(Concat("dict[str, ", singleton_type), "]");
     }
 
     public java.lang.String GetPrimativeType(java.lang.String c_t_type)
@@ -251,7 +292,7 @@ public class RubyTranspiler implements s84.ctcode.transpiler.standardstructure.c
 
     public java.lang.String GetQualifiedTypeName(java.util.ArrayList<java.lang.String> name_parts)
     {
-        java.lang.String delimiter = ".";
+        java.lang.String delimiter = "::";
         int name_parts_index = (Size(name_parts)-1);
         java.lang.String type_part = Element(name_parts, name_parts_index);
         java.lang.String result = this.GetTypeName(type_part);
@@ -262,125 +303,293 @@ public class RubyTranspiler implements s84.ctcode.transpiler.standardstructure.c
                 name_parts_index = (name_parts_index-1);
                 result = Concat(delimiter, result);
                 java.lang.String name_part = Element(name_parts, name_parts_index);
-                result = Concat(name_part, result);
+                result = Concat(this.string_helper.ToUpper(name_part), result);
             }
+            result = Concat(delimiter, result);
         }
         return result;
     }
 
     public void BeginProcessingCTCodeFile()
     {
-        this.logger.WriteLine("BeginProcessingCTCodeFile");
-    }
-
-    public void FinishProcessingCTCodeFile()
-    {
-        this.logger.WriteLine("FinishProcessingCTCodeFile");
+        ClearList(this.imports);
+        this.current_interface = "";
+        ClearList(this.interface_definitions);
+        this.current_class = "";
+        ClearList(this.class_definitions);
+        ClearList(this.class_init);
+        ClearList(this.class_functions);
     }
 
     public void ProcessExdef(java.lang.String exdef)
     {
-        this.logger.WriteLine(Concat(Concat(this.string_helper.Indentation(1), "ProcessExdef: "), exdef));
+        Append(this.imports, Concat(Concat("require '", exdef), "'"));
     }
 
     public void ProcessUnmanagedType(java.lang.String unmanaged_type)
     {
-        this.logger.WriteLine(Concat(Concat(this.string_helper.Indentation(1), "ProcessUnmanagedType: "), unmanaged_type));
     }
 
     public void BeginProcessingInterface(java.lang.String interface_name)
     {
-        this.logger.WriteLine(Concat(Concat(this.string_helper.Indentation(1), "BeginProcessingInterface: "), interface_name));
+        this.current_interface = interface_name;
+        Append(this.interface_definitions, Concat("class ", interface_name));
     }
 
     public void ProcessInterfaceFunctionDeclaration(java.lang.String return_type, java.lang.String function_name, java.util.ArrayList<s84.ctcode.transpiler.standardstructure.ctcode.ParameterDeclaration> parameters)
     {
-        this.logger.WriteLine(Concat(Concat(Concat(Concat(this.string_helper.Indentation(2), "ProcessInterfaceFunctionDeclaration: "), return_type), " "), function_name));
+        Append(this.interface_definitions, Concat(Concat(Concat(Concat(this.string_helper.Indentation(1), "def "), function_name), this.MakeParametersString(parameters)), "; end"));
     }
 
     public void FinishProcessingInterface(java.lang.String interface_name)
     {
-        this.logger.WriteLine(Concat(Concat(this.string_helper.Indentation(1), "FinishProcessingInterface: "), interface_name));
+        Append(this.interface_definitions, "end");
+        Append(this.interface_definitions, "");
+        this.current_interface = "";
     }
 
     public void BeginProcessingClass(java.lang.String class_name, java.lang.String implementing)
     {
-        this.logger.WriteLine(Concat(Concat(Concat(Concat(this.string_helper.Indentation(1), "BeginProcessingClass: "), class_name), " "), implementing));
+        this.current_class = class_name;
+        if (AsBoolean(Equals(implementing,"")))
+        {
+            Append(this.class_definitions, Concat("class ", class_name));
+        }
+        else
+        {
+            Append(this.class_definitions, Concat(Concat(Concat("class ", class_name), " < "), implementing));
+        }
+        ClearList(this.class_init);
+        ClearList(this.class_functions);
+        Append(this.class_init, Concat(this.string_helper.Indentation(1), "def initialize()"));
     }
 
     public void BeginProcessingClassFunctionDefinition(java.lang.String return_type, java.lang.String function_name, java.util.ArrayList<s84.ctcode.transpiler.standardstructure.ctcode.ParameterDeclaration> parameters)
     {
-        this.logger.WriteLine(Concat(Concat(Concat(Concat(this.string_helper.Indentation(2), "BeginProcessingClassFunctionDefinition: "), return_type), " "), function_name));
+        Append(this.class_functions, "");
+        Append(this.class_functions, Concat(Concat(Concat(this.string_helper.Indentation(1), "def "), function_name), this.MakeParametersString(parameters)));
     }
 
     public void BeginProcessCodeBlock(int indent)
     {
-        this.logger.WriteLine(Concat(this.string_helper.Indentation(indent), "BeginProcessCodeBlock"));
     }
 
     public void FinishProcessCodeBlock(int indent)
     {
-        this.logger.WriteLine(Concat(this.string_helper.Indentation(indent), "FinishProcessCodeBlock"));
     }
 
     public void BeginProcessConditional(int indent, java.lang.String r_value)
     {
-        this.logger.WriteLine(Concat(Concat(this.string_helper.Indentation(indent), "BeginProcessConditional: "), r_value));
+        Append(this.class_functions, Concat(Concat(Concat(this.string_helper.Indentation(indent), "if ("), r_value), ")"));
     }
 
     public void ProcessElse(int indent)
     {
-        this.logger.WriteLine(Concat(this.string_helper.Indentation(indent), "ProcessElse"));
+        Append(this.class_functions, Concat(this.string_helper.Indentation(indent), "else"));
     }
 
     public void FinishProcessConditional(int indent, java.lang.String r_value)
     {
-        this.logger.WriteLine(Concat(Concat(this.string_helper.Indentation(indent), "FinishProcessConditional: "), r_value));
+        Append(this.class_functions, Concat(this.string_helper.Indentation(indent), "end"));
     }
 
     public void BeginProcessLoop(int indent, java.lang.String r_value)
     {
-        this.logger.WriteLine(Concat(Concat(this.string_helper.Indentation(indent), "BeginProcessLoop: "), r_value));
+        Append(this.class_functions, Concat(Concat(Concat(this.string_helper.Indentation(indent), "while ("), r_value), ")"));
     }
 
     public void FinishProcessLoop(int indent, java.lang.String r_value)
     {
-        this.logger.WriteLine(Concat(Concat(this.string_helper.Indentation(indent), "FinishProcessLoop: "), r_value));
+        Append(this.class_functions, Concat(this.string_helper.Indentation(indent), "end"));
     }
 
     public void ProcessRtn(int indent, java.lang.String r_value)
     {
-        this.logger.WriteLine(Concat(Concat(this.string_helper.Indentation(indent), "ProcessRtn: "), r_value));
+        Append(this.class_functions, Concat(Concat(this.string_helper.Indentation(indent), "return "), r_value));
     }
 
     public void ProcessDeclaration(int indent, java.lang.String type, java.lang.String l_value, java.lang.String r_value)
     {
-        this.logger.WriteLine(Concat(Concat(Concat(Concat(Concat(Concat(this.string_helper.Indentation(indent), "ProcessDeclaration: "), type), " "), l_value), " "), r_value));
+        if (AsBoolean(Equals(r_value,"")))
+        {
+            r_value = this.GetDefault(type);
+        }
+        Append(this.class_functions, Concat(Concat(Concat(this.string_helper.Indentation(indent), l_value), " = "), r_value));
     }
 
     public void ProcessAssignment(int indent, java.lang.String l_value, java.lang.String r_value)
     {
-        this.logger.WriteLine(Concat(Concat(Concat(Concat(this.string_helper.Indentation(indent), "ProcessAssignment: "), l_value), " "), r_value));
+        Append(this.class_functions, Concat(Concat(Concat(this.string_helper.Indentation(indent), l_value), " = "), r_value));
     }
 
     public void ProcessCall(int indent, java.lang.String call)
     {
-        this.logger.WriteLine(Concat(Concat(this.string_helper.Indentation(indent), "ProcessCall: "), call));
+        Append(this.class_functions, Concat(this.string_helper.Indentation(indent), call));
     }
 
     public void FinishProcessingClassFunctionDefinition(java.lang.String return_type, java.lang.String function_name, java.util.ArrayList<s84.ctcode.transpiler.standardstructure.ctcode.ParameterDeclaration> parameters)
     {
-        this.logger.WriteLine(Concat(Concat(Concat(Concat(this.string_helper.Indentation(2), "FinishProcessingClassFunctionDefinition: "), return_type), " "), function_name));
+        Append(this.class_functions, Concat(this.string_helper.Indentation(1), "end"));
     }
 
     public void ProcessClassMemberDeclaration(java.lang.String member_type, java.lang.String member_name)
     {
-        this.logger.WriteLine(Concat(Concat(Concat(Concat(this.string_helper.Indentation(2), "ProcessClassMemberDeclaration: "), member_type), " "), member_name));
+        Append(this.class_init, Concat(Concat(Concat(Concat(this.string_helper.Indentation(2), "@"), member_name), " = "), this.GetDefault(member_type)));
     }
 
     public void FinishProcessingClass(java.lang.String class_name, java.lang.String implementing)
     {
-        this.logger.WriteLine(Concat(Concat(this.string_helper.Indentation(1), "FinishProcessingClass: "), class_name));
+        Append(this.class_init, Concat(this.string_helper.Indentation(1), "end"));
+        int class_init_index = 0;
+        while (AsBoolean((class_init_index<Size(this.class_init))))
+        {
+            java.lang.String line = Element(this.class_init, class_init_index);
+            Append(this.class_definitions, line);
+            class_init_index = (class_init_index+1);
+        }
+        int class_functions_index = 0;
+        while (AsBoolean((class_functions_index<Size(this.class_functions))))
+        {
+            java.lang.String line = Element(this.class_functions, class_functions_index);
+            Append(this.class_definitions, line);
+            class_functions_index = (class_functions_index+1);
+        }
+        Append(this.class_definitions, "end");
+        Append(this.class_definitions, "");
+        this.current_class = "";
+    }
+
+    public void WriteCommonFunctions(s84.ctcode.system.ctcode.OutputStream destination_file)
+    {
+        destination_file.WriteLine("def ClearList(input); input.clear(); end");
+        destination_file.WriteLine("def Size(input); return input.length(); end");
+        destination_file.WriteLine("def Element(input, element); return input[element]; end");
+        destination_file.WriteLine("def Append(input, element); input.push(element); end");
+        destination_file.WriteLine("def ClearMap(input); input.clear(); end");
+        destination_file.WriteLine("def SetKV(input, key, element); input[key] = element; end");
+        destination_file.WriteLine("def Keys(input); return input.keys(); end");
+        destination_file.WriteLine("def HasKV(input, key); return input.has_key?(key); end");
+        destination_file.WriteLine("def GetKV(input, key); return input[key]; end");
+        destination_file.WriteLine("def Length(input); return input.length(); end");
+        destination_file.WriteLine("def At(input, index); return input[index]; end");
+        destination_file.WriteLine("def IntAt(input, index); return input[index].ord(); end");
+        destination_file.WriteLine("def Concat(left, right); return left + right; end");
+    }
+
+    public java.util.ArrayList<java.lang.String> TokenizeBaseName(java.lang.String name)
+    {
+        java.util.ArrayList<java.lang.String> base_name_tokens = new java.util.ArrayList<>();
+        java.lang.String current_token = "";
+        int index = 0;
+        while (AsBoolean((index<Length(name))))
+        {
+            java.lang.String character = At(name, index);
+            if (AsBoolean(Equals(character,".")))
+            {
+                Append(base_name_tokens, current_token);
+                current_token = "";
+            }
+            else
+            {
+                current_token = Concat(current_token, character);
+            }
+            index = (index+1);
+        }
+        Append(base_name_tokens, current_token);
+        return base_name_tokens;
+    }
+
+    public void WriteBeginingNamespace(s84.ctcode.system.ctcode.OutputStream file)
+    {
+        java.util.ArrayList<java.lang.String> base_name_tokens = this.TokenizeBaseName(this.base_name);
+        int base_name_tokens_index = 0;
+        while (AsBoolean((base_name_tokens_index<Size(base_name_tokens))))
+        {
+            java.lang.String base_name_token = Element(base_name_tokens, base_name_tokens_index);
+            file.WriteLine(Concat("module ", this.string_helper.ToUpper(base_name_token)));
+            base_name_tokens_index = (base_name_tokens_index+1);
+        }
+    }
+
+    public void WriteEndingNamespace(s84.ctcode.system.ctcode.OutputStream file)
+    {
+        java.util.ArrayList<java.lang.String> base_name_tokens = this.TokenizeBaseName(this.base_name);
+        int base_name_tokens_index = 0;
+        while (AsBoolean((base_name_tokens_index<Size(base_name_tokens))))
+        {
+            java.lang.String base_name_token = Element(base_name_tokens, base_name_tokens_index);
+            file.WriteLine("end");
+            base_name_tokens_index = (base_name_tokens_index+1);
+        }
+    }
+
+    public void FinishProcessingCTCodeFile()
+    {
+        java.lang.String destination_file_name = Concat(this.base_name, ".rb");
+        s84.ctcode.system.ctcode.OutputStream destination_file = this.system.OpenFileWriter(destination_file_name);
+        if (AsBoolean((Size(this.imports)>0)))
+        {
+            this.string_helper.WriteLines(destination_file, this.imports);
+            destination_file.WriteLine("");
+        }
+        this.WriteCommonFunctions(destination_file);
+        destination_file.WriteLine("");
+        this.WriteBeginingNamespace(destination_file);
+        destination_file.WriteLine("");
+        this.string_helper.WriteLines(destination_file, this.interface_definitions);
+        this.string_helper.WriteLines(destination_file, this.class_definitions);
+        this.WriteEndingNamespace(destination_file);
+    }
+
+    public java.lang.String GetDefault(java.lang.String javascript_type)
+    {
+        if (AsBoolean(Equals(javascript_type,"int")))
+        {
+            return "0";
+        }
+        if (AsBoolean(Equals(javascript_type,"string")))
+        {
+            return "\"\"";
+        }
+        if (AsBoolean(Equals(javascript_type,"bool")))
+        {
+            return "false";
+        }
+        if (AsBoolean(Equals(javascript_type,"float")))
+        {
+            return "0.0";
+        }
+        if (AsBoolean(Equals(javascript_type,"void")))
+        {
+            return "nil";
+        }
+        if (AsBoolean(this.string_helper.BeginsWith("dict[str", javascript_type)))
+        {
+            return "Hash.new()";
+        }
+        if (AsBoolean(this.string_helper.BeginsWith("list[", javascript_type)))
+        {
+            return "Array.new()";
+        }
+        return "nil";
+    }
+
+    public java.lang.String MakeParametersString(java.util.ArrayList<s84.ctcode.transpiler.standardstructure.ctcode.ParameterDeclaration> parameters)
+    {
+        java.lang.String result = "(";
+        int parameters_index = 0;
+        while (AsBoolean((parameters_index<Size(parameters))))
+        {
+            s84.ctcode.transpiler.standardstructure.ctcode.ParameterDeclaration parameter = Element(parameters, parameters_index);
+            if (AsBoolean(!Equals(parameters_index,0)))
+            {
+                result = Concat(result, ", ");
+            }
+            result = Concat(result, parameter.GetName());
+            parameters_index = (parameters_index+1);
+        }
+        result = Concat(result, ")");
+        return result;
     }
 
     private s84.ctcode.system.ctcode.System system;
@@ -388,6 +597,13 @@ public class RubyTranspiler implements s84.ctcode.transpiler.standardstructure.c
     private java.lang.String base_name;
     private s84.ctcode.system.ctcode.OutputStream logger;
     private s84.ctcode.transpiler.stringhelper.ctcode.StringHelper string_helper;
+    private java.util.ArrayList<java.lang.String> imports;
+    private java.lang.String current_interface;
+    private java.util.ArrayList<java.lang.String> interface_definitions;
+    private java.lang.String current_class;
+    private java.util.ArrayList<java.lang.String> class_definitions;
+    private java.util.ArrayList<java.lang.String> class_init;
+    private java.util.ArrayList<java.lang.String> class_functions;
 
     private static <T> void ClearList(java.util.ArrayList<T> input) { input.clear(); }
     private static <T> int Size(java.util.ArrayList<T> input) { return input.size(); }

@@ -2,6 +2,7 @@
 namespace S84\CTCode\Transpiler\RubyTranspiler\ctcode;
 
 include_once "S84.CTCode.dbnf.ctcode.php";
+include_once "S84.CTCode.System.ctcode.php";
 include_once "S84.CTCode.Transpiler.StandardStructure.ctcode.php";
 include_once "S84.CTCode.Transpiler.StringHelper.ctcode.php";
 
@@ -26,6 +27,13 @@ class RubyTranspiler implements \S84\CTCode\Transpiler\StandardStructure\ctcode\
         $this->base_name = "";
         $this->logger = null;
         $this->string_helper = null;
+        $this->imports = array();
+        $this->current_interface = "";
+        $this->interface_definitions = array();
+        $this->current_class = "";
+        $this->class_definitions = array();
+        $this->class_init = array();
+        $this->class_functions = array();
     }
 
     public function Initialize(): void
@@ -55,12 +63,22 @@ class RubyTranspiler implements \S84\CTCode\Transpiler\StandardStructure\ctcode\
 
     public function GetBaseIndentation(): ?int
     {
-        return 3;
+        return 1;
+    }
+
+    public function IsReserved(?string $name): ?bool
+    {
+        return false||$this->string_helper->BeginsWith('ReservedPrefix',$name)||$this->string_helper->BeginsWith('reserved_prefix_',$name)||$name=='end'||$name=='Return'||$name=='String'||$name=='GetType'||$name=='string'||$name=='boolean'||$name=='char'||$name=='float'||$name=='decimal';
     }
 
     public function GetCallName(?string $name): ?string
     {
-        return $this->string_helper->SnakeCaseToCamelCase($name);
+        $value = $this->string_helper->SnakeCaseToCamelCase($name);
+        if ($this->IsReserved($value))
+        {
+            return Concat('ReservedPrefix',$value);
+        }
+        return $value;
     }
 
     public function GetVariableName(?string $name): ?string
@@ -68,7 +86,11 @@ class RubyTranspiler implements \S84\CTCode\Transpiler\StandardStructure\ctcode\
         $value = $this->string_helper->CamelCaseToSnakeCase($name);
         if ($value=='myself')
         {
-            return 'thyself';
+            return 'self';
+        }
+        if ($this->IsReserved($value))
+        {
+            return Concat('reserved_prefix_',$value);
         }
         return $value;
     }
@@ -82,7 +104,12 @@ class RubyTranspiler implements \S84\CTCode\Transpiler\StandardStructure\ctcode\
         while ($name_parts_index<Size($name_parts))
         {
             $name = Element($name_parts,$name_parts_index);
-            $result = Concat(Concat($result,$delimiter),$this->GetVariableName($name));
+            $result = Concat($result,$delimiter);
+            if ($result=='self.')
+            {
+                $result = '@';
+            }
+            $result = Concat($result,$this->GetVariableName($name));
             $name_parts_index = $name_parts_index+1;
         }
         return $result;
@@ -92,10 +119,19 @@ class RubyTranspiler implements \S84\CTCode\Transpiler\StandardStructure\ctcode\
     {
         $result = Element($name_chain,0);
         $name_chain_index = 1;
+        $last_name_chain_index = Size($name_chain)-1;
         while ($name_chain_index<Size($name_chain))
         {
             $name_part = Element($name_chain,$name_chain_index);
-            $result = Concat(Concat($result,'.'),$name_part);
+            $result = Concat($result,'.');
+            if ($name_chain_index!=$last_name_chain_index)
+            {
+                if ($result=='self.')
+                {
+                    $result = '@';
+                }
+            }
+            $result = Concat($result,$name_part);
             $name_chain_index = $name_chain_index+1;
         }
         $result = Concat($result,'(');
@@ -117,7 +153,7 @@ class RubyTranspiler implements \S84\CTCode\Transpiler\StandardStructure\ctcode\
 
     public function ConvertAllocate(?string $type): ?string
     {
-        return Concat('new ',$type);
+        return Concat($type,'.new()');
     }
 
     public function ConvertByte(?string $high, ?string $low): ?string
@@ -162,7 +198,7 @@ class RubyTranspiler implements \S84\CTCode\Transpiler\StandardStructure\ctcode\
     {
         if ($op=='!')
         {
-            return Concat('!',$r_value);
+            return Concat('! ',$r_value);
         }
         return $r_value;
     }
@@ -203,18 +239,23 @@ class RubyTranspiler implements \S84\CTCode\Transpiler\StandardStructure\ctcode\
         }
         if ($op=='||')
         {
-            return Concat(Concat($r_value_l,'||'),$r_value_r);
+            return Concat(Concat($r_value_l,' || '),$r_value_r);
         }
         if ($op=='&&')
         {
-            return Concat(Concat($r_value_l,'&&'),$r_value_r);
+            return Concat(Concat($r_value_l,' && '),$r_value_r);
         }
         return '';
     }
 
     public function GetTypeName(?string $name): ?string
     {
-        return $this->string_helper->SnakeCaseToCamelCase($name);
+        $value = $this->string_helper->SnakeCaseToCamelCase($name);
+        if ($this->IsReserved($value))
+        {
+            return Concat('ReservedPrefix',$value);
+        }
+        return $value;
     }
 
     public function GetDimensionalType(?string $singleton_type, ?int $dimensions): ?string
@@ -222,7 +263,7 @@ class RubyTranspiler implements \S84\CTCode\Transpiler\StandardStructure\ctcode\
         $result = $singleton_type;
         while ($dimensions>0)
         {
-            $result = Concat($result,'[]');
+            $result = Concat(Concat('list[',$result),']');
             $dimensions = $dimensions-1;
         }
         return $result;
@@ -230,7 +271,7 @@ class RubyTranspiler implements \S84\CTCode\Transpiler\StandardStructure\ctcode\
 
     public function GetMapType(?string $singleton_type): ?string
     {
-        return Concat($singleton_type,'{}');
+        return Concat(Concat('dict[str, ',$singleton_type),']');
     }
 
     public function GetPrimativeType(?string $c_t_type): ?string
@@ -265,7 +306,7 @@ class RubyTranspiler implements \S84\CTCode\Transpiler\StandardStructure\ctcode\
 
     public function GetQualifiedTypeName(?array $name_parts): ?string
     {
-        $delimiter = '.';
+        $delimiter = '::';
         $name_parts_index = Size($name_parts)-1;
         $type_part = Element($name_parts,$name_parts_index);
         $result = $this->GetTypeName($type_part);
@@ -276,125 +317,293 @@ class RubyTranspiler implements \S84\CTCode\Transpiler\StandardStructure\ctcode\
                 $name_parts_index = $name_parts_index-1;
                 $result = Concat($delimiter,$result);
                 $name_part = Element($name_parts,$name_parts_index);
-                $result = Concat($name_part,$result);
+                $result = Concat($this->string_helper->ToUpper($name_part),$result);
             }
+            $result = Concat($delimiter,$result);
         }
         return $result;
     }
 
     public function BeginProcessingCTCodeFile(): void
     {
-        $this->logger->WriteLine('BeginProcessingCTCodeFile');
-    }
-
-    public function FinishProcessingCTCodeFile(): void
-    {
-        $this->logger->WriteLine('FinishProcessingCTCodeFile');
+        ClearList($this->imports);
+        $this->current_interface = '';
+        ClearList($this->interface_definitions);
+        $this->current_class = '';
+        ClearList($this->class_definitions);
+        ClearList($this->class_init);
+        ClearList($this->class_functions);
     }
 
     public function ProcessExdef(?string $exdef): void
     {
-        $this->logger->WriteLine(Concat(Concat($this->string_helper->Indentation(1),'ProcessExdef: '),$exdef));
+        Append($this->imports,Concat(Concat('require \'',$exdef),'\''));
     }
 
     public function ProcessUnmanagedType(?string $unmanaged_type): void
     {
-        $this->logger->WriteLine(Concat(Concat($this->string_helper->Indentation(1),'ProcessUnmanagedType: '),$unmanaged_type));
     }
 
     public function BeginProcessingInterface(?string $interface_name): void
     {
-        $this->logger->WriteLine(Concat(Concat($this->string_helper->Indentation(1),'BeginProcessingInterface: '),$interface_name));
+        $this->current_interface = $interface_name;
+        Append($this->interface_definitions,Concat('class ',$interface_name));
     }
 
     public function ProcessInterfaceFunctionDeclaration(?string $return_type, ?string $function_name, ?array $parameters): void
     {
-        $this->logger->WriteLine(Concat(Concat(Concat(Concat($this->string_helper->Indentation(2),'ProcessInterfaceFunctionDeclaration: '),$return_type),' '),$function_name));
+        Append($this->interface_definitions,Concat(Concat(Concat(Concat($this->string_helper->Indentation(1),'def '),$function_name),$this->MakeParametersString($parameters)),'; end'));
     }
 
     public function FinishProcessingInterface(?string $interface_name): void
     {
-        $this->logger->WriteLine(Concat(Concat($this->string_helper->Indentation(1),'FinishProcessingInterface: '),$interface_name));
+        Append($this->interface_definitions,'end');
+        Append($this->interface_definitions,'');
+        $this->current_interface = '';
     }
 
     public function BeginProcessingClass(?string $class_name, ?string $implementing): void
     {
-        $this->logger->WriteLine(Concat(Concat(Concat(Concat($this->string_helper->Indentation(1),'BeginProcessingClass: '),$class_name),' '),$implementing));
+        $this->current_class = $class_name;
+        if ($implementing=='')
+        {
+            Append($this->class_definitions,Concat('class ',$class_name));
+        }
+        else
+        {
+            Append($this->class_definitions,Concat(Concat(Concat('class ',$class_name),' < '),$implementing));
+        }
+        ClearList($this->class_init);
+        ClearList($this->class_functions);
+        Append($this->class_init,Concat($this->string_helper->Indentation(1),'def initialize()'));
     }
 
     public function BeginProcessingClassFunctionDefinition(?string $return_type, ?string $function_name, ?array $parameters): void
     {
-        $this->logger->WriteLine(Concat(Concat(Concat(Concat($this->string_helper->Indentation(2),'BeginProcessingClassFunctionDefinition: '),$return_type),' '),$function_name));
+        Append($this->class_functions,'');
+        Append($this->class_functions,Concat(Concat(Concat($this->string_helper->Indentation(1),'def '),$function_name),$this->MakeParametersString($parameters)));
     }
 
     public function BeginProcessCodeBlock(?int $indent): void
     {
-        $this->logger->WriteLine(Concat($this->string_helper->Indentation($indent),'BeginProcessCodeBlock'));
     }
 
     public function FinishProcessCodeBlock(?int $indent): void
     {
-        $this->logger->WriteLine(Concat($this->string_helper->Indentation($indent),'FinishProcessCodeBlock'));
     }
 
     public function BeginProcessConditional(?int $indent, ?string $r_value): void
     {
-        $this->logger->WriteLine(Concat(Concat($this->string_helper->Indentation($indent),'BeginProcessConditional: '),$r_value));
+        Append($this->class_functions,Concat(Concat(Concat($this->string_helper->Indentation($indent),'if ('),$r_value),')'));
     }
 
     public function ProcessElse(?int $indent): void
     {
-        $this->logger->WriteLine(Concat($this->string_helper->Indentation($indent),'ProcessElse'));
+        Append($this->class_functions,Concat($this->string_helper->Indentation($indent),'else'));
     }
 
     public function FinishProcessConditional(?int $indent, ?string $r_value): void
     {
-        $this->logger->WriteLine(Concat(Concat($this->string_helper->Indentation($indent),'FinishProcessConditional: '),$r_value));
+        Append($this->class_functions,Concat($this->string_helper->Indentation($indent),'end'));
     }
 
     public function BeginProcessLoop(?int $indent, ?string $r_value): void
     {
-        $this->logger->WriteLine(Concat(Concat($this->string_helper->Indentation($indent),'BeginProcessLoop: '),$r_value));
+        Append($this->class_functions,Concat(Concat(Concat($this->string_helper->Indentation($indent),'while ('),$r_value),')'));
     }
 
     public function FinishProcessLoop(?int $indent, ?string $r_value): void
     {
-        $this->logger->WriteLine(Concat(Concat($this->string_helper->Indentation($indent),'FinishProcessLoop: '),$r_value));
+        Append($this->class_functions,Concat($this->string_helper->Indentation($indent),'end'));
     }
 
     public function ProcessRtn(?int $indent, ?string $r_value): void
     {
-        $this->logger->WriteLine(Concat(Concat($this->string_helper->Indentation($indent),'ProcessRtn: '),$r_value));
+        Append($this->class_functions,Concat(Concat($this->string_helper->Indentation($indent),'return '),$r_value));
     }
 
     public function ProcessDeclaration(?int $indent, ?string $type, ?string $l_value, ?string $r_value): void
     {
-        $this->logger->WriteLine(Concat(Concat(Concat(Concat(Concat(Concat($this->string_helper->Indentation($indent),'ProcessDeclaration: '),$type),' '),$l_value),' '),$r_value));
+        if ($r_value=='')
+        {
+            $r_value = $this->GetDefault($type);
+        }
+        Append($this->class_functions,Concat(Concat(Concat($this->string_helper->Indentation($indent),$l_value),' = '),$r_value));
     }
 
     public function ProcessAssignment(?int $indent, ?string $l_value, ?string $r_value): void
     {
-        $this->logger->WriteLine(Concat(Concat(Concat(Concat($this->string_helper->Indentation($indent),'ProcessAssignment: '),$l_value),' '),$r_value));
+        Append($this->class_functions,Concat(Concat(Concat($this->string_helper->Indentation($indent),$l_value),' = '),$r_value));
     }
 
     public function ProcessCall(?int $indent, ?string $call): void
     {
-        $this->logger->WriteLine(Concat(Concat($this->string_helper->Indentation($indent),'ProcessCall: '),$call));
+        Append($this->class_functions,Concat($this->string_helper->Indentation($indent),$call));
     }
 
     public function FinishProcessingClassFunctionDefinition(?string $return_type, ?string $function_name, ?array $parameters): void
     {
-        $this->logger->WriteLine(Concat(Concat(Concat(Concat($this->string_helper->Indentation(2),'FinishProcessingClassFunctionDefinition: '),$return_type),' '),$function_name));
+        Append($this->class_functions,Concat($this->string_helper->Indentation(1),'end'));
     }
 
     public function ProcessClassMemberDeclaration(?string $member_type, ?string $member_name): void
     {
-        $this->logger->WriteLine(Concat(Concat(Concat(Concat($this->string_helper->Indentation(2),'ProcessClassMemberDeclaration: '),$member_type),' '),$member_name));
+        Append($this->class_init,Concat(Concat(Concat(Concat($this->string_helper->Indentation(2),'@'),$member_name),' = '),$this->GetDefault($member_type)));
     }
 
     public function FinishProcessingClass(?string $class_name, ?string $implementing): void
     {
-        $this->logger->WriteLine(Concat(Concat($this->string_helper->Indentation(1),'FinishProcessingClass: '),$class_name));
+        Append($this->class_init,Concat($this->string_helper->Indentation(1),'end'));
+        $class_init_index = 0;
+        while ($class_init_index<Size($this->class_init))
+        {
+            $line = Element($this->class_init,$class_init_index);
+            Append($this->class_definitions,$line);
+            $class_init_index = $class_init_index+1;
+        }
+        $class_functions_index = 0;
+        while ($class_functions_index<Size($this->class_functions))
+        {
+            $line = Element($this->class_functions,$class_functions_index);
+            Append($this->class_definitions,$line);
+            $class_functions_index = $class_functions_index+1;
+        }
+        Append($this->class_definitions,'end');
+        Append($this->class_definitions,'');
+        $this->current_class = '';
+    }
+
+    public function WriteCommonFunctions(?\S84\CTCode\System\ctcode\OutputStream $destination_file): void
+    {
+        $destination_file->WriteLine('def ClearList(input); input.clear(); end');
+        $destination_file->WriteLine('def Size(input); return input.length(); end');
+        $destination_file->WriteLine('def Element(input, element); return input[element]; end');
+        $destination_file->WriteLine('def Append(input, element); input.push(element); end');
+        $destination_file->WriteLine('def ClearMap(input); input.clear(); end');
+        $destination_file->WriteLine('def SetKV(input, key, element); input[key] = element; end');
+        $destination_file->WriteLine('def Keys(input); return input.keys(); end');
+        $destination_file->WriteLine('def HasKV(input, key); return input.has_key?(key); end');
+        $destination_file->WriteLine('def GetKV(input, key); return input[key]; end');
+        $destination_file->WriteLine('def Length(input); return input.length(); end');
+        $destination_file->WriteLine('def At(input, index); return input[index]; end');
+        $destination_file->WriteLine('def IntAt(input, index); return input[index].ord(); end');
+        $destination_file->WriteLine('def Concat(left, right); return left + right; end');
+    }
+
+    public function TokenizeBaseName(?string $name): ?array
+    {
+        $base_name_tokens = array();
+        $current_token = '';
+        $index = 0;
+        while ($index<Length($name))
+        {
+            $character = At($name,$index);
+            if ($character=='.')
+            {
+                Append($base_name_tokens,$current_token);
+                $current_token = '';
+            }
+            else
+            {
+                $current_token = Concat($current_token,$character);
+            }
+            $index = $index+1;
+        }
+        Append($base_name_tokens,$current_token);
+        return $base_name_tokens;
+    }
+
+    public function WriteBeginingNamespace(?\S84\CTCode\System\ctcode\OutputStream $file): void
+    {
+        $base_name_tokens = $this->TokenizeBaseName($this->base_name);
+        $base_name_tokens_index = 0;
+        while ($base_name_tokens_index<Size($base_name_tokens))
+        {
+            $base_name_token = Element($base_name_tokens,$base_name_tokens_index);
+            $file->WriteLine(Concat('module ',$this->string_helper->ToUpper($base_name_token)));
+            $base_name_tokens_index = $base_name_tokens_index+1;
+        }
+    }
+
+    public function WriteEndingNamespace(?\S84\CTCode\System\ctcode\OutputStream $file): void
+    {
+        $base_name_tokens = $this->TokenizeBaseName($this->base_name);
+        $base_name_tokens_index = 0;
+        while ($base_name_tokens_index<Size($base_name_tokens))
+        {
+            $base_name_token = Element($base_name_tokens,$base_name_tokens_index);
+            $file->WriteLine('end');
+            $base_name_tokens_index = $base_name_tokens_index+1;
+        }
+    }
+
+    public function FinishProcessingCTCodeFile(): void
+    {
+        $destination_file_name = Concat($this->base_name,'.rb');
+        $destination_file = $this->system->OpenFileWriter($destination_file_name);
+        if (Size($this->imports)>0)
+        {
+            $this->string_helper->WriteLines($destination_file,$this->imports);
+            $destination_file->WriteLine('');
+        }
+        $this->WriteCommonFunctions($destination_file);
+        $destination_file->WriteLine('');
+        $this->WriteBeginingNamespace($destination_file);
+        $destination_file->WriteLine('');
+        $this->string_helper->WriteLines($destination_file,$this->interface_definitions);
+        $this->string_helper->WriteLines($destination_file,$this->class_definitions);
+        $this->WriteEndingNamespace($destination_file);
+    }
+
+    public function GetDefault(?string $javascript_type): ?string
+    {
+        if ($javascript_type=='int')
+        {
+            return '0';
+        }
+        if ($javascript_type=='string')
+        {
+            return '""';
+        }
+        if ($javascript_type=='bool')
+        {
+            return 'false';
+        }
+        if ($javascript_type=='float')
+        {
+            return '0.0';
+        }
+        if ($javascript_type=='void')
+        {
+            return 'nil';
+        }
+        if ($this->string_helper->BeginsWith('dict[str',$javascript_type))
+        {
+            return 'Hash.new()';
+        }
+        if ($this->string_helper->BeginsWith('list[',$javascript_type))
+        {
+            return 'Array.new()';
+        }
+        return 'nil';
+    }
+
+    public function MakeParametersString(?array $parameters): ?string
+    {
+        $result = '(';
+        $parameters_index = 0;
+        while ($parameters_index<Size($parameters))
+        {
+            $parameter = Element($parameters,$parameters_index);
+            if ($parameters_index!=0)
+            {
+                $result = Concat($result,', ');
+            }
+            $result = Concat($result,$parameter->GetName());
+            $parameters_index = $parameters_index+1;
+        }
+        $result = Concat($result,')');
+        return $result;
     }
 
     private $system;
@@ -402,6 +611,13 @@ class RubyTranspiler implements \S84\CTCode\Transpiler\StandardStructure\ctcode\
     private $base_name;
     private $logger;
     private $string_helper;
+    private $imports;
+    private $current_interface;
+    private $interface_definitions;
+    private $current_class;
+    private $class_definitions;
+    private $class_init;
+    private $class_functions;
 }
 
 ?>

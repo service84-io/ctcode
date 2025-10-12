@@ -5,6 +5,7 @@ $(dirname $0)/clean_java.sh
 $(dirname $0)/clean_node.sh
 $(dirname $0)/clean_php.sh
 $(dirname $0)/clean_python.sh
+$(dirname $0)/clean_ruby.sh
 
 echo Processing DBNF files...
 echo
@@ -42,6 +43,9 @@ for CTCodeFile in *.ctcode; do
   echo Generating Python3...
   ./ctcode ${CTCodeFile} Python3Transpiler
   echo Done generating Python3!
+  echo Generating Ruby...
+  ./ctcode ${CTCodeFile} RubyTranspiler
+  echo Done generating Ruby!
   echo Done processing ${CTCodeFile}!
   echo
 done

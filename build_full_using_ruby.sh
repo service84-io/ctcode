@@ -5,7 +5,7 @@ $(dirname $0)/clean_csharp.sh
 $(dirname $0)/clean_java.sh
 $(dirname $0)/clean_node.sh
 $(dirname $0)/clean_php.sh
-$(dirname $0)/clean_ruby.sh
+$(dirname $0)/clean_python.sh
 
 echo Processing DBNF files...
 echo
@@ -26,25 +26,25 @@ echo
 for CTCodeFile in *.ctcode; do
   echo Processing ${CTCodeFile}...
   echo Generating CPP...
-  python3 ctcode.py ${CTCodeFile} CPPTranspiler
+  ruby -I. ctcode.rb ${CTCodeFile} CPPTranspiler
   echo Done generating CPP!
   echo Generating CSharp...
-  python3 ctcode.py ${CTCodeFile} CSharpTranspiler
+  ruby -I. ctcode.rb ${CTCodeFile} CSharpTranspiler
   echo Done generating CSharp!
   echo Generating Java11...
-  python3 ctcode.py ${CTCodeFile} Java11Transpiler
+  ruby -I. ctcode.rb ${CTCodeFile} Java11Transpiler
   echo Done generating Java11!
   echo Generating NodeJS...
-  python3 ctcode.py ${CTCodeFile} NodeJSTranspiler
+  ruby -I. ctcode.rb ${CTCodeFile} NodeJSTranspiler
   echo Done generating NodeJS!
   echo Generating PHP...
-  python3 ctcode.py ${CTCodeFile} PHPTranspiler
+  ruby -I. ctcode.rb ${CTCodeFile} PHPTranspiler
   echo Done generating PHP!
   echo Generating Python3...
-  python3 ctcode.py ${CTCodeFile} Python3Transpiler
+  ruby -I. ctcode.rb ${CTCodeFile} Python3Transpiler
   echo Done generating Python3!
   echo Generating Ruby...
-  python3 ctcode.py ${CTCodeFile} RubyTranspiler
+  ruby -I. ctcode.rb ${CTCodeFile} RubyTranspiler
   echo Done generating Ruby!
   echo Done processing ${CTCodeFile}!
   echo
