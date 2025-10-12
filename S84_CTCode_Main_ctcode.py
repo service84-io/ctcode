@@ -109,16 +109,16 @@ class Main:
                 logger.WriteLine(Concat("    ",Element(registered_transpilers,registered_transpilers_index)))
                 registered_transpilers_index = registered_transpilers_index+1
             return 1
-        dbnf: 'str' = system.ReadFileToString(ctcode_file_name)
-        if dbnf=="":
+        ctcode: 'str' = system.ReadFileToString(ctcode_file_name)
+        if ctcode=="":
             logger.WriteLine(Concat("The file ",Concat(ctcode_file_name," is empty or does not exist.")))
             return 1
-        dbnf_large_string: 'S84_CTCode_dbnf_ctcode.LargeString' = S84_CTCode_dbnf_ctcode.LargeString()
-        dbnf_large_string.SetData(dbnf)
+        ctcode_large_string: 'S84_CTCode_dbnf_ctcode.LargeString' = S84_CTCode_dbnf_ctcode.LargeString()
+        ctcode_large_string.SetData(ctcode)
         index: 'S84_CTCode_dbnf_ctcode.LengthString' = S84_CTCode_dbnf_ctcode.LengthString()
-        index.SetData(dbnf_large_string)
+        index.SetData(ctcode_large_string)
         index.SetStart(0)
-        index.SetLength(Length(dbnf))
+        index.SetLength(Length(ctcode))
         parser_network: 'S84_CTCode_dbnf_ctcode.ParserNetwork' = S84_CTCode_dbnf_ctcode.ParserNetwork()
         parser_network.Initialize()
         ctcode_file_result: 'S84_CTCode_dbnf_ctcode.CTCodeFileResult' = S84_CTCode_dbnf_ctcode.CTCodeFileResult()

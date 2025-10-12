@@ -108,19 +108,19 @@ class Main
             return 1;
         }
 
-        string dbnf = system.ReadFileToString(ctcode_file_name);
+        string ctcode = system.ReadFileToString(ctcode_file_name);
 
-        if (dbnf == "") {
+        if (ctcode == "") {
             logger.WriteLine(Concat("The file ", Concat(ctcode_file_name, " is empty or does not exist.")));
             return 1;
         }
 
-        S84.CTCode.dbnf.ctcode.LargeString dbnf_large_string = new S84.CTCode.dbnf.ctcode.LargeString;
-        dbnf_large_string.SetData(dbnf);
+        S84.CTCode.dbnf.ctcode.LargeString ctcode_large_string = new S84.CTCode.dbnf.ctcode.LargeString;
+        ctcode_large_string.SetData(ctcode);
         S84.CTCode.dbnf.ctcode.LengthString index = new S84.CTCode.dbnf.ctcode.LengthString;
-        index.SetData(dbnf_large_string);
+        index.SetData(ctcode_large_string);
         index.SetStart(0);
-        index.SetLength(Length(dbnf));
+        index.SetLength(Length(ctcode));
         S84.CTCode.dbnf.ctcode.ParserNetwork parser_network = new S84.CTCode.dbnf.ctcode.ParserNetwork;
         parser_network.Initialize();
         S84.CTCode.dbnf.ctcode.CTCodeFileResult ctcode_file_result = new S84.CTCode.dbnf.ctcode.CTCodeFileResult;

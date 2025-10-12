@@ -45,16 +45,16 @@ end
 def main(argv)
     system = SystemImplementation.new()
     main = ::S84::CTCODE::MAIN::CTCODE::Main.new()
-    c_t_code_file_name = "";
+    ctcode_file_name = "";
     transpiler_name = "";
 
     if (argv.length == 2)
-        c_t_code_file_name = argv[0];
+        ctcode_file_name = argv[0];
         transpiler_name = argv[1];
     end
 
     logger = system.GetLoggerDestination();
-    return main.RunMain(system, c_t_code_file_name, transpiler_name);
+    return main.RunMain(system, ctcode_file_name, transpiler_name);
 end
 
 exit(main(ARGV))

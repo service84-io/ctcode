@@ -45,14 +45,14 @@ public class CTCodeMain
     {
         S84.CTCode.Main.ctcode.Main main = new S84.CTCode.Main.ctcode.Main();
         SystemImplementation system = new SystemImplementation();
-        string c_t_code_file_name = "";
+        string ctcode_file_name = "";
         string transpiler_name = "";
 
         if (args.Length == 2) {
-            c_t_code_file_name = args[0];
+            ctcode_file_name = args[0];
             transpiler_name = args[1];
         }
 
-        return main.RunMain(system, c_t_code_file_name, transpiler_name) ?? 0;
+        return main.RunMain(system, ctcode_file_name, transpiler_name) ?? 0;
     }
 }

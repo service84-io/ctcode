@@ -115,18 +115,18 @@ public class Main {
             }
             return 1;
         }
-        java.lang.String dbnf = system.ReadFileToString(ctcode_file_name);
-        if (AsBoolean(Equals(dbnf,"")))
+        java.lang.String ctcode = system.ReadFileToString(ctcode_file_name);
+        if (AsBoolean(Equals(ctcode,"")))
         {
             logger.WriteLine(Concat("The file ", Concat(ctcode_file_name, " is empty or does not exist.")));
             return 1;
         }
-        s84.ctcode.dbnf.ctcode.LargeString dbnf_large_string = new s84.ctcode.dbnf.ctcode.LargeString();
-        dbnf_large_string.SetData(dbnf);
+        s84.ctcode.dbnf.ctcode.LargeString ctcode_large_string = new s84.ctcode.dbnf.ctcode.LargeString();
+        ctcode_large_string.SetData(ctcode);
         s84.ctcode.dbnf.ctcode.LengthString index = new s84.ctcode.dbnf.ctcode.LengthString();
-        index.SetData(dbnf_large_string);
+        index.SetData(ctcode_large_string);
         index.SetStart(0);
-        index.SetLength(Length(dbnf));
+        index.SetLength(Length(ctcode));
         s84.ctcode.dbnf.ctcode.ParserNetwork parser_network = new s84.ctcode.dbnf.ctcode.ParserNetwork();
         parser_network.Initialize();
         s84.ctcode.dbnf.ctcode.CTCodeFileResult ctcode_file_result = new s84.ctcode.dbnf.ctcode.CTCodeFileResult();

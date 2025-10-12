@@ -129,18 +129,18 @@ class Main {
             }
             return 1;
         }
-        $dbnf = $system->ReadFileToString($ctcode_file_name);
-        if ($dbnf=='')
+        $ctcode = $system->ReadFileToString($ctcode_file_name);
+        if ($ctcode=='')
         {
             $logger->WriteLine(Concat('The file ',Concat($ctcode_file_name,' is empty or does not exist.')));
             return 1;
         }
-        $dbnf_large_string = new \S84\CTCode\dbnf\ctcode\LargeString();
-        $dbnf_large_string->SetData($dbnf);
+        $ctcode_large_string = new \S84\CTCode\dbnf\ctcode\LargeString();
+        $ctcode_large_string->SetData($ctcode);
         $index = new \S84\CTCode\dbnf\ctcode\LengthString();
-        $index->SetData($dbnf_large_string);
+        $index->SetData($ctcode_large_string);
         $index->SetStart(0);
-        $index->SetLength(Length($dbnf));
+        $index->SetLength(Length($ctcode));
         $parser_network = new \S84\CTCode\dbnf\ctcode\ParserNetwork();
         $parser_network->Initialize();
         $ctcode_file_result = new \S84\CTCode\dbnf\ctcode\CTCodeFileResult();

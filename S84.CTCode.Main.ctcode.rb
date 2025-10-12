@@ -120,17 +120,17 @@ class Main
             end
             return 1
         end
-        dbnf = system.ReadFileToString(ctcode_file_name)
-        if (dbnf=="")
+        ctcode = system.ReadFileToString(ctcode_file_name)
+        if (ctcode=="")
             logger.WriteLine(Concat("The file ",Concat(ctcode_file_name," is empty or does not exist.")))
             return 1
         end
-        dbnf_large_string = ::S84::CTCODE::DBNF::CTCODE::LargeString.new()
-        dbnf_large_string.SetData(dbnf)
+        ctcode_large_string = ::S84::CTCODE::DBNF::CTCODE::LargeString.new()
+        ctcode_large_string.SetData(ctcode)
         index = ::S84::CTCODE::DBNF::CTCODE::LengthString.new()
-        index.SetData(dbnf_large_string)
+        index.SetData(ctcode_large_string)
         index.SetStart(0)
-        index.SetLength(Length(dbnf))
+        index.SetLength(Length(ctcode))
         parser_network = ::S84::CTCODE::DBNF::CTCODE::ParserNetwork.new()
         parser_network.Initialize()
         ctcode_file_result = ::S84::CTCODE::DBNF::CTCODE::CTCodeFileResult.new()

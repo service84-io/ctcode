@@ -57,14 +57,14 @@ public class ctcode {
     public static void main(java.lang.String[] args) {
         s84.ctcode.system.ctcode.System system = new SystemImplementation();
         s84.ctcode.main.ctcode.Main main = new s84.ctcode.main.ctcode.Main();
-        java.lang.String c_t_code_file_name = "";
+        java.lang.String ctcode_file_name = "";
         java.lang.String transpiler_name = "";
 
         if (args.length == 2) {
-            c_t_code_file_name = args[0];
+            ctcode_file_name = args[0];
             transpiler_name = args[1];
         }
 
-        java.lang.System.exit(main.RunMain(system, c_t_code_file_name, transpiler_name));
+        java.lang.System.exit(main.RunMain(system, ctcode_file_name, transpiler_name));
     }
 }

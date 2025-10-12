@@ -44,15 +44,15 @@ class SystemImplementation implements \S84\CTCode\System\ctcode\System {
 function main($argv, $argc): int {
     $system = new SystemImplementation();
     $main = new \S84\CTCode\Main\ctcode\Main();
-    $c_t_code_file_name = "";
+    $ctcode_file_name = "";
     $transpiler_name = "";
 
     if ($argc == 3) {
-        $c_t_code_file_name = $argv[1];
+        $ctcode_file_name = $argv[1];
         $transpiler_name = $argv[2];
     }
     $logger = $system->GetLoggerDestination();
-    return $main->RunMain($system, $c_t_code_file_name, $transpiler_name);
+    return $main->RunMain($system, $ctcode_file_name, $transpiler_name);
 }
 
 exit(main($argv, $argc));

@@ -31,15 +31,15 @@ class System {
 function main() {
     var system = new System();
     var main = new S84_CTCode_Main_ctcode.Main();
-    var c_t_code_file_name = "";
+    var ctcode_file_name = "";
     var transpiler_name = "";
 
     if (process.argv.length == 4) {
-        c_t_code_file_name = process.argv[2];
+        ctcode_file_name = process.argv[2];
         transpiler_name = process.argv[3];
     }
         
-    process.exit(main.RunMain(system, c_t_code_file_name, transpiler_name));
+    process.exit(main.RunMain(system, ctcode_file_name, transpiler_name));
 }
 
 main();
