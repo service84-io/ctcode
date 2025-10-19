@@ -462,7 +462,7 @@ public class Java11Transpiler implements s84.ctcode.transpiler.standardstructure
         destination_file.WriteLine(Concat(this.string_helper.Indentation(1), "private static java.lang.String At(java.lang.String input, int index) { try { return input.substring(index, index + 1);} catch(Exception e) { return \"\"; }}"));
         destination_file.WriteLine(Concat(this.string_helper.Indentation(1), "private static int IntAt(java.lang.String input, int index) { return (int)input.charAt(index); }"));
         destination_file.WriteLine(Concat(this.string_helper.Indentation(1), "private static java.lang.String Concat(java.lang.String left, java.lang.String right) { return left + right; }"));
-        destination_file.WriteLine(Concat(this.string_helper.Indentation(1), "private static <T extends Object> boolean AsBoolean(T value) { return value != null; }"));
+        destination_file.WriteLine(Concat(this.string_helper.Indentation(1), "private static <T extends java.lang.Object> boolean AsBoolean(T value) { return value != null; }"));
         destination_file.WriteLine(Concat(this.string_helper.Indentation(1), "private static boolean AsBoolean(boolean value) { return value; }"));
         destination_file.WriteLine(Concat(this.string_helper.Indentation(1), "private static boolean Equals(java.lang.String left, java.lang.String right) { return left.equals(right); }"));
         destination_file.WriteLine(Concat(this.string_helper.Indentation(1), "private static boolean Equals(boolean left, boolean right) { return left == right; }"));
@@ -551,7 +551,7 @@ public class Java11Transpiler implements s84.ctcode.transpiler.standardstructure
     private static java.lang.String At(java.lang.String input, int index) { try { return input.substring(index, index + 1);} catch(Exception e) { return ""; }}
     private static int IntAt(java.lang.String input, int index) { return (int)input.charAt(index); }
     private static java.lang.String Concat(java.lang.String left, java.lang.String right) { return left + right; }
-    private static <T extends Object> boolean AsBoolean(T value) { return value != null; }
+    private static <T extends java.lang.Object> boolean AsBoolean(T value) { return value != null; }
     private static boolean AsBoolean(boolean value) { return value; }
     private static boolean Equals(java.lang.String left, java.lang.String right) { return left.equals(right); }
     private static boolean Equals(boolean left, boolean right) { return left == right; }
