@@ -43,8 +43,8 @@ public class LengthString {
         java.lang.String deep_data = this.data.GetData();
         java.lang.String result = "";
         int index = this.start;
-        int end = (this.start+this.length);
-        while (AsBoolean((index<end)))
+        int reserved_prefix_end = (this.start+this.length);
+        while (AsBoolean((index<reserved_prefix_end)))
         {
             result = Concat(result, At(deep_data, index));
             index = (index+1);

@@ -63,15 +63,10 @@ export class PHPTranspiler {
         return 1
     }
 
-    IsReserved(name)
-    {
-        return false || this.string_helper.BeginsWith("ReservedPrefix",name) || this.string_helper.BeginsWith("reserved_prefix_",name) || name=="Return" || name=="String" || name=="GetType" || name=="string" || name=="boolean" || name=="char" || name=="float" || name=="decimal"
-    }
-
     GetCallName(name)
     {
         var value = this.string_helper.SnakeCaseToCamelCase(name)
-        if (this.IsReserved(value))
+        if (this.string_helper.IsReserved(value))
         {
             return Concat("ReservedPrefix",value)
         }
@@ -85,7 +80,7 @@ export class PHPTranspiler {
         {
             return "this"
         }
-        if (this.IsReserved(value))
+        if (this.string_helper.IsReserved(value))
         {
             return Concat("reserved_prefix_",value)
         }
@@ -148,9 +143,9 @@ export class PHPTranspiler {
         return Concat(Concat("0x",high),low)
     }
 
-    ConvertDecimal(decimal)
+    ConvertDecimal(reserved_prefix_decimal)
     {
-        return decimal
+        return reserved_prefix_decimal
     }
 
     ConvertNumber(number)
@@ -158,13 +153,13 @@ export class PHPTranspiler {
         return number
     }
 
-    ConvertBoolean(boolean)
+    ConvertBoolean(reserved_prefix_boolean)
     {
-        if (boolean=="true")
+        if (reserved_prefix_boolean=="true")
         {
             return "true"
         }
-        if (boolean=="false")
+        if (reserved_prefix_boolean=="false")
         {
             return "false"
         }
@@ -268,7 +263,7 @@ export class PHPTranspiler {
     GetTypeName(name)
     {
         var value = this.string_helper.SnakeCaseToCamelCase(name)
-        if (this.IsReserved(value))
+        if (this.string_helper.IsReserved(value))
         {
             return Concat("ReservedPrefix",value)
         }
@@ -570,7 +565,7 @@ export class PHPTranspiler {
             {
                 result = Concat(result,", ")
             }
-            result = Concat(Concat(Concat(result,parameter.GetType())," $"),parameter.GetName())
+            result = Concat(Concat(Concat(result,parameter.ReservedPrefixGetType())," $"),parameter.GetName())
             parameters_index = parameters_index+1
         }
         result = Concat(result,")")

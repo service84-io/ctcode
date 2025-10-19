@@ -28,7 +28,7 @@ class StringParser:
         consumed_string.SetData(index.GetData())
         consumed_string.SetStart(index.GetStart())
         consumed_string.SetLength(0)
-        instance: 'String' = String()
+        instance: 'ReservedPrefixString' = ReservedPrefixString()
         value_length: 'int' = Length(value)
         if value_length>index.GetLength():
             result.SetResult(False)
@@ -53,13 +53,13 @@ class StringParser:
 
 class StringResult:
     def __init__(self: 'StringResult'):
-        self.value: String = None
+        self.value: ReservedPrefixString = None
         self.result: bool = False
 
-    def SetValue(self: 'StringResult',new_value: 'String') -> 'None':
+    def SetValue(self: 'StringResult',new_value: 'ReservedPrefixString') -> 'None':
         self.value = new_value
 
-    def GetValue(self: 'StringResult') -> 'String':
+    def GetValue(self: 'StringResult') -> 'ReservedPrefixString':
         return self.value
 
     def SetResult(self: 'StringResult',new_result: 'bool') -> 'None':
@@ -70,13 +70,13 @@ class StringResult:
 
 class StringListResult:
     def __init__(self: 'StringListResult'):
-        self.value: list[String] = []
+        self.value: list[ReservedPrefixString] = []
         self.result: bool = False
 
-    def SetValue(self: 'StringListResult',new_value: 'list[String]') -> 'None':
+    def SetValue(self: 'StringListResult',new_value: 'list[ReservedPrefixString]') -> 'None':
         self.value = new_value
 
-    def GetValue(self: 'StringListResult') -> 'list[String]':
+    def GetValue(self: 'StringListResult') -> 'list[ReservedPrefixString]':
         return self.value
 
     def SetResult(self: 'StringListResult',new_result: 'bool') -> 'None':
@@ -85,17 +85,17 @@ class StringListResult:
     def GetResult(self: 'StringListResult') -> 'bool':
         return self.result
 
-class String:
-    def __init__(self: 'String'):
+class ReservedPrefixString:
+    def __init__(self: 'ReservedPrefixString'):
         self.length_string: LengthString = None
 
-    def SetLengthString(self: 'String',new_value: 'LengthString') -> 'None':
+    def SetLengthString(self: 'ReservedPrefixString',new_value: 'LengthString') -> 'None':
         self.length_string = LengthString()
         self.length_string.SetData(new_value.GetData())
         self.length_string.SetStart(new_value.GetStart())
         self.length_string.SetLength(new_value.GetLength())
 
-    def UnParse(self: 'String') -> 'str':
+    def UnParse(self: 'ReservedPrefixString') -> 'str':
         return self.length_string.GetString()
 
 class CharacterParser:
@@ -585,7 +585,7 @@ class DBNFOmniType:
         self.declaration_assign_field: DeclarationAssign = None
         self.declaration_field: Declaration = None
         self.assignment_field: Assignment = None
-        self.return_field: Return = None
+        self.return_field: ReservedPrefixReturn = None
         self.else_tail_field: ElseTail = None
         self.conditional_field: Conditional = None
         self.loop_field: Loop = None
@@ -754,10 +754,10 @@ class DBNFOmniType:
     def GetAssignment(self: 'DBNFOmniType') -> 'Assignment':
         return self.assignment_field
 
-    def SetReturn(self: 'DBNFOmniType',input_value: 'Return') -> 'None':
+    def SetReturn(self: 'DBNFOmniType',input_value: 'ReservedPrefixReturn') -> 'None':
         self.return_field = input_value
 
-    def GetReturn(self: 'DBNFOmniType') -> 'Return':
+    def GetReturn(self: 'DBNFOmniType') -> 'ReservedPrefixReturn':
         return self.return_field
 
     def SetElseTail(self: 'DBNFOmniType',input_value: 'ElseTail') -> 'None':
@@ -1043,7 +1043,7 @@ class DBNFOmniTypeResult:
         self.value = DBNFOmniType()
         self.value.SetAssignment(input_value)
 
-    def SetReturn(self: 'DBNFOmniTypeResult',input_value: 'Return') -> 'None':
+    def SetReturn(self: 'DBNFOmniTypeResult',input_value: 'ReservedPrefixReturn') -> 'None':
         self.value = DBNFOmniType()
         self.value.SetReturn(input_value)
 
@@ -1341,7 +1341,7 @@ class DBNFOmniTypeListResult:
             value.SetAssignment(Element(input_value,index))
             index = index+1
 
-    def SetReturn(self: 'DBNFOmniTypeListResult',input_value: 'list[Return]') -> 'None':
+    def SetReturn(self: 'DBNFOmniTypeListResult',input_value: 'list[ReservedPrefixReturn]') -> 'None':
         index: 'int' = 0
         while index<Size(input_value):
             value: 'DBNFOmniType' = DBNFOmniType()
@@ -1595,8 +1595,8 @@ class LengthString:
         deep_data: 'str' = self.data.GetData()
         result: 'str' = ""
         index: 'int' = self.start
-        end: 'int' = self.start+self.length
-        while index<end:
+        reserved_prefix_end: 'int' = self.start+self.length
+        while index<reserved_prefix_end:
             result = Concat(result,At(deep_data,index))
             index = index+1
         return result
@@ -3193,7 +3193,7 @@ class ContentDeclaration:
     def SetType(self: 'ContentDeclaration',input_value: 'ValueType') -> 'None':
         self.type_field = input_value
 
-    def GetType(self: 'ContentDeclaration') -> 'ValueType':
+    def ReservedPrefixGetType(self: 'ContentDeclaration') -> 'ValueType':
         return self.type_field
 
 class ContentDefinitionParser:
@@ -3436,7 +3436,7 @@ class ContentDefinition:
     def SetType(self: 'ContentDefinition',input_value: 'ValueType') -> 'None':
         self.type_field = input_value
 
-    def GetType(self: 'ContentDefinition') -> 'ValueType':
+    def ReservedPrefixGetType(self: 'ContentDefinition') -> 'ValueType':
         return self.type_field
 
 class PrimativeTypeParser:
@@ -5226,7 +5226,7 @@ class ParameterListDef:
     def SetType(self: 'ParameterListDef',input_value: 'ValueType') -> 'None':
         self.type_field = input_value
 
-    def GetType(self: 'ParameterListDef') -> 'ValueType':
+    def ReservedPrefixGetType(self: 'ParameterListDef') -> 'ValueType':
         return self.type_field
 
 class ParameterListParser:
@@ -6005,7 +6005,7 @@ class Declaration:
     def SetType(self: 'Declaration',input_value: 'ValueType') -> 'None':
         self.type_field = input_value
 
-    def GetType(self: 'Declaration') -> 'ValueType':
+    def ReservedPrefixGetType(self: 'Declaration') -> 'ValueType':
         return self.type_field
 
 class AssignmentParser:
@@ -6216,7 +6216,7 @@ class ReturnParser:
         consumed_string.SetData(index.GetData())
         consumed_string.SetStart(index.GetStart())
         consumed_string.SetLength(0)
-        instance: 'Return' = Return()
+        instance: 'ReservedPrefixReturn' = ReservedPrefixReturn()
         r_value_field: 'RValueResult' = RValueResult()
         rtn_field: 'StringResult' = StringResult()
         c_t_code_file_parser_instance: 'CTCodeFileParser' = self.parser_network.GetCTCodeFileParser()
@@ -6307,7 +6307,7 @@ class ReturnParser:
     def ParseManySave(self: 'ReturnParser',index: 'LengthString',list_result: 'ReturnListResult',minimum: 'int',maximum: 'int') -> 'bool':
         index_start: 'int' = index.GetStart()
         index_length: 'int' = index.GetLength()
-        results: 'list[Return]' = []
+        results: 'list[ReservedPrefixReturn]' = []
         count: 'int' = 0
         max_check: 'int' = maximum
         check_next: 'bool' = True
@@ -6337,13 +6337,13 @@ class ReturnParser:
 
 class ReturnResult:
     def __init__(self: 'ReturnResult'):
-        self.value: Return = None
+        self.value: ReservedPrefixReturn = None
         self.result: bool = False
 
-    def SetValue(self: 'ReturnResult',new_value: 'Return') -> 'None':
+    def SetValue(self: 'ReturnResult',new_value: 'ReservedPrefixReturn') -> 'None':
         self.value = new_value
 
-    def GetValue(self: 'ReturnResult') -> 'Return':
+    def GetValue(self: 'ReturnResult') -> 'ReservedPrefixReturn':
         return self.value
 
     def SetResult(self: 'ReturnResult',new_result: 'bool') -> 'None':
@@ -6354,13 +6354,13 @@ class ReturnResult:
 
 class ReturnListResult:
     def __init__(self: 'ReturnListResult'):
-        self.value: list[Return] = []
+        self.value: list[ReservedPrefixReturn] = []
         self.result: bool = False
 
-    def SetValue(self: 'ReturnListResult',new_value: 'list[Return]') -> 'None':
+    def SetValue(self: 'ReturnListResult',new_value: 'list[ReservedPrefixReturn]') -> 'None':
         self.value = new_value
 
-    def GetValue(self: 'ReturnListResult') -> 'list[Return]':
+    def GetValue(self: 'ReturnListResult') -> 'list[ReservedPrefixReturn]':
         return self.value
 
     def SetResult(self: 'ReturnListResult',new_result: 'bool') -> 'None':
@@ -6369,31 +6369,31 @@ class ReturnListResult:
     def GetResult(self: 'ReturnListResult') -> 'bool':
         return self.result
 
-class Return:
-    def __init__(self: 'Return'):
+class ReservedPrefixReturn:
+    def __init__(self: 'ReservedPrefixReturn'):
         self.length_string: LengthString = None
         self.r_value_field: RValue = None
-        self.rtn_field: String = None
+        self.rtn_field: ReservedPrefixString = None
 
-    def SetLengthString(self: 'Return',new_value: 'LengthString') -> 'None':
+    def SetLengthString(self: 'ReservedPrefixReturn',new_value: 'LengthString') -> 'None':
         self.length_string = LengthString()
         self.length_string.SetData(new_value.GetData())
         self.length_string.SetStart(new_value.GetStart())
         self.length_string.SetLength(new_value.GetLength())
 
-    def UnParse(self: 'Return') -> 'str':
+    def UnParse(self: 'ReservedPrefixReturn') -> 'str':
         return self.length_string.GetString()
 
-    def SetRValue(self: 'Return',input_value: 'RValue') -> 'None':
+    def SetRValue(self: 'ReservedPrefixReturn',input_value: 'RValue') -> 'None':
         self.r_value_field = input_value
 
-    def GetRValue(self: 'Return') -> 'RValue':
+    def GetRValue(self: 'ReservedPrefixReturn') -> 'RValue':
         return self.r_value_field
 
-    def SetRtn(self: 'Return',input_value: 'String') -> 'None':
+    def SetRtn(self: 'ReservedPrefixReturn',input_value: 'ReservedPrefixString') -> 'None':
         self.rtn_field = input_value
 
-    def GetRtn(self: 'Return') -> 'String':
+    def GetRtn(self: 'ReservedPrefixReturn') -> 'ReservedPrefixString':
         return self.rtn_field
 
 class ElseTailParser:
@@ -6567,7 +6567,7 @@ class ElseTail:
     def __init__(self: 'ElseTail'):
         self.length_string: LengthString = None
         self.code_block_field: CodeBlock = None
-        self.else_key_field: String = None
+        self.else_key_field: ReservedPrefixString = None
 
     def SetLengthString(self: 'ElseTail',new_value: 'LengthString') -> 'None':
         self.length_string = LengthString()
@@ -6584,10 +6584,10 @@ class ElseTail:
     def GetCodeBlock(self: 'ElseTail') -> 'CodeBlock':
         return self.code_block_field
 
-    def SetElseKey(self: 'ElseTail',input_value: 'String') -> 'None':
+    def SetElseKey(self: 'ElseTail',input_value: 'ReservedPrefixString') -> 'None':
         self.else_key_field = input_value
 
-    def GetElseKey(self: 'ElseTail') -> 'String':
+    def GetElseKey(self: 'ElseTail') -> 'ReservedPrefixString':
         return self.else_key_field
 
 class ConditionalParser:
@@ -6767,7 +6767,7 @@ class Conditional:
     def __init__(self: 'Conditional'):
         self.length_string: LengthString = None
         self.code_block_field: CodeBlock = None
-        self.conditional_key_field: String = None
+        self.conditional_key_field: ReservedPrefixString = None
         self.else_tail_field: ElseTail = None
         self.r_value_field: RValue = None
 
@@ -6786,10 +6786,10 @@ class Conditional:
     def GetCodeBlock(self: 'Conditional') -> 'CodeBlock':
         return self.code_block_field
 
-    def SetConditionalKey(self: 'Conditional',input_value: 'String') -> 'None':
+    def SetConditionalKey(self: 'Conditional',input_value: 'ReservedPrefixString') -> 'None':
         self.conditional_key_field = input_value
 
-    def GetConditionalKey(self: 'Conditional') -> 'String':
+    def GetConditionalKey(self: 'Conditional') -> 'ReservedPrefixString':
         return self.conditional_key_field
 
     def SetElseTail(self: 'Conditional',input_value: 'ElseTail') -> 'None':
@@ -6978,7 +6978,7 @@ class Loop:
     def __init__(self: 'Loop'):
         self.length_string: LengthString = None
         self.code_block_field: CodeBlock = None
-        self.loop_key_field: String = None
+        self.loop_key_field: ReservedPrefixString = None
         self.r_value_field: RValue = None
 
     def SetLengthString(self: 'Loop',new_value: 'LengthString') -> 'None':
@@ -6996,10 +6996,10 @@ class Loop:
     def GetCodeBlock(self: 'Loop') -> 'CodeBlock':
         return self.code_block_field
 
-    def SetLoopKey(self: 'Loop',input_value: 'String') -> 'None':
+    def SetLoopKey(self: 'Loop',input_value: 'ReservedPrefixString') -> 'None':
         self.loop_key_field = input_value
 
-    def GetLoopKey(self: 'Loop') -> 'String':
+    def GetLoopKey(self: 'Loop') -> 'ReservedPrefixString':
         return self.loop_key_field
 
     def SetRValue(self: 'Loop',input_value: 'RValue') -> 'None':
@@ -7785,7 +7785,7 @@ class Instruction:
         self.conditional_field: Conditional = None
         self.declaration_field: Declaration = None
         self.loop_field: Loop = None
-        self.rtn_field: Return = None
+        self.rtn_field: ReservedPrefixReturn = None
 
     def SetLengthString(self: 'Instruction',new_value: 'LengthString') -> 'None':
         self.length_string = LengthString()
@@ -7838,10 +7838,10 @@ class Instruction:
     def GetLoop(self: 'Instruction') -> 'Loop':
         return self.loop_field
 
-    def SetRtn(self: 'Instruction',input_value: 'Return') -> 'None':
+    def SetRtn(self: 'Instruction',input_value: 'ReservedPrefixReturn') -> 'None':
         self.rtn_field = input_value
 
-    def GetRtn(self: 'Instruction') -> 'Return':
+    def GetRtn(self: 'Instruction') -> 'ReservedPrefixReturn':
         return self.rtn_field
 
 class RValueSingleParser:
@@ -9150,16 +9150,16 @@ class BinaryOperatorListResult:
 class BinaryOperator:
     def __init__(self: 'BinaryOperator'):
         self.length_string: LengthString = None
-        self.addition_field: String = None
-        self.and_op_field: String = None
-        self.equality_field: String = None
-        self.greater_than_eq_field: String = None
-        self.greater_than_field: String = None
-        self.less_than_eq_field: String = None
-        self.less_than_field: String = None
-        self.not_equality_field: String = None
-        self.or_op_field: String = None
-        self.subtraction_field: String = None
+        self.addition_field: ReservedPrefixString = None
+        self.and_op_field: ReservedPrefixString = None
+        self.equality_field: ReservedPrefixString = None
+        self.greater_than_eq_field: ReservedPrefixString = None
+        self.greater_than_field: ReservedPrefixString = None
+        self.less_than_eq_field: ReservedPrefixString = None
+        self.less_than_field: ReservedPrefixString = None
+        self.not_equality_field: ReservedPrefixString = None
+        self.or_op_field: ReservedPrefixString = None
+        self.subtraction_field: ReservedPrefixString = None
 
     def SetLengthString(self: 'BinaryOperator',new_value: 'LengthString') -> 'None':
         self.length_string = LengthString()
@@ -9170,64 +9170,64 @@ class BinaryOperator:
     def UnParse(self: 'BinaryOperator') -> 'str':
         return self.length_string.GetString()
 
-    def SetAddition(self: 'BinaryOperator',input_value: 'String') -> 'None':
+    def SetAddition(self: 'BinaryOperator',input_value: 'ReservedPrefixString') -> 'None':
         self.addition_field = input_value
 
-    def GetAddition(self: 'BinaryOperator') -> 'String':
+    def GetAddition(self: 'BinaryOperator') -> 'ReservedPrefixString':
         return self.addition_field
 
-    def SetAndOp(self: 'BinaryOperator',input_value: 'String') -> 'None':
+    def SetAndOp(self: 'BinaryOperator',input_value: 'ReservedPrefixString') -> 'None':
         self.and_op_field = input_value
 
-    def GetAndOp(self: 'BinaryOperator') -> 'String':
+    def GetAndOp(self: 'BinaryOperator') -> 'ReservedPrefixString':
         return self.and_op_field
 
-    def SetEquality(self: 'BinaryOperator',input_value: 'String') -> 'None':
+    def SetEquality(self: 'BinaryOperator',input_value: 'ReservedPrefixString') -> 'None':
         self.equality_field = input_value
 
-    def GetEquality(self: 'BinaryOperator') -> 'String':
+    def GetEquality(self: 'BinaryOperator') -> 'ReservedPrefixString':
         return self.equality_field
 
-    def SetGreaterThanEq(self: 'BinaryOperator',input_value: 'String') -> 'None':
+    def SetGreaterThanEq(self: 'BinaryOperator',input_value: 'ReservedPrefixString') -> 'None':
         self.greater_than_eq_field = input_value
 
-    def GetGreaterThanEq(self: 'BinaryOperator') -> 'String':
+    def GetGreaterThanEq(self: 'BinaryOperator') -> 'ReservedPrefixString':
         return self.greater_than_eq_field
 
-    def SetGreaterThan(self: 'BinaryOperator',input_value: 'String') -> 'None':
+    def SetGreaterThan(self: 'BinaryOperator',input_value: 'ReservedPrefixString') -> 'None':
         self.greater_than_field = input_value
 
-    def GetGreaterThan(self: 'BinaryOperator') -> 'String':
+    def GetGreaterThan(self: 'BinaryOperator') -> 'ReservedPrefixString':
         return self.greater_than_field
 
-    def SetLessThanEq(self: 'BinaryOperator',input_value: 'String') -> 'None':
+    def SetLessThanEq(self: 'BinaryOperator',input_value: 'ReservedPrefixString') -> 'None':
         self.less_than_eq_field = input_value
 
-    def GetLessThanEq(self: 'BinaryOperator') -> 'String':
+    def GetLessThanEq(self: 'BinaryOperator') -> 'ReservedPrefixString':
         return self.less_than_eq_field
 
-    def SetLessThan(self: 'BinaryOperator',input_value: 'String') -> 'None':
+    def SetLessThan(self: 'BinaryOperator',input_value: 'ReservedPrefixString') -> 'None':
         self.less_than_field = input_value
 
-    def GetLessThan(self: 'BinaryOperator') -> 'String':
+    def GetLessThan(self: 'BinaryOperator') -> 'ReservedPrefixString':
         return self.less_than_field
 
-    def SetNotEquality(self: 'BinaryOperator',input_value: 'String') -> 'None':
+    def SetNotEquality(self: 'BinaryOperator',input_value: 'ReservedPrefixString') -> 'None':
         self.not_equality_field = input_value
 
-    def GetNotEquality(self: 'BinaryOperator') -> 'String':
+    def GetNotEquality(self: 'BinaryOperator') -> 'ReservedPrefixString':
         return self.not_equality_field
 
-    def SetOrOp(self: 'BinaryOperator',input_value: 'String') -> 'None':
+    def SetOrOp(self: 'BinaryOperator',input_value: 'ReservedPrefixString') -> 'None':
         self.or_op_field = input_value
 
-    def GetOrOp(self: 'BinaryOperator') -> 'String':
+    def GetOrOp(self: 'BinaryOperator') -> 'ReservedPrefixString':
         return self.or_op_field
 
-    def SetSubtraction(self: 'BinaryOperator',input_value: 'String') -> 'None':
+    def SetSubtraction(self: 'BinaryOperator',input_value: 'ReservedPrefixString') -> 'None':
         self.subtraction_field = input_value
 
-    def GetSubtraction(self: 'BinaryOperator') -> 'String':
+    def GetSubtraction(self: 'BinaryOperator') -> 'ReservedPrefixString':
         return self.subtraction_field
 
 class UnaryOperatorParser:
@@ -9397,7 +9397,7 @@ class UnaryOperatorListResult:
 class UnaryOperator:
     def __init__(self: 'UnaryOperator'):
         self.length_string: LengthString = None
-        self.negation_field: String = None
+        self.negation_field: ReservedPrefixString = None
 
     def SetLengthString(self: 'UnaryOperator',new_value: 'LengthString') -> 'None':
         self.length_string = LengthString()
@@ -9408,10 +9408,10 @@ class UnaryOperator:
     def UnParse(self: 'UnaryOperator') -> 'str':
         return self.length_string.GetString()
 
-    def SetNegation(self: 'UnaryOperator',input_value: 'String') -> 'None':
+    def SetNegation(self: 'UnaryOperator',input_value: 'ReservedPrefixString') -> 'None':
         self.negation_field = input_value
 
-    def GetNegation(self: 'UnaryOperator') -> 'String':
+    def GetNegation(self: 'UnaryOperator') -> 'ReservedPrefixString':
         return self.negation_field
 
 class CommentParser:

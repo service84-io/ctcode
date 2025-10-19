@@ -54,12 +54,9 @@ class RubyTranspiler(S84_CTCode_Transpiler_StandardStructure_ctcode.TargetSpecif
     def GetBaseIndentation(self: 'RubyTranspiler') -> 'int':
         return 1
 
-    def IsReserved(self: 'RubyTranspiler',name: 'str') -> 'bool':
-        return False or self.string_helper.BeginsWith("ReservedPrefix",name) or self.string_helper.BeginsWith("reserved_prefix_",name) or name=="end" or name=="Return" or name=="String" or name=="GetType" or name=="string" or name=="boolean" or name=="char" or name=="float" or name=="decimal"
-
     def GetCallName(self: 'RubyTranspiler',name: 'str') -> 'str':
         value: 'str' = self.string_helper.SnakeCaseToCamelCase(name)
-        if self.IsReserved(value):
+        if self.string_helper.IsReserved(value):
             return Concat("ReservedPrefix",value)
         return value
 
@@ -67,7 +64,7 @@ class RubyTranspiler(S84_CTCode_Transpiler_StandardStructure_ctcode.TargetSpecif
         value: 'str' = self.string_helper.CamelCaseToSnakeCase(name)
         if value=="myself":
             return "self"
-        if self.IsReserved(value):
+        if self.string_helper.IsReserved(value):
             return Concat("reserved_prefix_",value)
         return value
 
@@ -115,16 +112,16 @@ class RubyTranspiler(S84_CTCode_Transpiler_StandardStructure_ctcode.TargetSpecif
     def ConvertByte(self: 'RubyTranspiler',high: 'str',low: 'str') -> 'str':
         return Concat(Concat("0x",high),low)
 
-    def ConvertDecimal(self: 'RubyTranspiler',decimal: 'str') -> 'str':
-        return decimal
+    def ConvertDecimal(self: 'RubyTranspiler',reserved_prefix_decimal: 'str') -> 'str':
+        return reserved_prefix_decimal
 
     def ConvertNumber(self: 'RubyTranspiler',number: 'str') -> 'str':
         return number
 
-    def ConvertBoolean(self: 'RubyTranspiler',boolean: 'str') -> 'str':
-        if boolean=="true":
+    def ConvertBoolean(self: 'RubyTranspiler',reserved_prefix_boolean: 'str') -> 'str':
+        if reserved_prefix_boolean=="true":
             return "true"
-        if boolean=="false":
+        if reserved_prefix_boolean=="false":
             return "false"
         return ""
 
@@ -164,7 +161,7 @@ class RubyTranspiler(S84_CTCode_Transpiler_StandardStructure_ctcode.TargetSpecif
 
     def GetTypeName(self: 'RubyTranspiler',name: 'str') -> 'str':
         value: 'str' = self.string_helper.SnakeCaseToCamelCase(name)
-        if self.IsReserved(value):
+        if self.string_helper.IsReserved(value):
             return Concat("ReservedPrefix",value)
         return value
 

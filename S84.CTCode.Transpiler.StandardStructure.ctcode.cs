@@ -362,7 +362,7 @@ public class StandardStructure : S84.CTCode.Transpiler.ctcode.Transpiler
         this?.target_specific_functions?.FinishProcessLoop(indent,r_value);
     }
 
-    public void ProcessRtnInternal(int? indent,S84.CTCode.dbnf.ctcode.Return? rtn)
+    public void ProcessRtnInternal(int? indent,S84.CTCode.dbnf.ctcode.ReservedPrefixReturn? rtn)
     {
         string? r_value = this?.GetRValueInternal(rtn?.GetRValue());
         this?.target_specific_functions?.ProcessRtn(indent,r_value);

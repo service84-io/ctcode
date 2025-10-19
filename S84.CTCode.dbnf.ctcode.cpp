@@ -18,7 +18,7 @@ bool StringParser::ParseSingleSave(OmniPointer<LengthString> index, std::string 
     consumed_string->SetData(index->GetData());
     consumed_string->SetStart(index->GetStart());
     consumed_string->SetLength(0);
-    OmniPointer<String> instance = std::shared_ptr<String>(new String());
+    OmniPointer<ReservedPrefixString> instance = std::shared_ptr<ReservedPrefixString>(new ReservedPrefixString());
     int value_length = Length(value);
     if (value_length>index->GetLength())
     {
@@ -56,12 +56,12 @@ StringResult::StringResult()
     this->result = false;
 }
 
-void StringResult::SetValue(OmniPointer<String> new_value)
+void StringResult::SetValue(OmniPointer<ReservedPrefixString> new_value)
 {
     this->value = new_value;
 }
 
-OmniPointer<String> StringResult::GetValue()
+OmniPointer<ReservedPrefixString> StringResult::GetValue()
 {
     return this->value;
 }
@@ -82,12 +82,12 @@ StringListResult::StringListResult()
     this->result = false;
 }
 
-void StringListResult::SetValue(std::vector<OmniPointer<String>> new_value)
+void StringListResult::SetValue(std::vector<OmniPointer<ReservedPrefixString>> new_value)
 {
     this->value = new_value;
 }
 
-std::vector<OmniPointer<String>> StringListResult::GetValue()
+std::vector<OmniPointer<ReservedPrefixString>> StringListResult::GetValue()
 {
     return this->value;
 }
@@ -102,12 +102,12 @@ bool StringListResult::GetResult()
     return this->result;
 }
 
-String::String()
+ReservedPrefixString::ReservedPrefixString()
 {
     this->length_string = NULL;
 }
 
-void String::SetLengthString(OmniPointer<LengthString> new_value)
+void ReservedPrefixString::SetLengthString(OmniPointer<LengthString> new_value)
 {
     this->length_string = std::shared_ptr<LengthString>(new LengthString());
     this->length_string->SetData(new_value->GetData());
@@ -115,7 +115,7 @@ void String::SetLengthString(OmniPointer<LengthString> new_value)
     this->length_string->SetLength(new_value->GetLength());
 }
 
-std::string String::UnParse()
+std::string ReservedPrefixString::UnParse()
 {
     return this->length_string->GetString();
 }
@@ -1042,12 +1042,12 @@ OmniPointer<Assignment> DBNFOmniType::GetAssignment()
     return this->assignment_field;
 }
 
-void DBNFOmniType::SetReturn(OmniPointer<Return> input_value)
+void DBNFOmniType::SetReturn(OmniPointer<ReservedPrefixReturn> input_value)
 {
     this->return_field = input_value;
 }
 
-OmniPointer<Return> DBNFOmniType::GetReturn()
+OmniPointer<ReservedPrefixReturn> DBNFOmniType::GetReturn()
 {
     return this->return_field;
 }
@@ -1506,7 +1506,7 @@ void DBNFOmniTypeResult::SetAssignment(OmniPointer<Assignment> input_value)
     this->value->SetAssignment(input_value);
 }
 
-void DBNFOmniTypeResult::SetReturn(OmniPointer<Return> input_value)
+void DBNFOmniTypeResult::SetReturn(OmniPointer<ReservedPrefixReturn> input_value)
 {
     this->value = std::shared_ptr<DBNFOmniType>(new DBNFOmniType());
     this->value->SetReturn(input_value);
@@ -1965,7 +1965,7 @@ void DBNFOmniTypeListResult::SetAssignment(std::vector<OmniPointer<Assignment>> 
     }
 }
 
-void DBNFOmniTypeListResult::SetReturn(std::vector<OmniPointer<Return>> input_value)
+void DBNFOmniTypeListResult::SetReturn(std::vector<OmniPointer<ReservedPrefixReturn>> input_value)
 {
     int index = 0;
     while (index<Size(input_value))
@@ -2362,8 +2362,8 @@ std::string LengthString::GetString()
     std::string deep_data = this->data->GetData();
     std::string result = "";
     int index = this->start;
-    int end = this->start+this->length;
-    while (index<end)
+    int reserved_prefix_end = this->start+this->length;
+    while (index<reserved_prefix_end)
     {
         result = Concat(result,At(deep_data,index));
         index = index+1;
@@ -4473,7 +4473,7 @@ void ContentDeclaration::SetType(OmniPointer<ValueType> input_value)
     this->type_field = input_value;
 }
 
-OmniPointer<ValueType> ContentDeclaration::GetType()
+OmniPointer<ValueType> ContentDeclaration::ReservedPrefixGetType()
 {
     return this->type_field;
 }
@@ -4794,7 +4794,7 @@ void ContentDefinition::SetType(OmniPointer<ValueType> input_value)
     this->type_field = input_value;
 }
 
-OmniPointer<ValueType> ContentDefinition::GetType()
+OmniPointer<ValueType> ContentDefinition::ReservedPrefixGetType()
 {
     return this->type_field;
 }
@@ -7154,7 +7154,7 @@ void ParameterListDef::SetType(OmniPointer<ValueType> input_value)
     this->type_field = input_value;
 }
 
-OmniPointer<ValueType> ParameterListDef::GetType()
+OmniPointer<ValueType> ParameterListDef::ReservedPrefixGetType()
 {
     return this->type_field;
 }
@@ -8181,7 +8181,7 @@ void Declaration::SetType(OmniPointer<ValueType> input_value)
     this->type_field = input_value;
 }
 
-OmniPointer<ValueType> Declaration::GetType()
+OmniPointer<ValueType> Declaration::ReservedPrefixGetType()
 {
     return this->type_field;
 }
@@ -8460,7 +8460,7 @@ bool ReturnParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<
     consumed_string->SetData(index->GetData());
     consumed_string->SetStart(index->GetStart());
     consumed_string->SetLength(0);
-    OmniPointer<Return> instance = std::shared_ptr<Return>(new Return());
+    OmniPointer<ReservedPrefixReturn> instance = std::shared_ptr<ReservedPrefixReturn>(new ReservedPrefixReturn());
     OmniPointer<RValueResult> r_value_field = std::shared_ptr<RValueResult>(new RValueResult());
     OmniPointer<StringResult> rtn_field = std::shared_ptr<StringResult>(new StringResult());
     OmniPointer<CTCodeFileParser> c_t_code_file_parser_instance = this->parser_network->GetCTCodeFileParser();
@@ -8563,7 +8563,7 @@ bool ReturnParser::ParseManySave(OmniPointer<LengthString> index, OmniPointer<Re
 {
     int index_start = index->GetStart();
     int index_length = index->GetLength();
-    std::vector<OmniPointer<Return>> results;
+    std::vector<OmniPointer<ReservedPrefixReturn>> results;
     int count = 0;
     int max_check = maximum;
     bool check_next = true;
@@ -8612,12 +8612,12 @@ ReturnResult::ReturnResult()
     this->result = false;
 }
 
-void ReturnResult::SetValue(OmniPointer<Return> new_value)
+void ReturnResult::SetValue(OmniPointer<ReservedPrefixReturn> new_value)
 {
     this->value = new_value;
 }
 
-OmniPointer<Return> ReturnResult::GetValue()
+OmniPointer<ReservedPrefixReturn> ReturnResult::GetValue()
 {
     return this->value;
 }
@@ -8638,12 +8638,12 @@ ReturnListResult::ReturnListResult()
     this->result = false;
 }
 
-void ReturnListResult::SetValue(std::vector<OmniPointer<Return>> new_value)
+void ReturnListResult::SetValue(std::vector<OmniPointer<ReservedPrefixReturn>> new_value)
 {
     this->value = new_value;
 }
 
-std::vector<OmniPointer<Return>> ReturnListResult::GetValue()
+std::vector<OmniPointer<ReservedPrefixReturn>> ReturnListResult::GetValue()
 {
     return this->value;
 }
@@ -8658,14 +8658,14 @@ bool ReturnListResult::GetResult()
     return this->result;
 }
 
-Return::Return()
+ReservedPrefixReturn::ReservedPrefixReturn()
 {
     this->length_string = NULL;
     this->r_value_field = NULL;
     this->rtn_field = NULL;
 }
 
-void Return::SetLengthString(OmniPointer<LengthString> new_value)
+void ReservedPrefixReturn::SetLengthString(OmniPointer<LengthString> new_value)
 {
     this->length_string = std::shared_ptr<LengthString>(new LengthString());
     this->length_string->SetData(new_value->GetData());
@@ -8673,27 +8673,27 @@ void Return::SetLengthString(OmniPointer<LengthString> new_value)
     this->length_string->SetLength(new_value->GetLength());
 }
 
-std::string Return::UnParse()
+std::string ReservedPrefixReturn::UnParse()
 {
     return this->length_string->GetString();
 }
 
-void Return::SetRValue(OmniPointer<RValue> input_value)
+void ReservedPrefixReturn::SetRValue(OmniPointer<RValue> input_value)
 {
     this->r_value_field = input_value;
 }
 
-OmniPointer<RValue> Return::GetRValue()
+OmniPointer<RValue> ReservedPrefixReturn::GetRValue()
 {
     return this->r_value_field;
 }
 
-void Return::SetRtn(OmniPointer<String> input_value)
+void ReservedPrefixReturn::SetRtn(OmniPointer<ReservedPrefixString> input_value)
 {
     this->rtn_field = input_value;
 }
 
-OmniPointer<String> Return::GetRtn()
+OmniPointer<ReservedPrefixString> ReservedPrefixReturn::GetRtn()
 {
     return this->rtn_field;
 }
@@ -8944,12 +8944,12 @@ OmniPointer<CodeBlock> ElseTail::GetCodeBlock()
     return this->code_block_field;
 }
 
-void ElseTail::SetElseKey(OmniPointer<String> input_value)
+void ElseTail::SetElseKey(OmniPointer<ReservedPrefixString> input_value)
 {
     this->else_key_field = input_value;
 }
 
-OmniPointer<String> ElseTail::GetElseKey()
+OmniPointer<ReservedPrefixString> ElseTail::GetElseKey()
 {
     return this->else_key_field;
 }
@@ -9208,12 +9208,12 @@ OmniPointer<CodeBlock> Conditional::GetCodeBlock()
     return this->code_block_field;
 }
 
-void Conditional::SetConditionalKey(OmniPointer<String> input_value)
+void Conditional::SetConditionalKey(OmniPointer<ReservedPrefixString> input_value)
 {
     this->conditional_key_field = input_value;
 }
 
-OmniPointer<String> Conditional::GetConditionalKey()
+OmniPointer<ReservedPrefixString> Conditional::GetConditionalKey()
 {
     return this->conditional_key_field;
 }
@@ -9488,12 +9488,12 @@ OmniPointer<CodeBlock> Loop::GetCodeBlock()
     return this->code_block_field;
 }
 
-void Loop::SetLoopKey(OmniPointer<String> input_value)
+void Loop::SetLoopKey(OmniPointer<ReservedPrefixString> input_value)
 {
     this->loop_key_field = input_value;
 }
 
-OmniPointer<String> Loop::GetLoopKey()
+OmniPointer<ReservedPrefixString> Loop::GetLoopKey()
 {
     return this->loop_key_field;
 }
@@ -10580,12 +10580,12 @@ OmniPointer<Loop> Instruction::GetLoop()
     return this->loop_field;
 }
 
-void Instruction::SetRtn(OmniPointer<Return> input_value)
+void Instruction::SetRtn(OmniPointer<ReservedPrefixReturn> input_value)
 {
     this->rtn_field = input_value;
 }
 
-OmniPointer<Return> Instruction::GetRtn()
+OmniPointer<ReservedPrefixReturn> Instruction::GetRtn()
 {
     return this->rtn_field;
 }
@@ -12252,102 +12252,102 @@ std::string BinaryOperator::UnParse()
     return this->length_string->GetString();
 }
 
-void BinaryOperator::SetAddition(OmniPointer<String> input_value)
+void BinaryOperator::SetAddition(OmniPointer<ReservedPrefixString> input_value)
 {
     this->addition_field = input_value;
 }
 
-OmniPointer<String> BinaryOperator::GetAddition()
+OmniPointer<ReservedPrefixString> BinaryOperator::GetAddition()
 {
     return this->addition_field;
 }
 
-void BinaryOperator::SetAndOp(OmniPointer<String> input_value)
+void BinaryOperator::SetAndOp(OmniPointer<ReservedPrefixString> input_value)
 {
     this->and_op_field = input_value;
 }
 
-OmniPointer<String> BinaryOperator::GetAndOp()
+OmniPointer<ReservedPrefixString> BinaryOperator::GetAndOp()
 {
     return this->and_op_field;
 }
 
-void BinaryOperator::SetEquality(OmniPointer<String> input_value)
+void BinaryOperator::SetEquality(OmniPointer<ReservedPrefixString> input_value)
 {
     this->equality_field = input_value;
 }
 
-OmniPointer<String> BinaryOperator::GetEquality()
+OmniPointer<ReservedPrefixString> BinaryOperator::GetEquality()
 {
     return this->equality_field;
 }
 
-void BinaryOperator::SetGreaterThanEq(OmniPointer<String> input_value)
+void BinaryOperator::SetGreaterThanEq(OmniPointer<ReservedPrefixString> input_value)
 {
     this->greater_than_eq_field = input_value;
 }
 
-OmniPointer<String> BinaryOperator::GetGreaterThanEq()
+OmniPointer<ReservedPrefixString> BinaryOperator::GetGreaterThanEq()
 {
     return this->greater_than_eq_field;
 }
 
-void BinaryOperator::SetGreaterThan(OmniPointer<String> input_value)
+void BinaryOperator::SetGreaterThan(OmniPointer<ReservedPrefixString> input_value)
 {
     this->greater_than_field = input_value;
 }
 
-OmniPointer<String> BinaryOperator::GetGreaterThan()
+OmniPointer<ReservedPrefixString> BinaryOperator::GetGreaterThan()
 {
     return this->greater_than_field;
 }
 
-void BinaryOperator::SetLessThanEq(OmniPointer<String> input_value)
+void BinaryOperator::SetLessThanEq(OmniPointer<ReservedPrefixString> input_value)
 {
     this->less_than_eq_field = input_value;
 }
 
-OmniPointer<String> BinaryOperator::GetLessThanEq()
+OmniPointer<ReservedPrefixString> BinaryOperator::GetLessThanEq()
 {
     return this->less_than_eq_field;
 }
 
-void BinaryOperator::SetLessThan(OmniPointer<String> input_value)
+void BinaryOperator::SetLessThan(OmniPointer<ReservedPrefixString> input_value)
 {
     this->less_than_field = input_value;
 }
 
-OmniPointer<String> BinaryOperator::GetLessThan()
+OmniPointer<ReservedPrefixString> BinaryOperator::GetLessThan()
 {
     return this->less_than_field;
 }
 
-void BinaryOperator::SetNotEquality(OmniPointer<String> input_value)
+void BinaryOperator::SetNotEquality(OmniPointer<ReservedPrefixString> input_value)
 {
     this->not_equality_field = input_value;
 }
 
-OmniPointer<String> BinaryOperator::GetNotEquality()
+OmniPointer<ReservedPrefixString> BinaryOperator::GetNotEquality()
 {
     return this->not_equality_field;
 }
 
-void BinaryOperator::SetOrOp(OmniPointer<String> input_value)
+void BinaryOperator::SetOrOp(OmniPointer<ReservedPrefixString> input_value)
 {
     this->or_op_field = input_value;
 }
 
-OmniPointer<String> BinaryOperator::GetOrOp()
+OmniPointer<ReservedPrefixString> BinaryOperator::GetOrOp()
 {
     return this->or_op_field;
 }
 
-void BinaryOperator::SetSubtraction(OmniPointer<String> input_value)
+void BinaryOperator::SetSubtraction(OmniPointer<ReservedPrefixString> input_value)
 {
     this->subtraction_field = input_value;
 }
 
-OmniPointer<String> BinaryOperator::GetSubtraction()
+OmniPointer<ReservedPrefixString> BinaryOperator::GetSubtraction()
 {
     return this->subtraction_field;
 }
@@ -12584,12 +12584,12 @@ std::string UnaryOperator::UnParse()
     return this->length_string->GetString();
 }
 
-void UnaryOperator::SetNegation(OmniPointer<String> input_value)
+void UnaryOperator::SetNegation(OmniPointer<ReservedPrefixString> input_value)
 {
     this->negation_field = input_value;
 }
 
-OmniPointer<String> UnaryOperator::GetNegation()
+OmniPointer<ReservedPrefixString> UnaryOperator::GetNegation()
 {
     return this->negation_field;
 }

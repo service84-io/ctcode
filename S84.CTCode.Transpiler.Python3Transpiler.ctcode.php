@@ -69,7 +69,12 @@ class Python3Transpiler implements \S84\CTCode\Transpiler\StandardStructure\ctco
 
     public function GetCallName(?string $name): ?string
     {
-        return $this->string_helper->SnakeCaseToCamelCase($name);
+        $value = $this->string_helper->SnakeCaseToCamelCase($name);
+        if ($this->string_helper->IsReserved($value))
+        {
+            return Concat('ReservedPrefix',$value);
+        }
+        return $value;
     }
 
     public function GetVariableName(?string $name): ?string
@@ -78,6 +83,10 @@ class Python3Transpiler implements \S84\CTCode\Transpiler\StandardStructure\ctco
         if ($value=='myself')
         {
             return 'self';
+        }
+        if ($this->string_helper->IsReserved($value))
+        {
+            return Concat('reserved_prefix_',$value);
         }
         return $value;
     }
@@ -223,7 +232,12 @@ class Python3Transpiler implements \S84\CTCode\Transpiler\StandardStructure\ctco
 
     public function GetTypeName(?string $name): ?string
     {
-        return $this->string_helper->SnakeCaseToCamelCase($name);
+        $value = $this->string_helper->SnakeCaseToCamelCase($name);
+        if ($this->string_helper->IsReserved($value))
+        {
+            return Concat('ReservedPrefix',$value);
+        }
+        return $value;
     }
 
     public function GetDimensionalType(?string $singleton_type, ?int $dimensions): ?string

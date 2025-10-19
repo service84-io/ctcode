@@ -18,6 +18,11 @@ public class StringHelper {
         }
     }
 
+    public boolean IsReserved(java.lang.String name)
+    {
+        return (AsBoolean((AsBoolean((AsBoolean((AsBoolean((AsBoolean((AsBoolean((AsBoolean((AsBoolean((AsBoolean((AsBoolean((AsBoolean((AsBoolean((AsBoolean(false) || AsBoolean(this.BeginsWith("ReservedPrefix", name)))) || AsBoolean(this.BeginsWith("reserved_prefix_", name)))) || AsBoolean(Equals(name,"GetType")))) || AsBoolean(Equals(name,"Object")))) || AsBoolean(Equals(name,"Return")))) || AsBoolean(Equals(name,"String")))) || AsBoolean(Equals(name,"boolean")))) || AsBoolean(Equals(name,"char")))) || AsBoolean(Equals(name,"decimal")))) || AsBoolean(Equals(name,"end")))) || AsBoolean(Equals(name,"float")))) || AsBoolean(Equals(name,"string")))) || AsBoolean(false));
+    }
+
     public java.lang.String Indentation(int indent)
     {
         java.lang.String result = "";

@@ -11,6 +11,23 @@ class StringHelper {
         }
     }
 
+    function bool IsReserved(string name) {
+        return false ||
+            myself.BeginsWith("ReservedPrefix", name) ||
+            myself.BeginsWith("reserved_prefix_", name) ||
+            name == "GetType" ||
+            name == "Object" ||
+            name == "Return" ||
+            name == "String" ||
+            name == "boolean" ||
+            name == "char" ||
+            name == "decimal" ||
+            name == "end" ||
+            name == "float" ||
+            name == "string" ||
+            false;
+    }
+
     function string Indentation(int indent) {
         string result;
         result = "";

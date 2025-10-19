@@ -34,7 +34,13 @@ class CPPTranspiler implements S84.CTCode.Transpiler.StandardStructure.ctcode.Ta
 
     function string GetCallName(string name)
     {
-        return myself.string_helper.SnakeCaseToCamelCase(name);
+        string value = myself.string_helper.SnakeCaseToCamelCase(name);
+
+        if (myself.string_helper.IsReserved(value)) {
+            return Concat("ReservedPrefix", value);
+        }
+
+        return value;
     }
 
     function string GetVariableName(string name)
@@ -43,6 +49,10 @@ class CPPTranspiler implements S84.CTCode.Transpiler.StandardStructure.ctcode.Ta
 
         if (value == "myself") {
             return "this";
+        }
+
+        if (myself.string_helper.IsReserved(value)) {
+            return Concat("reserved_prefix_", value);
         }
 
         return value;
@@ -181,7 +191,13 @@ class CPPTranspiler implements S84.CTCode.Transpiler.StandardStructure.ctcode.Ta
 
     function string GetTypeName(string name)
     {
-        return myself.string_helper.SnakeCaseToCamelCase(name);
+        string value = myself.string_helper.SnakeCaseToCamelCase(name);
+
+        if (myself.string_helper.IsReserved(value)) {
+            return Concat("ReservedPrefix", value);
+        }
+
+        return value;
     }
 
     function string GetDimensionalType(string singleton_type, int dimensions) {

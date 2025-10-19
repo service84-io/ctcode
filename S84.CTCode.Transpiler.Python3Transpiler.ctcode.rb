@@ -65,13 +65,20 @@ class Python3Transpiler < ::S84::CTCODE::TRANSPILER::STANDARDSTRUCTURE::CTCODE::
     end
 
     def GetCallName(name)
-        return @string_helper.SnakeCaseToCamelCase(name)
+        value = @string_helper.SnakeCaseToCamelCase(name)
+        if (@string_helper.IsReserved(value))
+            return Concat("ReservedPrefix",value)
+        end
+        return value
     end
 
     def GetVariableName(name)
         value = @string_helper.CamelCaseToSnakeCase(name)
         if (value=="myself")
             return "self"
+        end
+        if (@string_helper.IsReserved(value))
+            return Concat("reserved_prefix_",value)
         end
         return value
     end
@@ -188,7 +195,11 @@ class Python3Transpiler < ::S84::CTCODE::TRANSPILER::STANDARDSTRUCTURE::CTCODE::
     end
 
     def GetTypeName(name)
-        return @string_helper.SnakeCaseToCamelCase(name)
+        value = @string_helper.SnakeCaseToCamelCase(name)
+        if (@string_helper.IsReserved(value))
+            return Concat("ReservedPrefix",value)
+        end
+        return value
     end
 
     def GetDimensionalType(singleton_type, dimensions)

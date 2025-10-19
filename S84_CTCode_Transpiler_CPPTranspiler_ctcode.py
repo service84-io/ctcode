@@ -59,12 +59,17 @@ class CPPTranspiler(S84_CTCode_Transpiler_StandardStructure_ctcode.TargetSpecifi
         return 0
 
     def GetCallName(self: 'CPPTranspiler',name: 'str') -> 'str':
-        return self.string_helper.SnakeCaseToCamelCase(name)
+        value: 'str' = self.string_helper.SnakeCaseToCamelCase(name)
+        if self.string_helper.IsReserved(value):
+            return Concat("ReservedPrefix",value)
+        return value
 
     def GetVariableName(self: 'CPPTranspiler',name: 'str') -> 'str':
         value: 'str' = self.string_helper.CamelCaseToSnakeCase(name)
         if value=="myself":
             return "this"
+        if self.string_helper.IsReserved(value):
+            return Concat("reserved_prefix_",value)
         return value
 
     def GetVariableChain(self: 'CPPTranspiler',name_parts: 'list[str]') -> 'str':
@@ -103,16 +108,16 @@ class CPPTranspiler(S84_CTCode_Transpiler_StandardStructure_ctcode.TargetSpecifi
     def ConvertByte(self: 'CPPTranspiler',high: 'str',low: 'str') -> 'str':
         return Concat(Concat("0x",high),low)
 
-    def ConvertDecimal(self: 'CPPTranspiler',decimal: 'str') -> 'str':
-        return decimal
+    def ConvertDecimal(self: 'CPPTranspiler',reserved_prefix_decimal: 'str') -> 'str':
+        return reserved_prefix_decimal
 
     def ConvertNumber(self: 'CPPTranspiler',number: 'str') -> 'str':
         return number
 
-    def ConvertBoolean(self: 'CPPTranspiler',boolean: 'str') -> 'str':
-        if boolean=="true":
+    def ConvertBoolean(self: 'CPPTranspiler',reserved_prefix_boolean: 'str') -> 'str':
+        if reserved_prefix_boolean=="true":
             return "true"
-        if boolean=="false":
+        if reserved_prefix_boolean=="false":
             return "false"
         return ""
 
@@ -151,7 +156,10 @@ class CPPTranspiler(S84_CTCode_Transpiler_StandardStructure_ctcode.TargetSpecifi
         return ""
 
     def GetTypeName(self: 'CPPTranspiler',name: 'str') -> 'str':
-        return self.string_helper.SnakeCaseToCamelCase(name)
+        value: 'str' = self.string_helper.SnakeCaseToCamelCase(name)
+        if self.string_helper.IsReserved(value):
+            return Concat("ReservedPrefix",value)
+        return value
 
     def GetDimensionalType(self: 'CPPTranspiler',singleton_type: 'str',dimensions: 'int') -> 'str':
         result: 'str' = singleton_type
@@ -514,7 +522,7 @@ class CPPTranspiler(S84_CTCode_Transpiler_StandardStructure_ctcode.TargetSpecifi
             parameter: 'S84_CTCode_Transpiler_StandardStructure_ctcode.ParameterDeclaration' = Element(parameters,parameters_index)
             if parameters_index!=0:
                 result = Concat(result,", ")
-            result = Concat(Concat(Concat(result,parameter.GetType())," "),parameter.GetName())
+            result = Concat(Concat(Concat(result,parameter.ReservedPrefixGetType())," "),parameter.GetName())
             parameters_index = parameters_index+1
         result = Concat(result,")")
         return result

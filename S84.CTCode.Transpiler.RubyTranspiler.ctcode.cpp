@@ -52,15 +52,10 @@ int RubyTranspiler::GetBaseIndentation()
     return 1;
 }
 
-bool RubyTranspiler::IsReserved(std::string name)
-{
-    return false||this->string_helper->BeginsWith(std::string("ReservedPrefix"),name)||this->string_helper->BeginsWith(std::string("reserved_prefix_"),name)||name==std::string("end")||name==std::string("Return")||name==std::string("String")||name==std::string("GetType")||name==std::string("string")||name==std::string("boolean")||name==std::string("char")||name==std::string("float")||name==std::string("decimal");
-}
-
 std::string RubyTranspiler::GetCallName(std::string name)
 {
     std::string value = this->string_helper->SnakeCaseToCamelCase(name);
-    if (this->IsReserved(value))
+    if (this->string_helper->IsReserved(value))
     {
         return Concat(std::string("ReservedPrefix"),value);
     }
@@ -74,7 +69,7 @@ std::string RubyTranspiler::GetVariableName(std::string name)
     {
         return std::string("self");
     }
-    if (this->IsReserved(value))
+    if (this->string_helper->IsReserved(value))
     {
         return Concat(std::string("reserved_prefix_"),value);
     }
@@ -147,9 +142,9 @@ std::string RubyTranspiler::ConvertByte(std::string high, std::string low)
     return Concat(Concat(std::string("0x"),high),low);
 }
 
-std::string RubyTranspiler::ConvertDecimal(std::string decimal)
+std::string RubyTranspiler::ConvertDecimal(std::string reserved_prefix_decimal)
 {
-    return decimal;
+    return reserved_prefix_decimal;
 }
 
 std::string RubyTranspiler::ConvertNumber(std::string number)
@@ -157,13 +152,13 @@ std::string RubyTranspiler::ConvertNumber(std::string number)
     return number;
 }
 
-std::string RubyTranspiler::ConvertBoolean(std::string boolean)
+std::string RubyTranspiler::ConvertBoolean(std::string reserved_prefix_boolean)
 {
-    if (boolean==std::string("true"))
+    if (reserved_prefix_boolean==std::string("true"))
     {
         return std::string("true");
     }
-    if (boolean==std::string("false"))
+    if (reserved_prefix_boolean==std::string("false"))
     {
         return std::string("false");
     }
@@ -237,7 +232,7 @@ std::string RubyTranspiler::BinaryOperator(std::string op, std::string r_value_l
 std::string RubyTranspiler::GetTypeName(std::string name)
 {
     std::string value = this->string_helper->SnakeCaseToCamelCase(name);
-    if (this->IsReserved(value))
+    if (this->string_helper->IsReserved(value))
     {
         return Concat(std::string("ReservedPrefix"),value);
     }

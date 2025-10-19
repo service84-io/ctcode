@@ -66,7 +66,12 @@ export class Python3Transpiler {
 
     GetCallName(name)
     {
-        return this.string_helper.SnakeCaseToCamelCase(name)
+        var value = this.string_helper.SnakeCaseToCamelCase(name)
+        if (this.string_helper.IsReserved(value))
+        {
+            return Concat("ReservedPrefix",value)
+        }
+        return value
     }
 
     GetVariableName(name)
@@ -75,6 +80,10 @@ export class Python3Transpiler {
         if (value=="myself")
         {
             return "self"
+        }
+        if (this.string_helper.IsReserved(value))
+        {
+            return Concat("reserved_prefix_",value)
         }
         return value
     }
@@ -131,9 +140,9 @@ export class Python3Transpiler {
         return Concat(Concat("0x",high),low)
     }
 
-    ConvertDecimal(decimal)
+    ConvertDecimal(reserved_prefix_decimal)
     {
-        return decimal
+        return reserved_prefix_decimal
     }
 
     ConvertNumber(number)
@@ -141,13 +150,13 @@ export class Python3Transpiler {
         return number
     }
 
-    ConvertBoolean(boolean)
+    ConvertBoolean(reserved_prefix_boolean)
     {
-        if (boolean=="true")
+        if (reserved_prefix_boolean=="true")
         {
             return "True"
         }
-        if (boolean=="false")
+        if (reserved_prefix_boolean=="false")
         {
             return "False"
         }
@@ -220,7 +229,12 @@ export class Python3Transpiler {
 
     GetTypeName(name)
     {
-        return this.string_helper.SnakeCaseToCamelCase(name)
+        var value = this.string_helper.SnakeCaseToCamelCase(name)
+        if (this.string_helper.IsReserved(value))
+        {
+            return Concat("ReservedPrefix",value)
+        }
+        return value
     }
 
     GetDimensionalType(singleton_type, dimensions)
@@ -534,7 +548,7 @@ export class Python3Transpiler {
         {
             var parameter = Element(parameters,parameters_index)
             result = Concat(result,",")
-            result = Concat(Concat(Concat(Concat(result,parameter.GetName()),": '"),parameter.GetType()),"'")
+            result = Concat(Concat(Concat(Concat(result,parameter.GetName()),": '"),parameter.ReservedPrefixGetType()),"'")
             parameters_index = parameters_index+1
         }
         result = Concat(result,")")

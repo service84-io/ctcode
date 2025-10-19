@@ -1,7 +1,7 @@
 package s84.ctcode.dbnf.ctcode;
 
-public class Return {
-    public Return()
+public class ReservedPrefixReturn {
+    public ReservedPrefixReturn()
     {
         this.length_string = null;
         this.r_value_field = null;
@@ -31,19 +31,19 @@ public class Return {
         return this.r_value_field;
     }
 
-    public void SetRtn(String input_value)
+    public void SetRtn(ReservedPrefixString input_value)
     {
         this.rtn_field = input_value;
     }
 
-    public String GetRtn()
+    public ReservedPrefixString GetRtn()
     {
         return this.rtn_field;
     }
 
     private LengthString length_string;
     private RValue r_value_field;
-    private String rtn_field;
+    private ReservedPrefixString rtn_field;
 
     private static <T> void ClearList(java.util.ArrayList<T> input) { input.clear(); }
     private static <T> int Size(java.util.ArrayList<T> input) { return input.size(); }

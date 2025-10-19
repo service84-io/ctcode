@@ -55,7 +55,12 @@ int Python3Transpiler::GetBaseIndentation()
 
 std::string Python3Transpiler::GetCallName(std::string name)
 {
-    return this->string_helper->SnakeCaseToCamelCase(name);
+    std::string value = this->string_helper->SnakeCaseToCamelCase(name);
+    if (this->string_helper->IsReserved(value))
+    {
+        return Concat(std::string("ReservedPrefix"),value);
+    }
+    return value;
 }
 
 std::string Python3Transpiler::GetVariableName(std::string name)
@@ -64,6 +69,10 @@ std::string Python3Transpiler::GetVariableName(std::string name)
     if (value==std::string("myself"))
     {
         return std::string("self");
+    }
+    if (this->string_helper->IsReserved(value))
+    {
+        return Concat(std::string("reserved_prefix_"),value);
     }
     return value;
 }
@@ -120,9 +129,9 @@ std::string Python3Transpiler::ConvertByte(std::string high, std::string low)
     return Concat(Concat(std::string("0x"),high),low);
 }
 
-std::string Python3Transpiler::ConvertDecimal(std::string decimal)
+std::string Python3Transpiler::ConvertDecimal(std::string reserved_prefix_decimal)
 {
-    return decimal;
+    return reserved_prefix_decimal;
 }
 
 std::string Python3Transpiler::ConvertNumber(std::string number)
@@ -130,13 +139,13 @@ std::string Python3Transpiler::ConvertNumber(std::string number)
     return number;
 }
 
-std::string Python3Transpiler::ConvertBoolean(std::string boolean)
+std::string Python3Transpiler::ConvertBoolean(std::string reserved_prefix_boolean)
 {
-    if (boolean==std::string("true"))
+    if (reserved_prefix_boolean==std::string("true"))
     {
         return std::string("True");
     }
-    if (boolean==std::string("false"))
+    if (reserved_prefix_boolean==std::string("false"))
     {
         return std::string("False");
     }
@@ -209,7 +218,12 @@ std::string Python3Transpiler::BinaryOperator(std::string op, std::string r_valu
 
 std::string Python3Transpiler::GetTypeName(std::string name)
 {
-    return this->string_helper->SnakeCaseToCamelCase(name);
+    std::string value = this->string_helper->SnakeCaseToCamelCase(name);
+    if (this->string_helper->IsReserved(value))
+    {
+        return Concat(std::string("ReservedPrefix"),value);
+    }
+    return value;
 }
 
 std::string Python3Transpiler::GetDimensionalType(std::string singleton_type, int dimensions)
@@ -523,7 +537,7 @@ std::string Python3Transpiler::MakeParametersString(std::string self_type, std::
     {
         OmniPointer<s84::ctcode::transpiler::standardstructure::ctcode::ParameterDeclaration> parameter = Element(parameters,parameters_index);
         result = Concat(result,std::string(","));
-        result = Concat(Concat(Concat(Concat(result,parameter->GetName()),std::string(": '")),parameter->GetType()),std::string("'"));
+        result = Concat(Concat(Concat(Concat(result,parameter->GetName()),std::string(": '")),parameter->ReservedPrefixGetType()),std::string("'"));
         parameters_index = parameters_index+1;
     }
     result = Concat(result,std::string(")"));

@@ -21,7 +21,13 @@ class LogToConsole implements S84.CTCode.Transpiler.StandardStructure.ctcode.Tar
 
     function string GetCallName(string name)
     {
-        return myself.string_helper.SnakeCaseToCamelCase(name);
+        string value = myself.string_helper.SnakeCaseToCamelCase(name);
+
+        if (myself.string_helper.IsReserved(value)) {
+            return Concat("ReservedPrefix", value);
+        }
+
+        return value;
     }
 
     function string GetVariableName(string name)
@@ -30,6 +36,10 @@ class LogToConsole implements S84.CTCode.Transpiler.StandardStructure.ctcode.Tar
 
         if (value == "myself") {
             return "thyself";
+        }
+
+        if (myself.string_helper.IsReserved(value)) {
+            return Concat("reserved_prefix_", value);
         }
 
         return value;
@@ -168,7 +178,13 @@ class LogToConsole implements S84.CTCode.Transpiler.StandardStructure.ctcode.Tar
 
     function string GetTypeName(string name)
     {
-        return myself.string_helper.SnakeCaseToCamelCase(name);
+        string value = myself.string_helper.SnakeCaseToCamelCase(name);
+
+        if (myself.string_helper.IsReserved(value)) {
+            return Concat("ReservedPrefix", value);
+        }
+
+        return value;
     }
 
     function string GetDimensionalType(string singleton_type, int dimensions) {

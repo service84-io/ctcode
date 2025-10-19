@@ -1,7 +1,7 @@
 package s84.ctcode.dbnf.ctcode;
 
-public class String {
-    public String()
+public class ReservedPrefixString {
+    public ReservedPrefixString()
     {
         this.length_string = null;
     }

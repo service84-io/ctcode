@@ -288,12 +288,12 @@ public class DBNFOmniType {
         return this.assignment_field;
     }
 
-    public void SetReturn(Return input_value)
+    public void SetReturn(ReservedPrefixReturn input_value)
     {
         this.return_field = input_value;
     }
 
-    public Return GetReturn()
+    public ReservedPrefixReturn GetReturn()
     {
         return this.return_field;
     }
@@ -611,7 +611,7 @@ public class DBNFOmniType {
     private DeclarationAssign declaration_assign_field;
     private Declaration declaration_field;
     private Assignment assignment_field;
-    private Return return_field;
+    private ReservedPrefixReturn return_field;
     private ElseTail else_tail_field;
     private Conditional conditional_field;
     private Loop loop_field;

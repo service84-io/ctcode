@@ -66,15 +66,10 @@ class CSharpTranspiler implements \S84\CTCode\Transpiler\StandardStructure\ctcod
         return 1;
     }
 
-    public function IsReserved(?string $name): ?bool
-    {
-        return false||$this->string_helper->BeginsWith('ReservedPrefix',$name)||$this->string_helper->BeginsWith('reserved_prefix_',$name)||$name=='GetType'||$name=='boolean'||$name=='float'||$name=='decimal';
-    }
-
     public function GetCallName(?string $name): ?string
     {
         $value = $this->string_helper->SnakeCaseToCamelCase($name);
-        if ($this->IsReserved($value))
+        if ($this->string_helper->IsReserved($value))
         {
             return Concat('ReservedPrefix',$value);
         }
@@ -88,7 +83,7 @@ class CSharpTranspiler implements \S84\CTCode\Transpiler\StandardStructure\ctcod
         {
             return 'this';
         }
-        if ($this->IsReserved($value))
+        if ($this->string_helper->IsReserved($value))
         {
             return Concat('reserved_prefix_',$value);
         }
@@ -248,7 +243,12 @@ class CSharpTranspiler implements \S84\CTCode\Transpiler\StandardStructure\ctcod
 
     public function GetTypeName(?string $name): ?string
     {
-        return $this->string_helper->SnakeCaseToCamelCase($name);
+        $value = $this->string_helper->SnakeCaseToCamelCase($name);
+        if ($this->string_helper->IsReserved($value))
+        {
+            return Concat('ReservedPrefix',$value);
+        }
+        return $value;
     }
 
     public function GetDimensionalType(?string $singleton_type, ?int $dimensions): ?string

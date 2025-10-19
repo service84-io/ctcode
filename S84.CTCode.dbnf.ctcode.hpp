@@ -104,7 +104,7 @@ namespace ctcode {
 class StringParser;
 class StringResult;
 class StringListResult;
-class String;
+class ReservedPrefixString;
 class CharacterParser;
 class CharacterResult;
 class CharacterListResult;
@@ -214,7 +214,7 @@ class Assignment;
 class ReturnParser;
 class ReturnResult;
 class ReturnListResult;
-class Return;
+class ReservedPrefixReturn;
 class ElseTailParser;
 class ElseTailResult;
 class ElseTailListResult;
@@ -346,13 +346,13 @@ public:
     StringResult();
     inline ~StringResult() {}
 
-    void SetValue(OmniPointer<String> new_value);
-    OmniPointer<String> GetValue();
+    void SetValue(OmniPointer<ReservedPrefixString> new_value);
+    OmniPointer<ReservedPrefixString> GetValue();
     void SetResult(bool new_result);
     bool GetResult();
 
 private:
-    OmniPointer<String> value;
+    OmniPointer<ReservedPrefixString> value;
     bool result;
 };
 
@@ -361,20 +361,20 @@ public:
     StringListResult();
     inline ~StringListResult() {}
 
-    void SetValue(std::vector<OmniPointer<String>> new_value);
-    std::vector<OmniPointer<String>> GetValue();
+    void SetValue(std::vector<OmniPointer<ReservedPrefixString>> new_value);
+    std::vector<OmniPointer<ReservedPrefixString>> GetValue();
     void SetResult(bool new_result);
     bool GetResult();
 
 private:
-    std::vector<OmniPointer<String>> value;
+    std::vector<OmniPointer<ReservedPrefixString>> value;
     bool result;
 };
 
-class String {
+class ReservedPrefixString {
 public:
-    String();
-    inline ~String() {}
+    ReservedPrefixString();
+    inline ~ReservedPrefixString() {}
 
     void SetLengthString(OmniPointer<LengthString> new_value);
     std::string UnParse();
@@ -656,8 +656,8 @@ public:
     OmniPointer<Declaration> GetDeclaration();
     void SetAssignment(OmniPointer<Assignment> input_value);
     OmniPointer<Assignment> GetAssignment();
-    void SetReturn(OmniPointer<Return> input_value);
-    OmniPointer<Return> GetReturn();
+    void SetReturn(OmniPointer<ReservedPrefixReturn> input_value);
+    OmniPointer<ReservedPrefixReturn> GetReturn();
     void SetElseTail(OmniPointer<ElseTail> input_value);
     OmniPointer<ElseTail> GetElseTail();
     void SetConditional(OmniPointer<Conditional> input_value);
@@ -741,7 +741,7 @@ private:
     OmniPointer<DeclarationAssign> declaration_assign_field;
     OmniPointer<Declaration> declaration_field;
     OmniPointer<Assignment> assignment_field;
-    OmniPointer<Return> return_field;
+    OmniPointer<ReservedPrefixReturn> return_field;
     OmniPointer<ElseTail> else_tail_field;
     OmniPointer<Conditional> conditional_field;
     OmniPointer<Loop> loop_field;
@@ -805,7 +805,7 @@ public:
     void SetDeclarationAssign(OmniPointer<DeclarationAssign> input_value);
     void SetDeclaration(OmniPointer<Declaration> input_value);
     void SetAssignment(OmniPointer<Assignment> input_value);
-    void SetReturn(OmniPointer<Return> input_value);
+    void SetReturn(OmniPointer<ReservedPrefixReturn> input_value);
     void SetElseTail(OmniPointer<ElseTail> input_value);
     void SetConditional(OmniPointer<Conditional> input_value);
     void SetLoop(OmniPointer<Loop> input_value);
@@ -873,7 +873,7 @@ public:
     void SetDeclarationAssign(std::vector<OmniPointer<DeclarationAssign>> input_value);
     void SetDeclaration(std::vector<OmniPointer<Declaration>> input_value);
     void SetAssignment(std::vector<OmniPointer<Assignment>> input_value);
-    void SetReturn(std::vector<OmniPointer<Return>> input_value);
+    void SetReturn(std::vector<OmniPointer<ReservedPrefixReturn>> input_value);
     void SetElseTail(std::vector<OmniPointer<ElseTail>> input_value);
     void SetConditional(std::vector<OmniPointer<Conditional>> input_value);
     void SetLoop(std::vector<OmniPointer<Loop>> input_value);
@@ -1461,7 +1461,7 @@ public:
     void SetParameters(OmniPointer<ParameterListDef> input_value);
     OmniPointer<ParameterListDef> GetParameters();
     void SetType(OmniPointer<ValueType> input_value);
-    OmniPointer<ValueType> GetType();
+    OmniPointer<ValueType> ReservedPrefixGetType();
 
 private:
     OmniPointer<LengthString> length_string;
@@ -1534,7 +1534,7 @@ public:
     void SetParameters(OmniPointer<ParameterListDef> input_value);
     OmniPointer<ParameterListDef> GetParameters();
     void SetType(OmniPointer<ValueType> input_value);
-    OmniPointer<ValueType> GetType();
+    OmniPointer<ValueType> ReservedPrefixGetType();
 
 private:
     OmniPointer<LengthString> length_string;
@@ -2106,7 +2106,7 @@ public:
     void SetParameterTail(OmniPointer<ParameterListDef> input_value);
     OmniPointer<ParameterListDef> GetParameterTail();
     void SetType(OmniPointer<ValueType> input_value);
-    OmniPointer<ValueType> GetType();
+    OmniPointer<ValueType> ReservedPrefixGetType();
 
 private:
     OmniPointer<LengthString> length_string;
@@ -2363,7 +2363,7 @@ public:
     void SetName(OmniPointer<Name> input_value);
     OmniPointer<Name> GetName();
     void SetType(OmniPointer<ValueType> input_value);
-    OmniPointer<ValueType> GetType();
+    OmniPointer<ValueType> ReservedPrefixGetType();
 
 private:
     OmniPointer<LengthString> length_string;
@@ -2459,13 +2459,13 @@ public:
     ReturnResult();
     inline ~ReturnResult() {}
 
-    void SetValue(OmniPointer<Return> new_value);
-    OmniPointer<Return> GetValue();
+    void SetValue(OmniPointer<ReservedPrefixReturn> new_value);
+    OmniPointer<ReservedPrefixReturn> GetValue();
     void SetResult(bool new_result);
     bool GetResult();
 
 private:
-    OmniPointer<Return> value;
+    OmniPointer<ReservedPrefixReturn> value;
     bool result;
 };
 
@@ -2474,32 +2474,32 @@ public:
     ReturnListResult();
     inline ~ReturnListResult() {}
 
-    void SetValue(std::vector<OmniPointer<Return>> new_value);
-    std::vector<OmniPointer<Return>> GetValue();
+    void SetValue(std::vector<OmniPointer<ReservedPrefixReturn>> new_value);
+    std::vector<OmniPointer<ReservedPrefixReturn>> GetValue();
     void SetResult(bool new_result);
     bool GetResult();
 
 private:
-    std::vector<OmniPointer<Return>> value;
+    std::vector<OmniPointer<ReservedPrefixReturn>> value;
     bool result;
 };
 
-class Return {
+class ReservedPrefixReturn {
 public:
-    Return();
-    inline ~Return() {}
+    ReservedPrefixReturn();
+    inline ~ReservedPrefixReturn() {}
 
     void SetLengthString(OmniPointer<LengthString> new_value);
     std::string UnParse();
     void SetRValue(OmniPointer<RValue> input_value);
     OmniPointer<RValue> GetRValue();
-    void SetRtn(OmniPointer<String> input_value);
-    OmniPointer<String> GetRtn();
+    void SetRtn(OmniPointer<ReservedPrefixString> input_value);
+    OmniPointer<ReservedPrefixString> GetRtn();
 
 private:
     OmniPointer<LengthString> length_string;
     OmniPointer<RValue> r_value_field;
-    OmniPointer<String> rtn_field;
+    OmniPointer<ReservedPrefixString> rtn_field;
 };
 
 class ElseTailParser {
@@ -2558,13 +2558,13 @@ public:
     std::string UnParse();
     void SetCodeBlock(OmniPointer<CodeBlock> input_value);
     OmniPointer<CodeBlock> GetCodeBlock();
-    void SetElseKey(OmniPointer<String> input_value);
-    OmniPointer<String> GetElseKey();
+    void SetElseKey(OmniPointer<ReservedPrefixString> input_value);
+    OmniPointer<ReservedPrefixString> GetElseKey();
 
 private:
     OmniPointer<LengthString> length_string;
     OmniPointer<CodeBlock> code_block_field;
-    OmniPointer<String> else_key_field;
+    OmniPointer<ReservedPrefixString> else_key_field;
 };
 
 class ConditionalParser {
@@ -2623,8 +2623,8 @@ public:
     std::string UnParse();
     void SetCodeBlock(OmniPointer<CodeBlock> input_value);
     OmniPointer<CodeBlock> GetCodeBlock();
-    void SetConditionalKey(OmniPointer<String> input_value);
-    OmniPointer<String> GetConditionalKey();
+    void SetConditionalKey(OmniPointer<ReservedPrefixString> input_value);
+    OmniPointer<ReservedPrefixString> GetConditionalKey();
     void SetElseTail(OmniPointer<ElseTail> input_value);
     OmniPointer<ElseTail> GetElseTail();
     void SetRValue(OmniPointer<RValue> input_value);
@@ -2633,7 +2633,7 @@ public:
 private:
     OmniPointer<LengthString> length_string;
     OmniPointer<CodeBlock> code_block_field;
-    OmniPointer<String> conditional_key_field;
+    OmniPointer<ReservedPrefixString> conditional_key_field;
     OmniPointer<ElseTail> else_tail_field;
     OmniPointer<RValue> r_value_field;
 };
@@ -2694,15 +2694,15 @@ public:
     std::string UnParse();
     void SetCodeBlock(OmniPointer<CodeBlock> input_value);
     OmniPointer<CodeBlock> GetCodeBlock();
-    void SetLoopKey(OmniPointer<String> input_value);
-    OmniPointer<String> GetLoopKey();
+    void SetLoopKey(OmniPointer<ReservedPrefixString> input_value);
+    OmniPointer<ReservedPrefixString> GetLoopKey();
     void SetRValue(OmniPointer<RValue> input_value);
     OmniPointer<RValue> GetRValue();
 
 private:
     OmniPointer<LengthString> length_string;
     OmniPointer<CodeBlock> code_block_field;
-    OmniPointer<String> loop_key_field;
+    OmniPointer<ReservedPrefixString> loop_key_field;
     OmniPointer<RValue> r_value_field;
 };
 
@@ -2907,8 +2907,8 @@ public:
     OmniPointer<Declaration> GetDeclaration();
     void SetLoop(OmniPointer<Loop> input_value);
     OmniPointer<Loop> GetLoop();
-    void SetRtn(OmniPointer<Return> input_value);
-    OmniPointer<Return> GetRtn();
+    void SetRtn(OmniPointer<ReservedPrefixReturn> input_value);
+    OmniPointer<ReservedPrefixReturn> GetRtn();
 
 private:
     OmniPointer<LengthString> length_string;
@@ -2919,7 +2919,7 @@ private:
     OmniPointer<Conditional> conditional_field;
     OmniPointer<Declaration> declaration_field;
     OmniPointer<Loop> loop_field;
-    OmniPointer<Return> rtn_field;
+    OmniPointer<ReservedPrefixReturn> rtn_field;
 };
 
 class RValueSingleParser {
@@ -3195,39 +3195,39 @@ public:
 
     void SetLengthString(OmniPointer<LengthString> new_value);
     std::string UnParse();
-    void SetAddition(OmniPointer<String> input_value);
-    OmniPointer<String> GetAddition();
-    void SetAndOp(OmniPointer<String> input_value);
-    OmniPointer<String> GetAndOp();
-    void SetEquality(OmniPointer<String> input_value);
-    OmniPointer<String> GetEquality();
-    void SetGreaterThanEq(OmniPointer<String> input_value);
-    OmniPointer<String> GetGreaterThanEq();
-    void SetGreaterThan(OmniPointer<String> input_value);
-    OmniPointer<String> GetGreaterThan();
-    void SetLessThanEq(OmniPointer<String> input_value);
-    OmniPointer<String> GetLessThanEq();
-    void SetLessThan(OmniPointer<String> input_value);
-    OmniPointer<String> GetLessThan();
-    void SetNotEquality(OmniPointer<String> input_value);
-    OmniPointer<String> GetNotEquality();
-    void SetOrOp(OmniPointer<String> input_value);
-    OmniPointer<String> GetOrOp();
-    void SetSubtraction(OmniPointer<String> input_value);
-    OmniPointer<String> GetSubtraction();
+    void SetAddition(OmniPointer<ReservedPrefixString> input_value);
+    OmniPointer<ReservedPrefixString> GetAddition();
+    void SetAndOp(OmniPointer<ReservedPrefixString> input_value);
+    OmniPointer<ReservedPrefixString> GetAndOp();
+    void SetEquality(OmniPointer<ReservedPrefixString> input_value);
+    OmniPointer<ReservedPrefixString> GetEquality();
+    void SetGreaterThanEq(OmniPointer<ReservedPrefixString> input_value);
+    OmniPointer<ReservedPrefixString> GetGreaterThanEq();
+    void SetGreaterThan(OmniPointer<ReservedPrefixString> input_value);
+    OmniPointer<ReservedPrefixString> GetGreaterThan();
+    void SetLessThanEq(OmniPointer<ReservedPrefixString> input_value);
+    OmniPointer<ReservedPrefixString> GetLessThanEq();
+    void SetLessThan(OmniPointer<ReservedPrefixString> input_value);
+    OmniPointer<ReservedPrefixString> GetLessThan();
+    void SetNotEquality(OmniPointer<ReservedPrefixString> input_value);
+    OmniPointer<ReservedPrefixString> GetNotEquality();
+    void SetOrOp(OmniPointer<ReservedPrefixString> input_value);
+    OmniPointer<ReservedPrefixString> GetOrOp();
+    void SetSubtraction(OmniPointer<ReservedPrefixString> input_value);
+    OmniPointer<ReservedPrefixString> GetSubtraction();
 
 private:
     OmniPointer<LengthString> length_string;
-    OmniPointer<String> addition_field;
-    OmniPointer<String> and_op_field;
-    OmniPointer<String> equality_field;
-    OmniPointer<String> greater_than_eq_field;
-    OmniPointer<String> greater_than_field;
-    OmniPointer<String> less_than_eq_field;
-    OmniPointer<String> less_than_field;
-    OmniPointer<String> not_equality_field;
-    OmniPointer<String> or_op_field;
-    OmniPointer<String> subtraction_field;
+    OmniPointer<ReservedPrefixString> addition_field;
+    OmniPointer<ReservedPrefixString> and_op_field;
+    OmniPointer<ReservedPrefixString> equality_field;
+    OmniPointer<ReservedPrefixString> greater_than_eq_field;
+    OmniPointer<ReservedPrefixString> greater_than_field;
+    OmniPointer<ReservedPrefixString> less_than_eq_field;
+    OmniPointer<ReservedPrefixString> less_than_field;
+    OmniPointer<ReservedPrefixString> not_equality_field;
+    OmniPointer<ReservedPrefixString> or_op_field;
+    OmniPointer<ReservedPrefixString> subtraction_field;
 };
 
 class UnaryOperatorParser {
@@ -3284,12 +3284,12 @@ public:
 
     void SetLengthString(OmniPointer<LengthString> new_value);
     std::string UnParse();
-    void SetNegation(OmniPointer<String> input_value);
-    OmniPointer<String> GetNegation();
+    void SetNegation(OmniPointer<ReservedPrefixString> input_value);
+    OmniPointer<ReservedPrefixString> GetNegation();
 
 private:
     OmniPointer<LengthString> length_string;
-    OmniPointer<String> negation_field;
+    OmniPointer<ReservedPrefixString> negation_field;
 };
 
 class CommentParser {

@@ -68,7 +68,12 @@ class NodeJSTranspiler implements \S84\CTCode\Transpiler\StandardStructure\ctcod
 
     public function GetCallName(?string $name): ?string
     {
-        return $this->string_helper->SnakeCaseToCamelCase($name);
+        $value = $this->string_helper->SnakeCaseToCamelCase($name);
+        if ($this->string_helper->IsReserved($value))
+        {
+            return Concat('ReservedPrefix',$value);
+        }
+        return $value;
     }
 
     public function GetVariableName(?string $name): ?string
@@ -77,6 +82,10 @@ class NodeJSTranspiler implements \S84\CTCode\Transpiler\StandardStructure\ctcod
         if ($value=='myself')
         {
             return 'this';
+        }
+        if ($this->string_helper->IsReserved($value))
+        {
+            return Concat('reserved_prefix_',$value);
         }
         return $value;
     }
@@ -222,7 +231,12 @@ class NodeJSTranspiler implements \S84\CTCode\Transpiler\StandardStructure\ctcod
 
     public function GetTypeName(?string $name): ?string
     {
-        return $this->string_helper->SnakeCaseToCamelCase($name);
+        $value = $this->string_helper->SnakeCaseToCamelCase($name);
+        if ($this->string_helper->IsReserved($value))
+        {
+            return Concat('ReservedPrefix',$value);
+        }
+        return $value;
     }
 
     public function GetDimensionalType(?string $singleton_type, ?int $dimensions): ?string

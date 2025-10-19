@@ -66,15 +66,10 @@ class PHPTranspiler implements \S84\CTCode\Transpiler\StandardStructure\ctcode\T
         return 1;
     }
 
-    public function IsReserved(?string $name): ?bool
-    {
-        return false||$this->string_helper->BeginsWith('ReservedPrefix',$name)||$this->string_helper->BeginsWith('reserved_prefix_',$name)||$name=='Return'||$name=='String'||$name=='GetType'||$name=='string'||$name=='boolean'||$name=='char'||$name=='float'||$name=='decimal';
-    }
-
     public function GetCallName(?string $name): ?string
     {
         $value = $this->string_helper->SnakeCaseToCamelCase($name);
-        if ($this->IsReserved($value))
+        if ($this->string_helper->IsReserved($value))
         {
             return Concat('ReservedPrefix',$value);
         }
@@ -88,7 +83,7 @@ class PHPTranspiler implements \S84\CTCode\Transpiler\StandardStructure\ctcode\T
         {
             return 'this';
         }
-        if ($this->IsReserved($value))
+        if ($this->string_helper->IsReserved($value))
         {
             return Concat('reserved_prefix_',$value);
         }
@@ -271,7 +266,7 @@ class PHPTranspiler implements \S84\CTCode\Transpiler\StandardStructure\ctcode\T
     public function GetTypeName(?string $name): ?string
     {
         $value = $this->string_helper->SnakeCaseToCamelCase($name);
-        if ($this->IsReserved($value))
+        if ($this->string_helper->IsReserved($value))
         {
             return Concat('ReservedPrefix',$value);
         }

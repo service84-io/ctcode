@@ -63,13 +63,9 @@ class PHPTranspiler < ::S84::CTCODE::TRANSPILER::STANDARDSTRUCTURE::CTCODE::Targ
         return 1
     end
 
-    def IsReserved(name)
-        return false || @string_helper.BeginsWith("ReservedPrefix",name) || @string_helper.BeginsWith("reserved_prefix_",name) || name=="Return" || name=="String" || name=="GetType" || name=="string" || name=="boolean" || name=="char" || name=="float" || name=="decimal"
-    end
-
     def GetCallName(name)
         value = @string_helper.SnakeCaseToCamelCase(name)
-        if (self.IsReserved(value))
+        if (@string_helper.IsReserved(value))
             return Concat("ReservedPrefix",value)
         end
         return value
@@ -80,7 +76,7 @@ class PHPTranspiler < ::S84::CTCODE::TRANSPILER::STANDARDSTRUCTURE::CTCODE::Targ
         if (value=="myself")
             return "this"
         end
-        if (self.IsReserved(value))
+        if (@string_helper.IsReserved(value))
             return Concat("reserved_prefix_",value)
         end
         return value
@@ -225,7 +221,7 @@ class PHPTranspiler < ::S84::CTCODE::TRANSPILER::STANDARDSTRUCTURE::CTCODE::Targ
 
     def GetTypeName(name)
         value = @string_helper.SnakeCaseToCamelCase(name)
-        if (self.IsReserved(value))
+        if (@string_helper.IsReserved(value))
             return Concat("ReservedPrefix",value)
         end
         return value

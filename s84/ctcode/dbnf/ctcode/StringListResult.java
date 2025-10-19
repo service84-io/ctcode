@@ -7,12 +7,12 @@ public class StringListResult {
         this.result = false;
     }
 
-    public void SetValue(java.util.ArrayList<String> new_value)
+    public void SetValue(java.util.ArrayList<ReservedPrefixString> new_value)
     {
         this.value = new_value;
     }
 
-    public java.util.ArrayList<String> GetValue()
+    public java.util.ArrayList<ReservedPrefixString> GetValue()
     {
         return this.value;
     }
@@ -27,7 +27,7 @@ public class StringListResult {
         return this.result;
     }
 
-    private java.util.ArrayList<String> value;
+    private java.util.ArrayList<ReservedPrefixString> value;
     private boolean result;
 
     private static <T> void ClearList(java.util.ArrayList<T> input) { input.clear(); }

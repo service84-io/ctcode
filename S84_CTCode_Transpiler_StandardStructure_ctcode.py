@@ -33,9 +33,9 @@ class TargetSpecificFunctions:
     def ConvertCall(self: 'TargetSpecificFunctions',name_chain: 'list[str]',parameters: 'list[str]') -> 'str': pass
     def ConvertAllocate(self: 'TargetSpecificFunctions',type: 'str') -> 'str': pass
     def ConvertByte(self: 'TargetSpecificFunctions',high: 'str',low: 'str') -> 'str': pass
-    def ConvertDecimal(self: 'TargetSpecificFunctions',decimal: 'str') -> 'str': pass
+    def ConvertDecimal(self: 'TargetSpecificFunctions',reserved_prefix_decimal: 'str') -> 'str': pass
     def ConvertNumber(self: 'TargetSpecificFunctions',number: 'str') -> 'str': pass
-    def ConvertBoolean(self: 'TargetSpecificFunctions',boolean: 'str') -> 'str': pass
+    def ConvertBoolean(self: 'TargetSpecificFunctions',reserved_prefix_boolean: 'str') -> 'str': pass
     def ConvertVariable(self: 'TargetSpecificFunctions',variable: 'str') -> 'str': pass
     def ConvertString(self: 'TargetSpecificFunctions',literal: 'str') -> 'str': pass
     def UnaryOperator(self: 'TargetSpecificFunctions',op: 'str',r_value: 'str') -> 'str': pass
@@ -75,7 +75,7 @@ class ParameterDeclaration:
         self.type: str = ""
         self.name: str = ""
 
-    def GetType(self: 'ParameterDeclaration') -> 'str':
+    def ReservedPrefixGetType(self: 'ParameterDeclaration') -> 'str':
         return self.type
 
     def SetType(self: 'ParameterDeclaration',input: 'str') -> 'None':
@@ -163,7 +163,7 @@ class StandardStructure(S84_CTCode_Transpiler_ctcode.Transpiler):
         result: 'list[ParameterDeclaration]' = []
         while parameter_list_def:
             parameter: 'ParameterDeclaration' = ParameterDeclaration()
-            parameter.SetType(self.GetType(parameter_list_def.GetType()))
+            parameter.SetType(self.ReservedPrefixGetType(parameter_list_def.ReservedPrefixGetType()))
             parameter.SetName(self.target_specific_functions.GetVariableName(self.NameToString(parameter_list_def.GetName())))
             Append(result,parameter)
             parameter_list_def = parameter_list_def.GetParameterTail()
@@ -176,7 +176,7 @@ class StandardStructure(S84_CTCode_Transpiler_ctcode.Transpiler):
         declarations_index: 'int' = 0
         while declarations_index<Size(declarations):
             declaration: 'S84_CTCode_dbnf_ctcode.ContentDeclaration' = Element(declarations,declarations_index)
-            return_type: 'str' = self.GetType(declaration.GetType())
+            return_type: 'str' = self.ReservedPrefixGetType(declaration.ReservedPrefixGetType())
             function_name: 'str' = self.target_specific_functions.GetCallName(self.NameToString(declaration.GetName()))
             parameters: 'list[ParameterDeclaration]' = self.GetParameters(declaration.GetParameters())
             self.target_specific_functions.ProcessInterfaceFunctionDeclaration(return_type,function_name,parameters)
@@ -195,14 +195,14 @@ class StandardStructure(S84_CTCode_Transpiler_ctcode.Transpiler):
         while definitions_index<Size(definitions):
             definition: 'S84_CTCode_dbnf_ctcode.ContentDefinition' = Element(definitions,definitions_index)
             if definition.GetFunctionBody():
-                return_type: 'str' = self.GetType(definition.GetType())
+                return_type: 'str' = self.ReservedPrefixGetType(definition.ReservedPrefixGetType())
                 function_name: 'str' = self.target_specific_functions.GetCallName(self.NameToString(definition.GetName()))
                 parameters: 'list[ParameterDeclaration]' = self.GetParameters(definition.GetParameters())
                 self.target_specific_functions.BeginProcessingClassFunctionDefinition(return_type,function_name,parameters)
                 self.ProcessCodeBlockInternal(self.target_specific_functions.GetBaseIndentation(),definition.GetFunctionBody())
                 self.target_specific_functions.FinishProcessingClassFunctionDefinition(return_type,function_name,parameters)
             else:
-                member_type: 'str' = self.GetType(definition.GetType())
+                member_type: 'str' = self.ReservedPrefixGetType(definition.ReservedPrefixGetType())
                 member_name: 'str' = self.target_specific_functions.GetVariableName(self.NameToString(definition.GetName()))
                 self.target_specific_functions.ProcessClassMemberDeclaration(member_type,member_name)
             definitions_index = definitions_index+1
@@ -249,12 +249,12 @@ class StandardStructure(S84_CTCode_Transpiler_ctcode.Transpiler):
         self.ProcessCodeBlockInternal(indent,loop.GetCodeBlock())
         self.target_specific_functions.FinishProcessLoop(indent,r_value)
 
-    def ProcessRtnInternal(self: 'StandardStructure',indent: 'int',rtn: 'S84_CTCode_dbnf_ctcode.Return') -> 'None':
+    def ProcessRtnInternal(self: 'StandardStructure',indent: 'int',rtn: 'S84_CTCode_dbnf_ctcode.ReservedPrefixReturn') -> 'None':
         r_value: 'str' = self.GetRValueInternal(rtn.GetRValue())
         self.target_specific_functions.ProcessRtn(indent,r_value)
 
     def ProcessDeclarationInternal(self: 'StandardStructure',indent: 'int',declaration: 'S84_CTCode_dbnf_ctcode.Declaration') -> 'None':
-        type: 'str' = self.GetType(declaration.GetType())
+        type: 'str' = self.ReservedPrefixGetType(declaration.ReservedPrefixGetType())
         l_value: 'str' = self.target_specific_functions.GetVariableName(self.NameToString(declaration.GetName()))
         r_value: 'str' = ""
         declaration_assignment: 'S84_CTCode_dbnf_ctcode.DeclarationAssign' = declaration.GetAssignment()
@@ -418,7 +418,7 @@ class StandardStructure(S84_CTCode_Transpiler_ctcode.Transpiler):
             tail = tail.GetTail()
         return self.target_specific_functions.GetVariableChain(name_parts)
 
-    def GetType(self: 'StandardStructure',type: 'S84_CTCode_dbnf_ctcode.ValueType') -> 'str':
+    def ReservedPrefixGetType(self: 'StandardStructure',type: 'S84_CTCode_dbnf_ctcode.ValueType') -> 'str':
         if type.GetDimensionalType():
             dimensional_type: 'S84_CTCode_dbnf_ctcode.DimensionalType' = type.GetDimensionalType()
             singleton_type: 'S84_CTCode_dbnf_ctcode.SingletonType' = dimensional_type.GetSingletonType()

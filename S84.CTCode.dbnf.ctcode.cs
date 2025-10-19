@@ -15,7 +15,7 @@ public class StringParser
         consumed_string?.SetData(index?.GetData());
         consumed_string?.SetStart(index?.GetStart());
         consumed_string?.SetLength(0);
-        String? instance = new String();
+        ReservedPrefixString? instance = new ReservedPrefixString();
         int? value_length = Length(value);
         if (AsBoolean(value_length>index?.GetLength()))
         {
@@ -65,7 +65,7 @@ public class StringParser
 }
 public class StringResult
 {
-    private String? value;
+    private ReservedPrefixString? value;
     private bool? result;
 
     public StringResult()
@@ -74,12 +74,12 @@ public class StringResult
         this.result = false;
     }
 
-    public void SetValue(String? new_value)
+    public void SetValue(ReservedPrefixString? new_value)
     {
         this.value = new_value;
     }
 
-    public String? GetValue()
+    public ReservedPrefixString? GetValue()
     {
         return this?.value;
     }
@@ -112,21 +112,21 @@ public class StringResult
 }
 public class StringListResult
 {
-    private List<String?>? value;
+    private List<ReservedPrefixString?>? value;
     private bool? result;
 
     public StringListResult()
     {
-        this.value = new List<String?>();
+        this.value = new List<ReservedPrefixString?>();
         this.result = false;
     }
 
-    public void SetValue(List<String?>? new_value)
+    public void SetValue(List<ReservedPrefixString?>? new_value)
     {
         this.value = new_value;
     }
 
-    public List<String?>? GetValue()
+    public List<ReservedPrefixString?>? GetValue()
     {
         return this?.value;
     }
@@ -157,11 +157,11 @@ public class StringListResult
     private static bool AsBoolean(bool value) { return value; }
     private static bool AsBoolean<T>(T? value) { return value != null && !value.Equals(false); }
 }
-public class String
+public class ReservedPrefixString
 {
     private LengthString? length_string;
 
-    public String()
+    public ReservedPrefixString()
     {
         this.length_string = null;
     }
@@ -1090,7 +1090,7 @@ public class DBNFOmniType
     private DeclarationAssign? declaration_assign_field;
     private Declaration? declaration_field;
     private Assignment? assignment_field;
-    private Return? return_field;
+    private ReservedPrefixReturn? return_field;
     private ElseTail? else_tail_field;
     private Conditional? conditional_field;
     private Loop? loop_field;
@@ -1408,12 +1408,12 @@ public class DBNFOmniType
         return this?.assignment_field;
     }
 
-    public void SetReturn(Return? input_value)
+    public void SetReturn(ReservedPrefixReturn? input_value)
     {
         this.return_field = input_value;
     }
 
-    public Return? GetReturn()
+    public ReservedPrefixReturn? GetReturn()
     {
         return this?.return_field;
     }
@@ -1893,7 +1893,7 @@ public class DBNFOmniTypeResult
         this?.value?.SetAssignment(input_value);
     }
 
-    public void SetReturn(Return? input_value)
+    public void SetReturn(ReservedPrefixReturn? input_value)
     {
         this.value = new DBNFOmniType();
         this?.value?.SetReturn(input_value);
@@ -2373,7 +2373,7 @@ public class DBNFOmniTypeListResult
         }
     }
 
-    public void SetReturn(List<Return?>? input_value)
+    public void SetReturn(List<ReservedPrefixReturn?>? input_value)
     {
         int? index = 0;
         while (AsBoolean(index<Size(input_value)))
@@ -2812,8 +2812,8 @@ public class LengthString
         string? deep_data = this?.data?.GetData();
         string? result = "";
         int? index = this?.start;
-        int? end = this?.start+this?.length;
-        while (AsBoolean(index<end))
+        int? reserved_prefix_end = this?.start+this?.length;
+        while (AsBoolean(index<reserved_prefix_end))
         {
             result = Concat(result,At(deep_data,index));
             index = index+1;
@@ -10862,7 +10862,7 @@ public class ReturnParser
         consumed_string?.SetData(index?.GetData());
         consumed_string?.SetStart(index?.GetStart());
         consumed_string?.SetLength(0);
-        Return? instance = new Return();
+        ReservedPrefixReturn? instance = new ReservedPrefixReturn();
         RValueResult? r_value_field = new RValueResult();
         StringResult? rtn_field = new StringResult();
         CTCodeFileParser? c_t_code_file_parser_instance = this?.parser_network?.GetCTCodeFileParser();
@@ -10965,7 +10965,7 @@ public class ReturnParser
     {
         int? index_start = index?.GetStart();
         int? index_length = index?.GetLength();
-        List<Return?>? results = new List<Return?>();
+        List<ReservedPrefixReturn?>? results = new List<ReservedPrefixReturn?>();
         int? count = 0;
         int? max_check = maximum;
         bool? check_next = true;
@@ -11026,7 +11026,7 @@ public class ReturnParser
 }
 public class ReturnResult
 {
-    private Return? value;
+    private ReservedPrefixReturn? value;
     private bool? result;
 
     public ReturnResult()
@@ -11035,12 +11035,12 @@ public class ReturnResult
         this.result = false;
     }
 
-    public void SetValue(Return? new_value)
+    public void SetValue(ReservedPrefixReturn? new_value)
     {
         this.value = new_value;
     }
 
-    public Return? GetValue()
+    public ReservedPrefixReturn? GetValue()
     {
         return this?.value;
     }
@@ -11073,21 +11073,21 @@ public class ReturnResult
 }
 public class ReturnListResult
 {
-    private List<Return?>? value;
+    private List<ReservedPrefixReturn?>? value;
     private bool? result;
 
     public ReturnListResult()
     {
-        this.value = new List<Return?>();
+        this.value = new List<ReservedPrefixReturn?>();
         this.result = false;
     }
 
-    public void SetValue(List<Return?>? new_value)
+    public void SetValue(List<ReservedPrefixReturn?>? new_value)
     {
         this.value = new_value;
     }
 
-    public List<Return?>? GetValue()
+    public List<ReservedPrefixReturn?>? GetValue()
     {
         return this?.value;
     }
@@ -11118,13 +11118,13 @@ public class ReturnListResult
     private static bool AsBoolean(bool value) { return value; }
     private static bool AsBoolean<T>(T? value) { return value != null && !value.Equals(false); }
 }
-public class Return
+public class ReservedPrefixReturn
 {
     private LengthString? length_string;
     private RValue? r_value_field;
-    private String? rtn_field;
+    private ReservedPrefixString? rtn_field;
 
-    public Return()
+    public ReservedPrefixReturn()
     {
         this.length_string = null;
         this.r_value_field = null;
@@ -11154,12 +11154,12 @@ public class Return
         return this?.r_value_field;
     }
 
-    public void SetRtn(String? input_value)
+    public void SetRtn(ReservedPrefixString? input_value)
     {
         this.rtn_field = input_value;
     }
 
-    public String? GetRtn()
+    public ReservedPrefixString? GetRtn()
     {
         return this?.rtn_field;
     }
@@ -11462,7 +11462,7 @@ public class ElseTail
 {
     private LengthString? length_string;
     private CodeBlock? code_block_field;
-    private String? else_key_field;
+    private ReservedPrefixString? else_key_field;
 
     public ElseTail()
     {
@@ -11494,12 +11494,12 @@ public class ElseTail
         return this?.code_block_field;
     }
 
-    public void SetElseKey(String? input_value)
+    public void SetElseKey(ReservedPrefixString? input_value)
     {
         this.else_key_field = input_value;
     }
 
-    public String? GetElseKey()
+    public ReservedPrefixString? GetElseKey()
     {
         return this?.else_key_field;
     }
@@ -11808,7 +11808,7 @@ public class Conditional
 {
     private LengthString? length_string;
     private CodeBlock? code_block_field;
-    private String? conditional_key_field;
+    private ReservedPrefixString? conditional_key_field;
     private ElseTail? else_tail_field;
     private RValue? r_value_field;
 
@@ -11844,12 +11844,12 @@ public class Conditional
         return this?.code_block_field;
     }
 
-    public void SetConditionalKey(String? input_value)
+    public void SetConditionalKey(ReservedPrefixString? input_value)
     {
         this.conditional_key_field = input_value;
     }
 
-    public String? GetConditionalKey()
+    public ReservedPrefixString? GetConditionalKey()
     {
         return this?.conditional_key_field;
     }
@@ -12175,7 +12175,7 @@ public class Loop
 {
     private LengthString? length_string;
     private CodeBlock? code_block_field;
-    private String? loop_key_field;
+    private ReservedPrefixString? loop_key_field;
     private RValue? r_value_field;
 
     public Loop()
@@ -12209,12 +12209,12 @@ public class Loop
         return this?.code_block_field;
     }
 
-    public void SetLoopKey(String? input_value)
+    public void SetLoopKey(ReservedPrefixString? input_value)
     {
         this.loop_key_field = input_value;
     }
 
-    public String? GetLoopKey()
+    public ReservedPrefixString? GetLoopKey()
     {
         return this?.loop_key_field;
     }
@@ -13462,7 +13462,7 @@ public class Instruction
     private Conditional? conditional_field;
     private Declaration? declaration_field;
     private Loop? loop_field;
-    private Return? rtn_field;
+    private ReservedPrefixReturn? rtn_field;
 
     public Instruction()
     {
@@ -13560,12 +13560,12 @@ public class Instruction
         return this?.loop_field;
     }
 
-    public void SetRtn(Return? input_value)
+    public void SetRtn(ReservedPrefixReturn? input_value)
     {
         this.rtn_field = input_value;
     }
 
-    public Return? GetRtn()
+    public ReservedPrefixReturn? GetRtn()
     {
         return this?.rtn_field;
     }
@@ -15545,16 +15545,16 @@ public class BinaryOperatorListResult
 public class BinaryOperator
 {
     private LengthString? length_string;
-    private String? addition_field;
-    private String? and_op_field;
-    private String? equality_field;
-    private String? greater_than_eq_field;
-    private String? greater_than_field;
-    private String? less_than_eq_field;
-    private String? less_than_field;
-    private String? not_equality_field;
-    private String? or_op_field;
-    private String? subtraction_field;
+    private ReservedPrefixString? addition_field;
+    private ReservedPrefixString? and_op_field;
+    private ReservedPrefixString? equality_field;
+    private ReservedPrefixString? greater_than_eq_field;
+    private ReservedPrefixString? greater_than_field;
+    private ReservedPrefixString? less_than_eq_field;
+    private ReservedPrefixString? less_than_field;
+    private ReservedPrefixString? not_equality_field;
+    private ReservedPrefixString? or_op_field;
+    private ReservedPrefixString? subtraction_field;
 
     public BinaryOperator()
     {
@@ -15584,102 +15584,102 @@ public class BinaryOperator
         return this?.length_string?.GetString();
     }
 
-    public void SetAddition(String? input_value)
+    public void SetAddition(ReservedPrefixString? input_value)
     {
         this.addition_field = input_value;
     }
 
-    public String? GetAddition()
+    public ReservedPrefixString? GetAddition()
     {
         return this?.addition_field;
     }
 
-    public void SetAndOp(String? input_value)
+    public void SetAndOp(ReservedPrefixString? input_value)
     {
         this.and_op_field = input_value;
     }
 
-    public String? GetAndOp()
+    public ReservedPrefixString? GetAndOp()
     {
         return this?.and_op_field;
     }
 
-    public void SetEquality(String? input_value)
+    public void SetEquality(ReservedPrefixString? input_value)
     {
         this.equality_field = input_value;
     }
 
-    public String? GetEquality()
+    public ReservedPrefixString? GetEquality()
     {
         return this?.equality_field;
     }
 
-    public void SetGreaterThanEq(String? input_value)
+    public void SetGreaterThanEq(ReservedPrefixString? input_value)
     {
         this.greater_than_eq_field = input_value;
     }
 
-    public String? GetGreaterThanEq()
+    public ReservedPrefixString? GetGreaterThanEq()
     {
         return this?.greater_than_eq_field;
     }
 
-    public void SetGreaterThan(String? input_value)
+    public void SetGreaterThan(ReservedPrefixString? input_value)
     {
         this.greater_than_field = input_value;
     }
 
-    public String? GetGreaterThan()
+    public ReservedPrefixString? GetGreaterThan()
     {
         return this?.greater_than_field;
     }
 
-    public void SetLessThanEq(String? input_value)
+    public void SetLessThanEq(ReservedPrefixString? input_value)
     {
         this.less_than_eq_field = input_value;
     }
 
-    public String? GetLessThanEq()
+    public ReservedPrefixString? GetLessThanEq()
     {
         return this?.less_than_eq_field;
     }
 
-    public void SetLessThan(String? input_value)
+    public void SetLessThan(ReservedPrefixString? input_value)
     {
         this.less_than_field = input_value;
     }
 
-    public String? GetLessThan()
+    public ReservedPrefixString? GetLessThan()
     {
         return this?.less_than_field;
     }
 
-    public void SetNotEquality(String? input_value)
+    public void SetNotEquality(ReservedPrefixString? input_value)
     {
         this.not_equality_field = input_value;
     }
 
-    public String? GetNotEquality()
+    public ReservedPrefixString? GetNotEquality()
     {
         return this?.not_equality_field;
     }
 
-    public void SetOrOp(String? input_value)
+    public void SetOrOp(ReservedPrefixString? input_value)
     {
         this.or_op_field = input_value;
     }
 
-    public String? GetOrOp()
+    public ReservedPrefixString? GetOrOp()
     {
         return this?.or_op_field;
     }
 
-    public void SetSubtraction(String? input_value)
+    public void SetSubtraction(ReservedPrefixString? input_value)
     {
         this.subtraction_field = input_value;
     }
 
-    public String? GetSubtraction()
+    public ReservedPrefixString? GetSubtraction()
     {
         return this?.subtraction_field;
     }
@@ -15978,7 +15978,7 @@ public class UnaryOperatorListResult
 public class UnaryOperator
 {
     private LengthString? length_string;
-    private String? negation_field;
+    private ReservedPrefixString? negation_field;
 
     public UnaryOperator()
     {
@@ -15999,12 +15999,12 @@ public class UnaryOperator
         return this?.length_string?.GetString();
     }
 
-    public void SetNegation(String? input_value)
+    public void SetNegation(ReservedPrefixString? input_value)
     {
         this.negation_field = input_value;
     }
 
-    public String? GetNegation()
+    public ReservedPrefixString? GetNegation()
     {
         return this?.negation_field;
     }

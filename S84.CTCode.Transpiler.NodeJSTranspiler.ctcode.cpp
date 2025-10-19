@@ -54,7 +54,12 @@ int NodeJSTranspiler::GetBaseIndentation()
 
 std::string NodeJSTranspiler::GetCallName(std::string name)
 {
-    return this->string_helper->SnakeCaseToCamelCase(name);
+    std::string value = this->string_helper->SnakeCaseToCamelCase(name);
+    if (this->string_helper->IsReserved(value))
+    {
+        return Concat(std::string("ReservedPrefix"),value);
+    }
+    return value;
 }
 
 std::string NodeJSTranspiler::GetVariableName(std::string name)
@@ -63,6 +68,10 @@ std::string NodeJSTranspiler::GetVariableName(std::string name)
     if (value==std::string("myself"))
     {
         return std::string("this");
+    }
+    if (this->string_helper->IsReserved(value))
+    {
+        return Concat(std::string("reserved_prefix_"),value);
     }
     return value;
 }
@@ -119,9 +128,9 @@ std::string NodeJSTranspiler::ConvertByte(std::string high, std::string low)
     return Concat(Concat(std::string("0x"),high),low);
 }
 
-std::string NodeJSTranspiler::ConvertDecimal(std::string decimal)
+std::string NodeJSTranspiler::ConvertDecimal(std::string reserved_prefix_decimal)
 {
-    return decimal;
+    return reserved_prefix_decimal;
 }
 
 std::string NodeJSTranspiler::ConvertNumber(std::string number)
@@ -129,13 +138,13 @@ std::string NodeJSTranspiler::ConvertNumber(std::string number)
     return number;
 }
 
-std::string NodeJSTranspiler::ConvertBoolean(std::string boolean)
+std::string NodeJSTranspiler::ConvertBoolean(std::string reserved_prefix_boolean)
 {
-    if (boolean==std::string("true"))
+    if (reserved_prefix_boolean==std::string("true"))
     {
         return std::string("true");
     }
-    if (boolean==std::string("false"))
+    if (reserved_prefix_boolean==std::string("false"))
     {
         return std::string("false");
     }
@@ -208,7 +217,12 @@ std::string NodeJSTranspiler::BinaryOperator(std::string op, std::string r_value
 
 std::string NodeJSTranspiler::GetTypeName(std::string name)
 {
-    return this->string_helper->SnakeCaseToCamelCase(name);
+    std::string value = this->string_helper->SnakeCaseToCamelCase(name);
+    if (this->string_helper->IsReserved(value))
+    {
+        return Concat(std::string("ReservedPrefix"),value);
+    }
+    return value;
 }
 
 std::string NodeJSTranspiler::GetDimensionalType(std::string singleton_type, int dimensions)

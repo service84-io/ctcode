@@ -63,15 +63,10 @@ public class PHPTranspiler : S84.CTCode.Transpiler.StandardStructure.ctcode.Targ
         return 1;
     }
 
-    public bool? IsReserved(string? name)
-    {
-        return AsBoolean(AsBoolean(AsBoolean(AsBoolean(AsBoolean(AsBoolean(AsBoolean(AsBoolean(AsBoolean(AsBoolean(false)||AsBoolean(this?.string_helper?.BeginsWith("ReservedPrefix",name)))||AsBoolean(this?.string_helper?.BeginsWith("reserved_prefix_",name)))||AsBoolean(name=="Return"))||AsBoolean(name=="String"))||AsBoolean(name=="GetType"))||AsBoolean(name=="string"))||AsBoolean(name=="boolean"))||AsBoolean(name=="char"))||AsBoolean(name=="float"))||AsBoolean(name=="decimal");
-    }
-
     public string? GetCallName(string? name)
     {
         string? value = this?.string_helper?.SnakeCaseToCamelCase(name);
-        if (AsBoolean(this?.IsReserved(value)))
+        if (AsBoolean(this?.string_helper?.IsReserved(value)))
         {
             return Concat("ReservedPrefix",value);
         }
@@ -85,7 +80,7 @@ public class PHPTranspiler : S84.CTCode.Transpiler.StandardStructure.ctcode.Targ
         {
             return "this";
         }
-        if (AsBoolean(this?.IsReserved(value)))
+        if (AsBoolean(this?.string_helper?.IsReserved(value)))
         {
             return Concat("reserved_prefix_",value);
         }
@@ -268,7 +263,7 @@ public class PHPTranspiler : S84.CTCode.Transpiler.StandardStructure.ctcode.Targ
     public string? GetTypeName(string? name)
     {
         string? value = this?.string_helper?.SnakeCaseToCamelCase(name);
-        if (AsBoolean(this?.IsReserved(value)))
+        if (AsBoolean(this?.string_helper?.IsReserved(value)))
         {
             return Concat("ReservedPrefix",value);
         }

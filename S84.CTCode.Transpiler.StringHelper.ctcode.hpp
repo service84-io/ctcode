@@ -112,6 +112,7 @@ public:
     inline ~StringHelper() {}
 
     void WriteLines(OmniPointer<s84::ctcode::system::ctcode::OutputStream> destination, std::vector<std::string> lines);
+    bool IsReserved(std::string name);
     std::string Indentation(int indent);
     bool BeginsWith(std::string prefix, std::string value);
     std::string DotToSlash(std::string input);

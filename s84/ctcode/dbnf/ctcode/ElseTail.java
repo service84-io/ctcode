@@ -31,19 +31,19 @@ public class ElseTail {
         return this.code_block_field;
     }
 
-    public void SetElseKey(String input_value)
+    public void SetElseKey(ReservedPrefixString input_value)
     {
         this.else_key_field = input_value;
     }
 
-    public String GetElseKey()
+    public ReservedPrefixString GetElseKey()
     {
         return this.else_key_field;
     }
 
     private LengthString length_string;
     private CodeBlock code_block_field;
-    private String else_key_field;
+    private ReservedPrefixString else_key_field;
 
     private static <T> void ClearList(java.util.ArrayList<T> input) { input.clear(); }
     private static <T> int Size(java.util.ArrayList<T> input) { return input.size(); }

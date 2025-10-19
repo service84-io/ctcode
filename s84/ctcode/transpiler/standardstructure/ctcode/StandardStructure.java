@@ -96,7 +96,7 @@ public class StandardStructure implements s84.ctcode.transpiler.ctcode.Transpile
         while (AsBoolean(parameter_list_def))
         {
             ParameterDeclaration parameter = new ParameterDeclaration();
-            parameter.SetType(this.GetType(parameter_list_def.GetType()));
+            parameter.SetType(this.ReservedPrefixGetType(parameter_list_def.ReservedPrefixGetType()));
             parameter.SetName(this.target_specific_functions.GetVariableName(this.NameToString(parameter_list_def.GetName())));
             Append(result, parameter);
             parameter_list_def = parameter_list_def.GetParameterTail();
@@ -113,7 +113,7 @@ public class StandardStructure implements s84.ctcode.transpiler.ctcode.Transpile
         while (AsBoolean((declarations_index<Size(declarations))))
         {
             s84.ctcode.dbnf.ctcode.ContentDeclaration declaration = Element(declarations, declarations_index);
-            java.lang.String return_type = this.GetType(declaration.GetType());
+            java.lang.String return_type = this.ReservedPrefixGetType(declaration.ReservedPrefixGetType());
             java.lang.String function_name = this.target_specific_functions.GetCallName(this.NameToString(declaration.GetName()));
             java.util.ArrayList<ParameterDeclaration> parameters = this.GetParameters(declaration.GetParameters());
             this.target_specific_functions.ProcessInterfaceFunctionDeclaration(return_type, function_name, parameters);
@@ -139,7 +139,7 @@ public class StandardStructure implements s84.ctcode.transpiler.ctcode.Transpile
             s84.ctcode.dbnf.ctcode.ContentDefinition definition = Element(definitions, definitions_index);
             if (AsBoolean(definition.GetFunctionBody()))
             {
-                java.lang.String return_type = this.GetType(definition.GetType());
+                java.lang.String return_type = this.ReservedPrefixGetType(definition.ReservedPrefixGetType());
                 java.lang.String function_name = this.target_specific_functions.GetCallName(this.NameToString(definition.GetName()));
                 java.util.ArrayList<ParameterDeclaration> parameters = this.GetParameters(definition.GetParameters());
                 this.target_specific_functions.BeginProcessingClassFunctionDefinition(return_type, function_name, parameters);
@@ -148,7 +148,7 @@ public class StandardStructure implements s84.ctcode.transpiler.ctcode.Transpile
             }
             else
             {
-                java.lang.String member_type = this.GetType(definition.GetType());
+                java.lang.String member_type = this.ReservedPrefixGetType(definition.ReservedPrefixGetType());
                 java.lang.String member_name = this.target_specific_functions.GetVariableName(this.NameToString(definition.GetName()));
                 this.target_specific_functions.ProcessClassMemberDeclaration(member_type, member_name);
             }
@@ -224,7 +224,7 @@ public class StandardStructure implements s84.ctcode.transpiler.ctcode.Transpile
         this.target_specific_functions.FinishProcessLoop(indent, r_value);
     }
 
-    public void ProcessRtnInternal(int indent, s84.ctcode.dbnf.ctcode.Return rtn)
+    public void ProcessRtnInternal(int indent, s84.ctcode.dbnf.ctcode.ReservedPrefixReturn rtn)
     {
         java.lang.String r_value = this.GetRValueInternal(rtn.GetRValue());
         this.target_specific_functions.ProcessRtn(indent, r_value);
@@ -232,7 +232,7 @@ public class StandardStructure implements s84.ctcode.transpiler.ctcode.Transpile
 
     public void ProcessDeclarationInternal(int indent, s84.ctcode.dbnf.ctcode.Declaration declaration)
     {
-        java.lang.String type = this.GetType(declaration.GetType());
+        java.lang.String type = this.ReservedPrefixGetType(declaration.ReservedPrefixGetType());
         java.lang.String l_value = this.target_specific_functions.GetVariableName(this.NameToString(declaration.GetName()));
         java.lang.String r_value = "";
         s84.ctcode.dbnf.ctcode.DeclarationAssign declaration_assignment = declaration.GetAssignment();
@@ -481,7 +481,7 @@ public class StandardStructure implements s84.ctcode.transpiler.ctcode.Transpile
         return this.target_specific_functions.GetVariableChain(name_parts);
     }
 
-    public java.lang.String GetType(s84.ctcode.dbnf.ctcode.ValueType type)
+    public java.lang.String ReservedPrefixGetType(s84.ctcode.dbnf.ctcode.ValueType type)
     {
         if (AsBoolean(type.GetDimensionalType()))
         {

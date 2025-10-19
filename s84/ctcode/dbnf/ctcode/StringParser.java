@@ -14,7 +14,7 @@ public class StringParser {
         consumed_string.SetData(index.GetData());
         consumed_string.SetStart(index.GetStart());
         consumed_string.SetLength(0);
-        String instance = new String();
+        ReservedPrefixString instance = new ReservedPrefixString();
         int value_length = Length(value);
         if (AsBoolean((value_length>index.GetLength())))
         {

@@ -7,12 +7,12 @@ public class ReturnResult {
         this.result = false;
     }
 
-    public void SetValue(Return new_value)
+    public void SetValue(ReservedPrefixReturn new_value)
     {
         this.value = new_value;
     }
 
-    public Return GetValue()
+    public ReservedPrefixReturn GetValue()
     {
         return this.value;
     }
@@ -27,7 +27,7 @@ public class ReturnResult {
         return this.result;
     }
 
-    private Return value;
+    private ReservedPrefixReturn value;
     private boolean result;
 
     private static <T> void ClearList(java.util.ArrayList<T> input) { input.clear(); }

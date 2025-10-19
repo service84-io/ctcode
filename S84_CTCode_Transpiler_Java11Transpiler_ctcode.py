@@ -55,16 +55,16 @@ class Java11Transpiler(S84_CTCode_Transpiler_StandardStructure_ctcode.TargetSpec
         return 1
 
     def GetCallName(self: 'Java11Transpiler',name: 'str') -> 'str':
-        return self.string_helper.SnakeCaseToCamelCase(name)
-
-    def IsReserved(self: 'Java11Transpiler',name: 'str') -> 'bool':
-        return False or self.string_helper.BeginsWith("reserved_prefix_",name) or name=="boolean" or name=="char" or name=="float"
+        value: 'str' = self.string_helper.SnakeCaseToCamelCase(name)
+        if self.string_helper.IsReserved(value):
+            return Concat("ReservedPrefix",value)
+        return value
 
     def GetVariableName(self: 'Java11Transpiler',name: 'str') -> 'str':
         value: 'str' = self.string_helper.CamelCaseToSnakeCase(name)
         if value=="myself":
             return "this"
-        if self.IsReserved(value):
+        if self.string_helper.IsReserved(value):
             return Concat("reserved_prefix_",value)
         return value
 
@@ -104,16 +104,16 @@ class Java11Transpiler(S84_CTCode_Transpiler_StandardStructure_ctcode.TargetSpec
     def ConvertByte(self: 'Java11Transpiler',high: 'str',low: 'str') -> 'str':
         return Concat(Concat("0x",high),low)
 
-    def ConvertDecimal(self: 'Java11Transpiler',decimal: 'str') -> 'str':
-        return decimal
+    def ConvertDecimal(self: 'Java11Transpiler',reserved_prefix_decimal: 'str') -> 'str':
+        return reserved_prefix_decimal
 
     def ConvertNumber(self: 'Java11Transpiler',number: 'str') -> 'str':
         return number
 
-    def ConvertBoolean(self: 'Java11Transpiler',boolean: 'str') -> 'str':
-        if boolean=="true":
+    def ConvertBoolean(self: 'Java11Transpiler',reserved_prefix_boolean: 'str') -> 'str':
+        if reserved_prefix_boolean=="true":
             return "true"
-        if boolean=="false":
+        if reserved_prefix_boolean=="false":
             return "false"
         return ""
 
@@ -152,7 +152,10 @@ class Java11Transpiler(S84_CTCode_Transpiler_StandardStructure_ctcode.TargetSpec
         return ""
 
     def GetTypeName(self: 'Java11Transpiler',name: 'str') -> 'str':
-        return self.string_helper.SnakeCaseToCamelCase(name)
+        value: 'str' = self.string_helper.SnakeCaseToCamelCase(name)
+        if self.string_helper.IsReserved(value):
+            return Concat("ReservedPrefix",value)
+        return value
 
     def GetDimensionalType(self: 'Java11Transpiler',singleton_type: 'str',dimensions: 'int') -> 'str':
         result: 'str' = singleton_type
@@ -350,7 +353,7 @@ class Java11Transpiler(S84_CTCode_Transpiler_StandardStructure_ctcode.TargetSpec
             parameter: 'S84_CTCode_Transpiler_StandardStructure_ctcode.ParameterDeclaration' = Element(parameters,parameters_index)
             if parameters_index!=0:
                 result = Concat(result,", ")
-            result = Concat(Concat(Concat(result,parameter.GetType())," "),parameter.GetName())
+            result = Concat(Concat(Concat(result,parameter.ReservedPrefixGetType())," "),parameter.GetName())
             parameters_index = parameters_index+1
         result = Concat(result,")")
         return result

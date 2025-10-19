@@ -20,18 +20,18 @@ public class UnaryOperator {
         return this.length_string.GetString();
     }
 
-    public void SetNegation(String input_value)
+    public void SetNegation(ReservedPrefixString input_value)
     {
         this.negation_field = input_value;
     }
 
-    public String GetNegation()
+    public ReservedPrefixString GetNegation()
     {
         return this.negation_field;
     }
 
     private LengthString length_string;
-    private String negation_field;
+    private ReservedPrefixString negation_field;
 
     private static <T> void ClearList(java.util.ArrayList<T> input) { input.clear(); }
     private static <T> int Size(java.util.ArrayList<T> input) { return input.size(); }

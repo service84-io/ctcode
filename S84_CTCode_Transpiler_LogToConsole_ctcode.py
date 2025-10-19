@@ -47,12 +47,17 @@ class LogToConsole(S84_CTCode_Transpiler_StandardStructure_ctcode.TargetSpecific
         return 3
 
     def GetCallName(self: 'LogToConsole',name: 'str') -> 'str':
-        return self.string_helper.SnakeCaseToCamelCase(name)
+        value: 'str' = self.string_helper.SnakeCaseToCamelCase(name)
+        if self.string_helper.IsReserved(value):
+            return Concat("ReservedPrefix",value)
+        return value
 
     def GetVariableName(self: 'LogToConsole',name: 'str') -> 'str':
         value: 'str' = self.string_helper.CamelCaseToSnakeCase(name)
         if value=="myself":
             return "thyself"
+        if self.string_helper.IsReserved(value):
+            return Concat("reserved_prefix_",value)
         return value
 
     def GetVariableChain(self: 'LogToConsole',name_parts: 'list[str]') -> 'str':
@@ -91,16 +96,16 @@ class LogToConsole(S84_CTCode_Transpiler_StandardStructure_ctcode.TargetSpecific
     def ConvertByte(self: 'LogToConsole',high: 'str',low: 'str') -> 'str':
         return Concat(Concat("0x",high),low)
 
-    def ConvertDecimal(self: 'LogToConsole',decimal: 'str') -> 'str':
-        return decimal
+    def ConvertDecimal(self: 'LogToConsole',reserved_prefix_decimal: 'str') -> 'str':
+        return reserved_prefix_decimal
 
     def ConvertNumber(self: 'LogToConsole',number: 'str') -> 'str':
         return number
 
-    def ConvertBoolean(self: 'LogToConsole',boolean: 'str') -> 'str':
-        if boolean=="true":
+    def ConvertBoolean(self: 'LogToConsole',reserved_prefix_boolean: 'str') -> 'str':
+        if reserved_prefix_boolean=="true":
             return "true"
-        if boolean=="false":
+        if reserved_prefix_boolean=="false":
             return "false"
         return ""
 
@@ -139,7 +144,10 @@ class LogToConsole(S84_CTCode_Transpiler_StandardStructure_ctcode.TargetSpecific
         return ""
 
     def GetTypeName(self: 'LogToConsole',name: 'str') -> 'str':
-        return self.string_helper.SnakeCaseToCamelCase(name)
+        value: 'str' = self.string_helper.SnakeCaseToCamelCase(name)
+        if self.string_helper.IsReserved(value):
+            return Concat("ReservedPrefix",value)
+        return value
 
     def GetDimensionalType(self: 'LogToConsole',singleton_type: 'str',dimensions: 'int') -> 'str':
         result: 'str' = singleton_type

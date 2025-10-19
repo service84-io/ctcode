@@ -19,7 +19,7 @@ public class ReturnParser {
         consumed_string.SetData(index.GetData());
         consumed_string.SetStart(index.GetStart());
         consumed_string.SetLength(0);
-        Return instance = new Return();
+        ReservedPrefixReturn instance = new ReservedPrefixReturn();
         RValueResult r_value_field = new RValueResult();
         StringResult rtn_field = new StringResult();
         CTCodeFileParser c_t_code_file_parser_instance = this.parser_network.GetCTCodeFileParser();
@@ -122,7 +122,7 @@ public class ReturnParser {
     {
         int index_start = index.GetStart();
         int index_length = index.GetLength();
-        java.util.ArrayList<Return> results = new java.util.ArrayList<>();
+        java.util.ArrayList<ReservedPrefixReturn> results = new java.util.ArrayList<>();
         int count = 0;
         int max_check = maximum;
         boolean check_next = true;

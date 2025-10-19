@@ -58,7 +58,12 @@ int CPPTranspiler::GetBaseIndentation()
 
 std::string CPPTranspiler::GetCallName(std::string name)
 {
-    return this->string_helper->SnakeCaseToCamelCase(name);
+    std::string value = this->string_helper->SnakeCaseToCamelCase(name);
+    if (this->string_helper->IsReserved(value))
+    {
+        return Concat(std::string("ReservedPrefix"),value);
+    }
+    return value;
 }
 
 std::string CPPTranspiler::GetVariableName(std::string name)
@@ -67,6 +72,10 @@ std::string CPPTranspiler::GetVariableName(std::string name)
     if (value==std::string("myself"))
     {
         return std::string("this");
+    }
+    if (this->string_helper->IsReserved(value))
+    {
+        return Concat(std::string("reserved_prefix_"),value);
     }
     return value;
 }
@@ -123,9 +132,9 @@ std::string CPPTranspiler::ConvertByte(std::string high, std::string low)
     return Concat(Concat(std::string("0x"),high),low);
 }
 
-std::string CPPTranspiler::ConvertDecimal(std::string decimal)
+std::string CPPTranspiler::ConvertDecimal(std::string reserved_prefix_decimal)
 {
-    return decimal;
+    return reserved_prefix_decimal;
 }
 
 std::string CPPTranspiler::ConvertNumber(std::string number)
@@ -133,13 +142,13 @@ std::string CPPTranspiler::ConvertNumber(std::string number)
     return number;
 }
 
-std::string CPPTranspiler::ConvertBoolean(std::string boolean)
+std::string CPPTranspiler::ConvertBoolean(std::string reserved_prefix_boolean)
 {
-    if (boolean==std::string("true"))
+    if (reserved_prefix_boolean==std::string("true"))
     {
         return std::string("true");
     }
-    if (boolean==std::string("false"))
+    if (reserved_prefix_boolean==std::string("false"))
     {
         return std::string("false");
     }
@@ -212,7 +221,12 @@ std::string CPPTranspiler::BinaryOperator(std::string op, std::string r_value_l,
 
 std::string CPPTranspiler::GetTypeName(std::string name)
 {
-    return this->string_helper->SnakeCaseToCamelCase(name);
+    std::string value = this->string_helper->SnakeCaseToCamelCase(name);
+    if (this->string_helper->IsReserved(value))
+    {
+        return Concat(std::string("ReservedPrefix"),value);
+    }
+    return value;
 }
 
 std::string CPPTranspiler::GetDimensionalType(std::string singleton_type, int dimensions)
@@ -719,7 +733,7 @@ std::string CPPTranspiler::MakeParametersString(std::vector<OmniPointer<s84::ctc
         {
             result = Concat(result,std::string(", "));
         }
-        result = Concat(Concat(Concat(result,parameter->GetType()),std::string(" ")),parameter->GetName());
+        result = Concat(Concat(Concat(result,parameter->ReservedPrefixGetType()),std::string(" ")),parameter->GetName());
         parameters_index = parameters_index+1;
     }
     result = Concat(result,std::string(")"));

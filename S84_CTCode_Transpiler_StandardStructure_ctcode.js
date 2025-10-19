@@ -29,9 +29,9 @@ export class TargetSpecificFunctions {
     ConvertCall(name_chain, parameters) {}
     ConvertAllocate(type) {}
     ConvertByte(high, low) {}
-    ConvertDecimal(decimal) {}
+    ConvertDecimal(reserved_prefix_decimal) {}
     ConvertNumber(number) {}
-    ConvertBoolean(boolean) {}
+    ConvertBoolean(reserved_prefix_boolean) {}
     ConvertVariable(variable) {}
     ConvertString(literal) {}
     UnaryOperator(op, r_value) {}
@@ -73,7 +73,7 @@ export class ParameterDeclaration {
         this.name = ""
     }
 
-    GetType()
+    ReservedPrefixGetType()
     {
         return this.type
     }
@@ -201,7 +201,7 @@ export class StandardStructure {
         while (parameter_list_def)
         {
             var parameter = new ParameterDeclaration()
-            parameter.SetType(this.GetType(parameter_list_def.GetType()))
+            parameter.SetType(this.ReservedPrefixGetType(parameter_list_def.ReservedPrefixGetType()))
             parameter.SetName(this.target_specific_functions.GetVariableName(this.NameToString(parameter_list_def.GetName())))
             Append(result,parameter)
             parameter_list_def = parameter_list_def.GetParameterTail()
@@ -218,7 +218,7 @@ export class StandardStructure {
         while (declarations_index<Size(declarations))
         {
             var declaration = Element(declarations,declarations_index)
-            var return_type = this.GetType(declaration.GetType())
+            var return_type = this.ReservedPrefixGetType(declaration.ReservedPrefixGetType())
             var function_name = this.target_specific_functions.GetCallName(this.NameToString(declaration.GetName()))
             var parameters = this.GetParameters(declaration.GetParameters())
             this.target_specific_functions.ProcessInterfaceFunctionDeclaration(return_type,function_name,parameters)
@@ -244,7 +244,7 @@ export class StandardStructure {
             var definition = Element(definitions,definitions_index)
             if (definition.GetFunctionBody())
             {
-                var return_type = this.GetType(definition.GetType())
+                var return_type = this.ReservedPrefixGetType(definition.ReservedPrefixGetType())
                 var function_name = this.target_specific_functions.GetCallName(this.NameToString(definition.GetName()))
                 var parameters = this.GetParameters(definition.GetParameters())
                 this.target_specific_functions.BeginProcessingClassFunctionDefinition(return_type,function_name,parameters)
@@ -253,7 +253,7 @@ export class StandardStructure {
             }
             else
             {
-                var member_type = this.GetType(definition.GetType())
+                var member_type = this.ReservedPrefixGetType(definition.ReservedPrefixGetType())
                 var member_name = this.target_specific_functions.GetVariableName(this.NameToString(definition.GetName()))
                 this.target_specific_functions.ProcessClassMemberDeclaration(member_type,member_name)
             }
@@ -337,7 +337,7 @@ export class StandardStructure {
 
     ProcessDeclarationInternal(indent, declaration)
     {
-        var type = this.GetType(declaration.GetType())
+        var type = this.ReservedPrefixGetType(declaration.ReservedPrefixGetType())
         var l_value = this.target_specific_functions.GetVariableName(this.NameToString(declaration.GetName()))
         var r_value = ""
         var declaration_assignment = declaration.GetAssignment()
@@ -586,7 +586,7 @@ export class StandardStructure {
         return this.target_specific_functions.GetVariableChain(name_parts)
     }
 
-    GetType(type)
+    ReservedPrefixGetType(type)
     {
         if (type.GetDimensionalType())
         {

@@ -58,7 +58,7 @@ public class ContentDeclaration {
         this.type_field = input_value;
     }
 
-    public ValueType GetType()
+    public ValueType ReservedPrefixGetType()
     {
         return this.type_field;
     }

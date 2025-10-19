@@ -11,7 +11,7 @@ public class ParameterDeclaration {
         this.name = "";
     }
 
-    public java.lang.String GetType()
+    public java.lang.String ReservedPrefixGetType()
     {
         return this.type;
     }

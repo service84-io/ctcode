@@ -56,13 +56,20 @@ class LogToConsole < ::S84::CTCODE::TRANSPILER::STANDARDSTRUCTURE::CTCODE::Targe
     end
 
     def GetCallName(name)
-        return @string_helper.SnakeCaseToCamelCase(name)
+        value = @string_helper.SnakeCaseToCamelCase(name)
+        if (@string_helper.IsReserved(value))
+            return Concat("ReservedPrefix",value)
+        end
+        return value
     end
 
     def GetVariableName(name)
         value = @string_helper.CamelCaseToSnakeCase(name)
         if (value=="myself")
             return "thyself"
+        end
+        if (@string_helper.IsReserved(value))
+            return Concat("reserved_prefix_",value)
         end
         return value
     end
@@ -179,7 +186,11 @@ class LogToConsole < ::S84::CTCODE::TRANSPILER::STANDARDSTRUCTURE::CTCODE::Targe
     end
 
     def GetTypeName(name)
-        return @string_helper.SnakeCaseToCamelCase(name)
+        value = @string_helper.SnakeCaseToCamelCase(name)
+        if (@string_helper.IsReserved(value))
+            return Concat("ReservedPrefix",value)
+        end
+        return value
     end
 
     def GetDimensionalType(singleton_type, dimensions)

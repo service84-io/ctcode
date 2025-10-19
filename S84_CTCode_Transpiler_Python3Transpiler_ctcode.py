@@ -56,12 +56,17 @@ class Python3Transpiler(S84_CTCode_Transpiler_StandardStructure_ctcode.TargetSpe
         return 1
 
     def GetCallName(self: 'Python3Transpiler',name: 'str') -> 'str':
-        return self.string_helper.SnakeCaseToCamelCase(name)
+        value: 'str' = self.string_helper.SnakeCaseToCamelCase(name)
+        if self.string_helper.IsReserved(value):
+            return Concat("ReservedPrefix",value)
+        return value
 
     def GetVariableName(self: 'Python3Transpiler',name: 'str') -> 'str':
         value: 'str' = self.string_helper.CamelCaseToSnakeCase(name)
         if value=="myself":
             return "self"
+        if self.string_helper.IsReserved(value):
+            return Concat("reserved_prefix_",value)
         return value
 
     def GetVariableChain(self: 'Python3Transpiler',name_parts: 'list[str]') -> 'str':
@@ -100,16 +105,16 @@ class Python3Transpiler(S84_CTCode_Transpiler_StandardStructure_ctcode.TargetSpe
     def ConvertByte(self: 'Python3Transpiler',high: 'str',low: 'str') -> 'str':
         return Concat(Concat("0x",high),low)
 
-    def ConvertDecimal(self: 'Python3Transpiler',decimal: 'str') -> 'str':
-        return decimal
+    def ConvertDecimal(self: 'Python3Transpiler',reserved_prefix_decimal: 'str') -> 'str':
+        return reserved_prefix_decimal
 
     def ConvertNumber(self: 'Python3Transpiler',number: 'str') -> 'str':
         return number
 
-    def ConvertBoolean(self: 'Python3Transpiler',boolean: 'str') -> 'str':
-        if boolean=="true":
+    def ConvertBoolean(self: 'Python3Transpiler',reserved_prefix_boolean: 'str') -> 'str':
+        if reserved_prefix_boolean=="true":
             return "True"
-        if boolean=="false":
+        if reserved_prefix_boolean=="false":
             return "False"
         return ""
 
@@ -148,7 +153,10 @@ class Python3Transpiler(S84_CTCode_Transpiler_StandardStructure_ctcode.TargetSpe
         return ""
 
     def GetTypeName(self: 'Python3Transpiler',name: 'str') -> 'str':
-        return self.string_helper.SnakeCaseToCamelCase(name)
+        value: 'str' = self.string_helper.SnakeCaseToCamelCase(name)
+        if self.string_helper.IsReserved(value):
+            return Concat("ReservedPrefix",value)
+        return value
 
     def GetDimensionalType(self: 'Python3Transpiler',singleton_type: 'str',dimensions: 'int') -> 'str':
         result: 'str' = singleton_type
@@ -354,7 +362,7 @@ class Python3Transpiler(S84_CTCode_Transpiler_StandardStructure_ctcode.TargetSpe
         while parameters_index<Size(parameters):
             parameter: 'S84_CTCode_Transpiler_StandardStructure_ctcode.ParameterDeclaration' = Element(parameters,parameters_index)
             result = Concat(result,",")
-            result = Concat(Concat(Concat(Concat(result,parameter.GetName()),": '"),parameter.GetType()),"'")
+            result = Concat(Concat(Concat(Concat(result,parameter.GetName()),": '"),parameter.ReservedPrefixGetType()),"'")
             parameters_index = parameters_index+1
         result = Concat(result,")")
         return result

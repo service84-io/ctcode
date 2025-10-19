@@ -165,7 +165,7 @@ public class DBNFOmniTypeResult {
         this.value.SetAssignment(input_value);
     }
 
-    public void SetReturn(Return input_value)
+    public void SetReturn(ReservedPrefixReturn input_value)
     {
         this.value = new DBNFOmniType();
         this.value.SetReturn(input_value);

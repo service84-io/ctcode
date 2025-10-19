@@ -29,117 +29,117 @@ public class BinaryOperator {
         return this.length_string.GetString();
     }
 
-    public void SetAddition(String input_value)
+    public void SetAddition(ReservedPrefixString input_value)
     {
         this.addition_field = input_value;
     }
 
-    public String GetAddition()
+    public ReservedPrefixString GetAddition()
     {
         return this.addition_field;
     }
 
-    public void SetAndOp(String input_value)
+    public void SetAndOp(ReservedPrefixString input_value)
     {
         this.and_op_field = input_value;
     }
 
-    public String GetAndOp()
+    public ReservedPrefixString GetAndOp()
     {
         return this.and_op_field;
     }
 
-    public void SetEquality(String input_value)
+    public void SetEquality(ReservedPrefixString input_value)
     {
         this.equality_field = input_value;
     }
 
-    public String GetEquality()
+    public ReservedPrefixString GetEquality()
     {
         return this.equality_field;
     }
 
-    public void SetGreaterThanEq(String input_value)
+    public void SetGreaterThanEq(ReservedPrefixString input_value)
     {
         this.greater_than_eq_field = input_value;
     }
 
-    public String GetGreaterThanEq()
+    public ReservedPrefixString GetGreaterThanEq()
     {
         return this.greater_than_eq_field;
     }
 
-    public void SetGreaterThan(String input_value)
+    public void SetGreaterThan(ReservedPrefixString input_value)
     {
         this.greater_than_field = input_value;
     }
 
-    public String GetGreaterThan()
+    public ReservedPrefixString GetGreaterThan()
     {
         return this.greater_than_field;
     }
 
-    public void SetLessThanEq(String input_value)
+    public void SetLessThanEq(ReservedPrefixString input_value)
     {
         this.less_than_eq_field = input_value;
     }
 
-    public String GetLessThanEq()
+    public ReservedPrefixString GetLessThanEq()
     {
         return this.less_than_eq_field;
     }
 
-    public void SetLessThan(String input_value)
+    public void SetLessThan(ReservedPrefixString input_value)
     {
         this.less_than_field = input_value;
     }
 
-    public String GetLessThan()
+    public ReservedPrefixString GetLessThan()
     {
         return this.less_than_field;
     }
 
-    public void SetNotEquality(String input_value)
+    public void SetNotEquality(ReservedPrefixString input_value)
     {
         this.not_equality_field = input_value;
     }
 
-    public String GetNotEquality()
+    public ReservedPrefixString GetNotEquality()
     {
         return this.not_equality_field;
     }
 
-    public void SetOrOp(String input_value)
+    public void SetOrOp(ReservedPrefixString input_value)
     {
         this.or_op_field = input_value;
     }
 
-    public String GetOrOp()
+    public ReservedPrefixString GetOrOp()
     {
         return this.or_op_field;
     }
 
-    public void SetSubtraction(String input_value)
+    public void SetSubtraction(ReservedPrefixString input_value)
     {
         this.subtraction_field = input_value;
     }
 
-    public String GetSubtraction()
+    public ReservedPrefixString GetSubtraction()
     {
         return this.subtraction_field;
     }
 
     private LengthString length_string;
-    private String addition_field;
-    private String and_op_field;
-    private String equality_field;
-    private String greater_than_eq_field;
-    private String greater_than_field;
-    private String less_than_eq_field;
-    private String less_than_field;
-    private String not_equality_field;
-    private String or_op_field;
-    private String subtraction_field;
+    private ReservedPrefixString addition_field;
+    private ReservedPrefixString and_op_field;
+    private ReservedPrefixString equality_field;
+    private ReservedPrefixString greater_than_eq_field;
+    private ReservedPrefixString greater_than_field;
+    private ReservedPrefixString less_than_eq_field;
+    private ReservedPrefixString less_than_field;
+    private ReservedPrefixString not_equality_field;
+    private ReservedPrefixString or_op_field;
+    private ReservedPrefixString subtraction_field;
 
     private static <T> void ClearList(java.util.ArrayList<T> input) { input.clear(); }
     private static <T> int Size(java.util.ArrayList<T> input) { return input.size(); }

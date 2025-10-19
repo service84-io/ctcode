@@ -126,9 +126,9 @@ public:
     virtual std::string ConvertCall(std::vector<std::string> name_chain, std::vector<std::string> parameters) = 0;
     virtual std::string ConvertAllocate(std::string type) = 0;
     virtual std::string ConvertByte(std::string high, std::string low) = 0;
-    virtual std::string ConvertDecimal(std::string decimal) = 0;
+    virtual std::string ConvertDecimal(std::string reserved_prefix_decimal) = 0;
     virtual std::string ConvertNumber(std::string number) = 0;
-    virtual std::string ConvertBoolean(std::string boolean) = 0;
+    virtual std::string ConvertBoolean(std::string reserved_prefix_boolean) = 0;
     virtual std::string ConvertVariable(std::string variable) = 0;
     virtual std::string ConvertString(std::string literal) = 0;
     virtual std::string UnaryOperator(std::string op, std::string r_value) = 0;
@@ -169,7 +169,7 @@ public:
     ParameterDeclaration();
     inline ~ParameterDeclaration() {}
 
-    std::string GetType();
+    std::string ReservedPrefixGetType();
     void SetType(std::string input);
     std::string GetName();
     void SetName(std::string input);
@@ -209,7 +209,7 @@ public:
     void ProcessCodeBlockInternal(int indent, OmniPointer<s84::ctcode::dbnf::ctcode::CodeBlock> code_block);
     void ProcessConditionalInternal(int indent, OmniPointer<s84::ctcode::dbnf::ctcode::Conditional> conditional);
     void ProcessLoopInternal(int indent, OmniPointer<s84::ctcode::dbnf::ctcode::Loop> loop);
-    void ProcessRtnInternal(int indent, OmniPointer<s84::ctcode::dbnf::ctcode::Return> rtn);
+    void ProcessRtnInternal(int indent, OmniPointer<s84::ctcode::dbnf::ctcode::ReservedPrefixReturn> rtn);
     void ProcessDeclarationInternal(int indent, OmniPointer<s84::ctcode::dbnf::ctcode::Declaration> declaration);
     void ProcessAssignmentInternal(int indent, OmniPointer<s84::ctcode::dbnf::ctcode::Assignment> assignment);
     void ProcessCallInternal(int indent, OmniPointer<s84::ctcode::dbnf::ctcode::Call> call);
@@ -223,7 +223,7 @@ public:
     std::string GetRValueInternal(OmniPointer<s84::ctcode::dbnf::ctcode::RValue> r_value);
     std::string GetQualifiedTypeNameInternal(OmniPointer<s84::ctcode::dbnf::ctcode::QualfiedName> qualified_name);
     std::string GetVariableChainInternal(OmniPointer<s84::ctcode::dbnf::ctcode::QualfiedName> qualified_name);
-    std::string GetType(OmniPointer<s84::ctcode::dbnf::ctcode::ValueType> type);
+    std::string ReservedPrefixGetType(OmniPointer<s84::ctcode::dbnf::ctcode::ValueType> type);
     std::string NameToString(OmniPointer<s84::ctcode::dbnf::ctcode::Name> name);
 
 private:

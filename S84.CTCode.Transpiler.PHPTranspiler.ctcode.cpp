@@ -53,15 +53,10 @@ int PHPTranspiler::GetBaseIndentation()
     return 1;
 }
 
-bool PHPTranspiler::IsReserved(std::string name)
-{
-    return false||this->string_helper->BeginsWith(std::string("ReservedPrefix"),name)||this->string_helper->BeginsWith(std::string("reserved_prefix_"),name)||name==std::string("Return")||name==std::string("String")||name==std::string("GetType")||name==std::string("string")||name==std::string("boolean")||name==std::string("char")||name==std::string("float")||name==std::string("decimal");
-}
-
 std::string PHPTranspiler::GetCallName(std::string name)
 {
     std::string value = this->string_helper->SnakeCaseToCamelCase(name);
-    if (this->IsReserved(value))
+    if (this->string_helper->IsReserved(value))
     {
         return Concat(std::string("ReservedPrefix"),value);
     }
@@ -75,7 +70,7 @@ std::string PHPTranspiler::GetVariableName(std::string name)
     {
         return std::string("this");
     }
-    if (this->IsReserved(value))
+    if (this->string_helper->IsReserved(value))
     {
         return Concat(std::string("reserved_prefix_"),value);
     }
@@ -138,9 +133,9 @@ std::string PHPTranspiler::ConvertByte(std::string high, std::string low)
     return Concat(Concat(std::string("0x"),high),low);
 }
 
-std::string PHPTranspiler::ConvertDecimal(std::string decimal)
+std::string PHPTranspiler::ConvertDecimal(std::string reserved_prefix_decimal)
 {
-    return decimal;
+    return reserved_prefix_decimal;
 }
 
 std::string PHPTranspiler::ConvertNumber(std::string number)
@@ -148,13 +143,13 @@ std::string PHPTranspiler::ConvertNumber(std::string number)
     return number;
 }
 
-std::string PHPTranspiler::ConvertBoolean(std::string boolean)
+std::string PHPTranspiler::ConvertBoolean(std::string reserved_prefix_boolean)
 {
-    if (boolean==std::string("true"))
+    if (reserved_prefix_boolean==std::string("true"))
     {
         return std::string("true");
     }
-    if (boolean==std::string("false"))
+    if (reserved_prefix_boolean==std::string("false"))
     {
         return std::string("false");
     }
@@ -258,7 +253,7 @@ std::string PHPTranspiler::BinaryOperator(std::string op, std::string r_value_l,
 std::string PHPTranspiler::GetTypeName(std::string name)
 {
     std::string value = this->string_helper->SnakeCaseToCamelCase(name);
-    if (this->IsReserved(value))
+    if (this->string_helper->IsReserved(value))
     {
         return Concat(std::string("ReservedPrefix"),value);
     }
@@ -560,7 +555,7 @@ std::string PHPTranspiler::MakeParametersString(std::vector<OmniPointer<s84::ctc
         {
             result = Concat(result,std::string(", "));
         }
-        result = Concat(Concat(Concat(result,parameter->GetType()),std::string(" $")),parameter->GetName());
+        result = Concat(Concat(Concat(result,parameter->ReservedPrefixGetType()),std::string(" $")),parameter->GetName());
         parameters_index = parameters_index+1;
     }
     result = Concat(result,std::string(")"));

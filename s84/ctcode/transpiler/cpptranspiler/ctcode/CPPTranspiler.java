@@ -58,7 +58,12 @@ public class CPPTranspiler implements s84.ctcode.transpiler.standardstructure.ct
 
     public java.lang.String GetCallName(java.lang.String name)
     {
-        return this.string_helper.SnakeCaseToCamelCase(name);
+        java.lang.String value = this.string_helper.SnakeCaseToCamelCase(name);
+        if (AsBoolean(this.string_helper.IsReserved(value)))
+        {
+            return Concat("ReservedPrefix", value);
+        }
+        return value;
     }
 
     public java.lang.String GetVariableName(java.lang.String name)
@@ -67,6 +72,10 @@ public class CPPTranspiler implements s84.ctcode.transpiler.standardstructure.ct
         if (AsBoolean(Equals(value,"myself")))
         {
             return "this";
+        }
+        if (AsBoolean(this.string_helper.IsReserved(value)))
+        {
+            return Concat("reserved_prefix_", value);
         }
         return value;
     }
@@ -123,9 +132,9 @@ public class CPPTranspiler implements s84.ctcode.transpiler.standardstructure.ct
         return Concat(Concat("0x", high), low);
     }
 
-    public java.lang.String ConvertDecimal(java.lang.String decimal)
+    public java.lang.String ConvertDecimal(java.lang.String reserved_prefix_decimal)
     {
-        return decimal;
+        return reserved_prefix_decimal;
     }
 
     public java.lang.String ConvertNumber(java.lang.String number)
@@ -212,7 +221,12 @@ public class CPPTranspiler implements s84.ctcode.transpiler.standardstructure.ct
 
     public java.lang.String GetTypeName(java.lang.String name)
     {
-        return this.string_helper.SnakeCaseToCamelCase(name);
+        java.lang.String value = this.string_helper.SnakeCaseToCamelCase(name);
+        if (AsBoolean(this.string_helper.IsReserved(value)))
+        {
+            return Concat("ReservedPrefix", value);
+        }
+        return value;
     }
 
     public java.lang.String GetDimensionalType(java.lang.String singleton_type, int dimensions)
@@ -719,7 +733,7 @@ public class CPPTranspiler implements s84.ctcode.transpiler.standardstructure.ct
             {
                 result = Concat(result, ", ");
             }
-            result = Concat(Concat(Concat(result, parameter.GetType()), " "), parameter.GetName());
+            result = Concat(Concat(Concat(result, parameter.ReservedPrefixGetType()), " "), parameter.GetName());
             parameters_index = (parameters_index+1);
         }
         result = Concat(result, ")");

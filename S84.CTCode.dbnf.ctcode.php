@@ -2535,8 +2535,8 @@ class LengthString {
         $deep_data = $this->data->GetData();
         $result = "";
         $index = $this->start;
-        $end = $this->start+$this->length;
-        while ($index<$end)
+        $reserved_prefix_end = $this->start+$this->length;
+        while ($index<$reserved_prefix_end)
         {
             $result = Concat($result,At($deep_data,$index));
             $index = $index+1;

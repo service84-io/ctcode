@@ -17,7 +17,7 @@ public interface TargetSpecificFunctions {
     java.lang.String ConvertCall(java.util.ArrayList<java.lang.String> name_chain, java.util.ArrayList<java.lang.String> parameters);
     java.lang.String ConvertAllocate(java.lang.String type);
     java.lang.String ConvertByte(java.lang.String high, java.lang.String low);
-    java.lang.String ConvertDecimal(java.lang.String decimal);
+    java.lang.String ConvertDecimal(java.lang.String reserved_prefix_decimal);
     java.lang.String ConvertNumber(java.lang.String number);
     java.lang.String ConvertBoolean(java.lang.String reserved_prefix_boolean);
     java.lang.String ConvertVariable(java.lang.String variable);

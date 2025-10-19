@@ -28,25 +28,11 @@ class PHPTranspiler implements S84.CTCode.Transpiler.StandardStructure.ctcode.Ta
 
     function int GetBaseIndentation() { return 1; }
 
-    function bool IsReserved(string name) {
-        return false ||
-            myself.string_helper.BeginsWith("ReservedPrefix", name) ||
-            myself.string_helper.BeginsWith("reserved_prefix_", name) ||
-            name == "Return" ||
-            name == "String" ||
-            name == "GetType" ||
-            name == "string" ||
-            name == "boolean" ||
-            name == "char" ||
-            name == "float" ||
-            name == "decimal";
-    }
-
     function string GetCallName(string name)
     {
         string value = myself.string_helper.SnakeCaseToCamelCase(name);
 
-        if (myself.IsReserved(value)) {
+        if (myself.string_helper.IsReserved(value)) {
             return Concat("ReservedPrefix", value);
         }
 
@@ -61,7 +47,7 @@ class PHPTranspiler implements S84.CTCode.Transpiler.StandardStructure.ctcode.Ta
             return "this";
         }
 
-        if (myself.IsReserved(value)) {
+        if (myself.string_helper.IsReserved(value)) {
             return Concat("reserved_prefix_", value);
         }
 
@@ -238,7 +224,7 @@ class PHPTranspiler implements S84.CTCode.Transpiler.StandardStructure.ctcode.Ta
     {
         string value = myself.string_helper.SnakeCaseToCamelCase(name);
 
-        if (myself.IsReserved(value)) {
+        if (myself.string_helper.IsReserved(value)) {
             return Concat("ReservedPrefix", value);
         }
 

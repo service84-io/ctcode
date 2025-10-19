@@ -32,12 +32,12 @@ public class Loop {
         return this.code_block_field;
     }
 
-    public void SetLoopKey(String input_value)
+    public void SetLoopKey(ReservedPrefixString input_value)
     {
         this.loop_key_field = input_value;
     }
 
-    public String GetLoopKey()
+    public ReservedPrefixString GetLoopKey()
     {
         return this.loop_key_field;
     }
@@ -54,7 +54,7 @@ public class Loop {
 
     private LengthString length_string;
     private CodeBlock code_block_field;
-    private String loop_key_field;
+    private ReservedPrefixString loop_key_field;
     private RValue r_value_field;
 
     private static <T> void ClearList(java.util.ArrayList<T> input) { input.clear(); }

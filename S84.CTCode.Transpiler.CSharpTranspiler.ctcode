@@ -28,21 +28,11 @@ class CSharpTranspiler implements S84.CTCode.Transpiler.StandardStructure.ctcode
 
     function int GetBaseIndentation() { return 1; }
 
-    function bool IsReserved(string name) {
-        return false ||
-            myself.string_helper.BeginsWith("ReservedPrefix", name) ||
-            myself.string_helper.BeginsWith("reserved_prefix_", name) ||
-            name == "GetType" ||
-            name == "boolean" ||
-            name == "float" ||
-            name == "decimal";
-    }
-
     function string GetCallName(string name)
     {
         string value = myself.string_helper.SnakeCaseToCamelCase(name);
 
-        if (myself.IsReserved(value)) {
+        if (myself.string_helper.IsReserved(value)) {
             return Concat("ReservedPrefix", value);
         }
 
@@ -57,7 +47,7 @@ class CSharpTranspiler implements S84.CTCode.Transpiler.StandardStructure.ctcode
             return "this";
         }
 
-        if (myself.IsReserved(value)) {
+        if (myself.string_helper.IsReserved(value)) {
             return Concat("reserved_prefix_", value);
         }
 
@@ -212,7 +202,13 @@ class CSharpTranspiler implements S84.CTCode.Transpiler.StandardStructure.ctcode
 
     function string GetTypeName(string name)
     {
-        return myself.string_helper.SnakeCaseToCamelCase(name);
+        string value = myself.string_helper.SnakeCaseToCamelCase(name);
+
+        if (myself.string_helper.IsReserved(value)) {
+            return Concat("ReservedPrefix", value);
+        }
+
+        return value;
     }
 
     function string GetDimensionalType(string singleton_type, int dimensions) {

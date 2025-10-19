@@ -47,7 +47,12 @@ int LogToConsole::GetBaseIndentation()
 
 std::string LogToConsole::GetCallName(std::string name)
 {
-    return this->string_helper->SnakeCaseToCamelCase(name);
+    std::string value = this->string_helper->SnakeCaseToCamelCase(name);
+    if (this->string_helper->IsReserved(value))
+    {
+        return Concat(std::string("ReservedPrefix"),value);
+    }
+    return value;
 }
 
 std::string LogToConsole::GetVariableName(std::string name)
@@ -56,6 +61,10 @@ std::string LogToConsole::GetVariableName(std::string name)
     if (value==std::string("myself"))
     {
         return std::string("thyself");
+    }
+    if (this->string_helper->IsReserved(value))
+    {
+        return Concat(std::string("reserved_prefix_"),value);
     }
     return value;
 }
@@ -112,9 +121,9 @@ std::string LogToConsole::ConvertByte(std::string high, std::string low)
     return Concat(Concat(std::string("0x"),high),low);
 }
 
-std::string LogToConsole::ConvertDecimal(std::string decimal)
+std::string LogToConsole::ConvertDecimal(std::string reserved_prefix_decimal)
 {
-    return decimal;
+    return reserved_prefix_decimal;
 }
 
 std::string LogToConsole::ConvertNumber(std::string number)
@@ -122,13 +131,13 @@ std::string LogToConsole::ConvertNumber(std::string number)
     return number;
 }
 
-std::string LogToConsole::ConvertBoolean(std::string boolean)
+std::string LogToConsole::ConvertBoolean(std::string reserved_prefix_boolean)
 {
-    if (boolean==std::string("true"))
+    if (reserved_prefix_boolean==std::string("true"))
     {
         return std::string("true");
     }
-    if (boolean==std::string("false"))
+    if (reserved_prefix_boolean==std::string("false"))
     {
         return std::string("false");
     }
@@ -201,7 +210,12 @@ std::string LogToConsole::BinaryOperator(std::string op, std::string r_value_l, 
 
 std::string LogToConsole::GetTypeName(std::string name)
 {
-    return this->string_helper->SnakeCaseToCamelCase(name);
+    std::string value = this->string_helper->SnakeCaseToCamelCase(name);
+    if (this->string_helper->IsReserved(value))
+    {
+        return Concat(std::string("ReservedPrefix"),value);
+    }
+    return value;
 }
 
 std::string LogToConsole::GetDimensionalType(std::string singleton_type, int dimensions)

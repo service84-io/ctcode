@@ -55,12 +55,17 @@ class NodeJSTranspiler(S84_CTCode_Transpiler_StandardStructure_ctcode.TargetSpec
         return 1
 
     def GetCallName(self: 'NodeJSTranspiler',name: 'str') -> 'str':
-        return self.string_helper.SnakeCaseToCamelCase(name)
+        value: 'str' = self.string_helper.SnakeCaseToCamelCase(name)
+        if self.string_helper.IsReserved(value):
+            return Concat("ReservedPrefix",value)
+        return value
 
     def GetVariableName(self: 'NodeJSTranspiler',name: 'str') -> 'str':
         value: 'str' = self.string_helper.CamelCaseToSnakeCase(name)
         if value=="myself":
             return "this"
+        if self.string_helper.IsReserved(value):
+            return Concat("reserved_prefix_",value)
         return value
 
     def GetVariableChain(self: 'NodeJSTranspiler',name_parts: 'list[str]') -> 'str':
@@ -99,16 +104,16 @@ class NodeJSTranspiler(S84_CTCode_Transpiler_StandardStructure_ctcode.TargetSpec
     def ConvertByte(self: 'NodeJSTranspiler',high: 'str',low: 'str') -> 'str':
         return Concat(Concat("0x",high),low)
 
-    def ConvertDecimal(self: 'NodeJSTranspiler',decimal: 'str') -> 'str':
-        return decimal
+    def ConvertDecimal(self: 'NodeJSTranspiler',reserved_prefix_decimal: 'str') -> 'str':
+        return reserved_prefix_decimal
 
     def ConvertNumber(self: 'NodeJSTranspiler',number: 'str') -> 'str':
         return number
 
-    def ConvertBoolean(self: 'NodeJSTranspiler',boolean: 'str') -> 'str':
-        if boolean=="true":
+    def ConvertBoolean(self: 'NodeJSTranspiler',reserved_prefix_boolean: 'str') -> 'str':
+        if reserved_prefix_boolean=="true":
             return "true"
-        if boolean=="false":
+        if reserved_prefix_boolean=="false":
             return "false"
         return ""
 
@@ -147,7 +152,10 @@ class NodeJSTranspiler(S84_CTCode_Transpiler_StandardStructure_ctcode.TargetSpec
         return ""
 
     def GetTypeName(self: 'NodeJSTranspiler',name: 'str') -> 'str':
-        return self.string_helper.SnakeCaseToCamelCase(name)
+        value: 'str' = self.string_helper.SnakeCaseToCamelCase(name)
+        if self.string_helper.IsReserved(value):
+            return Concat("ReservedPrefix",value)
+        return value
 
     def GetDimensionalType(self: 'NodeJSTranspiler',singleton_type: 'str',dimensions: 'int') -> 'str':
         result: 'str' = singleton_type

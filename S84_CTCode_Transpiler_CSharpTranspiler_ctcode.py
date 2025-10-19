@@ -54,12 +54,9 @@ class CSharpTranspiler(S84_CTCode_Transpiler_StandardStructure_ctcode.TargetSpec
     def GetBaseIndentation(self: 'CSharpTranspiler') -> 'int':
         return 1
 
-    def IsReserved(self: 'CSharpTranspiler',name: 'str') -> 'bool':
-        return False or self.string_helper.BeginsWith("ReservedPrefix",name) or self.string_helper.BeginsWith("reserved_prefix_",name) or name=="GetType" or name=="boolean" or name=="float" or name=="decimal"
-
     def GetCallName(self: 'CSharpTranspiler',name: 'str') -> 'str':
         value: 'str' = self.string_helper.SnakeCaseToCamelCase(name)
-        if self.IsReserved(value):
+        if self.string_helper.IsReserved(value):
             return Concat("ReservedPrefix",value)
         return value
 
@@ -67,7 +64,7 @@ class CSharpTranspiler(S84_CTCode_Transpiler_StandardStructure_ctcode.TargetSpec
         value: 'str' = self.string_helper.CamelCaseToSnakeCase(name)
         if value=="myself":
             return "this"
-        if self.IsReserved(value):
+        if self.string_helper.IsReserved(value):
             return Concat("reserved_prefix_",value)
         return value
 
@@ -107,16 +104,16 @@ class CSharpTranspiler(S84_CTCode_Transpiler_StandardStructure_ctcode.TargetSpec
     def ConvertByte(self: 'CSharpTranspiler',high: 'str',low: 'str') -> 'str':
         return Concat(Concat("0x",high),low)
 
-    def ConvertDecimal(self: 'CSharpTranspiler',decimal: 'str') -> 'str':
-        return decimal
+    def ConvertDecimal(self: 'CSharpTranspiler',reserved_prefix_decimal: 'str') -> 'str':
+        return reserved_prefix_decimal
 
     def ConvertNumber(self: 'CSharpTranspiler',number: 'str') -> 'str':
         return number
 
-    def ConvertBoolean(self: 'CSharpTranspiler',boolean: 'str') -> 'str':
-        if boolean=="true":
+    def ConvertBoolean(self: 'CSharpTranspiler',reserved_prefix_boolean: 'str') -> 'str':
+        if reserved_prefix_boolean=="true":
             return "true"
-        if boolean=="false":
+        if reserved_prefix_boolean=="false":
             return "false"
         return ""
 
@@ -163,7 +160,10 @@ class CSharpTranspiler(S84_CTCode_Transpiler_StandardStructure_ctcode.TargetSpec
         return ""
 
     def GetTypeName(self: 'CSharpTranspiler',name: 'str') -> 'str':
-        return self.string_helper.SnakeCaseToCamelCase(name)
+        value: 'str' = self.string_helper.SnakeCaseToCamelCase(name)
+        if self.string_helper.IsReserved(value):
+            return Concat("ReservedPrefix",value)
+        return value
 
     def GetDimensionalType(self: 'CSharpTranspiler',singleton_type: 'str',dimensions: 'int') -> 'str':
         result: 'str' = singleton_type
@@ -372,7 +372,7 @@ class CSharpTranspiler(S84_CTCode_Transpiler_StandardStructure_ctcode.TargetSpec
             parameter: 'S84_CTCode_Transpiler_StandardStructure_ctcode.ParameterDeclaration' = Element(parameters,parameters_index)
             if parameters_index!=0:
                 result = Concat(result,",")
-            result = Concat(Concat(Concat(result,parameter.GetType())," "),parameter.GetName())
+            result = Concat(Concat(Concat(result,parameter.ReservedPrefixGetType())," "),parameter.GetName())
             parameters_index = parameters_index+1
         result = Concat(result,")")
         return result

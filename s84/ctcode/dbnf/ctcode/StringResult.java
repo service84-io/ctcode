@@ -7,12 +7,12 @@ public class StringResult {
         this.result = false;
     }
 
-    public void SetValue(String new_value)
+    public void SetValue(ReservedPrefixString new_value)
     {
         this.value = new_value;
     }
 
-    public String GetValue()
+    public ReservedPrefixString GetValue()
     {
         return this.value;
     }
@@ -27,7 +27,7 @@ public class StringResult {
         return this.result;
     }
 
-    private String value;
+    private ReservedPrefixString value;
     private boolean result;
 
     private static <T> void ClearList(java.util.ArrayList<T> input) { input.clear(); }

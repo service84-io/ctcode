@@ -54,12 +54,9 @@ class PHPTranspiler(S84_CTCode_Transpiler_StandardStructure_ctcode.TargetSpecifi
     def GetBaseIndentation(self: 'PHPTranspiler') -> 'int':
         return 1
 
-    def IsReserved(self: 'PHPTranspiler',name: 'str') -> 'bool':
-        return False or self.string_helper.BeginsWith("ReservedPrefix",name) or self.string_helper.BeginsWith("reserved_prefix_",name) or name=="Return" or name=="String" or name=="GetType" or name=="string" or name=="boolean" or name=="char" or name=="float" or name=="decimal"
-
     def GetCallName(self: 'PHPTranspiler',name: 'str') -> 'str':
         value: 'str' = self.string_helper.SnakeCaseToCamelCase(name)
-        if self.IsReserved(value):
+        if self.string_helper.IsReserved(value):
             return Concat("ReservedPrefix",value)
         return value
 
@@ -67,7 +64,7 @@ class PHPTranspiler(S84_CTCode_Transpiler_StandardStructure_ctcode.TargetSpecifi
         value: 'str' = self.string_helper.CamelCaseToSnakeCase(name)
         if value=="myself":
             return "this"
-        if self.IsReserved(value):
+        if self.string_helper.IsReserved(value):
             return Concat("reserved_prefix_",value)
         return value
 
@@ -109,16 +106,16 @@ class PHPTranspiler(S84_CTCode_Transpiler_StandardStructure_ctcode.TargetSpecifi
     def ConvertByte(self: 'PHPTranspiler',high: 'str',low: 'str') -> 'str':
         return Concat(Concat("0x",high),low)
 
-    def ConvertDecimal(self: 'PHPTranspiler',decimal: 'str') -> 'str':
-        return decimal
+    def ConvertDecimal(self: 'PHPTranspiler',reserved_prefix_decimal: 'str') -> 'str':
+        return reserved_prefix_decimal
 
     def ConvertNumber(self: 'PHPTranspiler',number: 'str') -> 'str':
         return number
 
-    def ConvertBoolean(self: 'PHPTranspiler',boolean: 'str') -> 'str':
-        if boolean=="true":
+    def ConvertBoolean(self: 'PHPTranspiler',reserved_prefix_boolean: 'str') -> 'str':
+        if reserved_prefix_boolean=="true":
             return "true"
-        if boolean=="false":
+        if reserved_prefix_boolean=="false":
             return "false"
         return ""
 
@@ -176,7 +173,7 @@ class PHPTranspiler(S84_CTCode_Transpiler_StandardStructure_ctcode.TargetSpecifi
 
     def GetTypeName(self: 'PHPTranspiler',name: 'str') -> 'str':
         value: 'str' = self.string_helper.SnakeCaseToCamelCase(name)
-        if self.IsReserved(value):
+        if self.string_helper.IsReserved(value):
             return Concat("ReservedPrefix",value)
         return value
 
@@ -375,7 +372,7 @@ class PHPTranspiler(S84_CTCode_Transpiler_StandardStructure_ctcode.TargetSpecifi
             parameter: 'S84_CTCode_Transpiler_StandardStructure_ctcode.ParameterDeclaration' = Element(parameters,parameters_index)
             if parameters_index!=0:
                 result = Concat(result,", ")
-            result = Concat(Concat(Concat(result,parameter.GetType())," $"),parameter.GetName())
+            result = Concat(Concat(Concat(result,parameter.ReservedPrefixGetType())," $"),parameter.GetName())
             parameters_index = parameters_index+1
         result = Concat(result,")")
         return result

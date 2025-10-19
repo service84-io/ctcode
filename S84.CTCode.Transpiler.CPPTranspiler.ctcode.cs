@@ -71,7 +71,12 @@ public class CPPTranspiler : S84.CTCode.Transpiler.StandardStructure.ctcode.Targ
 
     public string? GetCallName(string? name)
     {
-        return this?.string_helper?.SnakeCaseToCamelCase(name);
+        string? value = this?.string_helper?.SnakeCaseToCamelCase(name);
+        if (AsBoolean(this?.string_helper?.IsReserved(value)))
+        {
+            return Concat("ReservedPrefix",value);
+        }
+        return value;
     }
 
     public string? GetVariableName(string? name)
@@ -80,6 +85,10 @@ public class CPPTranspiler : S84.CTCode.Transpiler.StandardStructure.ctcode.Targ
         if (AsBoolean(value=="myself"))
         {
             return "this";
+        }
+        if (AsBoolean(this?.string_helper?.IsReserved(value)))
+        {
+            return Concat("reserved_prefix_",value);
         }
         return value;
     }
@@ -225,7 +234,12 @@ public class CPPTranspiler : S84.CTCode.Transpiler.StandardStructure.ctcode.Targ
 
     public string? GetTypeName(string? name)
     {
-        return this?.string_helper?.SnakeCaseToCamelCase(name);
+        string? value = this?.string_helper?.SnakeCaseToCamelCase(name);
+        if (AsBoolean(this?.string_helper?.IsReserved(value)))
+        {
+            return Concat("ReservedPrefix",value);
+        }
+        return value;
     }
 
     public string? GetDimensionalType(string? singleton_type,int? dimensions)

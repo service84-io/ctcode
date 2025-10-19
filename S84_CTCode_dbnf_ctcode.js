@@ -25,7 +25,7 @@ export class StringParser {
         consumed_string.SetData(index.GetData())
         consumed_string.SetStart(index.GetStart())
         consumed_string.SetLength(0)
-        var instance = new String()
+        var instance = new ReservedPrefixString()
         var value_length = Length(value)
         if (value_length>index.GetLength())
         {
@@ -112,7 +112,7 @@ export class StringListResult {
     }
 }
 
-export class String {
+export class ReservedPrefixString {
     constructor() {
         this.length_string = null
     }
@@ -2386,8 +2386,8 @@ export class LengthString {
         var deep_data = this.data.GetData()
         var result = ""
         var index = this.start
-        var end = this.start+this.length
-        while (index<end)
+        var reserved_prefix_end = this.start+this.length
+        while (index<reserved_prefix_end)
         {
             result = Concat(result,At(deep_data,index))
             index = index+1
@@ -4529,7 +4529,7 @@ export class ContentDeclaration {
         this.type_field = input_value
     }
 
-    GetType()
+    ReservedPrefixGetType()
     {
         return this.type_field
     }
@@ -4854,7 +4854,7 @@ export class ContentDefinition {
         this.type_field = input_value
     }
 
-    GetType()
+    ReservedPrefixGetType()
     {
         return this.type_field
     }
@@ -7250,7 +7250,7 @@ export class ParameterListDef {
         this.type_field = input_value
     }
 
-    GetType()
+    ReservedPrefixGetType()
     {
         return this.type_field
     }
@@ -8293,7 +8293,7 @@ export class Declaration {
         this.type_field = input_value
     }
 
-    GetType()
+    ReservedPrefixGetType()
     {
         return this.type_field
     }
@@ -8577,7 +8577,7 @@ export class ReturnParser {
         consumed_string.SetData(index.GetData())
         consumed_string.SetStart(index.GetStart())
         consumed_string.SetLength(0)
-        var instance = new Return()
+        var instance = new ReservedPrefixReturn()
         var r_value_field = new RValueResult()
         var rtn_field = new StringResult()
         var c_t_code_file_parser_instance = this.parser_network.GetCTCodeFileParser()
@@ -8778,7 +8778,7 @@ export class ReturnListResult {
     }
 }
 
-export class Return {
+export class ReservedPrefixReturn {
     constructor() {
         this.length_string = null
         this.r_value_field = null

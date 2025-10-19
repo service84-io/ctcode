@@ -63,12 +63,12 @@ public class Java11Transpiler : S84.CTCode.Transpiler.StandardStructure.ctcode.T
 
     public string? GetCallName(string? name)
     {
-        return this?.string_helper?.SnakeCaseToCamelCase(name);
-    }
-
-    public bool? IsReserved(string? name)
-    {
-        return AsBoolean(AsBoolean(AsBoolean(AsBoolean(false)||AsBoolean(this?.string_helper?.BeginsWith("reserved_prefix_",name)))||AsBoolean(name=="boolean"))||AsBoolean(name=="char"))||AsBoolean(name=="float");
+        string? value = this?.string_helper?.SnakeCaseToCamelCase(name);
+        if (AsBoolean(this?.string_helper?.IsReserved(value)))
+        {
+            return Concat("ReservedPrefix",value);
+        }
+        return value;
     }
 
     public string? GetVariableName(string? name)
@@ -78,7 +78,7 @@ public class Java11Transpiler : S84.CTCode.Transpiler.StandardStructure.ctcode.T
         {
             return "this";
         }
-        if (AsBoolean(this?.IsReserved(value)))
+        if (AsBoolean(this?.string_helper?.IsReserved(value)))
         {
             return Concat("reserved_prefix_",value);
         }
@@ -226,7 +226,12 @@ public class Java11Transpiler : S84.CTCode.Transpiler.StandardStructure.ctcode.T
 
     public string? GetTypeName(string? name)
     {
-        return this?.string_helper?.SnakeCaseToCamelCase(name);
+        string? value = this?.string_helper?.SnakeCaseToCamelCase(name);
+        if (AsBoolean(this?.string_helper?.IsReserved(value)))
+        {
+            return Concat("ReservedPrefix",value);
+        }
+        return value;
     }
 
     public string? GetDimensionalType(string? singleton_type,int? dimensions)

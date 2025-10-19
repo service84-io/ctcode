@@ -28,26 +28,11 @@ class RubyTranspiler implements S84.CTCode.Transpiler.StandardStructure.ctcode.T
 
     function int GetBaseIndentation() { return 1; }
 
-    function bool IsReserved(string name) {
-        return false ||
-            myself.string_helper.BeginsWith("ReservedPrefix", name) ||
-            myself.string_helper.BeginsWith("reserved_prefix_", name) ||
-            name == "end" ||
-            name == "Return" ||
-            name == "String" ||
-            name == "GetType" ||
-            name == "string" ||
-            name == "boolean" ||
-            name == "char" ||
-            name == "float" ||
-            name == "decimal";
-    }
-
     function string GetCallName(string name)
     {
         string value = myself.string_helper.SnakeCaseToCamelCase(name);
 
-        if (myself.IsReserved(value)) {
+        if (myself.string_helper.IsReserved(value)) {
             return Concat("ReservedPrefix", value);
         }
 
@@ -62,7 +47,7 @@ class RubyTranspiler implements S84.CTCode.Transpiler.StandardStructure.ctcode.T
             return "self";
         }
 
-        if (myself.IsReserved(value)) {
+        if (myself.string_helper.IsReserved(value)) {
             return Concat("reserved_prefix_", value);
         }
 
@@ -219,7 +204,7 @@ class RubyTranspiler implements S84.CTCode.Transpiler.StandardStructure.ctcode.T
     {
         string value = myself.string_helper.SnakeCaseToCamelCase(name);
 
-        if (myself.IsReserved(value)) {
+        if (myself.string_helper.IsReserved(value)) {
             return Concat("ReservedPrefix", value);
         }
 

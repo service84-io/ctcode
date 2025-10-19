@@ -126,9 +126,9 @@ public:
     std::string ConvertCall(std::vector<std::string> name_chain, std::vector<std::string> parameters);
     std::string ConvertAllocate(std::string type);
     std::string ConvertByte(std::string high, std::string low);
-    std::string ConvertDecimal(std::string decimal);
+    std::string ConvertDecimal(std::string reserved_prefix_decimal);
     std::string ConvertNumber(std::string number);
-    std::string ConvertBoolean(std::string boolean);
+    std::string ConvertBoolean(std::string reserved_prefix_boolean);
     std::string ConvertVariable(std::string variable);
     std::string ConvertString(std::string literal);
     std::string UnaryOperator(std::string op, std::string r_value);

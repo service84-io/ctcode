@@ -63,15 +63,10 @@ export class RubyTranspiler {
         return 1
     }
 
-    IsReserved(name)
-    {
-        return false || this.string_helper.BeginsWith("ReservedPrefix",name) || this.string_helper.BeginsWith("reserved_prefix_",name) || name=="end" || name=="Return" || name=="String" || name=="GetType" || name=="string" || name=="boolean" || name=="char" || name=="float" || name=="decimal"
-    }
-
     GetCallName(name)
     {
         var value = this.string_helper.SnakeCaseToCamelCase(name)
-        if (this.IsReserved(value))
+        if (this.string_helper.IsReserved(value))
         {
             return Concat("ReservedPrefix",value)
         }
@@ -85,7 +80,7 @@ export class RubyTranspiler {
         {
             return "self"
         }
-        if (this.IsReserved(value))
+        if (this.string_helper.IsReserved(value))
         {
             return Concat("reserved_prefix_",value)
         }
@@ -158,9 +153,9 @@ export class RubyTranspiler {
         return Concat(Concat("0x",high),low)
     }
 
-    ConvertDecimal(decimal)
+    ConvertDecimal(reserved_prefix_decimal)
     {
-        return decimal
+        return reserved_prefix_decimal
     }
 
     ConvertNumber(number)
@@ -168,13 +163,13 @@ export class RubyTranspiler {
         return number
     }
 
-    ConvertBoolean(boolean)
+    ConvertBoolean(reserved_prefix_boolean)
     {
-        if (boolean=="true")
+        if (reserved_prefix_boolean=="true")
         {
             return "true"
         }
-        if (boolean=="false")
+        if (reserved_prefix_boolean=="false")
         {
             return "false"
         }
@@ -248,7 +243,7 @@ export class RubyTranspiler {
     GetTypeName(name)
     {
         var value = this.string_helper.SnakeCaseToCamelCase(name)
-        if (this.IsReserved(value))
+        if (this.string_helper.IsReserved(value))
         {
             return Concat("ReservedPrefix",value)
         }

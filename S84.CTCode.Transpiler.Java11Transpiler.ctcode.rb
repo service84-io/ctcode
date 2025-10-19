@@ -64,11 +64,11 @@ class Java11Transpiler < ::S84::CTCODE::TRANSPILER::STANDARDSTRUCTURE::CTCODE::T
     end
 
     def GetCallName(name)
-        return @string_helper.SnakeCaseToCamelCase(name)
-    end
-
-    def IsReserved(name)
-        return false || @string_helper.BeginsWith("reserved_prefix_",name) || name=="boolean" || name=="char" || name=="float"
+        value = @string_helper.SnakeCaseToCamelCase(name)
+        if (@string_helper.IsReserved(value))
+            return Concat("ReservedPrefix",value)
+        end
+        return value
     end
 
     def GetVariableName(name)
@@ -76,7 +76,7 @@ class Java11Transpiler < ::S84::CTCODE::TRANSPILER::STANDARDSTRUCTURE::CTCODE::T
         if (value=="myself")
             return "this"
         end
-        if (self.IsReserved(value))
+        if (@string_helper.IsReserved(value))
             return Concat("reserved_prefix_",value)
         end
         return value
@@ -194,7 +194,11 @@ class Java11Transpiler < ::S84::CTCODE::TRANSPILER::STANDARDSTRUCTURE::CTCODE::T
     end
 
     def GetTypeName(name)
-        return @string_helper.SnakeCaseToCamelCase(name)
+        value = @string_helper.SnakeCaseToCamelCase(name)
+        if (@string_helper.IsReserved(value))
+            return Concat("ReservedPrefix",value)
+        end
+        return value
     end
 
     def GetDimensionalType(singleton_type, dimensions)

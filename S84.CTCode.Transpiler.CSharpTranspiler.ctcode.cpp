@@ -53,15 +53,10 @@ int CSharpTranspiler::GetBaseIndentation()
     return 1;
 }
 
-bool CSharpTranspiler::IsReserved(std::string name)
-{
-    return false||this->string_helper->BeginsWith(std::string("ReservedPrefix"),name)||this->string_helper->BeginsWith(std::string("reserved_prefix_"),name)||name==std::string("GetType")||name==std::string("boolean")||name==std::string("float")||name==std::string("decimal");
-}
-
 std::string CSharpTranspiler::GetCallName(std::string name)
 {
     std::string value = this->string_helper->SnakeCaseToCamelCase(name);
-    if (this->IsReserved(value))
+    if (this->string_helper->IsReserved(value))
     {
         return Concat(std::string("ReservedPrefix"),value);
     }
@@ -75,7 +70,7 @@ std::string CSharpTranspiler::GetVariableName(std::string name)
     {
         return std::string("this");
     }
-    if (this->IsReserved(value))
+    if (this->string_helper->IsReserved(value))
     {
         return Concat(std::string("reserved_prefix_"),value);
     }
@@ -134,9 +129,9 @@ std::string CSharpTranspiler::ConvertByte(std::string high, std::string low)
     return Concat(Concat(std::string("0x"),high),low);
 }
 
-std::string CSharpTranspiler::ConvertDecimal(std::string decimal)
+std::string CSharpTranspiler::ConvertDecimal(std::string reserved_prefix_decimal)
 {
-    return decimal;
+    return reserved_prefix_decimal;
 }
 
 std::string CSharpTranspiler::ConvertNumber(std::string number)
@@ -144,13 +139,13 @@ std::string CSharpTranspiler::ConvertNumber(std::string number)
     return number;
 }
 
-std::string CSharpTranspiler::ConvertBoolean(std::string boolean)
+std::string CSharpTranspiler::ConvertBoolean(std::string reserved_prefix_boolean)
 {
-    if (boolean==std::string("true"))
+    if (reserved_prefix_boolean==std::string("true"))
     {
         return std::string("true");
     }
-    if (boolean==std::string("false"))
+    if (reserved_prefix_boolean==std::string("false"))
     {
         return std::string("false");
     }
@@ -235,7 +230,12 @@ std::string CSharpTranspiler::BinaryOperator(std::string op, std::string r_value
 
 std::string CSharpTranspiler::GetTypeName(std::string name)
 {
-    return this->string_helper->SnakeCaseToCamelCase(name);
+    std::string value = this->string_helper->SnakeCaseToCamelCase(name);
+    if (this->string_helper->IsReserved(value))
+    {
+        return Concat(std::string("ReservedPrefix"),value);
+    }
+    return value;
 }
 
 std::string CSharpTranspiler::GetDimensionalType(std::string singleton_type, int dimensions)
@@ -554,7 +554,7 @@ std::string CSharpTranspiler::MakeParametersString(std::string self_type, std::v
         {
             result = Concat(result,std::string(","));
         }
-        result = Concat(Concat(Concat(result,parameter->GetType()),std::string(" ")),parameter->GetName());
+        result = Concat(Concat(Concat(result,parameter->ReservedPrefixGetType()),std::string(" ")),parameter->GetName());
         parameters_index = parameters_index+1;
     }
     result = Concat(result,std::string(")"));

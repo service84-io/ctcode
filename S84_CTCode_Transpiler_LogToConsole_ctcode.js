@@ -57,7 +57,12 @@ export class LogToConsole {
 
     GetCallName(name)
     {
-        return this.string_helper.SnakeCaseToCamelCase(name)
+        var value = this.string_helper.SnakeCaseToCamelCase(name)
+        if (this.string_helper.IsReserved(value))
+        {
+            return Concat("ReservedPrefix",value)
+        }
+        return value
     }
 
     GetVariableName(name)
@@ -66,6 +71,10 @@ export class LogToConsole {
         if (value=="myself")
         {
             return "thyself"
+        }
+        if (this.string_helper.IsReserved(value))
+        {
+            return Concat("reserved_prefix_",value)
         }
         return value
     }
@@ -122,9 +131,9 @@ export class LogToConsole {
         return Concat(Concat("0x",high),low)
     }
 
-    ConvertDecimal(decimal)
+    ConvertDecimal(reserved_prefix_decimal)
     {
-        return decimal
+        return reserved_prefix_decimal
     }
 
     ConvertNumber(number)
@@ -132,13 +141,13 @@ export class LogToConsole {
         return number
     }
 
-    ConvertBoolean(boolean)
+    ConvertBoolean(reserved_prefix_boolean)
     {
-        if (boolean=="true")
+        if (reserved_prefix_boolean=="true")
         {
             return "true"
         }
-        if (boolean=="false")
+        if (reserved_prefix_boolean=="false")
         {
             return "false"
         }
@@ -211,7 +220,12 @@ export class LogToConsole {
 
     GetTypeName(name)
     {
-        return this.string_helper.SnakeCaseToCamelCase(name)
+        var value = this.string_helper.SnakeCaseToCamelCase(name)
+        if (this.string_helper.IsReserved(value))
+        {
+            return Concat("ReservedPrefix",value)
+        }
+        return value
     }
 
     GetDimensionalType(singleton_type, dimensions)

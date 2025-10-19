@@ -97,12 +97,12 @@ public class Instruction {
         return this.loop_field;
     }
 
-    public void SetRtn(Return input_value)
+    public void SetRtn(ReservedPrefixReturn input_value)
     {
         this.rtn_field = input_value;
     }
 
-    public Return GetRtn()
+    public ReservedPrefixReturn GetRtn()
     {
         return this.rtn_field;
     }
@@ -115,7 +115,7 @@ public class Instruction {
     private Conditional conditional_field;
     private Declaration declaration_field;
     private Loop loop_field;
-    private Return rtn_field;
+    private ReservedPrefixReturn rtn_field;
 
     private static <T> void ClearList(java.util.ArrayList<T> input) { input.clear(); }
     private static <T> int Size(java.util.ArrayList<T> input) { return input.size(); }

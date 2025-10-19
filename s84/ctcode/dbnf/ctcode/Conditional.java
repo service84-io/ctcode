@@ -33,12 +33,12 @@ public class Conditional {
         return this.code_block_field;
     }
 
-    public void SetConditionalKey(String input_value)
+    public void SetConditionalKey(ReservedPrefixString input_value)
     {
         this.conditional_key_field = input_value;
     }
 
-    public String GetConditionalKey()
+    public ReservedPrefixString GetConditionalKey()
     {
         return this.conditional_key_field;
     }
@@ -65,7 +65,7 @@ public class Conditional {
 
     private LengthString length_string;
     private CodeBlock code_block_field;
-    private String conditional_key_field;
+    private ReservedPrefixString conditional_key_field;
     private ElseTail else_tail_field;
     private RValue r_value_field;
 

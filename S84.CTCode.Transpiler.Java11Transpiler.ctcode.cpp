@@ -54,12 +54,12 @@ int Java11Transpiler::GetBaseIndentation()
 
 std::string Java11Transpiler::GetCallName(std::string name)
 {
-    return this->string_helper->SnakeCaseToCamelCase(name);
-}
-
-bool Java11Transpiler::IsReserved(std::string name)
-{
-    return false||this->string_helper->BeginsWith(std::string("reserved_prefix_"),name)||name==std::string("boolean")||name==std::string("char")||name==std::string("float");
+    std::string value = this->string_helper->SnakeCaseToCamelCase(name);
+    if (this->string_helper->IsReserved(value))
+    {
+        return Concat(std::string("ReservedPrefix"),value);
+    }
+    return value;
 }
 
 std::string Java11Transpiler::GetVariableName(std::string name)
@@ -69,7 +69,7 @@ std::string Java11Transpiler::GetVariableName(std::string name)
     {
         return std::string("this");
     }
-    if (this->IsReserved(value))
+    if (this->string_helper->IsReserved(value))
     {
         return Concat(std::string("reserved_prefix_"),value);
     }
@@ -128,9 +128,9 @@ std::string Java11Transpiler::ConvertByte(std::string high, std::string low)
     return Concat(Concat(std::string("0x"),high),low);
 }
 
-std::string Java11Transpiler::ConvertDecimal(std::string decimal)
+std::string Java11Transpiler::ConvertDecimal(std::string reserved_prefix_decimal)
 {
-    return decimal;
+    return reserved_prefix_decimal;
 }
 
 std::string Java11Transpiler::ConvertNumber(std::string number)
@@ -138,13 +138,13 @@ std::string Java11Transpiler::ConvertNumber(std::string number)
     return number;
 }
 
-std::string Java11Transpiler::ConvertBoolean(std::string boolean)
+std::string Java11Transpiler::ConvertBoolean(std::string reserved_prefix_boolean)
 {
-    if (boolean==std::string("true"))
+    if (reserved_prefix_boolean==std::string("true"))
     {
         return std::string("true");
     }
-    if (boolean==std::string("false"))
+    if (reserved_prefix_boolean==std::string("false"))
     {
         return std::string("false");
     }
@@ -217,7 +217,12 @@ std::string Java11Transpiler::BinaryOperator(std::string op, std::string r_value
 
 std::string Java11Transpiler::GetTypeName(std::string name)
 {
-    return this->string_helper->SnakeCaseToCamelCase(name);
+    std::string value = this->string_helper->SnakeCaseToCamelCase(name);
+    if (this->string_helper->IsReserved(value))
+    {
+        return Concat(std::string("ReservedPrefix"),value);
+    }
+    return value;
 }
 
 std::string Java11Transpiler::GetDimensionalType(std::string singleton_type, int dimensions)
@@ -518,7 +523,7 @@ std::string Java11Transpiler::MakeParametersString(std::vector<OmniPointer<s84::
         {
             result = Concat(result,std::string(", "));
         }
-        result = Concat(Concat(Concat(result,parameter->GetType()),std::string(" ")),parameter->GetName());
+        result = Concat(Concat(Concat(result,parameter->ReservedPrefixGetType()),std::string(" ")),parameter->GetName());
         parameters_index = parameters_index+1;
     }
     result = Concat(result,std::string(")"));

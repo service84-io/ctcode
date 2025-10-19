@@ -52,15 +52,10 @@ public class RubyTranspiler implements s84.ctcode.transpiler.standardstructure.c
         return 1;
     }
 
-    public boolean IsReserved(java.lang.String name)
-    {
-        return (AsBoolean((AsBoolean((AsBoolean((AsBoolean((AsBoolean((AsBoolean((AsBoolean((AsBoolean((AsBoolean((AsBoolean((AsBoolean(false) || AsBoolean(this.string_helper.BeginsWith("ReservedPrefix", name)))) || AsBoolean(this.string_helper.BeginsWith("reserved_prefix_", name)))) || AsBoolean(Equals(name,"end")))) || AsBoolean(Equals(name,"Return")))) || AsBoolean(Equals(name,"String")))) || AsBoolean(Equals(name,"GetType")))) || AsBoolean(Equals(name,"string")))) || AsBoolean(Equals(name,"boolean")))) || AsBoolean(Equals(name,"char")))) || AsBoolean(Equals(name,"float")))) || AsBoolean(Equals(name,"decimal")));
-    }
-
     public java.lang.String GetCallName(java.lang.String name)
     {
         java.lang.String value = this.string_helper.SnakeCaseToCamelCase(name);
-        if (AsBoolean(this.IsReserved(value)))
+        if (AsBoolean(this.string_helper.IsReserved(value)))
         {
             return Concat("ReservedPrefix", value);
         }
@@ -74,7 +69,7 @@ public class RubyTranspiler implements s84.ctcode.transpiler.standardstructure.c
         {
             return "self";
         }
-        if (AsBoolean(this.IsReserved(value)))
+        if (AsBoolean(this.string_helper.IsReserved(value)))
         {
             return Concat("reserved_prefix_", value);
         }
@@ -147,9 +142,9 @@ public class RubyTranspiler implements s84.ctcode.transpiler.standardstructure.c
         return Concat(Concat("0x", high), low);
     }
 
-    public java.lang.String ConvertDecimal(java.lang.String decimal)
+    public java.lang.String ConvertDecimal(java.lang.String reserved_prefix_decimal)
     {
-        return decimal;
+        return reserved_prefix_decimal;
     }
 
     public java.lang.String ConvertNumber(java.lang.String number)
@@ -237,7 +232,7 @@ public class RubyTranspiler implements s84.ctcode.transpiler.standardstructure.c
     public java.lang.String GetTypeName(java.lang.String name)
     {
         java.lang.String value = this.string_helper.SnakeCaseToCamelCase(name);
-        if (AsBoolean(this.IsReserved(value)))
+        if (AsBoolean(this.string_helper.IsReserved(value)))
         {
             return Concat("ReservedPrefix", value);
         }

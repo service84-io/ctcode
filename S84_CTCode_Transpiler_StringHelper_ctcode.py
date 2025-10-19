@@ -29,6 +29,9 @@ class StringHelper:
             destination.WriteLine(line)
             lines_index = lines_index+1
 
+    def IsReserved(self: 'StringHelper',name: 'str') -> 'bool':
+        return False or self.BeginsWith("ReservedPrefix",name) or self.BeginsWith("reserved_prefix_",name) or name=="GetType" or name=="Object" or name=="Return" or name=="String" or name=="boolean" or name=="char" or name=="decimal" or name=="end" or name=="float" or name=="string" or False
+
     def Indentation(self: 'StringHelper',indent: 'int') -> 'str':
         result: 'str' = ""
         result = ""

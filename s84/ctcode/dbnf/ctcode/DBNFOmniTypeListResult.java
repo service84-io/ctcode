@@ -280,7 +280,7 @@ public class DBNFOmniTypeListResult {
         }
     }
 
-    public void SetReturn(java.util.ArrayList<Return> input_value)
+    public void SetReturn(java.util.ArrayList<ReservedPrefixReturn> input_value)
     {
         int index = 0;
         while (AsBoolean((index<Size(input_value))))

@@ -12,7 +12,7 @@ ParameterDeclaration::ParameterDeclaration()
     this->name = "";
 }
 
-std::string ParameterDeclaration::GetType()
+std::string ParameterDeclaration::ReservedPrefixGetType()
 {
     return this->type;
 }
@@ -138,7 +138,7 @@ std::vector<OmniPointer<ParameterDeclaration>> StandardStructure::GetParameters(
     while (parameter_list_def)
     {
         OmniPointer<ParameterDeclaration> parameter = std::shared_ptr<ParameterDeclaration>(new ParameterDeclaration());
-        parameter->SetType(this->GetType(parameter_list_def->GetType()));
+        parameter->SetType(this->ReservedPrefixGetType(parameter_list_def->ReservedPrefixGetType()));
         parameter->SetName(this->target_specific_functions->GetVariableName(this->NameToString(parameter_list_def->GetName())));
         Append(result,parameter);
         parameter_list_def = parameter_list_def->GetParameterTail();
@@ -155,7 +155,7 @@ void StandardStructure::ProcessInterfaceDefinition(OmniPointer<s84::ctcode::dbnf
     while (declarations_index<Size(declarations))
     {
         OmniPointer<s84::ctcode::dbnf::ctcode::ContentDeclaration> declaration = Element(declarations,declarations_index);
-        std::string return_type = this->GetType(declaration->GetType());
+        std::string return_type = this->ReservedPrefixGetType(declaration->ReservedPrefixGetType());
         std::string function_name = this->target_specific_functions->GetCallName(this->NameToString(declaration->GetName()));
         std::vector<OmniPointer<ParameterDeclaration>> parameters = this->GetParameters(declaration->GetParameters());
         this->target_specific_functions->ProcessInterfaceFunctionDeclaration(return_type,function_name,parameters);
@@ -181,7 +181,7 @@ void StandardStructure::ProcessClassDefinition(OmniPointer<s84::ctcode::dbnf::ct
         OmniPointer<s84::ctcode::dbnf::ctcode::ContentDefinition> definition = Element(definitions,definitions_index);
         if (definition->GetFunctionBody())
         {
-            std::string return_type = this->GetType(definition->GetType());
+            std::string return_type = this->ReservedPrefixGetType(definition->ReservedPrefixGetType());
             std::string function_name = this->target_specific_functions->GetCallName(this->NameToString(definition->GetName()));
             std::vector<OmniPointer<ParameterDeclaration>> parameters = this->GetParameters(definition->GetParameters());
             this->target_specific_functions->BeginProcessingClassFunctionDefinition(return_type,function_name,parameters);
@@ -190,7 +190,7 @@ void StandardStructure::ProcessClassDefinition(OmniPointer<s84::ctcode::dbnf::ct
         }
         else
         {
-            std::string member_type = this->GetType(definition->GetType());
+            std::string member_type = this->ReservedPrefixGetType(definition->ReservedPrefixGetType());
             std::string member_name = this->target_specific_functions->GetVariableName(this->NameToString(definition->GetName()));
             this->target_specific_functions->ProcessClassMemberDeclaration(member_type,member_name);
         }
@@ -266,7 +266,7 @@ void StandardStructure::ProcessLoopInternal(int indent, OmniPointer<s84::ctcode:
     this->target_specific_functions->FinishProcessLoop(indent,r_value);
 }
 
-void StandardStructure::ProcessRtnInternal(int indent, OmniPointer<s84::ctcode::dbnf::ctcode::Return> rtn)
+void StandardStructure::ProcessRtnInternal(int indent, OmniPointer<s84::ctcode::dbnf::ctcode::ReservedPrefixReturn> rtn)
 {
     std::string r_value = this->GetRValueInternal(rtn->GetRValue());
     this->target_specific_functions->ProcessRtn(indent,r_value);
@@ -274,7 +274,7 @@ void StandardStructure::ProcessRtnInternal(int indent, OmniPointer<s84::ctcode::
 
 void StandardStructure::ProcessDeclarationInternal(int indent, OmniPointer<s84::ctcode::dbnf::ctcode::Declaration> declaration)
 {
-    std::string type = this->GetType(declaration->GetType());
+    std::string type = this->ReservedPrefixGetType(declaration->ReservedPrefixGetType());
     std::string l_value = this->target_specific_functions->GetVariableName(this->NameToString(declaration->GetName()));
     std::string r_value = std::string("");
     OmniPointer<s84::ctcode::dbnf::ctcode::DeclarationAssign> declaration_assignment = declaration->GetAssignment();
@@ -523,7 +523,7 @@ std::string StandardStructure::GetVariableChainInternal(OmniPointer<s84::ctcode:
     return this->target_specific_functions->GetVariableChain(name_parts);
 }
 
-std::string StandardStructure::GetType(OmniPointer<s84::ctcode::dbnf::ctcode::ValueType> type)
+std::string StandardStructure::ReservedPrefixGetType(OmniPointer<s84::ctcode::dbnf::ctcode::ValueType> type)
 {
     if (type->GetDimensionalType())
     {
