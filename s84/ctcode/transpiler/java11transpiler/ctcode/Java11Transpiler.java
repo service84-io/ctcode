@@ -69,6 +69,10 @@ public class Java11Transpiler implements s84.ctcode.transpiler.standardstructure
         {
             return "this";
         }
+        if (AsBoolean(Equals(value,"nothing")))
+        {
+            return "null";
+        }
         if (AsBoolean(this.string_helper.IsReserved(value)))
         {
             return Concat("reserved_prefix_", value);

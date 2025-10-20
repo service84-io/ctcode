@@ -61,6 +61,10 @@ public class LogToConsole implements s84.ctcode.transpiler.standardstructure.ctc
         {
             return "thyself";
         }
+        if (AsBoolean(Equals(value,"nothing")))
+        {
+            return "NoBaDe";
+        }
         if (AsBoolean(this.string_helper.IsReserved(value)))
         {
             return Concat("reserved_prefix_", value);

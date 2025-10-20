@@ -62,6 +62,10 @@ std::string LogToConsole::GetVariableName(std::string name)
     {
         return std::string("thyself");
     }
+    if (value==std::string("nothing"))
+    {
+        return std::string("NoBaDe");
+    }
     if (this->string_helper->IsReserved(value))
     {
         return Concat(std::string("reserved_prefix_"),value);

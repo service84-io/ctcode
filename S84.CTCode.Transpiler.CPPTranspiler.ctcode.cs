@@ -86,6 +86,10 @@ public class CPPTranspiler : S84.CTCode.Transpiler.StandardStructure.ctcode.Targ
         {
             return "this";
         }
+        if (AsBoolean(value=="nothing"))
+        {
+            return "NULL";
+        }
         if (AsBoolean(this?.string_helper?.IsReserved(value)))
         {
             return Concat("reserved_prefix_",value);

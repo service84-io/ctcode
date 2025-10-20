@@ -51,6 +51,10 @@ class CPPTranspiler implements S84.CTCode.Transpiler.StandardStructure.ctcode.Ta
             return "this";
         }
 
+        if (value == "nothing") {
+            return "NULL";
+        }
+
         if (myself.string_helper.IsReserved(value)) {
             return Concat("reserved_prefix_", value);
         }

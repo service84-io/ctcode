@@ -83,6 +83,10 @@ class RubyTranspiler implements \S84\CTCode\Transpiler\StandardStructure\ctcode\
         {
             return 'self';
         }
+        if ($value=='nothing')
+        {
+            return 'nil';
+        }
         if ($this->string_helper->IsReserved($value))
         {
             return Concat('reserved_prefix_',$value);

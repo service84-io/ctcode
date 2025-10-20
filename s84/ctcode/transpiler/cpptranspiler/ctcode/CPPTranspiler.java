@@ -73,6 +73,10 @@ public class CPPTranspiler implements s84.ctcode.transpiler.standardstructure.ct
         {
             return "this";
         }
+        if (AsBoolean(Equals(value,"nothing")))
+        {
+            return "NULL";
+        }
         if (AsBoolean(this.string_helper.IsReserved(value)))
         {
             return Concat("reserved_prefix_", value);

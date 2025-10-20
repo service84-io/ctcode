@@ -83,6 +83,10 @@ class Java11Transpiler implements \S84\CTCode\Transpiler\StandardStructure\ctcod
         {
             return 'this';
         }
+        if ($value=='nothing')
+        {
+            return 'null';
+        }
         if ($this->string_helper->IsReserved($value))
         {
             return Concat('reserved_prefix_',$value);

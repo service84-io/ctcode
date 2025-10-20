@@ -65,6 +65,8 @@ class Python3Transpiler(S84_CTCode_Transpiler_StandardStructure_ctcode.TargetSpe
         value: 'str' = self.string_helper.CamelCaseToSnakeCase(name)
         if value=="myself":
             return "self"
+        if value=="nothing":
+            return "None"
         if self.string_helper.IsReserved(value):
             return Concat("reserved_prefix_",value)
         return value

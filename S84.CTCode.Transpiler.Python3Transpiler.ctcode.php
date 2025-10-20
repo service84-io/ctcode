@@ -84,6 +84,10 @@ class Python3Transpiler implements \S84\CTCode\Transpiler\StandardStructure\ctco
         {
             return 'self';
         }
+        if ($value=='nothing')
+        {
+            return 'None';
+        }
         if ($this->string_helper->IsReserved($value))
         {
             return Concat('reserved_prefix_',$value);

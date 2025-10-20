@@ -68,6 +68,9 @@ class LogToConsole < ::S84::CTCODE::TRANSPILER::STANDARDSTRUCTURE::CTCODE::Targe
         if (value=="myself")
             return "thyself"
         end
+        if (value=="nothing")
+            return "NoBaDe"
+        end
         if (@string_helper.IsReserved(value))
             return Concat("reserved_prefix_",value)
         end

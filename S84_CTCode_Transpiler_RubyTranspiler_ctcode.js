@@ -80,6 +80,10 @@ export class RubyTranspiler {
         {
             return "self"
         }
+        if (value=="nothing")
+        {
+            return "nil"
+        }
         if (this.string_helper.IsReserved(value))
         {
             return Concat("reserved_prefix_",value)

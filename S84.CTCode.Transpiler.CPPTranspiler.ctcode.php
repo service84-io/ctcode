@@ -87,6 +87,10 @@ class CPPTranspiler implements \S84\CTCode\Transpiler\StandardStructure\ctcode\T
         {
             return 'this';
         }
+        if ($value=='nothing')
+        {
+            return 'NULL';
+        }
         if ($this->string_helper->IsReserved($value))
         {
             return Concat('reserved_prefix_',$value);

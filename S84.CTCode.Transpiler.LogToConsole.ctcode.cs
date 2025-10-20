@@ -64,6 +64,10 @@ public class LogToConsole : S84.CTCode.Transpiler.StandardStructure.ctcode.Targe
         {
             return "thyself";
         }
+        if (AsBoolean(value=="nothing"))
+        {
+            return "NoBaDe";
+        }
         if (AsBoolean(this?.string_helper?.IsReserved(value)))
         {
             return Concat("reserved_prefix_",value);

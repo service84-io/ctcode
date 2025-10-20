@@ -80,6 +80,10 @@ public class Python3Transpiler : S84.CTCode.Transpiler.StandardStructure.ctcode.
         {
             return "self";
         }
+        if (AsBoolean(value=="nothing"))
+        {
+            return "None";
+        }
         if (AsBoolean(this?.string_helper?.IsReserved(value)))
         {
             return Concat("reserved_prefix_",value);

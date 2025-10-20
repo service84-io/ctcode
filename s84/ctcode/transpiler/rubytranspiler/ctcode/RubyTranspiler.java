@@ -69,6 +69,10 @@ public class RubyTranspiler implements s84.ctcode.transpiler.standardstructure.c
         {
             return "self";
         }
+        if (AsBoolean(Equals(value,"nothing")))
+        {
+            return "nil";
+        }
         if (AsBoolean(this.string_helper.IsReserved(value)))
         {
             return Concat("reserved_prefix_", value);

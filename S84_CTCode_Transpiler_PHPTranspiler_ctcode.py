@@ -64,6 +64,8 @@ class PHPTranspiler(S84_CTCode_Transpiler_StandardStructure_ctcode.TargetSpecifi
         value: 'str' = self.string_helper.CamelCaseToSnakeCase(name)
         if value=="myself":
             return "this"
+        if value=="nothing":
+            return "null"
         if self.string_helper.IsReserved(value):
             return Concat("reserved_prefix_",value)
         return value

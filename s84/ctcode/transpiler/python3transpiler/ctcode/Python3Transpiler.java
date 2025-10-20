@@ -70,6 +70,10 @@ public class Python3Transpiler implements s84.ctcode.transpiler.standardstructur
         {
             return "self";
         }
+        if (AsBoolean(Equals(value,"nothing")))
+        {
+            return "None";
+        }
         if (AsBoolean(this.string_helper.IsReserved(value)))
         {
             return Concat("reserved_prefix_", value);

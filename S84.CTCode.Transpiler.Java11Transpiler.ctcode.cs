@@ -78,6 +78,10 @@ public class Java11Transpiler : S84.CTCode.Transpiler.StandardStructure.ctcode.T
         {
             return "this";
         }
+        if (AsBoolean(value=="nothing"))
+        {
+            return "null";
+        }
         if (AsBoolean(this?.string_helper?.IsReserved(value)))
         {
             return Concat("reserved_prefix_",value);

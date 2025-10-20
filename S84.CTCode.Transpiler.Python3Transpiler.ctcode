@@ -48,6 +48,10 @@ class Python3Transpiler implements S84.CTCode.Transpiler.StandardStructure.ctcod
             return "self";
         }
 
+        if (value == "nothing") {
+            return "None";
+        }
+
         if (myself.string_helper.IsReserved(value)) {
             return Concat("reserved_prefix_", value);
         }

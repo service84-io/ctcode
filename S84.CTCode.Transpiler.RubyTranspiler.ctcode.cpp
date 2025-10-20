@@ -69,6 +69,10 @@ std::string RubyTranspiler::GetVariableName(std::string name)
     {
         return std::string("self");
     }
+    if (value==std::string("nothing"))
+    {
+        return std::string("nil");
+    }
     if (this->string_helper->IsReserved(value))
     {
         return Concat(std::string("reserved_prefix_"),value);

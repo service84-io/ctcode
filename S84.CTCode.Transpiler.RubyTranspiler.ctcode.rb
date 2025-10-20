@@ -76,6 +76,9 @@ class RubyTranspiler < ::S84::CTCODE::TRANSPILER::STANDARDSTRUCTURE::CTCODE::Tar
         if (value=="myself")
             return "self"
         end
+        if (value=="nothing")
+            return "nil"
+        end
         if (@string_helper.IsReserved(value))
             return Concat("reserved_prefix_",value)
         end

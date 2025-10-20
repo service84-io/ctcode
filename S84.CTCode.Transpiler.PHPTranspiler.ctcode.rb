@@ -76,6 +76,9 @@ class PHPTranspiler < ::S84::CTCODE::TRANSPILER::STANDARDSTRUCTURE::CTCODE::Targ
         if (value=="myself")
             return "this"
         end
+        if (value=="nothing")
+            return "null"
+        end
         if (@string_helper.IsReserved(value))
             return Concat("reserved_prefix_",value)
         end

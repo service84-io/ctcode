@@ -75,6 +75,10 @@ class LogToConsole implements \S84\CTCode\Transpiler\StandardStructure\ctcode\Ta
         {
             return 'thyself';
         }
+        if ($value=='nothing')
+        {
+            return 'NoBaDe';
+        }
         if ($this->string_helper->IsReserved($value))
         {
             return Concat('reserved_prefix_',$value);

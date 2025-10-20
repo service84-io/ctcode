@@ -56,6 +56,8 @@ class LogToConsole(S84_CTCode_Transpiler_StandardStructure_ctcode.TargetSpecific
         value: 'str' = self.string_helper.CamelCaseToSnakeCase(name)
         if value=="myself":
             return "thyself"
+        if value=="nothing":
+            return "NoBaDe"
         if self.string_helper.IsReserved(value):
             return Concat("reserved_prefix_",value)
         return value

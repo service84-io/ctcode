@@ -64,6 +64,8 @@ class RubyTranspiler(S84_CTCode_Transpiler_StandardStructure_ctcode.TargetSpecif
         value: 'str' = self.string_helper.CamelCaseToSnakeCase(name)
         if value=="myself":
             return "self"
+        if value=="nothing":
+            return "nil"
         if self.string_helper.IsReserved(value):
             return Concat("reserved_prefix_",value)
         return value

@@ -72,6 +72,10 @@ export class LogToConsole {
         {
             return "thyself"
         }
+        if (value=="nothing")
+        {
+            return "NoBaDe"
+        }
         if (this.string_helper.IsReserved(value))
         {
             return Concat("reserved_prefix_",value)

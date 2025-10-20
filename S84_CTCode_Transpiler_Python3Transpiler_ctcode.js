@@ -81,6 +81,10 @@ export class Python3Transpiler {
         {
             return "self"
         }
+        if (value=="nothing")
+        {
+            return "None"
+        }
         if (this.string_helper.IsReserved(value))
         {
             return Concat("reserved_prefix_",value)

@@ -80,6 +80,10 @@ export class Java11Transpiler {
         {
             return "this"
         }
+        if (value=="nothing")
+        {
+            return "null"
+        }
         if (this.string_helper.IsReserved(value))
         {
             return Concat("reserved_prefix_",value)

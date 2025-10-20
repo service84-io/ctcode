@@ -78,6 +78,10 @@ public class RubyTranspiler : S84.CTCode.Transpiler.StandardStructure.ctcode.Tar
         {
             return "self";
         }
+        if (AsBoolean(value=="nothing"))
+        {
+            return "nil";
+        }
         if (AsBoolean(this?.string_helper?.IsReserved(value)))
         {
             return Concat("reserved_prefix_",value);
