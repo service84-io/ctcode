@@ -19,7 +19,7 @@ public class StringHelper
 
     public bool? IsReserved(string? name)
     {
-        return AsBoolean(AsBoolean(AsBoolean(AsBoolean(AsBoolean(AsBoolean(AsBoolean(AsBoolean(AsBoolean(AsBoolean(AsBoolean(AsBoolean(AsBoolean(false)||AsBoolean(this?.BeginsWith("ReservedPrefix",name)))||AsBoolean(this?.BeginsWith("reserved_prefix_",name)))||AsBoolean(name=="GetType"))||AsBoolean(name=="Object"))||AsBoolean(name=="Return"))||AsBoolean(name=="String"))||AsBoolean(name=="boolean"))||AsBoolean(name=="char"))||AsBoolean(name=="decimal"))||AsBoolean(name=="end"))||AsBoolean(name=="float"))||AsBoolean(name=="string"))||AsBoolean(false);
+        return AsBoolean(AsBoolean(AsBoolean(AsBoolean(AsBoolean(AsBoolean(AsBoolean(AsBoolean(AsBoolean(AsBoolean(AsBoolean(AsBoolean(AsBoolean(AsBoolean(false)||AsBoolean(this?.BeginsWith("ReservedPrefix",name)))||AsBoolean(this?.BeginsWith("reserved_prefix_",name)))||AsBoolean(name=="GetType"))||AsBoolean(name=="Object"))||AsBoolean(name=="Return"))||AsBoolean(name=="String"))||AsBoolean(name=="boolean"))||AsBoolean(name=="char"))||AsBoolean(name=="decimal"))||AsBoolean(name=="end"))||AsBoolean(name=="float"))||AsBoolean(name=="object"))||AsBoolean(name=="string"))||AsBoolean(false);
     }
 
     public string? Indentation(int? indent)

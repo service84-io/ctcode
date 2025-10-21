@@ -31,7 +31,7 @@ export class StringHelper {
 
     IsReserved(name)
     {
-        return false || this.BeginsWith("ReservedPrefix",name) || this.BeginsWith("reserved_prefix_",name) || name=="GetType" || name=="Object" || name=="Return" || name=="String" || name=="boolean" || name=="char" || name=="decimal" || name=="end" || name=="float" || name=="string" || false
+        return false || this.BeginsWith("ReservedPrefix",name) || this.BeginsWith("reserved_prefix_",name) || name=="GetType" || name=="Object" || name=="Return" || name=="String" || name=="boolean" || name=="char" || name=="decimal" || name=="end" || name=="float" || name=="object" || name=="string" || false
     }
 
     Indentation(indent)

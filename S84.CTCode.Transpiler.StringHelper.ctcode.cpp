@@ -23,7 +23,7 @@ void StringHelper::WriteLines(OmniPointer<s84::ctcode::system::ctcode::OutputStr
 
 bool StringHelper::IsReserved(std::string name)
 {
-    return false||this->BeginsWith(std::string("ReservedPrefix"),name)||this->BeginsWith(std::string("reserved_prefix_"),name)||name==std::string("GetType")||name==std::string("Object")||name==std::string("Return")||name==std::string("String")||name==std::string("boolean")||name==std::string("char")||name==std::string("decimal")||name==std::string("end")||name==std::string("float")||name==std::string("string")||false;
+    return false||this->BeginsWith(std::string("ReservedPrefix"),name)||this->BeginsWith(std::string("reserved_prefix_"),name)||name==std::string("GetType")||name==std::string("Object")||name==std::string("Return")||name==std::string("String")||name==std::string("boolean")||name==std::string("char")||name==std::string("decimal")||name==std::string("end")||name==std::string("float")||name==std::string("object")||name==std::string("string")||false;
 }
 
 std::string StringHelper::Indentation(int indent)

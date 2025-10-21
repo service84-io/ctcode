@@ -24,6 +24,7 @@ class StringHelper {
             name == "decimal" ||
             name == "end" ||
             name == "float" ||
+            name == "object" ||
             name == "string" ||
             false;
     }

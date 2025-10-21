@@ -34,7 +34,7 @@ class StringHelper {
 
     public function IsReserved(?string $name): ?bool
     {
-        return false||$this->BeginsWith('ReservedPrefix',$name)||$this->BeginsWith('reserved_prefix_',$name)||$name=='GetType'||$name=='Object'||$name=='Return'||$name=='String'||$name=='boolean'||$name=='char'||$name=='decimal'||$name=='end'||$name=='float'||$name=='string'||false;
+        return false||$this->BeginsWith('ReservedPrefix',$name)||$this->BeginsWith('reserved_prefix_',$name)||$name=='GetType'||$name=='Object'||$name=='Return'||$name=='String'||$name=='boolean'||$name=='char'||$name=='decimal'||$name=='end'||$name=='float'||$name=='object'||$name=='string'||false;
     }
 
     public function Indentation(?int $indent): ?string
