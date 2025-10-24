@@ -167,7 +167,7 @@ class CSharpTranspiler < ::S84::CTCODE::TRANSPILER::STANDARDSTRUCTURE::CTCODE::T
 
     def UnaryOperator(op, r_value)
         if (op=="!")
-            return Concat("!",r_value)
+            return Concat(Concat("! AsBoolean(",r_value),")")
         end
         return r_value
     end

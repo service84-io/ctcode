@@ -195,7 +195,7 @@ class CSharpTranspiler implements \S84\CTCode\Transpiler\StandardStructure\ctcod
     {
         if ($op=='!')
         {
-            return Concat('!',$r_value);
+            return Concat(Concat('! AsBoolean(',$r_value),')');
         }
         return $r_value;
     }

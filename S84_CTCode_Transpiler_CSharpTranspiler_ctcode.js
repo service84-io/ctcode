@@ -192,7 +192,7 @@ export class CSharpTranspiler {
     {
         if (op=="!")
         {
-            return Concat("!",r_value)
+            return Concat(Concat("! AsBoolean(",r_value),")")
         }
         return r_value
     }

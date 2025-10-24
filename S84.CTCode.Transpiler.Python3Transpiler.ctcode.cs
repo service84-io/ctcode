@@ -438,7 +438,7 @@ public class Python3Transpiler : S84.CTCode.Transpiler.StandardStructure.ctcode.
 
     public void FinishProcessingClassFunctionDefinition(string? return_type,string? function_name,List<S84.CTCode.Transpiler.StandardStructure.ctcode.ParameterDeclaration?>? parameters)
     {
-        if (AsBoolean(!this?.current_class_function_has_operation))
+        if (AsBoolean(! AsBoolean(this?.current_class_function_has_operation)))
         {
             Append(this?.class_functions,Concat(this?.string_helper?.Indentation(2),"pass"));
         }

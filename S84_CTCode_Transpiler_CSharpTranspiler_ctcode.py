@@ -135,7 +135,7 @@ class CSharpTranspiler(S84_CTCode_Transpiler_StandardStructure_ctcode.TargetSpec
 
     def UnaryOperator(self: 'CSharpTranspiler',op: 'str',r_value: 'str') -> 'str':
         if op=="!":
-            return Concat("!",r_value)
+            return Concat(Concat("! AsBoolean(",r_value),")")
         return r_value
 
     def BinaryOperator(self: 'CSharpTranspiler',op: 'str',r_value_l: 'str',r_value_r: 'str') -> 'str':

@@ -187,7 +187,7 @@ public class PHPTranspiler : S84.CTCode.Transpiler.StandardStructure.ctcode.Targ
             {
                 result = Concat(result,"\\");
             }
-            if (AsBoolean(AsBoolean(!in_escape)&&AsBoolean(character=="\\")))
+            if (AsBoolean(AsBoolean(! AsBoolean(in_escape))&&AsBoolean(character=="\\")))
             {
                 in_escape = true;
             }

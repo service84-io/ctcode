@@ -154,7 +154,7 @@ class CSharpTranspiler implements S84.CTCode.Transpiler.StandardStructure.ctcode
 
     function string UnaryOperator(string op, string r_value) {
         if (op == "!") {
-            return Concat("!", r_value);
+            return Concat(Concat("! AsBoolean(", r_value), ")");
         }
 
         return r_value;

@@ -182,7 +182,7 @@ std::string CSharpTranspiler::UnaryOperator(std::string op, std::string r_value)
 {
     if (op==std::string("!"))
     {
-        return Concat(std::string("!"),r_value);
+        return Concat(Concat(std::string("! AsBoolean("),r_value),std::string(")"));
     }
     return r_value;
 }

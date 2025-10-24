@@ -90,7 +90,7 @@ public class Main
         SetKV(transpilers,"PHPTranspiler",this?.GetPHPTranspiler());
         SetKV(transpilers,"Python3Transpiler",this?.GetPython3Transpiler());
         SetKV(transpilers,"RubyTranspiler",this?.GetRubyTranspiler());
-        if (AsBoolean(AsBoolean(ctcode_file_name=="")||AsBoolean(!HasKV(transpilers,transpiler))))
+        if (AsBoolean(AsBoolean(ctcode_file_name=="")||AsBoolean(! AsBoolean(HasKV(transpilers,transpiler)))))
         {
             logger?.WriteLine("ctcode <CTCodeFile> <Transpiler>");
             logger?.WriteLine("Known transpilers:");

@@ -192,7 +192,7 @@ public class CSharpTranspiler : S84.CTCode.Transpiler.StandardStructure.ctcode.T
     {
         if (AsBoolean(op=="!"))
         {
-            return Concat("!",r_value);
+            return Concat(Concat("! AsBoolean(",r_value),")");
         }
         return r_value;
     }

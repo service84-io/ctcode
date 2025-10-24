@@ -159,7 +159,7 @@ public class StringHelper
             if (AsBoolean(AsBoolean(this?.IsUpper(source_character))||AsBoolean(this?.IsDigit(source_character))))
             {
                 bool? is_first_character = Length(snake_case)==0;
-                if (AsBoolean(!is_first_character))
+                if (AsBoolean(! AsBoolean(is_first_character)))
                 {
                     snake_case = Concat(snake_case,delimiter);
                 }
